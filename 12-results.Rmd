@@ -1,0 +1,242 @@
+# (PART) Results {-}
+
+# Diagnostic plots 
+
+```{r, echo=FALSE, eval=TRUE, collapse=TRUE, include=TRUE, warning=FALSE, message=FALSE}
+library(dplyr)
+library(magrittr)
+library(LTabundR)
+```
+
+To demonstrate how LTA results can explored quickly and reviewed for QA/QC using diagnostic plots, we will use a built-in `LTabundR` dataset, which has density/abundance estimates for the Hawaiian EEZ in 2010 and 2017 for striped dolphins, Fraser's dolphins, and melon-headed whales, ran with only 100 iterations:  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE}
+data(lta_result)
+```
+
+We created these LTA results using the following built-in processed dataset:
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE}
+data(cnp_150km_1986_2020)
+```
+
+The function `lta_diagnostics()` can be used to review the object returned by the `LTabundR` function `lta()`, which is the primary function in this package for line-transect analysis. The typical way to use this function is simply:
+
+```{r, echo=TRUE, eval=FALSE, collapse=TRUE, include=TRUE}
+lta_diagnostics(lta_result)
+```
+
+When you run this, the function will step through many diagnostic outputs (there are currently 8), some of which are tables and some of which are plots. Between each output, the function will wait for the user to press `<Enter>`. To turn that waiting feature off, you can add the input `wait = FALSE`.    
+
+To see which outputs are currently available from this function, use the following code:  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE, message=TRUE}
+lta_diagnostics(lta_result, 
+                options = c(),
+                describe_options = TRUE)
+
+```
+
+To call specific outputs and not others, use the `options` input. We demonstrate this be stepping through each output below. 
+
+**Option 1: The point estimate**  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE}
+lta_diagnostics(lta_result, options = 1)
+
+```
+
+**Option  2: Summary of bootstrap iterations**  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE}
+lta_diagnostics(lta_result, options = 2)
+
+```
+
+**Option 3: Plot of detection function**  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE}
+lta_diagnostics(lta_result, options = 3)
+
+```
+
+**Option 4: Histogram of bootstrapped detection counts**  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE, fig.height=8}
+lta_diagnostics(lta_result, options = 4)
+
+```
+
+**Option 5: Histogram of bootstrapped g(0) values**  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE, fig.height=8}
+lta_diagnostics(lta_result, options = 5)
+
+```
+
+**Option 6: Histogram of bootstrapped abundance estimates**  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE, fig.height=8}
+lta_diagnostics(lta_result, options = 6)
+
+```
+
+**Option 7: Relationship between bootstrap g(0) and abudance**  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE, fig.height=8}
+lta_diagnostics(lta_result, options = 7)
+
+```
+
+**Option 8: Running calculation of CV during bootstrap process**  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE}
+lta_diagnostics(lta_result, options = 8)
+```
+
+
+# Tables
+
+```{r, echo=FALSE, eval=TRUE, collapse=TRUE, include=TRUE, warning=FALSE, message=FALSE}
+library(dplyr)
+library(magrittr)
+library(LTabundR)
+```
+
+To demonstrate how LTA results can be summarized, tabularized, and plotted, we will use the same built-in dataset as the previous chapter: density/abundance estimates for the Hawaiian EEZ in 2010 and 2017 for striped dolphins, Fraser's dolphins, and melon-headed whales, ran with only 100 iterations:  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE}
+data(lta_result)
+```
+
+We created these LTA results using the following built-in processed dataset:
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE}
+data(cnp_150km_1986_2020)
+```
+
+## Summary tables {-}
+
+To summarize `lta()` results using the standard table format provided in recent NOAA stock assessment reports, use the function `lta_report()`.
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE}
+tables <- lta_report(lta_result, 
+                     cruz = cnp_150km_1986_2020,
+                     verbose = TRUE)
+```
+
+Providing the `cruz` object is not required, but if it is not provided, one of the five summary tables (`$table1a` below) will not be returned.  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE}
+tables %>% names
+```
+
+### Table 1 in reports: Sample sizes {-} 
+
+#### Table 1a {-}  
+
+If `cruz` was provided, `$table1a` 1a will include total sighting counts for all species in the years from `lta_result`, broken down by region. The `Ntot` column holds all sightings, regardless of effort status or Beaufort sea state. `Nsys` holds counts of systematic-only sightings (i.e., EffType = "S" and Bft <= 6), which may still include sightings that are beyond the species-specific truncation distance and were therefore excluded from density/abundance estimation.   
+
+These counts are provided separately from the `$table1b` slot below, since those counts are based on the `lta_result` object, and will not include sightings for species that did not have a specific LTA estimate specified when it was made. We also include this separately so as to give the user full flexibility in how they summarize sighting counts by region/population/stock.  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE}
+tables$table1a %>%
+  DT::datatable(options=list(initComplete = htmlwidgets::JS(
+    "function(settings, json) {$(this.api().table().container()).css({'font-size': '9pt'});}")
+  ))
+```
+
+#### Table 1b {-}  
+
+This table holds sighting counts used in estimates of density/abundance. The rows match the rows for Tables 3 and 4. In this table, columns are still prepared for total sightings (`Ntot`) and systematic sightings (`Nsys`), but they are left blank, since it is not clear how sightings from multiple regions in `$table1a` would be concatenated for this table. The user can fill in those gaps accordingly.
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE}
+tables$table1b %>%
+  DT::datatable(options=list(initComplete = htmlwidgets::JS(
+    "function(settings, json) {$(this.api().table().container()).css({'font-size': '9pt'});}")
+  ))
+```
+
+### Table 2 in reports: Detection functions {-}
+
+```{r, echo=FALSE, eval=TRUE, collapse=TRUE, include=TRUE}
+tables$table2 %>%
+  DT::datatable(options=list(initComplete = htmlwidgets::JS(
+    "function(settings, json) {$(this.api().table().container()).css({'font-size': '9pt'});}")
+  ))
+```
+
+### Table 3: Parameter estimates {-}
+
+```{r, echo=FALSE, eval=TRUE, collapse=TRUE, include=TRUE}
+tables$table3 %>%
+  DT::datatable(options=list(initComplete = htmlwidgets::JS(
+    "function(settings, json) {$(this.api().table().container()).css({'font-size': '9pt'});}")
+  ))
+```
+
+### Table 4: Density/abundance {-}
+
+```{r, echo=FALSE, eval=TRUE, collapse=TRUE, include=TRUE}
+tables$table4 %>%
+  DT::datatable(options=list(initComplete = htmlwidgets::JS(
+    "function(settings, json) {$(this.api().table().container()).css({'font-size': '9pt'});}")
+  ))
+```
+
+## Appendix tables {-}  
+
+### Table A1: Study areas {-}
+
+```{r, echo=FALSE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+tables$tableA1 %>% 
+DT::datatable(extensions = "FixedColumns",
+              options=list(scrollX=TRUE,
+                           paging = FALSE,
+                           fixedColumns = list(leftColumns = 1),
+                           initComplete = htmlwidgets::JS(
+    "function(settings, json) {$(this.api().table().container()).css({'font-size': '9pt'});}")
+  ))
+```
+
+### Table A2: Effort totals (parsed by Beaufort sea state) {-}
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+tables$tableA2
+```
+
+
+# Plots
+
+## Abundance plots {-}  
+
+To plot the abundance estimate with error bars representing the 95% confidence interval, use the function `lta_plot()`: 
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE, fig.height=4.5, fig.width=7}
+lta_plot(lta_result, 
+         nrows=1)
+```
+
+
+## Detection function plots {-}
+
+To plot the best-fit detection model for a species pool, use the `df_plot()` function.
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE, fig.height=5, fig.width=7}
+df_plot(lta_result)
+```
+
+This function provides various stylization options, including the option to show multiple best-fitting models atop a single histogram of detections:
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE, fig.height=5, fig.width=7}
+df_plot(lta_result,
+        model_colors=RColorBrewer::brewer.pal(n = 4, name = "Dark2"),
+        model_pch = 16,
+        pt_show=2,
+        pt_alpha=.3,
+        bootstrap_show = FALSE,
+        legend_show=TRUE,
+        legend_x=2.8)
+```
+
+

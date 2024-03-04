@@ -1,0 +1,53 @@
+# (PART) Appendix {-} 
+
+# Strata gallery {#stratagallery}
+
+```{r, echo=FALSE, eval=TRUE, collapse=TRUE, include=FALSE}
+library(dplyr)
+library(magrittr)
+library(LTabundR)
+```
+
+This packages comes with several built-in datasets of geographic strata that are commonly used in NOAA/NMFS surveys.  The functions `strata_explore()` and `strata_select()` were developed to help you explore those built-in options.  
+
+
+## Central North Pacific {-} 
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, warning=FALSE, message=FALSE, fig.width=6, fig.height=4}
+strata_explore('cnp')
+```
+
+
+To acquire the filepath to one of these strata, pass the index (or indices) printed in the map titles above to the function `strata_select()`:  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, warning=FALSE, message=FALSE, fig.width=6, fig.height=4}
+strata <- strata_select(selections = c(2,3),
+                              region = 'cnp')
+```
+
+This function returns a named list that can be passed directly to the `strata` argument in `load_settings()`.  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, warning=FALSE, message=FALSE, fig.width=6, fig.height=4}
+strata %>% names
+
+strata
+```
+
+
+## California Current {-}  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, warning=FALSE, message=FALSE, fig.width=6, fig.height=6}
+strata_explore('ccs')
+```
+
+
+## ETP {-}
+
+You can do the same for the Eastern Tropical Pacific (ETP); there are about 70 polygons built-in to `LTabundR` for this region. We will just show a few of them here, using the `start_at` argument. 
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, warning=FALSE, message=FALSE, fig.width=6, fig.height=4}
+strata_explore('etp',
+               start_at = 64)
+```
+
+
