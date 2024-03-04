@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>7 Estimating g(0) | User’s guide for LTabundR</title>
+  <meta name="description" content="vignette" />
+  <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="7 Estimating g(0) | User’s guide for LTabundR" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:description" content="vignette" />
+  <meta name="github-repo" content="emk-noaa/emk-noaa.github.io" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="7 Estimating g(0) | User’s guide for LTabundR" />
+  
+  <meta name="twitter:description" content="vignette" />
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="maps.html"/>
+<link rel="next" href="lta.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="libs/datatables-binding-0.31.1/datatables.js"></script>
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="libs/dt-ext-fixedcolumns-1.13.6/css/fixedColumns.dataTables.min.css" rel="stylesheet" />
+<script src="libs/dt-ext-fixedcolumns-1.13.6/js/dataTables.fixedColumns.min.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.2.0/leaflet.js"></script>
+<script src="libs/plotly-binding-4.10.2/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Overview</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#installation"><i class="fa fa-check"></i>Installation</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#credits"><i class="fa fa-check"></i>Credits</a></li>
+</ul></li>
+<li class="part"><span><b>I Data processing</b></span></li>
+<li class="chapter" data-level="1" data-path="settings.html"><a href="settings.html"><i class="fa fa-check"></i><b>1</b> Settings</a>
+<ul>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#survey-strata"><i class="fa fa-check"></i>Survey strata</a></li>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#survey-wide-settings"><i class="fa fa-check"></i>Survey-wide settings</a>
+<ul>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#defaults"><i class="fa fa-check"></i>Defaults</a></li>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#details"><i class="fa fa-check"></i>Details</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#cohort-specific-settings"><i class="fa fa-check"></i>Cohort-specific settings</a>
+<ul>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#defaults-1"><i class="fa fa-check"></i>Defaults</a></li>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#details-1"><i class="fa fa-check"></i>Details</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#example-code"><i class="fa fa-check"></i>Example code</a>
+<ul>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#use-settings-defaults"><i class="fa fa-check"></i>Use settings defaults</a></li>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#use-settings-defaults-but-with-strata"><i class="fa fa-check"></i>Use settings defaults, but with strata</a></li>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#customize-survey-but-not-cohorts"><i class="fa fa-check"></i>Customize survey, but not cohorts</a></li>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#fully-custom-whiceas-case-study"><i class="fa fa-check"></i>Fully custom: WHICEAS case study</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="das.html"><a href="das.html"><i class="fa fa-check"></i><b>2</b> DAS editing</a>
+<ul>
+<li class="chapter" data-level="" data-path="das.html"><a href="das.html#reviewing-a-das-file"><i class="fa fa-check"></i>Reviewing a <code>DAS</code> file</a>
+<ul>
+<li class="chapter" data-level="" data-path="das.html"><a href="das.html#das_readtext"><i class="fa fa-check"></i><code>das_readtext()</code></a></li>
+<li class="chapter" data-level="" data-path="das.html"><a href="das.html#das_inspector"><i class="fa fa-check"></i><code>das_inspector()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="das.html"><a href="das.html#staging-edits"><i class="fa fa-check"></i>Staging edits</a>
+<ul>
+<li class="chapter" data-level="" data-path="das.html"><a href="das.html#types-of-editing"><i class="fa fa-check"></i>Types of editing</a></li>
+<li class="chapter" data-level="" data-path="das.html"><a href="das.html#actual-edits"><i class="fa fa-check"></i>Actual edits</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="das.html"><a href="das.html#applying-edits"><i class="fa fa-check"></i>Applying edits</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="processing.html"><a href="processing.html"><i class="fa fa-check"></i><b>3</b> Data processing</a>
+<ul>
+<li class="chapter" data-level="" data-path="processing.html"><a href="processing.html#behind-the-scenes"><i class="fa fa-check"></i>Behind the scenes</a>
+<ul>
+<li class="chapter" data-level="" data-path="processing.html"><a href="processing.html#edit-cruise-data"><i class="fa fa-check"></i>Edit cruise data</a></li>
+<li class="chapter" data-level="" data-path="processing.html"><a href="processing.html#bring-in-cruise-data"><i class="fa fa-check"></i>Bring in cruise data</a></li>
+<li class="chapter" data-level="" data-path="processing.html"><a href="processing.html#interpolate-cruise-data"><i class="fa fa-check"></i>Interpolate cruise data</a></li>
+<li class="chapter" data-level="" data-path="processing.html"><a href="processing.html#process-strata"><i class="fa fa-check"></i>Process strata</a></li>
+<li class="chapter" data-level="" data-path="processing.html"><a href="processing.html#format-das-data-into-a-cruz-object"><i class="fa fa-check"></i>Format <code>DAS</code> data into a <code>cruz</code> object</a></li>
+<li class="chapter" data-level="" data-path="processing.html"><a href="processing.html#the-cruz-object"><i class="fa fa-check"></i>The <code>cruz</code> object</a></li>
+<li class="chapter" data-level="" data-path="processing.html"><a href="processing.html#segmentize-the-data"><i class="fa fa-check"></i>Segmentize the data</a></li>
+<li class="chapter" data-level="" data-path="processing.html"><a href="processing.html#process-sightings"><i class="fa fa-check"></i>Process sightings</a></li>
+<li class="chapter" data-level="" data-path="processing.html"><a href="processing.html#subgroups"><i class="fa fa-check"></i>Process subgroups</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="processing.html"><a href="processing.html#review"><i class="fa fa-check"></i>Review</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="filter.html"><a href="filter.html"><i class="fa fa-check"></i><b>4</b> Filter &amp; combine surveys</a>
+<ul>
+<li class="chapter" data-level="" data-path="filter.html"><a href="filter.html#filter-1"><i class="fa fa-check"></i>Filter</a></li>
+<li class="chapter" data-level="" data-path="filter.html"><a href="filter.html#combine"><i class="fa fa-check"></i>Combine</a></li>
+</ul></li>
+<li class="part"><span><b>II Data exploration</b></span></li>
+<li class="chapter" data-level="5" data-path="summarize.html"><a href="summarize.html"><i class="fa fa-check"></i><b>5</b> Summarize survey</a>
+<ul>
+<li class="chapter" data-level="" data-path="summarize.html"><a href="summarize.html#summarize-effort"><i class="fa fa-check"></i>Summarize effort</a></li>
+<li class="chapter" data-level="" data-path="summarize.html"><a href="summarize.html#summarize-by-beaufort"><i class="fa fa-check"></i>Summarize by Beaufort</a>
+<ul>
+<li class="chapter" data-level="" data-path="summarize.html"><a href="summarize.html#simple-overall-breakdown"><i class="fa fa-check"></i>Simple overall breakdown</a></li>
+<li class="chapter" data-level="" data-path="summarize.html"><a href="summarize.html#breakdown-by-year"><i class="fa fa-check"></i>Breakdown by year</a></li>
+<li class="chapter" data-level="" data-path="summarize.html"><a href="summarize.html#breakdown-by-stratum"><i class="fa fa-check"></i>Breakdown by stratum</a></li>
+<li class="chapter" data-level="" data-path="summarize.html"><a href="summarize.html#detailed-breakdown"><i class="fa fa-check"></i>Detailed breakdown</a></li>
+<li class="chapter" data-level="5.0.1" data-path="summarize.html"><a href="summarize.html#default-filtering"><i class="fa fa-check"></i><b>5.0.1</b> Default filtering</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="summarize.html"><a href="summarize.html#summarize-sightings"><i class="fa fa-check"></i>Summarize sightings</a></li>
+<li class="chapter" data-level="" data-path="summarize.html"><a href="summarize.html#summarize-certain-species"><i class="fa fa-check"></i>Summarize certain species</a></li>
+<li class="chapter" data-level="" data-path="summarize.html"><a href="summarize.html#cruz_explorer"><i class="fa fa-check"></i><code>cruz_explorer()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="maps.html"><a href="maps.html"><i class="fa fa-check"></i><b>6</b> Maps</a>
+<ul>
+<li class="chapter" data-level="" data-path="maps.html"><a href="maps.html#publishable-maps"><i class="fa fa-check"></i>Publishable maps</a>
+<ul>
+<li class="chapter" data-level="" data-path="maps.html"><a href="maps.html#base-maps"><i class="fa fa-check"></i>Base maps</a></li>
+<li class="chapter" data-level="" data-path="maps.html"><a href="maps.html#add-strata"><i class="fa fa-check"></i>Add strata</a></li>
+<li class="chapter" data-level="" data-path="maps.html"><a href="maps.html#add-survey-tracks"><i class="fa fa-check"></i>Add survey tracks</a></li>
+<li class="chapter" data-level="" data-path="maps.html"><a href="maps.html#add-sightings"><i class="fa fa-check"></i>Add sightings</a></li>
+<li class="chapter" data-level="" data-path="maps.html"><a href="maps.html#overview-1"><i class="fa fa-check"></i>Overview</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="maps.html"><a href="maps.html#interactive-maps"><i class="fa fa-check"></i>Interactive maps</a></li>
+<li class="chapter" data-level="" data-path="maps.html"><a href="maps.html#interactive-dashboard"><i class="fa fa-check"></i>Interactive dashboard</a></li>
+</ul></li>
+<li class="part"><span><b>III Data analysis</b></span></li>
+<li class="chapter" data-level="7" data-path="g0.html"><a href="g0.html"><i class="fa fa-check"></i><b>7</b> Estimating <em>g(0)</em></a>
+<ul>
+<li class="chapter" data-level="" data-path="g0.html"><a href="g0.html#relative-g0"><i class="fa fa-check"></i>Relative <code>g(0)</code></a>
+<ul>
+<li class="chapter" data-level="" data-path="g0.html"><a href="g0.html#archived-rg0-estimates"><i class="fa fa-check"></i>Archived <em>Rg(0)</em> estimates</a></li>
+<li class="chapter" data-level="" data-path="g0.html"><a href="g0.html#new-rg0-estimates"><i class="fa fa-check"></i>New <em>Rg(0)</em> estimates</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="g0.html"><a href="g0.html#weighted-average-g0"><i class="fa fa-check"></i>Weighted average <code>g(0)</code></a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="lta.html"><a href="lta.html"><i class="fa fa-check"></i><b>8</b> Line-transect analysis</a>
+<ul>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#overview-2"><i class="fa fa-check"></i>Overview</a></li>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#key-inputs"><i class="fa fa-check"></i>Key inputs</a>
+<ul>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#cruz"><i class="fa fa-check"></i><code>cruz</code></a></li>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#rg0"><i class="fa fa-check"></i><code>Rg0</code></a></li>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#fit_filters"><i class="fa fa-check"></i><code>fit_filters</code></a></li>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#df_settings"><i class="fa fa-check"></i><code>df_settings</code></a></li>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#estimates"><i class="fa fa-check"></i><code>estimates</code></a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#variance-estimation"><i class="fa fa-check"></i>Variance estimation</a></li>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#other-inputs"><i class="fa fa-check"></i>Other inputs</a></li>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#output"><i class="fa fa-check"></i>Output</a>
+<ul>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#during-processing"><i class="fa fa-check"></i>During processing</a></li>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#outputs"><i class="fa fa-check"></i>Outputs</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#unusual-estimate-scenarios"><i class="fa fa-check"></i>Unusual estimate scenarios</a>
+<ul>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#species-combinations-g0"><i class="fa fa-check"></i>Species combinations &amp; <em>g(0)</em></a></li>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#geostratum-combinations"><i class="fa fa-check"></i>Geostratum combinations</a></li>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#subgroup-based-analyses"><i class="fa fa-check"></i>Subgroup-based analyses</a></li>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#other-scenarios"><i class="fa fa-check"></i>Other scenarios</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#behind-the-scenes-1"><i class="fa fa-check"></i>Behind the scenes</a>
+<ul>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#step-by-step-operations"><i class="fa fa-check"></i>Step-by-step operations</a></li>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#other-details"><i class="fa fa-check"></i>Other details</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="destratify.html"><a href="destratify.html"><i class="fa fa-check"></i><b>9</b> Stratified analysis</a></li>
+<li class="chapter" data-level="10" data-path="trend-analysis.html"><a href="trend-analysis.html"><i class="fa fa-check"></i><b>10</b> Trend analysis</a></li>
+<li class="chapter" data-level="11" data-path="subgroups2.html"><a href="subgroups2.html"><i class="fa fa-check"></i><b>11</b> Subgroup-based analysis</a>
+<ul>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#inputs-1"><i class="fa fa-check"></i>Inputs</a>
+<ul>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#df_sits"><i class="fa fa-check"></i><code>df_sits</code></a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#truncation_distance"><i class="fa fa-check"></i><code>truncation_distance</code></a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#ss"><i class="fa fa-check"></i><code>ss</code></a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#rg0-1"><i class="fa fa-check"></i><code>Rg0</code></a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#cruz10"><i class="fa fa-check"></i><code>cruz10</code></a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#g0_spp"><i class="fa fa-check"></i><code>g0_spp</code></a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#g0_truncation"><i class="fa fa-check"></i><code>g0_truncation</code></a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#g0_constrain_shape"><i class="fa fa-check"></i><code>g0_constrain_shape</code></a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#g0_jackknife_fraction"><i class="fa fa-check"></i><code>g0_jackknife_fraction</code></a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#density_segments"><i class="fa fa-check"></i><code>density_segments</code></a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#density_das"><i class="fa fa-check"></i><code>density_das</code></a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#density_sightings"><i class="fa fa-check"></i><code>density_sightings</code></a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#abundance_area"><i class="fa fa-check"></i><code>abundance_area</code></a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#remaining-inputs"><i class="fa fa-check"></i>Remaining inputs</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#outputs-1"><i class="fa fa-check"></i>Outputs</a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#behind-the-scenes-2"><i class="fa fa-check"></i>Behind the scenes</a></li>
+</ul></li>
+<li class="part"><span><b>IV Results</b></span></li>
+<li class="chapter" data-level="12" data-path="diagnostic-plots.html"><a href="diagnostic-plots.html"><i class="fa fa-check"></i><b>12</b> Diagnostic plots</a></li>
+<li class="chapter" data-level="13" data-path="tables.html"><a href="tables.html"><i class="fa fa-check"></i><b>13</b> Tables</a>
+<ul>
+<li class="chapter" data-level="" data-path="tables.html"><a href="tables.html#summary-tables"><i class="fa fa-check"></i>Summary tables</a>
+<ul>
+<li class="chapter" data-level="" data-path="tables.html"><a href="tables.html#table-1-in-reports-sample-sizes"><i class="fa fa-check"></i>Table 1 in reports: Sample sizes</a></li>
+<li class="chapter" data-level="" data-path="tables.html"><a href="tables.html#table-2-in-reports-detection-functions"><i class="fa fa-check"></i>Table 2 in reports: Detection functions</a></li>
+<li class="chapter" data-level="" data-path="tables.html"><a href="tables.html#table-3-parameter-estimates"><i class="fa fa-check"></i>Table 3: Parameter estimates</a></li>
+<li class="chapter" data-level="" data-path="tables.html"><a href="tables.html#table-4-densityabundance"><i class="fa fa-check"></i>Table 4: Density/abundance</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="tables.html"><a href="tables.html#appendix-tables"><i class="fa fa-check"></i>Appendix tables</a>
+<ul>
+<li class="chapter" data-level="" data-path="tables.html"><a href="tables.html#table-a1-study-areas"><i class="fa fa-check"></i>Table A1: Study areas</a></li>
+<li class="chapter" data-level="" data-path="tables.html"><a href="tables.html#table-a2-effort-totals-parsed-by-beaufort-sea-state"><i class="fa fa-check"></i>Table A2: Effort totals (parsed by Beaufort sea state)</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="14" data-path="plots.html"><a href="plots.html"><i class="fa fa-check"></i><b>14</b> Plots</a>
+<ul>
+<li class="chapter" data-level="" data-path="plots.html"><a href="plots.html#abundance-plots"><i class="fa fa-check"></i>Abundance plots</a></li>
+<li class="chapter" data-level="" data-path="plots.html"><a href="plots.html#detection-function-plots"><i class="fa fa-check"></i>Detection function plots</a></li>
+</ul></li>
+<li class="part"><span><b>V Case studies</b></span></li>
+<li class="chapter" data-level="15" data-path="whiceas.html"><a href="whiceas.html"><i class="fa fa-check"></i><b>15</b> WHICEAS</a>
+<ul>
+<li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#data-processing"><i class="fa fa-check"></i>Data processing</a>
+<ul>
+<li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#edits"><i class="fa fa-check"></i>Edits</a></li>
+<li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#settings-1"><i class="fa fa-check"></i>Settings</a></li>
+<li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#process"><i class="fa fa-check"></i>Process</a></li>
+<li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#processed-data-structure"><i class="fa fa-check"></i>Processed data structure</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#rg0-2"><i class="fa fa-check"></i>Rg0</a></li>
+<li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#density-abundance"><i class="fa fa-check"></i>Density &amp; abundance</a>
+<ul>
+<li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#multi-species-pool-1"><i class="fa fa-check"></i>Multi-species pool 1</a></li>
+<li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#multi-species-pool-2"><i class="fa fa-check"></i>Multi-species pool 2</a></li>
+<li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#multi-species-pool-3"><i class="fa fa-check"></i>Multi-species pool 3</a></li>
+<li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#multi-species-pool-4"><i class="fa fa-check"></i>Multi-species pool 4</a></li>
+<li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#multi-species-pool-5"><i class="fa fa-check"></i>Multi-species pool 5</a></li>
+<li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#multi-species-pool-6"><i class="fa fa-check"></i>Multi-species pool 6</a></li>
+<li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#humpback-whale"><i class="fa fa-check"></i>Humpback whale</a></li>
+<li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#unidentified-rorquals"><i class="fa fa-check"></i>Unidentified rorquals</a></li>
+<li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#unidentified-dolphins"><i class="fa fa-check"></i>Unidentified dolphins</a></li>
+<li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#unidentified-cetaceans"><i class="fa fa-check"></i>Unidentified cetaceans</a></li>
+<li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#bottlenose-dolphin"><i class="fa fa-check"></i>Bottlenose dolphin</a></li>
+<li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#pantropical-spotted-dolphin"><i class="fa fa-check"></i>Pantropical spotted dolphin</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#results-tables"><i class="fa fa-check"></i>Results tables</a></li>
+</ul></li>
+<li class="part"><span><b>VI Appendix</b></span></li>
+<li class="chapter" data-level="16" data-path="stratagallery.html"><a href="stratagallery.html"><i class="fa fa-check"></i><b>16</b> Strata gallery</a>
+<ul>
+<li class="chapter" data-level="" data-path="stratagallery.html"><a href="stratagallery.html#central-north-pacific"><i class="fa fa-check"></i>Central North Pacific</a></li>
+<li class="chapter" data-level="" data-path="stratagallery.html"><a href="stratagallery.html#california-current"><i class="fa fa-check"></i>California Current</a></li>
+<li class="chapter" data-level="" data-path="stratagallery.html"><a href="stratagallery.html#etp"><i class="fa fa-check"></i>ETP</a></li>
+</ul></li>
+<li class="chapter" data-level="17" data-path="segmentizing.html"><a href="segmentizing.html"><i class="fa fa-check"></i><b>17</b> Segmentizing</a>
+<ul>
+<li class="chapter" data-level="" data-path="segmentizing.html"><a href="segmentizing.html#approach"><i class="fa fa-check"></i>Approach</a>
+<ul>
+<li class="chapter" data-level="" data-path="segmentizing.html"><a href="segmentizing.html#setting-up-this-demo"><i class="fa fa-check"></i>Setting up this demo</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="segmentizing.html"><a href="segmentizing.html#base-example"><i class="fa fa-check"></i>Base example</a></li>
+<li class="chapter" data-level="" data-path="segmentizing.html"><a href="segmentizing.html#day-vs-equal-length"><i class="fa fa-check"></i>Day vs Equal Length</a>
+<ul>
+<li class="chapter" data-level="" data-path="segmentizing.html"><a href="segmentizing.html#by-day"><i class="fa fa-check"></i>By day</a></li>
+<li class="chapter" data-level="" data-path="segmentizing.html"><a href="segmentizing.html#by-target-length-of-100-km"><i class="fa fa-check"></i>By target length of 100 km</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="segmentizing.html"><a href="segmentizing.html#contiguous-vs.-non-contiguous-effort"><i class="fa fa-check"></i>Contiguous vs. non-contiguous effort</a></li>
+<li class="chapter" data-level="" data-path="segmentizing.html"><a href="segmentizing.html#segment-remainder-handling"><i class="fa fa-check"></i>Segment remainder handling</a>
+<ul>
+<li class="chapter" data-level="" data-path="segmentizing.html"><a href="segmentizing.html#append"><i class="fa fa-check"></i><code>"append"</code></a></li>
+<li class="chapter" data-level="" data-path="segmentizing.html"><a href="segmentizing.html#segment"><i class="fa fa-check"></i><code>"segment"</code></a></li>
+<li class="chapter" data-level="" data-path="segmentizing.html"><a href="segmentizing.html#disperse"><i class="fa fa-check"></i><code>"disperse"</code></a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="segmentizing.html"><a href="segmentizing.html#typical-settings"><i class="fa fa-check"></i>Typical settings</a>
+<ul>
+<li class="chapter" data-level="" data-path="segmentizing.html"><a href="segmentizing.html#design-based-line-transect-analysis"><i class="fa fa-check"></i>Design-based line transect analysis</a></li>
+<li class="chapter" data-level="" data-path="segmentizing.html"><a href="segmentizing.html#habitat-modeling"><i class="fa fa-check"></i>Habitat modeling</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="18" data-path="validation.html"><a href="validation.html"><i class="fa fa-check"></i><b>18</b> Validation</a>
+<ul>
+<li class="chapter" data-level="" data-path="validation.html"><a href="validation.html#data-processing-1"><i class="fa fa-check"></i>Data processing</a>
+<ul>
+<li class="chapter" data-level="" data-path="validation.html"><a href="validation.html#sightings"><i class="fa fa-check"></i>Sightings</a></li>
+<li class="chapter" data-level="" data-path="validation.html"><a href="validation.html#group-sizes"><i class="fa fa-check"></i>Group sizes</a></li>
+<li class="chapter" data-level="" data-path="validation.html"><a href="validation.html#effort"><i class="fa fa-check"></i>Effort</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="19" data-path="spp_codes.html"><a href="spp_codes.html"><i class="fa fa-check"></i><b>19</b> NOAA/NMFS species codes</a>
+<ul>
+<li class="chapter" data-level="" data-path="spp_codes.html"><a href="spp_codes.html#table"><i class="fa fa-check"></i>Table</a></li>
+<li class="chapter" data-level="" data-path="spp_codes.html"><a href="spp_codes.html#species_translator"><i class="fa fa-check"></i><code>species_translator()</code></a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">User’s guide for <code>LTabundR</code></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="g0" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">7</span> Estimating <em>g(0)</em><a href="g0.html#g0" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p><strong>Detection function models assume <em>g(0)</em> is 1.0.</strong><br />
+In distance sampling, a “detection function” is fit to the perpendicular sighting distances to reflect the fact that animals farther out are more difficult to detect. That detection function is a model of how the probability of detection declines with increasing distance from your survey trackline. The equations for detection function models are all constructed to assume that the probability of detecting an animal on your trackline (distance = 0 km) is 1.0 – you never miss an animal on your trackline. This trackline detection probability is referred to as <em>g(0)</em>.</p>
+<p><strong>In reality, though, it almost never is – and it greatly impacts results.</strong><br />
+When searching for marine mammals at sea, even some of those occurring directly on your survey trackline will be missed. Real <em>g(0)</em> is actually less than 1.0. This technicality makes a big difference: if <em>g(0)</em> is actually 0.5, the assumption that <em>g(0)</em> is 1.0 will underestimate animal abundance by 50%. Some animals, such as pygmy and dwarf sperm whales (<em>Kogia</em> spp.), are very cryptic deep divers and easily missed or unavailable, and thus likely have a true <em>g(0)</em> below 0.1. This means that estimates assuming their <em>g(0)</em> is still 1.0 will underestimate true abundance by 90%! Moreover, <em>all</em> species – whether you are a pygmy sperm whale or a blue whale – become easier to miss when sighting conditions deteriorate (e.g., Beaufort sea states 4 - 6).</p>
+<p><strong>Therefore, <em>g(0)</em> must be estimated and then used to scale the detection function.</strong><br />
+So <em>g(0)</em> matters, and the assumption of detection functions that <em>g(0)</em> = 1.0 is nearly always wrong. Luckily, there is a way to handle this that avoids constructing new detection function equations or estimating even more parameters during the detection function fitting process: we use an estimate of <em>g(0)</em> to scale the detection function. Say the detection function predicts that the probability of detection is 1.0, 0.8, and 0.6 at distances 0 km, 1 km, and 2km, respectively. If <em>g(0)</em> is actually 0.5, then we can scale the detection function so that those respective predictions are now 0.5, 0.4, and 0.3.</p>
+<p>Estimating <em>g(0)</em> for a NOAA Fisheries line-transect cetacean survey generally involves four steps (<a href="https://onlinelibrary.wiley.com/doi/abs/10.1111/mms.12205">Barlow 2015</a>):</p>
+<ul>
+<li><p>First, you estimate <em>g(0)</em> in “perfect” conditions (e.g., Beaufort sea state 0) to account for animal availability.</p></li>
+<li><p>Second, you scale that estimate downward to approximate <em>g(0)</em> when conditions are less than ideal (i.e., a separate <em>g(0)</em> estimate for each Beaufort sea state from 1 to 6). This is known as the <em>relative trackline detection probability</em>, or <em>relative g(0)</em>, or most simply: <em>Rg(0)</em>.</p></li>
+<li><p>Third, you determine the weighted average value of <em>g(0)</em> for your particular survey, based on the proportional distribution of effort in each sea state. You pass this single value to your line-transect analysis functions.</p></li>
+<li><p>Fourth, you need to determine the CV of your weighted estimate of <em>g(0)</em>. This isn’t straightforward, because you first need to simulate a new distribution for the weighted <em>g(0)</em> estimate, from which you then calculate the CV.</p></li>
+</ul>
+<p>The first of these steps is typically the biggest lift analytically, and very few studies provide absolute estimates of <em>g(0)</em> for their species of interest. Doing so involves simulation modeling and specialized field methods (e.g., <a href="https://www.taylorfrancis.com/chapters/edit/10.1201/9781003211167-19/trackline-detection-probability-long-diving-whales-jay-barlow">Barlow 1999</a>).</p>
+<p>Instead, most NOAA Fisheries studies assume that the absolute <em>g(0)</em> is in fact 1.0 – even though it’s not – and proceed directly to the second step – <em>relative</em> trackline detection probability, <em>Rg(0)</em>. This is more common because it can be estimated directly from the survey data, thanks to an approach developed in <a href="https://onlinelibrary.wiley.com/doi/abs/10.1111/mms.12205">Barlow (2015)</a>: “Inferring trackline detection probabilities, g(0), for cetaceans from apparent densities in different survey conditions”.</p>
+<div id="relative-g0" class="section level2 unnumbered hasAnchor">
+<h2>Relative <code>g(0)</code><a href="g0.html#relative-g0" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="archived-rg0-estimates" class="section level3 unnumbered hasAnchor">
+<h3>Archived <em>Rg(0)</em> estimates<a href="g0.html#archived-rg0-estimates" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>As of 2022, most eastern and central Pacific NOAA Fisheries studies use the <em>Rg(0)</em> estimates from Barlow (2015), which are based on NOAA Fisheries cruises in the eastern and central Pacific from 1986 to 2010. <code>LTabundR</code> includes Barlow’s results in a built-in dataset.</p>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="g0.html#cb132-1" tabindex="-1"></a><span class="fu">data</span>(barlow_2015)</span></code></pre></div>
+<p>Here is the top of this dataset, in which each row is a <em>Rg(0)</em> estimate for a single species - Beaufort sea state scenario.</p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="g0.html#cb133-1" tabindex="-1"></a>barlow_2015 <span class="sc">%&gt;%</span> <span class="fu">head</span>(<span class="dv">12</span>)</span>
+<span id="cb133-2"><a href="g0.html#cb133-2" tabindex="-1"></a>                    title             scientific             spp truncation</span>
+<span id="cb133-3"><a href="g0.html#cb133-3" tabindex="-1"></a><span class="dv">1</span>           Delphinus spp              Delphinus     <span class="dv">005-016-017</span>        <span class="fl">5.5</span></span>
+<span id="cb133-4"><a href="g0.html#cb133-4" tabindex="-1"></a><span class="dv">2</span>           Delphinus spp              Delphinus     <span class="dv">005-016-017</span>        <span class="fl">5.5</span></span>
+<span id="cb133-5"><a href="g0.html#cb133-5" tabindex="-1"></a><span class="dv">3</span>           Delphinus spp              Delphinus     <span class="dv">005-016-017</span>        <span class="fl">5.5</span></span>
+<span id="cb133-6"><a href="g0.html#cb133-6" tabindex="-1"></a><span class="dv">4</span>           Delphinus spp              Delphinus     <span class="dv">005-016-017</span>        <span class="fl">5.5</span></span>
+<span id="cb133-7"><a href="g0.html#cb133-7" tabindex="-1"></a><span class="dv">5</span>           Delphinus spp              Delphinus     <span class="dv">005-016-017</span>        <span class="fl">5.5</span></span>
+<span id="cb133-8"><a href="g0.html#cb133-8" tabindex="-1"></a><span class="dv">6</span>           Delphinus spp              Delphinus     <span class="dv">005-016-017</span>        <span class="fl">5.5</span></span>
+<span id="cb133-9"><a href="g0.html#cb133-9" tabindex="-1"></a><span class="dv">7</span>           Delphinus spp              Delphinus     <span class="dv">005-016-017</span>        <span class="fl">5.5</span></span>
+<span id="cb133-10"><a href="g0.html#cb133-10" tabindex="-1"></a><span class="dv">8</span>  Stenella attenuata ssp Stenella attenuata ssp <span class="dv">002-006-089-090</span>        <span class="fl">5.5</span></span>
+<span id="cb133-11"><a href="g0.html#cb133-11" tabindex="-1"></a><span class="dv">9</span>  Stenella attenuata ssp Stenella attenuata ssp <span class="dv">002-006-089-090</span>        <span class="fl">5.5</span></span>
+<span id="cb133-12"><a href="g0.html#cb133-12" tabindex="-1"></a><span class="dv">10</span> Stenella attenuata ssp Stenella attenuata ssp <span class="dv">002-006-089-090</span>        <span class="fl">5.5</span></span>
+<span id="cb133-13"><a href="g0.html#cb133-13" tabindex="-1"></a><span class="dv">11</span> Stenella attenuata ssp Stenella attenuata ssp <span class="dv">002-006-089-090</span>        <span class="fl">5.5</span></span>
+<span id="cb133-14"><a href="g0.html#cb133-14" tabindex="-1"></a><span class="dv">12</span> Stenella attenuata ssp Stenella attenuata ssp <span class="dv">002-006-089-090</span>        <span class="fl">5.5</span></span>
+<span id="cb133-15"><a href="g0.html#cb133-15" tabindex="-1"></a>   pooling regions bft   Rg0 Rg0_CV</span>
+<span id="cb133-16"><a href="g0.html#cb133-16" tabindex="-1"></a><span class="dv">1</span>        <span class="dv">1</span>    none   <span class="dv">0</span> <span class="fl">1.000</span>   <span class="fl">0.00</span></span>
+<span id="cb133-17"><a href="g0.html#cb133-17" tabindex="-1"></a><span class="dv">2</span>        <span class="dv">1</span>    none   <span class="dv">1</span> <span class="fl">1.000</span>   <span class="fl">0.00</span></span>
+<span id="cb133-18"><a href="g0.html#cb133-18" tabindex="-1"></a><span class="dv">3</span>        <span class="dv">1</span>    none   <span class="dv">2</span> <span class="fl">0.940</span>   <span class="fl">0.25</span></span>
+<span id="cb133-19"><a href="g0.html#cb133-19" tabindex="-1"></a><span class="dv">4</span>        <span class="dv">1</span>    none   <span class="dv">3</span> <span class="fl">0.722</span>   <span class="fl">0.25</span></span>
+<span id="cb133-20"><a href="g0.html#cb133-20" tabindex="-1"></a><span class="dv">5</span>        <span class="dv">1</span>    none   <span class="dv">4</span> <span class="fl">0.485</span>   <span class="fl">0.14</span></span>
+<span id="cb133-21"><a href="g0.html#cb133-21" tabindex="-1"></a><span class="dv">6</span>        <span class="dv">1</span>    none   <span class="dv">5</span> <span class="fl">0.394</span>   <span class="fl">0.20</span></span>
+<span id="cb133-22"><a href="g0.html#cb133-22" tabindex="-1"></a><span class="dv">7</span>        <span class="dv">1</span>    none   <span class="dv">6</span> <span class="fl">0.404</span>   <span class="fl">0.50</span></span>
+<span id="cb133-23"><a href="g0.html#cb133-23" tabindex="-1"></a><span class="dv">8</span>     none    none   <span class="dv">0</span> <span class="fl">1.000</span>   <span class="fl">0.00</span></span>
+<span id="cb133-24"><a href="g0.html#cb133-24" tabindex="-1"></a><span class="dv">9</span>     none    none   <span class="dv">1</span> <span class="fl">0.728</span>   <span class="fl">0.03</span></span>
+<span id="cb133-25"><a href="g0.html#cb133-25" tabindex="-1"></a><span class="dv">10</span>    none    none   <span class="dv">2</span> <span class="fl">0.531</span>   <span class="fl">0.06</span></span>
+<span id="cb133-26"><a href="g0.html#cb133-26" tabindex="-1"></a><span class="dv">11</span>    none    none   <span class="dv">3</span> <span class="fl">0.386</span>   <span class="fl">0.09</span></span>
+<span id="cb133-27"><a href="g0.html#cb133-27" tabindex="-1"></a><span class="dv">12</span>    none    none   <span class="dv">4</span> <span class="fl">0.282</span>   <span class="fl">0.12</span></span></code></pre></div>
+<p>This dataset includes <em>Rg(0)</em> estimates for the following species:</p>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="g0.html#cb134-1" tabindex="-1"></a>barlow_2015<span class="sc">$</span>title <span class="sc">%&gt;%</span> unique</span>
+<span id="cb134-2"><a href="g0.html#cb134-2" tabindex="-1"></a> [<span class="dv">1</span>] <span class="st">&quot;Delphinus spp&quot;</span>               <span class="st">&quot;Stenella attenuata ssp&quot;</span>     </span>
+<span id="cb134-3"><a href="g0.html#cb134-3" tabindex="-1"></a> [<span class="dv">3</span>] <span class="st">&quot;Stenella longirostris ssp&quot;</span>   <span class="st">&quot;Striped dolphin&quot;</span>            </span>
+<span id="cb134-4"><a href="g0.html#cb134-4" tabindex="-1"></a> [<span class="dv">5</span>] <span class="st">&quot;Rough-toothed dolphin&quot;</span>       <span class="st">&quot;Bottlenose dolphin&quot;</span>         </span>
+<span id="cb134-5"><a href="g0.html#cb134-5" tabindex="-1"></a> [<span class="dv">7</span>] <span class="st">&quot;Risso&#39;s dolphin&quot;</span>             <span class="st">&quot;Short-finned pilot whale&quot;</span>   </span>
+<span id="cb134-6"><a href="g0.html#cb134-6" tabindex="-1"></a> [<span class="dv">9</span>] <span class="st">&quot;Killer whale&quot;</span>                <span class="st">&quot;Sperm whale&quot;</span>                </span>
+<span id="cb134-7"><a href="g0.html#cb134-7" tabindex="-1"></a>[<span class="dv">11</span>] <span class="st">&quot;Kogia spp&quot;</span>                   <span class="st">&quot;Cuvier&#39;s beaked whale&quot;</span>      </span>
+<span id="cb134-8"><a href="g0.html#cb134-8" tabindex="-1"></a>[<span class="dv">13</span>] <span class="st">&quot;Mesoplodon spp&quot;</span>              <span class="st">&quot;Dall&#39;s porpoise&quot;</span>            </span>
+<span id="cb134-9"><a href="g0.html#cb134-9" tabindex="-1"></a>[<span class="dv">15</span>] <span class="st">&quot;Minke whale&quot;</span>                 <span class="st">&quot;Sei/Bryde&#39;s&quot;</span>                </span>
+<span id="cb134-10"><a href="g0.html#cb134-10" tabindex="-1"></a>[<span class="dv">17</span>] <span class="st">&quot;Fin whale&quot;</span>                   <span class="st">&quot;Blue whale&quot;</span>                 </span>
+<span id="cb134-11"><a href="g0.html#cb134-11" tabindex="-1"></a>[<span class="dv">19</span>] <span class="st">&quot;Humpback whale&quot;</span>              <span class="st">&quot;Unidentified dolphin&quot;</span>       </span>
+<span id="cb134-12"><a href="g0.html#cb134-12" tabindex="-1"></a>[<span class="dv">21</span>] <span class="st">&quot;Unidentified cetacean&quot;</span>       <span class="st">&quot;Pacific white-sided dolphin&quot;</span></span>
+<span id="cb134-13"><a href="g0.html#cb134-13" tabindex="-1"></a>[<span class="dv">23</span>] <span class="st">&quot;Pygmy killer whale&quot;</span>          <span class="st">&quot;False killer whale&quot;</span>         </span></code></pre></div>
+<p>If your study species – or one with similar detectability – can be found on this list, then you can consider using this <code>data.frame</code> of <em>Rg(0)</em> values and moving on to the next step, especially if your survey was conducted in the eastern or Central Pacific.</p>
+<p>Note that if you do not have a large survey dataset, this may be the only option available to you. Estimating new <em>Rg(0)</em> values requires a large number of sightings (i.e., hundreds) across many Beaufort states.</p>
+</div>
+<div id="new-rg0-estimates" class="section level3 unnumbered hasAnchor">
+<h3>New <em>Rg(0)</em> estimates<a href="g0.html#new-rg0-estimates" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><code>LTabundR</code> includes a function, <code>g0_model()</code>, which you can use to apply the Barlow (2015) modeling methods to generate new estimates of <em>Rg(0)</em> based on your own survey data or by combining your data with those used in the Barlow (2015) estimation.</p>
+<p>To do this, you first need a <code>cruz</code> object in which effort has been split into short segments (5 - 10 km). If you want to work with NOAA Fisheries <code>DAS</code> data from the eastern and central Pacific, you can use a built-in dataset of 1986 - 2020 surveys that is processed specifically for use in <em>Rg(0)</em> estimation:</p>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="g0.html#cb135-1" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;noaa_10km_1986_2020&quot;</span>)</span></code></pre></div>
+<p>To use this dataset in <em>R(0)</em> estimation, we first filter it to systematic effort within sea states 0 - 6:</p>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="g0.html#cb136-1" tabindex="-1"></a>cruzi <span class="ot">&lt;-</span> <span class="fu">filter_cruz</span>(noaa_10km_1986_2020,</span>
+<span id="cb136-2"><a href="g0.html#cb136-2" tabindex="-1"></a>                     <span class="at">analysis_only =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb136-3"><a href="g0.html#cb136-3" tabindex="-1"></a>                     <span class="at">eff_types =</span> <span class="st">&#39;S&#39;</span>,</span>
+<span id="cb136-4"><a href="g0.html#cb136-4" tabindex="-1"></a>                     <span class="at">bft_range =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">6</span>,</span>
+<span id="cb136-5"><a href="g0.html#cb136-5" tabindex="-1"></a>                     <span class="at">on_off =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>You can then estimate <code>Rg(0)</code> for each Beaufort sea state using the function <code>g0_model()</code>. For example, the code for striped dolphin (<em>Stenella coeruleoalba</em>) is as follows:</p>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="g0.html#cb137-1" tabindex="-1"></a>rg0 <span class="ot">&lt;-</span> <span class="fu">g0_model</span>(<span class="at">spp =</span> <span class="st">&#39;013&#39;</span>,</span>
+<span id="cb137-2"><a href="g0.html#cb137-2" tabindex="-1"></a>                <span class="at">truncation_distance =</span> <span class="fl">5.5</span>,</span>
+<span id="cb137-3"><a href="g0.html#cb137-3" tabindex="-1"></a>                <span class="at">cruz =</span> cruzi,</span>
+<span id="cb137-4"><a href="g0.html#cb137-4" tabindex="-1"></a>                <span class="at">constrain_shape =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb137-5"><a href="g0.html#cb137-5" tabindex="-1"></a>                <span class="at">jackknife_fraction =</span> .<span class="dv">1</span>)</span></code></pre></div>
+<p>The <code>jackknife_fraction</code> input indicates that the standard error and CV will be estimated using an iterative jackknife procedure in which 10% of the data is removed in each iteration. Find more details on this process using the function documentation, <code>?g0_model()</code>.</p>
+<p>The input <code>constrain_shape</code> provides a way to ensure that the <em>Rg(0)</em> curve declines monotonically. Some modeled <em>Rg(0)</em> curves are liable to erreneously increase with increasing Bft due to low sample sizea at the lowest Bft (0-2) or highest Bft (5-6) states. To coerce monotonic decline, set this to <code>TRUE</code>, and the function will use a shape-constrained GAM (<code>scam()</code> from package <code>scam</code>) instead of a classic <code>mgcv::gam()</code>. We recommend beginning with <code>NULL</code> then modifying this if needed, based on the output: if the <em>Rg(0)</em> curve increases at any Bft state, try running again with <code>constrain_shape</code> set to <code>TRUE</code>. Note that this is an updated approach to the Bft-pooling method used in Barlow (2015).</p>
+<p>The chief result of this function is a <code>$summary</code> table:</p>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="g0.html#cb138-1" tabindex="-1"></a>rg0<span class="sc">$</span>summary</span>
+<span id="cb138-2"><a href="g0.html#cb138-2" tabindex="-1"></a>  bft       Rg0      ESW  n     Rg0_SE    Rg0_CV     ESW_SE</span>
+<span id="cb138-3"><a href="g0.html#cb138-3" tabindex="-1"></a><span class="dv">1</span>   <span class="dv">0</span> <span class="fl">1.0000000</span> <span class="fl">3.836271</span> <span class="dv">10</span> <span class="fl">0.00000000</span> <span class="fl">0.0000000</span> <span class="fl">0.17262018</span></span>
+<span id="cb138-4"><a href="g0.html#cb138-4" tabindex="-1"></a><span class="dv">2</span>   <span class="dv">1</span> <span class="fl">0.7010295</span> <span class="fl">3.619676</span> <span class="dv">10</span> <span class="fl">0.09606240</span> <span class="fl">0.1370305</span> <span class="fl">0.13829661</span></span>
+<span id="cb138-5"><a href="g0.html#cb138-5" tabindex="-1"></a><span class="dv">3</span>   <span class="dv">2</span> <span class="fl">0.4914564</span> <span class="fl">3.383832</span> <span class="dv">10</span> <span class="fl">0.11129915</span> <span class="fl">0.2264680</span> <span class="fl">0.09943560</span></span>
+<span id="cb138-6"><a href="g0.html#cb138-6" tabindex="-1"></a><span class="dv">4</span>   <span class="dv">3</span> <span class="fl">0.3445470</span> <span class="fl">3.138456</span> <span class="dv">10</span> <span class="fl">0.09640134</span> <span class="fl">0.2797916</span> <span class="fl">0.06063410</span></span>
+<span id="cb138-7"><a href="g0.html#cb138-7" tabindex="-1"></a><span class="dv">5</span>   <span class="dv">4</span> <span class="fl">0.2415623</span> <span class="fl">2.892539</span> <span class="dv">10</span> <span class="fl">0.07125957</span> <span class="fl">0.2949946</span> <span class="fl">0.04334873</span></span>
+<span id="cb138-8"><a href="g0.html#cb138-8" tabindex="-1"></a><span class="dv">6</span>   <span class="dv">5</span> <span class="fl">0.1693673</span> <span class="fl">2.652889</span> <span class="dv">10</span> <span class="fl">0.04442899</span> <span class="fl">0.2623232</span> <span class="fl">0.06671872</span></span>
+<span id="cb138-9"><a href="g0.html#cb138-9" tabindex="-1"></a><span class="dv">7</span>   <span class="dv">6</span> <span class="fl">0.1187552</span> <span class="fl">2.429804</span> <span class="dv">10</span> <span class="fl">0.02174702</span> <span class="fl">0.1831249</span> <span class="fl">0.10025878</span></span></code></pre></div>
+<p>The model predicts that <em>Rg(0)</em> declines rapidly with deteriorating sea state:</p>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="g0.html#cb139-1" tabindex="-1"></a><span class="fu">plot</span>(Rg0 <span class="sc">~</span> bft, <span class="at">data =</span> rg0<span class="sc">$</span>summary, </span>
+<span id="cb139-2"><a href="g0.html#cb139-2" tabindex="-1"></a>     <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">type=</span><span class="st">&#39;o&#39;</span>, <span class="at">pch=</span><span class="dv">16</span>)</span>
+<span id="cb139-3"><a href="g0.html#cb139-3" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span><span class="fu">seq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="at">by=</span>.<span class="dv">1</span>), </span>
+<span id="cb139-4"><a href="g0.html#cb139-4" tabindex="-1"></a>       <span class="at">col=</span><span class="st">&#39;grey85&#39;</span>, <span class="at">lty=</span><span class="dv">3</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-193-1.png" width="672" /></p>
+<p>In addition to the summary above, this function returns various details, including the details of the Generalized Additive Model (GAM) (for both the estimate and the jackknifed datasets), and the raw sightings and segments used in the model.</p>
+<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="g0.html#cb140-1" tabindex="-1"></a>rg0 <span class="sc">%&gt;%</span> names</span>
+<span id="cb140-2"><a href="g0.html#cb140-2" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;Rg0&quot;</span>       <span class="st">&quot;gam&quot;</span>       <span class="st">&quot;jackknife&quot;</span> <span class="st">&quot;summary&quot;</span>   <span class="st">&quot;sightings&quot;</span> <span class="st">&quot;segments&quot;</span> </span></code></pre></div>
+<p>To produce these estimates efficiently for many species, you can use the wrapper function <code>g0_table()</code>, as follows. First you build a list of parameters for each species/species group:</p>
+<div class="sourceCode" id="cb141"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb141-1"><a href="g0.html#cb141-1" tabindex="-1"></a>species <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb141-2"><a href="g0.html#cb141-2" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">spp =</span> <span class="fu">c</span>(<span class="st">&#39;005&#39;</span>, <span class="st">&#39;016&#39;</span>, <span class="st">&#39;017&#39;</span>),</span>
+<span id="cb141-3"><a href="g0.html#cb141-3" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&#39;Delphinus spp&#39;</span>,</span>
+<span id="cb141-4"><a href="g0.html#cb141-4" tabindex="-1"></a>       <span class="at">constrain_shape =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb141-5"><a href="g0.html#cb141-5" tabindex="-1"></a>       <span class="at">truncation =</span> <span class="fl">5.5</span>),</span>
+<span id="cb141-6"><a href="g0.html#cb141-6" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">spp =</span> <span class="st">&#39;021&#39;</span>,</span>
+<span id="cb141-7"><a href="g0.html#cb141-7" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Risso&#39;s dolphin&quot;</span>,</span>
+<span id="cb141-8"><a href="g0.html#cb141-8" tabindex="-1"></a>       <span class="at">truncation =</span> <span class="fl">5.5</span>, </span>
+<span id="cb141-9"><a href="g0.html#cb141-9" tabindex="-1"></a>       <span class="at">constrain_shape =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb141-10"><a href="g0.html#cb141-10" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">spp =</span> <span class="st">&#39;046&#39;</span>,</span>
+<span id="cb141-11"><a href="g0.html#cb141-11" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&#39;Sperm whale&#39;</span>,</span>
+<span id="cb141-12"><a href="g0.html#cb141-12" tabindex="-1"></a>       <span class="at">truncation =</span> <span class="fl">5.5</span>),</span>
+<span id="cb141-13"><a href="g0.html#cb141-13" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">spp =</span> <span class="fu">c</span>(<span class="st">&#39;047&#39;</span>, <span class="st">&#39;048&#39;</span>, <span class="st">&#39;080&#39;</span>),</span>
+<span id="cb141-14"><a href="g0.html#cb141-14" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&#39;Kogia spp&#39;</span>,</span>
+<span id="cb141-15"><a href="g0.html#cb141-15" tabindex="-1"></a>       <span class="at">truncation =</span> <span class="fl">4.0</span>,</span>
+<span id="cb141-16"><a href="g0.html#cb141-16" tabindex="-1"></a>       <span class="at">constrain_shape =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb141-17"><a href="g0.html#cb141-17" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">spp =</span> <span class="st">&#39;061&#39;</span>,</span>
+<span id="cb141-18"><a href="g0.html#cb141-18" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Cuvier&#39;s beaked whale&quot;</span>,</span>
+<span id="cb141-19"><a href="g0.html#cb141-19" tabindex="-1"></a>       <span class="at">constrain_shape =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb141-20"><a href="g0.html#cb141-20" tabindex="-1"></a>       <span class="at">truncation =</span> <span class="fl">4.0</span>),</span>
+<span id="cb141-21"><a href="g0.html#cb141-21" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">spp =</span> <span class="st">&#39;074&#39;</span>,</span>
+<span id="cb141-22"><a href="g0.html#cb141-22" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&#39;Fin whale&#39;</span>,</span>
+<span id="cb141-23"><a href="g0.html#cb141-23" tabindex="-1"></a>       <span class="at">truncation =</span> <span class="fl">5.5</span>,</span>
+<span id="cb141-24"><a href="g0.html#cb141-24" tabindex="-1"></a>       <span class="at">regions =</span> <span class="st">&#39;CCS&#39;</span>))</span></code></pre></div>
+<ul>
+<li><p>Note that we used shorter truncation distances for cryptic species.</p></li>
+<li><p>Note also that we had to pool Beaufort sea states 0-2 for Risso’s dolphins in order to maintain a monotonic decline in the <em>Rg(0)</em> ~ Beaufort curve.</p></li>
+<li><p>Note also that we limited the geostrata used to model the fin whale <em>Rg(0)</em> curve to the California Current System (‘CCS’, after Barlow 2015), so that zero-inflated segments did not confound the model.</p></li>
+</ul>
+<p>We then pass this species list to <code>g0_table()</code>. In this example, we are only estimating the <em>Rg(0)</em> relationship, without conducting jackknife estimation:</p>
+<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="g0.html#cb142-1" tabindex="-1"></a>rg0s <span class="ot">&lt;-</span> <span class="fu">g0_table</span>(cruzi,</span>
+<span id="cb142-2"><a href="g0.html#cb142-2" tabindex="-1"></a>               species,</span>
+<span id="cb142-3"><a href="g0.html#cb142-3" tabindex="-1"></a>               <span class="at">eff_types =</span> <span class="st">&#39;S&#39;</span>,</span>
+<span id="cb142-4"><a href="g0.html#cb142-4" tabindex="-1"></a>               <span class="at">jackknife_fraction =</span> <span class="cn">NULL</span>)</span></code></pre></div>
+<p>Now plot the result using a dedicated <code>LTabundR</code> function:</p>
+<div class="sourceCode" id="cb143"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb143-1"><a href="g0.html#cb143-1" tabindex="-1"></a><span class="fu">g0_plot</span>(rg0s, <span class="at">panes=</span><span class="dv">1</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-199-1.png" width="672" /></p>
+</div>
+</div>
+<div id="weighted-average-g0" class="section level2 unnumbered hasAnchor">
+<h2>Weighted average <code>g(0)</code><a href="g0.html#weighted-average-g0" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Since <code>g(0)</code> clearly depends upon survey conditions, and since each survey is carried out in a specific sequence of conditions, a unique, weighted <code>g(0)</code> value must be estimated for each species in each geostratum and survey of interest.</p>
+<p>This will be done automatically by the line-transect analysis functions coming up (see <code>LTabundR::lta()</code>), meaning you only need a table of <em>Rg(0)</em> values in order to proceed to the next step. But you can also calculate weighted <em>g(0)</em> values separately as an isolated analysis, which we show below.</p>
+<p>Let’s say we want to estimate the average <code>g(0)</code> for striped dolphins in the WHICEAS study area during the survey years of 2017 and 2020. From above, we have an estimate of the <em>Rg(0)</em> and its CV for each Beaufort state:</p>
+<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="g0.html#cb144-1" tabindex="-1"></a>rg0<span class="sc">$</span>summary <span class="sc">%&gt;%</span> <span class="fu">select</span>(bft, Rg0, Rg0_CV)</span>
+<span id="cb144-2"><a href="g0.html#cb144-2" tabindex="-1"></a>  bft       Rg0    Rg0_CV</span>
+<span id="cb144-3"><a href="g0.html#cb144-3" tabindex="-1"></a><span class="dv">1</span>   <span class="dv">0</span> <span class="fl">1.0000000</span> <span class="fl">0.0000000</span></span>
+<span id="cb144-4"><a href="g0.html#cb144-4" tabindex="-1"></a><span class="dv">2</span>   <span class="dv">1</span> <span class="fl">0.7010295</span> <span class="fl">0.1370305</span></span>
+<span id="cb144-5"><a href="g0.html#cb144-5" tabindex="-1"></a><span class="dv">3</span>   <span class="dv">2</span> <span class="fl">0.4914564</span> <span class="fl">0.2264680</span></span>
+<span id="cb144-6"><a href="g0.html#cb144-6" tabindex="-1"></a><span class="dv">4</span>   <span class="dv">3</span> <span class="fl">0.3445470</span> <span class="fl">0.2797916</span></span>
+<span id="cb144-7"><a href="g0.html#cb144-7" tabindex="-1"></a><span class="dv">5</span>   <span class="dv">4</span> <span class="fl">0.2415623</span> <span class="fl">0.2949946</span></span>
+<span id="cb144-8"><a href="g0.html#cb144-8" tabindex="-1"></a><span class="dv">6</span>   <span class="dv">5</span> <span class="fl">0.1693673</span> <span class="fl">0.2623232</span></span>
+<span id="cb144-9"><a href="g0.html#cb144-9" tabindex="-1"></a><span class="dv">7</span>   <span class="dv">6</span> <span class="fl">0.1187552</span> <span class="fl">0.1831249</span></span></code></pre></div>
+<p>We also have a processed <code>cruz</code> object with 2017 data:</p>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb145-1"><a href="g0.html#cb145-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&#39;whiceas_cruz_1720.RData&#39;</span>)</span>
+<span id="cb145-2"><a href="g0.html#cb145-2" tabindex="-1"></a>cruz_17 <span class="ot">&lt;-</span> <span class="fu">filter_cruz</span>(cruz_1720, <span class="at">years =</span> <span class="dv">2017</span>, <span class="at">verbose=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<p>To view the distribution of effort in this WHICEAS 2017 across sea states, we can use the function <code>summarize_bft()</code>:</p>
+<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="g0.html#cb146-1" tabindex="-1"></a><span class="fu">summarize_bft</span>(cruz_17)<span class="sc">$</span>overall</span>
+<span id="cb146-2"><a href="g0.html#cb146-2" tabindex="-1"></a><span class="co"># A tibble: 6 × 3</span></span>
+<span id="cb146-3"><a href="g0.html#cb146-3" tabindex="-1"></a>   bftr    km   prop</span>
+<span id="cb146-4"><a href="g0.html#cb146-4" tabindex="-1"></a>  <span class="sc">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>  <span class="er">&lt;</span>dbl<span class="sc">&gt;</span></span>
+<span id="cb146-5"><a href="g0.html#cb146-5" tabindex="-1"></a><span class="dv">1</span>     <span class="dv">1</span>  <span class="fl">132.</span> <span class="fl">0.0203</span></span>
+<span id="cb146-6"><a href="g0.html#cb146-6" tabindex="-1"></a><span class="dv">2</span>     <span class="dv">2</span>  <span class="fl">585.</span> <span class="fl">0.0899</span></span>
+<span id="cb146-7"><a href="g0.html#cb146-7" tabindex="-1"></a><span class="dv">3</span>     <span class="dv">3</span>  <span class="fl">920.</span> <span class="fl">0.141</span> </span>
+<span id="cb146-8"><a href="g0.html#cb146-8" tabindex="-1"></a><span class="dv">4</span>     <span class="dv">4</span> <span class="fl">2143.</span> <span class="fl">0.329</span> </span>
+<span id="cb146-9"><a href="g0.html#cb146-9" tabindex="-1"></a><span class="dv">5</span>     <span class="dv">5</span> <span class="fl">1875.</span> <span class="fl">0.288</span> </span>
+<span id="cb146-10"><a href="g0.html#cb146-10" tabindex="-1"></a><span class="dv">6</span>     <span class="dv">6</span>  <span class="fl">853.</span> <span class="fl">0.131</span> </span></code></pre></div>
+<p>We then use the function <code>g0_weighted_var()</code> to compute the weighted <em>Rg(0)</em> for our survey as well as its CV. This function carries out an automated optimization routine to simulate a new distribution for the weighted <em>g(0)</em>, which is then used to estimate the weighted CV.</p>
+<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="g0.html#cb147-1" tabindex="-1"></a>weighted_g0_2017 <span class="ot">&lt;-</span> </span>
+<span id="cb147-2"><a href="g0.html#cb147-2" tabindex="-1"></a>  <span class="fu">g0_weighted</span>(<span class="at">Rg0 =</span> rg0<span class="sc">$</span>summary<span class="sc">$</span>Rg0,</span>
+<span id="cb147-3"><a href="g0.html#cb147-3" tabindex="-1"></a>              <span class="at">Rg0_cv =</span> rg0<span class="sc">$</span>summary<span class="sc">$</span>Rg0_CV, </span>
+<span id="cb147-4"><a href="g0.html#cb147-4" tabindex="-1"></a>              <span class="at">cruz =</span> cruz_17)</span></code></pre></div>
+<p>The result:</p>
+<div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb148-1"><a href="g0.html#cb148-1" tabindex="-1"></a>weighted_g0_2017<span class="sc">$</span>g0[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb148-2"><a href="g0.html#cb148-2" tabindex="-1"></a>  weighted_g0 wt.mean</span>
+<span id="cb148-3"><a href="g0.html#cb148-3" tabindex="-1"></a><span class="dv">1</span>   <span class="fl">0.2510412</span>   <span class="fl">0.258</span></span></code></pre></div>
+<p>Now let’s do the same for WHICEAS 2020 and compare the weighted <em>g(0)</em> estimate:</p>
+<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb149-1"><a href="g0.html#cb149-1" tabindex="-1"></a><span class="co"># Filter to 2020</span></span>
+<span id="cb149-2"><a href="g0.html#cb149-2" tabindex="-1"></a>cruz_20 <span class="ot">&lt;-</span> <span class="fu">filter_cruz</span>(cruz_1720, <span class="at">years =</span> <span class="dv">2020</span>, <span class="at">verbose=</span><span class="cn">FALSE</span>)</span>
+<span id="cb149-3"><a href="g0.html#cb149-3" tabindex="-1"></a></span>
+<span id="cb149-4"><a href="g0.html#cb149-4" tabindex="-1"></a><span class="co"># Summarize Bft effort</span></span>
+<span id="cb149-5"><a href="g0.html#cb149-5" tabindex="-1"></a><span class="fu">summarize_bft</span>(cruz_20)<span class="sc">$</span>overall</span>
+<span id="cb149-6"><a href="g0.html#cb149-6" tabindex="-1"></a><span class="co"># A tibble: 6 × 3</span></span>
+<span id="cb149-7"><a href="g0.html#cb149-7" tabindex="-1"></a>   bftr     km   prop</span>
+<span id="cb149-8"><a href="g0.html#cb149-8" tabindex="-1"></a>  <span class="sc">&lt;</span>dbl<span class="sc">&gt;</span>  <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>  <span class="er">&lt;</span>dbl<span class="sc">&gt;</span></span>
+<span id="cb149-9"><a href="g0.html#cb149-9" tabindex="-1"></a><span class="dv">1</span>     <span class="dv">1</span>   <span class="fl">84.3</span> <span class="fl">0.0160</span></span>
+<span id="cb149-10"><a href="g0.html#cb149-10" tabindex="-1"></a><span class="dv">2</span>     <span class="dv">2</span>  <span class="fl">266.</span>  <span class="fl">0.0505</span></span>
+<span id="cb149-11"><a href="g0.html#cb149-11" tabindex="-1"></a><span class="dv">3</span>     <span class="dv">3</span>  <span class="fl">440.</span>  <span class="fl">0.0838</span></span>
+<span id="cb149-12"><a href="g0.html#cb149-12" tabindex="-1"></a><span class="dv">4</span>     <span class="dv">4</span> <span class="fl">1458.</span>  <span class="fl">0.277</span> </span>
+<span id="cb149-13"><a href="g0.html#cb149-13" tabindex="-1"></a><span class="dv">5</span>     <span class="dv">5</span> <span class="fl">1968.</span>  <span class="fl">0.374</span> </span>
+<span id="cb149-14"><a href="g0.html#cb149-14" tabindex="-1"></a><span class="dv">6</span>     <span class="dv">6</span> <span class="fl">1042.</span>  <span class="fl">0.198</span> </span></code></pre></div>
+<p>Note that conditions were a bit worse in 2020 compared to 2017. We therefore expect the weighted <em>g(0)</em> estimate to be lower:</p>
+<div class="sourceCode" id="cb150"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb150-1"><a href="g0.html#cb150-1" tabindex="-1"></a>weighted_g0_2020 <span class="ot">&lt;-</span> </span>
+<span id="cb150-2"><a href="g0.html#cb150-2" tabindex="-1"></a>  <span class="fu">g0_weighted</span>(<span class="at">Rg0 =</span> rg0<span class="sc">$</span>summary<span class="sc">$</span>Rg0,</span>
+<span id="cb150-3"><a href="g0.html#cb150-3" tabindex="-1"></a>              <span class="at">Rg0_cv =</span> rg0<span class="sc">$</span>summary<span class="sc">$</span>Rg0_CV, </span>
+<span id="cb150-4"><a href="g0.html#cb150-4" tabindex="-1"></a>              <span class="at">cruz =</span> cruz_20)</span></code></pre></div>
+<p>The result:</p>
+<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb151-1"><a href="g0.html#cb151-1" tabindex="-1"></a>weighted_g0_2020<span class="sc">$</span>g0[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb151-2"><a href="g0.html#cb151-2" tabindex="-1"></a>  weighted_g0 wt.mean</span>
+<span id="cb151-3"><a href="g0.html#cb151-3" tabindex="-1"></a><span class="dv">1</span>   <span class="fl">0.2188324</span>   <span class="fl">0.226</span></span></code></pre></div>
+<p>Confirmed: weighted <em>g(0)</em> in the WHICEAS study area in 2020 is slightly lower than in 2017, due to generally worse survey conditions. These year-specific estimates should prevent those different conditions from impacting their respective abundance estimates.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="maps.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="lta.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
