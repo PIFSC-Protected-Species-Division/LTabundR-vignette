@@ -291,7 +291,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10" data-path="trend-analysis.html"><a href="trend-analysis.html"><i class="fa fa-check"></i><b>10</b> Trend analysis</a></li>
 <li class="chapter" data-level="11" data-path="subgroups2.html"><a href="subgroups2.html"><i class="fa fa-check"></i><b>11</b> Subgroup-based analysis</a>
 <ul>
-<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#inputs-1"><i class="fa fa-check"></i>Inputs</a>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#manual-data-updates"><i class="fa fa-check"></i>Manual data updates</a>
+<ul>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#reviewing-processed-subgroup-data"><i class="fa fa-check"></i>Reviewing processed subgroup data</a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#staging-subgroup-edits"><i class="fa fa-check"></i>Staging subgroup edits</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#inputs-to-lta_subgroup"><i class="fa fa-check"></i>Inputs to <code>lta_subgroup()</code></a>
 <ul>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#df_sits"><i class="fa fa-check"></i><code>df_sits</code></a></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#truncation_distance"><i class="fa fa-check"></i><code>truncation_distance</code></a></li>
@@ -307,6 +312,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#density_sightings"><i class="fa fa-check"></i><code>density_sightings</code></a></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#abundance_area"><i class="fa fa-check"></i><code>abundance_area</code></a></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#remaining-inputs"><i class="fa fa-check"></i>Remaining inputs</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#running-lta_subgroup"><i class="fa fa-check"></i>Running <code>lta_subgroup()</code></a>
+<ul>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#hawaii-eez-stratum"><i class="fa fa-check"></i>Hawaii EEZ stratum</a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#northwest-hawaiian-islands-stratum"><i class="fa fa-check"></i>Northwest Hawaiian Islands stratum</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#outputs-1"><i class="fa fa-check"></i>Outputs</a></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#behind-the-scenes-2"><i class="fa fa-check"></i>Behind the scenes</a></li>
@@ -810,30 +820,9 @@ when group size is used as a covariate.</p>
 <li><p><strong><code>$sightings</code></strong> (each row is a “group” size estimate for a single sighting during a single phase protocol, with all subgroup group sizes summed together). Note for false killer whales this “group” size estimate is not likely to represent actual group size because groups can be spread out over tens of kilometers, and it is not expected that every subgroup is detected during each protocol phase. Internally, <code>LTabundR</code> uses the function <code>subgroup_sightings()</code> to produce this <code>data.frame</code>.</p></li>
 </ul>
 <p>For a detailed example of how subgroup data are analyzed, see the <a href="subgroups2.html#subgroups2">vignette page on subgroup analysis</a> using data on Central North Pacific false killer whales.</p>
-<div id="subgroup-phase-assignments" class="section level4 unnumbered hasAnchor">
-<h4>Subgroup phase assignments<a href="processing.html#subgroup-phase-assignments" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<p>Currently, the protocol phase for each <code>event</code> is automatically determined simply according to the column <code>OnEffort</code>: if <code>TRUE</code>, the column <code>Phase</code> is 1; if <code>FALSE</code>, it is 2.</p>
-<p>Since this assignment routine is simplistic, users may find the need to manually revise some of these assignments. To facilitate that work, <code>LTabundR</code> offers the function <code>subgroup_phases()</code>, which will launch an interactive <code>Shiny</code> app that allows users to review phase assignments and manually stage a set of revisions. Here is a step-by-step example of what this process would look like:</p>
-<p><strong>First,</strong> process your <code>DAS</code> data as usual using the <code>process_surveys()</code> function. The resulting <code>cruz</code> object will contain a <code>subgroups</code> slot for cohorts with <code>G</code> events in the <code>DAS</code> data:</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="processing.html#cb91-1" tabindex="-1"></a>cruz<span class="sc">$</span>cohorts<span class="sc">$</span>all<span class="sc">$</span>subgroups <span class="sc">%&gt;%</span> names</span>
-<span id="cb91-2"><a href="processing.html#cb91-2" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;sightings&quot;</span> <span class="st">&quot;subgroups&quot;</span> <span class="st">&quot;events&quot;</span>   </span></code></pre></div>
-<p><strong>Second,</strong> manually review the phase assignments for subgroup events in your cohort of interest using the function <code>subgroup_phases()</code>:</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="processing.html#cb92-1" tabindex="-1"></a>edits <span class="ot">&lt;-</span> <span class="fu">subgroup_phases</span>(cruz, <span class="at">cohort =</span> <span class="st">&#39;all&#39;</span>)</span></code></pre></div>
-<p>This function will launch a <code>Shiny</code> app that looks like this:</p>
-<p><img src="img/subgroup_phases.png" style="width:95.0%" /></p>
-<p>The app provides instructions at the top of its screen. In short, you select the rows of data whose <code>Phase</code> column needs to be revised. Below the table, you specify what the revised <code>Phase</code> should be, and a button will appear (not shown above) to add this revision to a list of staged edits. You can repeat this process as many times as you need as you review the data. If you make a mistake, you can select the staged edit that you need to delete and a button will appear allowing you to delete it.</p>
-<p>By the end of this processed, you will have a list of staged edits that you will want to save. A button will be available in the top right of the screen (not shown above) that allows you to close the app and return the staged edits as a <code>data.frame</code>. We capture that output in the object <code>edits</code> in our code above.</p>
-<p>Those staged edits will look something like this:</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="processing.html#cb93-1" tabindex="-1"></a><span class="co"># Example of `edits` output</span></span>
-<span id="cb93-2"><a href="processing.html#cb93-2" tabindex="-1"></a>edits</span>
-<span id="cb93-3"><a href="processing.html#cb93-3" tabindex="-1"></a>  cohort Cruise Species   Line SubGrp Event old_phase new_phase</span>
-<span id="cb93-4"><a href="processing.html#cb93-4" tabindex="-1"></a><span class="dv">1</span>    all   <span class="dv">1108</span>     <span class="dv">033</span> <span class="dv">480021</span>      A     <span class="dv">1</span>         <span class="dv">1</span>         <span class="dv">2</span></span>
-<span id="cb93-5"><a href="processing.html#cb93-5" tabindex="-1"></a><span class="dv">2</span>    all   <span class="dv">1108</span>     <span class="dv">033</span> <span class="dv">480034</span>      B     <span class="dv">1</span>         <span class="dv">1</span>         <span class="dv">2</span></span></code></pre></div>
-<p>If you need to repeat step 2, just save your edits into new objects (e.g., <code>edits2</code>, <code>edits3</code>, etc.), then bind them together with <code>rbind()</code> as you would any set of <code>data.frame</code>’s with identifcal column names.</p>
-<p><strong>Third,</strong> now you want to update your <code>cruz</code> object with these edits. To do so, run the <code>LTabundR</code> function <code>process_subgroups()</code> and include your edits as an input:</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="processing.html#cb94-1" tabindex="-1"></a>cruz <span class="ot">&lt;-</span> <span class="fu">process_subgroups</span>(cruz, </span>
-<span id="cb94-2"><a href="processing.html#cb94-2" tabindex="-1"></a>                          <span class="at">phase_edits =</span> edits)</span></code></pre></div>
-<p>This will essentially re-do the subgroup processing phase of <code>process_surveys()</code> but this time will take into account your phase edits.</p>
+<div id="editing-subgroup-details" class="section level4 unnumbered hasAnchor">
+<h4>Editing subgroup details<a href="processing.html#editing-subgroup-details" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The subgroup protocol involves a few components that may not be adequately included in the raw <code>DAS</code> data, such as the assignment of subgroup detections to certain “phases” of the protocol or certain populations (or multiple populations). These details are described in detail on the <a href="subgroups2.html#subgroups2">vignette page on subgroup analysis</a>, as is the process for manually updating the processed <code>cruz</code> object with those details. <code>LTabundR</code> includes several functions that facilitate this work.</p>
 </div>
 </div>
 </div>
@@ -841,39 +830,39 @@ when group size is used as a covariate.</p>
 <h2>Review<a href="processing.html#review" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>By the end of this process, you have a single data object, <code>cruz</code>, with all the data you need to move forward into the next stages of mapping and analysis.</p>
 <p>The <code>LTabundR</code> function <code>cruz_structure()</code> provides a synopsis of the data structure:</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="processing.html#cb95-1" tabindex="-1"></a><span class="fu">cruz_structure</span>(cruz)</span>
-<span id="cb95-2"><a href="processing.html#cb95-2" tabindex="-1"></a><span class="st">&quot;cruz&quot;</span> list structure <span class="sc">==</span><span class="er">======================</span></span>
-<span id="cb95-3"><a href="processing.html#cb95-3" tabindex="-1"></a></span>
-<span id="cb95-4"><a href="processing.html#cb95-4" tabindex="-1"></a><span class="er">$</span>settings</span>
-<span id="cb95-5"><a href="processing.html#cb95-5" tabindex="-1"></a>         <span class="sc">$</span>strata <span class="sc">---</span> with <span class="dv">11</span> polygon coordinate sets</span>
-<span id="cb95-6"><a href="processing.html#cb95-6" tabindex="-1"></a>         <span class="sc">$</span>survey <span class="sc">---</span> with <span class="dv">15</span> input arguments</span>
-<span id="cb95-7"><a href="processing.html#cb95-7" tabindex="-1"></a>         <span class="sc">$</span>cohorts <span class="sc">---</span> with <span class="dv">3</span> cohorts specified, each with <span class="dv">19</span> input arguments</span>
-<span id="cb95-8"><a href="processing.html#cb95-8" tabindex="-1"></a></span>
-<span id="cb95-9"><a href="processing.html#cb95-9" tabindex="-1"></a><span class="sc">$</span>strata</span>
-<span id="cb95-10"><a href="processing.html#cb95-10" tabindex="-1"></a>       ... containing a summary dataframe of <span class="dv">11</span> geostrata and their spatial areas</span>
-<span id="cb95-11"><a href="processing.html#cb95-11" tabindex="-1"></a>       ... geostratum names<span class="sc">:</span></span>
-<span id="cb95-12"><a href="processing.html#cb95-12" tabindex="-1"></a>           HI_EEZ, OtherCNP, MHI, WHICEAS, Spotted_OU, Spotted_FI, Spotted_BI, Bottlenose_KaNi, Bottlenose_OUFI, Bottlenose_BI, NWHI</span>
-<span id="cb95-13"><a href="processing.html#cb95-13" tabindex="-1"></a></span>
-<span id="cb95-14"><a href="processing.html#cb95-14" tabindex="-1"></a><span class="sc">$</span>cohorts</span>
-<span id="cb95-15"><a href="processing.html#cb95-15" tabindex="-1"></a></span>
-<span id="cb95-16"><a href="processing.html#cb95-16" tabindex="-1"></a>        <span class="sc">$</span>all</span>
-<span id="cb95-17"><a href="processing.html#cb95-17" tabindex="-1"></a>            geostrata<span class="sc">:</span> WHICEAS, HI_EEZ, OtherCNP</span>
-<span id="cb95-18"><a href="processing.html#cb95-18" tabindex="-1"></a>            <span class="sc">$</span>segments  <span class="sc">---</span> with <span class="dv">1457</span> <span class="fu">segments</span> (<span class="at">median =</span> <span class="fl">149.5</span> km)</span>
-<span id="cb95-19"><a href="processing.html#cb95-19" tabindex="-1"></a>            <span class="sc">$</span>das       <span class="sc">---</span> with <span class="dv">329638</span> data rows</span>
-<span id="cb95-20"><a href="processing.html#cb95-20" tabindex="-1"></a>            <span class="sc">$</span>sightings <span class="sc">---</span> with <span class="dv">3934</span> detections</span>
-<span id="cb95-21"><a href="processing.html#cb95-21" tabindex="-1"></a>            <span class="sc">$</span>subgroups <span class="sc">---</span> with <span class="dv">255</span> subgroups, <span class="dv">61</span> sightings, and <span class="dv">389</span> events</span>
-<span id="cb95-22"><a href="processing.html#cb95-22" tabindex="-1"></a></span>
-<span id="cb95-23"><a href="processing.html#cb95-23" tabindex="-1"></a>        <span class="sc">$</span>bottlenose</span>
-<span id="cb95-24"><a href="processing.html#cb95-24" tabindex="-1"></a>            geostrata<span class="sc">:</span> WHICEAS, HI_EEZ, OtherCNP, Bottlenose_BI, Bottlenose_OUFI, Bottlenose_KaNi</span>
-<span id="cb95-25"><a href="processing.html#cb95-25" tabindex="-1"></a>            <span class="sc">$</span>segments  <span class="sc">---</span> with <span class="dv">1538</span> <span class="fu">segments</span> (<span class="at">median =</span> <span class="fl">149.2</span> km)</span>
-<span id="cb95-26"><a href="processing.html#cb95-26" tabindex="-1"></a>            <span class="sc">$</span>das       <span class="sc">---</span> with <span class="dv">329638</span> data rows</span>
-<span id="cb95-27"><a href="processing.html#cb95-27" tabindex="-1"></a>            <span class="sc">$</span>sightings <span class="sc">---</span> with <span class="dv">523</span> detections</span>
-<span id="cb95-28"><a href="processing.html#cb95-28" tabindex="-1"></a></span>
-<span id="cb95-29"><a href="processing.html#cb95-29" tabindex="-1"></a>        <span class="sc">$</span>spotted</span>
-<span id="cb95-30"><a href="processing.html#cb95-30" tabindex="-1"></a>            geostrata<span class="sc">:</span> WHICEAS, HI_EEZ, OtherCNP, Spotted_OU, Spotted_FI, Spotted_BI</span>
-<span id="cb95-31"><a href="processing.html#cb95-31" tabindex="-1"></a>            <span class="sc">$</span>segments  <span class="sc">---</span> with <span class="dv">1540</span> <span class="fu">segments</span> (<span class="at">median =</span> <span class="fl">149.1</span> km)</span>
-<span id="cb95-32"><a href="processing.html#cb95-32" tabindex="-1"></a>            <span class="sc">$</span>das       <span class="sc">---</span> with <span class="dv">329638</span> data rows</span>
-<span id="cb95-33"><a href="processing.html#cb95-33" tabindex="-1"></a>            <span class="sc">$</span>sightings <span class="sc">---</span> with <span class="dv">527</span> detections</span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="processing.html#cb91-1" tabindex="-1"></a><span class="fu">cruz_structure</span>(cruz)</span>
+<span id="cb91-2"><a href="processing.html#cb91-2" tabindex="-1"></a><span class="st">&quot;cruz&quot;</span> list structure <span class="sc">==</span><span class="er">======================</span></span>
+<span id="cb91-3"><a href="processing.html#cb91-3" tabindex="-1"></a></span>
+<span id="cb91-4"><a href="processing.html#cb91-4" tabindex="-1"></a><span class="er">$</span>settings</span>
+<span id="cb91-5"><a href="processing.html#cb91-5" tabindex="-1"></a>         <span class="sc">$</span>strata <span class="sc">---</span> with <span class="dv">11</span> polygon coordinate sets</span>
+<span id="cb91-6"><a href="processing.html#cb91-6" tabindex="-1"></a>         <span class="sc">$</span>survey <span class="sc">---</span> with <span class="dv">15</span> input arguments</span>
+<span id="cb91-7"><a href="processing.html#cb91-7" tabindex="-1"></a>         <span class="sc">$</span>cohorts <span class="sc">---</span> with <span class="dv">3</span> cohorts specified, each with <span class="dv">19</span> input arguments</span>
+<span id="cb91-8"><a href="processing.html#cb91-8" tabindex="-1"></a></span>
+<span id="cb91-9"><a href="processing.html#cb91-9" tabindex="-1"></a><span class="sc">$</span>strata</span>
+<span id="cb91-10"><a href="processing.html#cb91-10" tabindex="-1"></a>       ... containing a summary dataframe of <span class="dv">11</span> geostrata and their spatial areas</span>
+<span id="cb91-11"><a href="processing.html#cb91-11" tabindex="-1"></a>       ... geostratum names<span class="sc">:</span></span>
+<span id="cb91-12"><a href="processing.html#cb91-12" tabindex="-1"></a>           HI_EEZ, OtherCNP, MHI, WHICEAS, Spotted_OU, Spotted_FI, Spotted_BI, Bottlenose_KaNi, Bottlenose_OUFI, Bottlenose_BI, NWHI</span>
+<span id="cb91-13"><a href="processing.html#cb91-13" tabindex="-1"></a></span>
+<span id="cb91-14"><a href="processing.html#cb91-14" tabindex="-1"></a><span class="sc">$</span>cohorts</span>
+<span id="cb91-15"><a href="processing.html#cb91-15" tabindex="-1"></a></span>
+<span id="cb91-16"><a href="processing.html#cb91-16" tabindex="-1"></a>        <span class="sc">$</span>all</span>
+<span id="cb91-17"><a href="processing.html#cb91-17" tabindex="-1"></a>            geostrata<span class="sc">:</span> WHICEAS, HI_EEZ, OtherCNP</span>
+<span id="cb91-18"><a href="processing.html#cb91-18" tabindex="-1"></a>            <span class="sc">$</span>segments  <span class="sc">---</span> with <span class="dv">1457</span> <span class="fu">segments</span> (<span class="at">median =</span> <span class="fl">149.5</span> km)</span>
+<span id="cb91-19"><a href="processing.html#cb91-19" tabindex="-1"></a>            <span class="sc">$</span>das       <span class="sc">---</span> with <span class="dv">329638</span> data rows</span>
+<span id="cb91-20"><a href="processing.html#cb91-20" tabindex="-1"></a>            <span class="sc">$</span>sightings <span class="sc">---</span> with <span class="dv">3934</span> detections</span>
+<span id="cb91-21"><a href="processing.html#cb91-21" tabindex="-1"></a>            <span class="sc">$</span>subgroups <span class="sc">---</span> with <span class="dv">255</span> subgroups, <span class="dv">61</span> sightings, and <span class="dv">389</span> events</span>
+<span id="cb91-22"><a href="processing.html#cb91-22" tabindex="-1"></a></span>
+<span id="cb91-23"><a href="processing.html#cb91-23" tabindex="-1"></a>        <span class="sc">$</span>bottlenose</span>
+<span id="cb91-24"><a href="processing.html#cb91-24" tabindex="-1"></a>            geostrata<span class="sc">:</span> WHICEAS, HI_EEZ, OtherCNP, Bottlenose_BI, Bottlenose_OUFI, Bottlenose_KaNi</span>
+<span id="cb91-25"><a href="processing.html#cb91-25" tabindex="-1"></a>            <span class="sc">$</span>segments  <span class="sc">---</span> with <span class="dv">1538</span> <span class="fu">segments</span> (<span class="at">median =</span> <span class="fl">149.2</span> km)</span>
+<span id="cb91-26"><a href="processing.html#cb91-26" tabindex="-1"></a>            <span class="sc">$</span>das       <span class="sc">---</span> with <span class="dv">329638</span> data rows</span>
+<span id="cb91-27"><a href="processing.html#cb91-27" tabindex="-1"></a>            <span class="sc">$</span>sightings <span class="sc">---</span> with <span class="dv">523</span> detections</span>
+<span id="cb91-28"><a href="processing.html#cb91-28" tabindex="-1"></a></span>
+<span id="cb91-29"><a href="processing.html#cb91-29" tabindex="-1"></a>        <span class="sc">$</span>spotted</span>
+<span id="cb91-30"><a href="processing.html#cb91-30" tabindex="-1"></a>            geostrata<span class="sc">:</span> WHICEAS, HI_EEZ, OtherCNP, Spotted_OU, Spotted_FI, Spotted_BI</span>
+<span id="cb91-31"><a href="processing.html#cb91-31" tabindex="-1"></a>            <span class="sc">$</span>segments  <span class="sc">---</span> with <span class="dv">1540</span> <span class="fu">segments</span> (<span class="at">median =</span> <span class="fl">149.1</span> km)</span>
+<span id="cb91-32"><a href="processing.html#cb91-32" tabindex="-1"></a>            <span class="sc">$</span>das       <span class="sc">---</span> with <span class="dv">329638</span> data rows</span>
+<span id="cb91-33"><a href="processing.html#cb91-33" tabindex="-1"></a>            <span class="sc">$</span>sightings <span class="sc">---</span> with <span class="dv">527</span> detections</span></code></pre></div>
 <p>Each species-specific cohort has its own list under <code>cruz$cohorts</code>, and each of these cohorts has the same list structure:</p>
 <ul>
 <li><p><code>segments</code> is a summary table of segments.</p></li>
@@ -888,7 +877,7 @@ when group size is used as a covariate.</p>
 <li><p><strong><code>included</code></strong>: this column occurs in the <code>sightings</code> dataframe only. It indicates whether the sightings should be included in line-transect analysis based on the specified settings. Any sighting with <code>use == FALSE</code> will also have <code>included == FALSE</code>, but it <em>is</em> possible for sightings to have <code>use == TRUE</code> with <code>included == FALSE</code>. For example, if the setting <code>abeam_sightings</code> is set to <code>FALSE</code>, a sighting with a bearing angle beyond the ship’s beam can be excluded from the analysis (<code>included == FALSE</code>) even though the effort segment it occurs within will still be used (<code>use == TRUE</code>).</p></li>
 </ul>
 <p>Finally, let’s save this <code>cruz</code> object locally, to use in downstream scripts:</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="processing.html#cb96-1" tabindex="-1"></a><span class="fu">save</span>(cruz, <span class="at">file=</span><span class="st">&#39;whiceas_cruz.RData&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="processing.html#cb92-1" tabindex="-1"></a><span class="fu">save</span>(cruz, <span class="at">file=</span><span class="st">&#39;whiceas_cruz.RData&#39;</span>)</span></code></pre></div>
 
 </div>
 </div>

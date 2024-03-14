@@ -25,6 +25,25 @@ To build a flexible system for mapping cruise data, we have the following functi
 
 Begin with a basic map of the waters surrounding the Hawaiian archipelago, including EEZ borders:  
 
+```{r, echo=FALSE, eval=FALSE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
+data("noaa_10km_1986_2020")
+cruz <- noaa_10km_1986_2020
+
+# building up a base map
+
+
+# add strata to a base map
+
+
+# add sightings
+
+
+# add segments
+
+
+```
+
+
 ```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
 m <- map_base(region='cnp')
 
