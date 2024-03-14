@@ -2,13 +2,7 @@
 
 ```{r, echo=FALSE, eval=TRUE, collapse=TRUE, include=FALSE}
 library(dplyr)
-library(magrittr)
 library(LTabundR)
-library(swfscDAS)
-library(tmap)
-
-load('whiceas_settings.RData')
-load('whiceas_cruz_1720.RData')
 
 rerun_from_scratch <- FALSE
 # If you want to confirm the package works, change to TRUE.
@@ -17,306 +11,236 @@ rerun_from_scratch <- FALSE
 
 ```
 
-To build a flexible system for mapping cruise data, we have the following functions:  
+To facilitate mapping with the processed data objects produced by `LTabundR`, we provide the following datasets and functions. These features are designed specifically for creating maps in `R` using the packages `ggplot()` and `sf`. 
 
-## Publishable maps {-}
+## Creating a base map {-} 
 
-### Base maps {-}  
+All of the mapping functions in `LTabundR` are designed to be added onto a pre-existing map that you have already created with `ggplot2`, which itself has several functions that tie into the spatial functions in the package `sf`.  There are already several great resources out there for creating maps with `ggplot` and `sf`. ([Here is one example.](https://r-spatial.org/r/2018/10/25/ggplot2-sf.html)).   
 
-Begin with a basic map of the waters surrounding the Hawaiian archipelago, including EEZ borders:  
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
+library(ggplot2)
+library(sf)
+library(LTabundR)
+```
 
-```{r, echo=FALSE, eval=FALSE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
+Here we provide a couple simple examples to demonstrate some of the spatial datasets that come with `LTabundR`. To begin, decide upon the CRS projection you wish to use for your map.  ([This website may be helpful.](https://www.pmassicotte.com/posts/2021-11-12-choosing-the-right-projection/)).  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
+my_crs <- 4326
+```
+
+It will also be helpful to create objects for your desired geographic range, since you might need to refer to them multiple times:  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
+xlims <- c(-162, -153)
+ylims <- c(17, 24.2)
+```
+
+To create a simple map of the main Hawaiian islands, for example, you can use the `LTabundR` datasets named `"land"` and `"coastline"`, which are global datasets prepared using the `rnaturalearth` package, and the dataset `"eez_hawaii`, all of which have been provided as `sf` objects:    
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
+# Load dataset
+data(land)
+data(coastline)
+data(eez_hawaii)
+
+# Look at an example of structure
+coastline %>% head
+
+# Specify CRS
+st_crs(coastline) <- my_crs
+st_crs(land) <- my_crs
+st_crs(eez_hawaii) <- my_crs
+```
+
+Now build a simple map, specifying the geographic range:
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=6}
+p <- ggplot() + 
+  geom_sf(data=land, fill='darkslategrey', color=NA, alpha=.6) + 
+  geom_sf(data=coastline, color='darkslategrey', alpha=1, lwd=.2) + 
+  geom_sf(data=eez_hawaii, color='grey50', alpha=.5, lwd=.4) + 
+  coord_sf(xlim=xlims, ylim=ylims)
+
+p
+```
+
+Remove some of the default features:  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=6}
+p <- p + 
+  xlab(NULL) + ylab(NULL) +
+  theme_light() +
+  theme(strip.background = element_rect(fill = "grey45"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank())
+
+p
+```
+
+Make it a bit fancier, using some functions from the package `ggspatial`:  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=6}
+p <- p + 
+  ggspatial::annotation_north_arrow(location = "bl",
+                                    which_north = "true",
+                                    height = unit(1, 'cm'),
+                                    width = unit(1, 'cm'),
+                                    style = ggspatial::north_arrow_fancy_orienteering) +
+  ggspatial::annotation_scale(location='br')
+  
+p
+```
+
+Now this base map is ready for some actual survey data!  We can use the built-in dataset for Pacific surveys, 1986 - 2020:  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
 data("noaa_10km_1986_2020")
 cruz <- noaa_10km_1986_2020
-
-# building up a base map
-
-
-# add strata to a base map
-
-
-# add sightings
-
-
-# add segments
-
-
 ```
 
+## Add stratum boundaries {-} 
 
-```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
-m <- map_base(region='cnp')
+Use the function `gg_geostratum()` to add geostratum boundaries from your `cruz` object to your map:  
 
-# Show map
-m
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=6}
+gg_geostratum(p, 
+              cruz, 
+              strata = c('MHI', 'WHICEAS')) + 
+  # force limits to stay unchanged
+  coord_sf(xlim=xlims, ylim=ylims) 
 ```
 
-```{r, echo=FALSE, eval=rerun_from_scratch}
-png('img/map_cnp.png', width=7, height=5, res=150, units='in')
-m
-dev.off()
+Here that function is again, demonstrating some of the optional inputs:  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=6}
+gg_geostratum(p, 
+              cruz, 
+              strata = c('MHI', 'WHICEAS'),
+              color = c('darkorange', 'darkorchid'), 
+              lty = 3,
+              lwd = .5) + 
+  # force limits to stay unchanged
+  coord_sf(xlim=xlims, ylim=ylims)
 ```
 
-![](img/map_cnp.png){width=95%}
+## Add effort tracklines {-}
 
-We also have a base map for the California Current ... 
+Before adding survey data, let's filter down to just the WHICEAS cruises from 2017 to 2020:  
 
-```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=5}
-m <- map_base(region='ccs')
-
-# Show map
-m
-```
-
-```{r, echo=FALSE, eval=rerun_from_scratch}
-png('img/map_ccs.png', width=7, height=5, res=150, units='in')
-m
-dev.off()
-```
-
-![](img/map_ccs.png){width=95%}
-
-And the ETP:  
-
-```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
-m <- map_base(region='etp')
-
-# Show map
-m
-```
-
-```{r, echo=FALSE, eval=rerun_from_scratch}
-png('img/map_etp.png', width=7, height=5, res=150, units='in')
-m
-dev.off()
-```
-
-![](img/map_etp.png){width=95%}
-
-### Add strata {-}  
-
-Add your research strata to your map: 
-
-```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
-m <- map_base(region='cnp')
-```
-
-```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
-m1 <- map_strata(m,
-                cruz_1720$settings, 
-                region='cnp')
-
-# Show map
-m1
-```
-
-```{r, echo=FALSE, eval=rerun_from_scratch}
-png('img/map_cnp_strata.png', width=7, height=5, res=150, units='in')
-m1
-dev.off()
-```
-
-![](img/map_cnp_strata.png){width=95%}
-
-### Add survey tracks {-}  
-
-To demonstrate how to map data, we will use survey data from 2017 and 2020 within the WHICEAS study area:
-
-```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, include=TRUE}
-# Load the cruz object we made in the "Processing" chapter
-load('whiceas_cruz.RData')
-
-# Filter
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=6}
 cruz_1720 <- 
   filter_cruz(cruz,
-              analysis_only = TRUE,
+              eff_types = 'S',
+              bft_range = 0:6,
               years = c(2017, 2020),
               regions = 'WHICEAS')
 ```
 
-Here is the function that maps effort: 
+Now use the function `gg_effort()` to add effort tracklines  from your `cruz` object to your map:  
 
-```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
-m1 <- map_effort(m, cruz_1720)
-
-# Show map
-m1
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=6}
+gg_effort(p, cruz_1720)
 ```
 
-```{r, echo=FALSE, eval=rerun_from_scratch}
-png('img/map_tracks.png', width=7, height=5, res=150, units='in')
-m1
-dev.off()
+To color code by Beaufort sea state:  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=6}
+gg_effort(p, 
+          cruz_1720,
+          color_by_bft = TRUE,
+          alpha=.3)
 ```
 
-![](img/map_tracks.png){width=95%}
+Add faceting (you can use any column from the processed `DAS` data in subsequent `ggplot2` commands: 
 
-The defaults of `map_effort()` assume, for simplicity, that you want to see the segments to be included in density estimation for the first cohort specified in your settings.  You can adjust this and other defaults using the function arguments. 
-
-#### Customizing effort {-}  
-
-##### Inputs  {-}  
-
-This map changes survey track thickness and color. 
-
-```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
-m1 <- map_effort(m, 
-                cruz_1720,
-                effort_color='firebrick',
-                effort_stroke=2.5,
-                effort_linetype=1,)
-
-# Show map
-m1
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=7, fig.height=4}
+gg_effort(p, 
+          cruz_1720,
+          color_by_bft = TRUE,
+          alpha=.3) + 
+  facet_wrap(~year)
 ```
 
-```{r, echo=FALSE, eval=rerun_from_scratch}
-png('img/map_tracks2.png', width=7, height=5, res=150, units='in')
-m1
-dev.off()
+
+## Add sightings {-}
+
+Use the function `gg_sightings()` to add sightings  from your `cruz` object to your map:  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=6}
+gg_sightings(p, cruz_1720, cex=2)
 ```
 
-![](img/map_tracks2.png){width=95%}
+To plot detections of certain species only:  
 
-##### Color-code conditions {-}  
-
-Your second customization option is to add format variables to the `segments` slot of the cohort of interest in the `cruz` object. This gives you full control of line color, thickness, and line-type according to whatever specifications you wish to set, e.g., color-coding by effort type or Beaufort sea state.  
-
-This is possible because the function `map_effort()` looks for the variables `col` (line color), `lwd` (line thickness or stroke), and `lty` (line type) in the columns of `cruz$segments`. If these columns exist, the values therein will be used instead of the function defaults.  
-
-For example, color-code by Beaufort scale:
-
-```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
-# Save copy of segments to modify
-cruzi <- cruz_1720
-segments <- cruzi$cohorts$all$segments
-
-# Add column `col`: color code by BFT sea state
-bft_colors <- c('steelblue4','steelblue2','cadetblue1','grey')
-segments$col <- bft_colors[4]
-segments$col[ segments$avgBft <= 7 ] <- bft_colors[3] # bft 5 +
-segments$col[ segments$avgBft <= 4 ] <- bft_colors[2] # bft 3 - 4
-segments$col[ segments$avgBft <= 2 ] <- bft_colors[1] # bft 0 -2
-
-# Update sub_segments slot in `cruz` object
-cruzi$cohorts$all$segments <- segments
-
-# Update map 
-m_custom2 <- map_effort(m, cruzi)
-
-# Add legend using native functions from mapping package `tmap`
-m_custom2 <- 
-  m_custom2 + 
-  tmap::tm_add_legend('line', 
-	                    col = bft_colors,
-	                    lwd = 3,
-	                    labels = c(' 0 - 2', 
-	                               ' 3 - 4', 
-	                               ' 5 +', 
-	                               ' no data'),
-	                     title="Beaufort sea state") +
-  tmap::tm_layout(legend.position=c('left','bottom'))
-
-# Show map
-m_custom2
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=6}
+gg_sightings(p, cruz_1720, 
+             spp = '076', 
+             color='firebrick', 
+             cex=2)
 ```
 
-```{r, echo=FALSE, eval=rerun_from_scratch}
-png('img/map_tracks3.png', width=7, height=5, res=150, units='in')
-m_custom2
-dev.off()
+To color-code detections by species:  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=6}
+gg_sightings(p, cruz_1720, 
+             spp = c('076', '046'), 
+             color_by_spp = TRUE,
+             cex = 2,
+             alpha = 1,
+             pch = 15)
 ```
 
-![](img/map_tracks3.png){width=95%}
+To translate species codes to full common names, you can supply a `data.frame` with the necessary translation information. `LTabundR` comes with a built-in dataset for Pacific species, `"species_codes"`.  
 
-### Add sightings {-}  
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=6}
+data(species_codes)
 
-Use the function `map_sightings()` to add sightings to your map:  
-
-```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
-m1 <- map_sightings(m, cruz_1720)
-
-# Show map
-m1
+gg_sightings(p, cruz_1720, 
+             spp = c('076', '046'), 
+             spp_translate = species_codes,
+             color_by_spp = TRUE,
+             alpha = .8,
+             cex = 2)
 ```
 
-```{r, echo=FALSE, eval=rerun_from_scratch}
-png('img/map_sits.png', width=7, height=5, res=150, units='in')
-m1
-dev.off()
+
+## Other base maps {-}
+
+### Hawaiian EEZ {-} 
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=6}
+# Under construction!
 ```
 
-![](img/map_sits.png){width=95%}
 
-#### Customizing sightings {-}  
+### California Current System {-}
 
-To demonstrate some of the customization options, consider this map that shows sightings of false killer whales with custom dot color, shape, and size: 
-
-```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
-m1 <- map_sightings(m,
-                    cruz_1720,
-                    include_species = '033',
-                    color_base = 'purple',
-                    shape_base = 18,
-                    size_base = 1)
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=6}
+# Under construction!
 ```
 
-```{r, echo=FALSE, eval=rerun_from_scratch}
-png('img/map_sits2.png', width=7, height=5, res=150, units='in')
-m1
-dev.off()
+
+### Eastern tropical Pacific {-}
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=6}
+# Under construction!
 ```
 
-![](img/map_sits2.png){width=95%}
 
-Next is a map of humpback whales and sperm whales, color-coded by species and shape-coded by whether or not the sighting will be included in the analysis: 
+### Marianas archipelago {-}
 
-```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
-m1 <- map_sightings(m, 
-                   cruz_1720,
-                   include_species = c('076','046'),
-                   color_code = TRUE,
-                   shape_code = TRUE)
-
-# Show map
-m1
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=6}
+# Under construction!
 ```
-
-```{r, echo=FALSE, eval=rerun_from_scratch}
-png('img/map_sits3.png', width=7, height=5, res=150, units='in')
-m1
-dev.off()
-```
-
-![](img/map_sits3.png){width=95%}
-
-### Overview {-} 
-
-Here is an overview of the steps needed to map strata, survey tracks, and sightings all together:
-
-```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
-m <- map_base('cnp') 
-m <- map_strata(m, cruz_1720$settings)
-m <- map_effort(m, cruz_1720)
-m <- map_sightings(m, cruz_1720, size_base=.4)
-m 
-```
-
-```{r, echo=FALSE, eval=rerun_from_scratch}
-png('img/map_overview.png', width=7, height=5, res=150, units='in')
-m
-dev.off()
-```
-
-![](img/map_overview.png){width=95%}
 
 
 ## Interactive maps {-}
 
 `LTabundR` also has an interactive map function, which maps survey data using the `leaflet` package.  
 
-```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
- map_cruz(cruz_1720,
+```{r, echo=TRUE, eval=FALSE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
+map_cruz(cruz_1720,
           cohort=1,
           eez_show=FALSE,
           strata_show=FALSE,
