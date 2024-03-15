@@ -3,12 +3,7 @@
 ```{r, echo=FALSE, eval=TRUE, collapse=TRUE, include=FALSE}
 library(dplyr)
 library(LTabundR)
-
-rerun_from_scratch <- FALSE
-# If you want to confirm the package works, change to TRUE.
-# If you already know it does, change to FALSE so that knitting is quick
-# (it will use saved R objects instead of producing them anew)
-
+library(ggplot2)
 ```
 
 To facilitate mapping with the processed data objects produced by `LTabundR`, we provide the following datasets and functions. These features are designed specifically for creating maps in `R` using the packages `ggplot()` and `sf`. 
@@ -40,9 +35,9 @@ To create a simple map of the main Hawaiian islands, for example, you can use th
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
 # Load dataset
-data(land)
-data(coastline)
-data(eez_hawaii)
+data('land', package='LTabundR')
+data('coastline', package='LTabundR')
+data('eez_hawaii', package='LTabundR')
 
 # Look at an example of structure
 coastline %>% head
@@ -95,7 +90,7 @@ p
 Now this base map is ready for some actual survey data!  We can use the built-in dataset for Pacific surveys, 1986 - 2020:  
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
-data("noaa_10km_1986_2020")
+data("noaa_10km_1986_2020", package='LTabundR')
 cruz <- noaa_10km_1986_2020
 ```
 
@@ -194,7 +189,7 @@ gg_sightings(p, cruz_1720,
 To translate species codes to full common names, you can supply a `data.frame` with the necessary translation information. `LTabundR` comes with a built-in dataset for Pacific species, `"species_codes"`.  
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=6}
-data(species_codes)
+data('species_codes', package='LTabundR')
 
 gg_sightings(p, cruz_1720, 
              spp = c('076', '046'), 
@@ -209,29 +204,110 @@ gg_sightings(p, cruz_1720,
 
 ### Hawaiian EEZ {-} 
 
+The Hawaii EEZ is tricky to map because it crosses the International Date Line (IDL). To facilitate maps of this region, `LTabundR` includes a function, `ggplot_idl()`, to which you can pass a `ggplot2` map object.  
+
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=6}
-# Under construction!
+# Load datasets
+data('land', package='LTabundR')
+data('coastline', package='LTabundR')
+data('eez_hawaii', package='LTabundR')
+
+# Specify CRS
+my_crs <- 4326
+st_crs(coastline) <- my_crs
+st_crs(land) <- my_crs
+st_crs(eez_hawaii) <- my_crs
+
+# Make map
+p <-
+  ggplot() + 
+  geom_sf(data=land, fill='darkslategrey', color=NA, alpha=.6) + 
+  geom_sf(data=coastline, color='darkslategrey', alpha=1, lwd=.2) + 
+  geom_sf(data=eez_hawaii, color='grey50', alpha=.5, lwd=.4) + 
+  xlab(NULL) + ylab(NULL) +
+  theme_light() +
+  theme(strip.background = element_rect(fill = "grey45"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()) 
+
+# Handle IDL
+ggplot_idl(p, 
+           lon_range=c(175, -150),
+           lat_range = c(14.8, 33))
 ```
 
 
 ### California Current System {-}
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=6}
-# Under construction!
+my_crs <- 4326
+xlims <- c(-130, -116)
+ylims <- c(30, 49)
+
+# Load dataset
+data('land', package='LTabundR')
+data('coastline', package='LTabundR')
+data('eez_ccs', package='LTabundR')
+
+# Specify CRS
+st_crs(coastline) <- my_crs
+st_crs(land) <- my_crs
+st_crs(eez_ccs) <- my_crs
+
+ggplot() + 
+  geom_sf(data=land, fill='darkslategrey', color=NA, alpha=.6) + 
+  geom_sf(data=coastline, color='darkslategrey', alpha=1, lwd=.2) + 
+  geom_sf(data=eez_ccs, color='grey50', alpha=.5, lwd=.4) + 
+  coord_sf(xlim=xlims, ylim=ylims) + 
+  xlab(NULL) + ylab(NULL) +
+  theme_light() +
+  theme(strip.background = element_rect(fill = "grey45"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()) +
+  ggspatial::annotation_north_arrow(location = "bl",
+                                    which_north = "true",
+                                    height = unit(1, 'cm'),
+                                    width = unit(1, 'cm'),
+                                    style = ggspatial::north_arrow_fancy_orienteering) +
+  ggspatial::annotation_scale(location='br')
 ```
 
 
 ### Eastern tropical Pacific {-}
 
-```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=6}
-# Under construction!
-```
-
-
-### Marianas archipelago {-}
+The built-in `LTabundR` dataset `data(eez)` has all EEZ boundaries for US territories.  
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=6}
-# Under construction!
+my_crs <- 4326
+xlims <- c(-175, -60)
+ylims <- c(-20, 49)
+
+# Load dataset
+data('land', package='LTabundR')
+data('coastline', package='LTabundR')
+data('eez', package='LTabundR')
+
+# Specify CRS
+st_crs(coastline) <- my_crs
+st_crs(land) <- my_crs
+st_crs(eez) <- my_crs
+
+ggplot() + 
+  geom_sf(data=land, fill='darkslategrey', color=NA, alpha=.6) + 
+  geom_sf(data=coastline, color='darkslategrey', alpha=1, lwd=.2) + 
+  geom_sf(data=eez, color='grey50', alpha=.5, lwd=.4) + 
+  coord_sf(xlim=xlims, ylim=ylims)  +
+  xlab(NULL) + ylab(NULL) +
+  theme_light() +
+  theme(strip.background = element_rect(fill = "grey45"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()) +
+  ggspatial::annotation_north_arrow(location = "bl",
+                                    which_north = "true",
+                                    height = unit(1, 'cm'),
+                                    width = unit(1, 'cm'),
+                                    style = ggspatial::north_arrow_fancy_orienteering) +
+  ggspatial::annotation_scale(location='br')
 ```
 
 

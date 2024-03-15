@@ -67,10 +67,6 @@
 <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
 <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
 <script src="libs/leaflet-binding-2.2.0/leaflet.js"></script>
-<script src="libs/plotly-binding-4.10.2/plotly.js"></script>
-<script src="libs/typedarray-0.1/typedarray.min.js"></script>
-<link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
-<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
 
 
 <style type="text/css">
@@ -244,7 +240,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="maps.html"><a href="maps.html#hawaiian-eez"><i class="fa fa-check"></i>Hawaiian EEZ</a></li>
 <li class="chapter" data-level="" data-path="maps.html"><a href="maps.html#california-current-system"><i class="fa fa-check"></i>California Current System</a></li>
 <li class="chapter" data-level="" data-path="maps.html"><a href="maps.html#eastern-tropical-pacific"><i class="fa fa-check"></i>Eastern tropical Pacific</a></li>
-<li class="chapter" data-level="" data-path="maps.html"><a href="maps.html#marianas-archipelago"><i class="fa fa-check"></i>Marianas archipelago</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="maps.html"><a href="maps.html#interactive-maps"><i class="fa fa-check"></i>Interactive maps</a></li>
 <li class="chapter" data-level="" data-path="maps.html"><a href="maps.html#interactive-dashboard"><i class="fa fa-check"></i>Interactive dashboard</a></li>
@@ -453,69 +448,69 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3>Setting up this demo<a href="segmentizing.html#setting-up-this-demo" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The demonstration of <code>segmentize()</code> on in <a href="processing.html#processing">Processing chapter</a> relies on the <code>settings</code> list that is attached as a slot in the <code>cruz</code> object. But you can override those settings with direct function inputs in <code>segmentize()</code>, which gives us a chance to explore segmentization options.</p>
 <p>First we load the demo data and carry out initial processing:</p>
-<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="segmentizing.html#cb336-1" tabindex="-1"></a><span class="co"># Load built-in settings example</span></span>
-<span id="cb336-2"><a href="segmentizing.html#cb336-2" tabindex="-1"></a><span class="fu">data</span>(example_settings)</span>
-<span id="cb336-3"><a href="segmentizing.html#cb336-3" tabindex="-1"></a>settings <span class="ot">&lt;-</span> example_settings</span>
-<span id="cb336-4"><a href="segmentizing.html#cb336-4" tabindex="-1"></a></span>
-<span id="cb336-5"><a href="segmentizing.html#cb336-5" tabindex="-1"></a><span class="co"># Set path to DAS file</span></span>
-<span id="cb336-6"><a href="segmentizing.html#cb336-6" tabindex="-1"></a>das_file <span class="ot">&lt;-</span> <span class="st">&#39;data/surveys/HICEASwinter2020.das&#39;</span></span>
-<span id="cb336-7"><a href="segmentizing.html#cb336-7" tabindex="-1"></a></span>
-<span id="cb336-8"><a href="segmentizing.html#cb336-8" tabindex="-1"></a><span class="co"># First steps of formatting</span></span>
-<span id="cb336-9"><a href="segmentizing.html#cb336-9" tabindex="-1"></a>das <span class="ot">&lt;-</span> <span class="fu">das_load</span>(das_file, </span>
-<span id="cb336-10"><a href="segmentizing.html#cb336-10" tabindex="-1"></a>                <span class="at">perform_checks =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb336-11"><a href="segmentizing.html#cb336-11" tabindex="-1"></a>                <span class="at">print_glimpse =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb336-12"><a href="segmentizing.html#cb336-12" tabindex="-1"></a>cruz <span class="ot">&lt;-</span> <span class="fu">process_strata</span>(das,</span>
-<span id="cb336-13"><a href="segmentizing.html#cb336-13" tabindex="-1"></a>                       settings,</span>
-<span id="cb336-14"><a href="segmentizing.html#cb336-14" tabindex="-1"></a>                       <span class="at">verbose=</span><span class="cn">FALSE</span>)</span>
-<span id="cb336-15"><a href="segmentizing.html#cb336-15" tabindex="-1"></a>cruz <span class="ot">&lt;-</span> <span class="fu">das_format</span>(cruz)</span></code></pre></div>
+<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb335-1"><a href="segmentizing.html#cb335-1" tabindex="-1"></a><span class="co"># Load built-in settings example</span></span>
+<span id="cb335-2"><a href="segmentizing.html#cb335-2" tabindex="-1"></a><span class="fu">data</span>(example_settings)</span>
+<span id="cb335-3"><a href="segmentizing.html#cb335-3" tabindex="-1"></a>settings <span class="ot">&lt;-</span> example_settings</span>
+<span id="cb335-4"><a href="segmentizing.html#cb335-4" tabindex="-1"></a></span>
+<span id="cb335-5"><a href="segmentizing.html#cb335-5" tabindex="-1"></a><span class="co"># Set path to DAS file</span></span>
+<span id="cb335-6"><a href="segmentizing.html#cb335-6" tabindex="-1"></a>das_file <span class="ot">&lt;-</span> <span class="st">&#39;data/surveys/HICEASwinter2020.das&#39;</span></span>
+<span id="cb335-7"><a href="segmentizing.html#cb335-7" tabindex="-1"></a></span>
+<span id="cb335-8"><a href="segmentizing.html#cb335-8" tabindex="-1"></a><span class="co"># First steps of formatting</span></span>
+<span id="cb335-9"><a href="segmentizing.html#cb335-9" tabindex="-1"></a>das <span class="ot">&lt;-</span> <span class="fu">das_load</span>(das_file, </span>
+<span id="cb335-10"><a href="segmentizing.html#cb335-10" tabindex="-1"></a>                <span class="at">perform_checks =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb335-11"><a href="segmentizing.html#cb335-11" tabindex="-1"></a>                <span class="at">print_glimpse =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb335-12"><a href="segmentizing.html#cb335-12" tabindex="-1"></a>cruz <span class="ot">&lt;-</span> <span class="fu">process_strata</span>(das,</span>
+<span id="cb335-13"><a href="segmentizing.html#cb335-13" tabindex="-1"></a>                       settings,</span>
+<span id="cb335-14"><a href="segmentizing.html#cb335-14" tabindex="-1"></a>                       <span class="at">verbose=</span><span class="cn">FALSE</span>)</span>
+<span id="cb335-15"><a href="segmentizing.html#cb335-15" tabindex="-1"></a>cruz <span class="ot">&lt;-</span> <span class="fu">das_format</span>(cruz)</span></code></pre></div>
 </div>
 </div>
 <div id="base-example" class="section level2 unnumbered hasAnchor">
 <h2>Base example<a href="segmentizing.html#base-example" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Here is the <code>segmentize()</code> function parameterized with some basic settings: a target segment length of 30km, with the maximum allowable gap in effort within segments to be 6 hours.</p>
-<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="segmentizing.html#cb337-1" tabindex="-1"></a>cruz_demo <span class="ot">&lt;-</span> <span class="fu">segmentize</span>(cruz,</span>
-<span id="cb337-2"><a href="segmentizing.html#cb337-2" tabindex="-1"></a>                        <span class="at">segment_method =</span> <span class="st">&#39;equallength&#39;</span>,</span>
-<span id="cb337-3"><a href="segmentizing.html#cb337-3" tabindex="-1"></a>                        <span class="at">segment_target_km =</span> <span class="dv">30</span>,</span>
-<span id="cb337-4"><a href="segmentizing.html#cb337-4" tabindex="-1"></a>                        <span class="at">segment_max_interval =</span> <span class="dv">6</span>,</span>
-<span id="cb337-5"><a href="segmentizing.html#cb337-5" tabindex="-1"></a>                        <span class="at">segment_remainder_handling =</span> <span class="fu">c</span>(<span class="st">&#39;append&#39;</span>,<span class="st">&#39;segment&#39;</span>),</span>
-<span id="cb337-6"><a href="segmentizing.html#cb337-6" tabindex="-1"></a>                        <span class="at">distance_types =</span> <span class="fu">c</span>(<span class="st">&#39;S&#39;</span>,<span class="st">&#39;F&#39;</span>,<span class="st">&#39;N&#39;</span>),</span>
-<span id="cb337-7"><a href="segmentizing.html#cb337-7" tabindex="-1"></a>                        <span class="at">distance_modes =</span> <span class="fu">c</span>(<span class="st">&#39;P&#39;</span>,<span class="st">&#39;C&#39;</span>),</span>
-<span id="cb337-8"><a href="segmentizing.html#cb337-8" tabindex="-1"></a>                        <span class="at">distance_on_off =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>),</span>
-<span id="cb337-9"><a href="segmentizing.html#cb337-9" tabindex="-1"></a>                        <span class="at">verbose=</span><span class="cn">FALSE</span>,</span>
-<span id="cb337-10"><a href="segmentizing.html#cb337-10" tabindex="-1"></a>                        <span class="at">to_plot =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-422-1.png" width="672" /></p>
+<div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb336-1"><a href="segmentizing.html#cb336-1" tabindex="-1"></a>cruz_demo <span class="ot">&lt;-</span> <span class="fu">segmentize</span>(cruz,</span>
+<span id="cb336-2"><a href="segmentizing.html#cb336-2" tabindex="-1"></a>                        <span class="at">segment_method =</span> <span class="st">&#39;equallength&#39;</span>,</span>
+<span id="cb336-3"><a href="segmentizing.html#cb336-3" tabindex="-1"></a>                        <span class="at">segment_target_km =</span> <span class="dv">30</span>,</span>
+<span id="cb336-4"><a href="segmentizing.html#cb336-4" tabindex="-1"></a>                        <span class="at">segment_max_interval =</span> <span class="dv">6</span>,</span>
+<span id="cb336-5"><a href="segmentizing.html#cb336-5" tabindex="-1"></a>                        <span class="at">segment_remainder_handling =</span> <span class="fu">c</span>(<span class="st">&#39;append&#39;</span>,<span class="st">&#39;segment&#39;</span>),</span>
+<span id="cb336-6"><a href="segmentizing.html#cb336-6" tabindex="-1"></a>                        <span class="at">distance_types =</span> <span class="fu">c</span>(<span class="st">&#39;S&#39;</span>,<span class="st">&#39;F&#39;</span>,<span class="st">&#39;N&#39;</span>),</span>
+<span id="cb336-7"><a href="segmentizing.html#cb336-7" tabindex="-1"></a>                        <span class="at">distance_modes =</span> <span class="fu">c</span>(<span class="st">&#39;P&#39;</span>,<span class="st">&#39;C&#39;</span>),</span>
+<span id="cb336-8"><a href="segmentizing.html#cb336-8" tabindex="-1"></a>                        <span class="at">distance_on_off =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>),</span>
+<span id="cb336-9"><a href="segmentizing.html#cb336-9" tabindex="-1"></a>                        <span class="at">verbose=</span><span class="cn">FALSE</span>,</span>
+<span id="cb336-10"><a href="segmentizing.html#cb336-10" tabindex="-1"></a>                        <span class="at">to_plot =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-421-1.png" width="672" /></p>
 </div>
 <div id="day-vs-equal-length" class="section level2 unnumbered hasAnchor">
 <h2>Day vs Equal Length<a href="segmentizing.html#day-vs-equal-length" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="by-day" class="section level3 unnumbered hasAnchor">
 <h3>By day<a href="segmentizing.html#by-day" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="segmentizing.html#cb338-1" tabindex="-1"></a>cruz_demo <span class="ot">&lt;-</span> <span class="fu">segmentize</span>(cruz,</span>
-<span id="cb338-2"><a href="segmentizing.html#cb338-2" tabindex="-1"></a>                        <span class="at">segment_method =</span> <span class="st">&#39;day&#39;</span>,</span>
-<span id="cb338-3"><a href="segmentizing.html#cb338-3" tabindex="-1"></a>                        <span class="at">verbose=</span><span class="cn">FALSE</span>,</span>
-<span id="cb338-4"><a href="segmentizing.html#cb338-4" tabindex="-1"></a>                        <span class="at">to_plot =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-423-1.png" width="672" /></p>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb337-1"><a href="segmentizing.html#cb337-1" tabindex="-1"></a>cruz_demo <span class="ot">&lt;-</span> <span class="fu">segmentize</span>(cruz,</span>
+<span id="cb337-2"><a href="segmentizing.html#cb337-2" tabindex="-1"></a>                        <span class="at">segment_method =</span> <span class="st">&#39;day&#39;</span>,</span>
+<span id="cb337-3"><a href="segmentizing.html#cb337-3" tabindex="-1"></a>                        <span class="at">verbose=</span><span class="cn">FALSE</span>,</span>
+<span id="cb337-4"><a href="segmentizing.html#cb337-4" tabindex="-1"></a>                        <span class="at">to_plot =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-422-1.png" width="672" /></p>
 </div>
 <div id="by-target-length-of-100-km" class="section level3 unnumbered hasAnchor">
 <h3>By target length of 100 km<a href="segmentizing.html#by-target-length-of-100-km" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="segmentizing.html#cb339-1" tabindex="-1"></a>cruz_demo <span class="ot">&lt;-</span> <span class="fu">segmentize</span>(cruz,</span>
-<span id="cb339-2"><a href="segmentizing.html#cb339-2" tabindex="-1"></a>                        <span class="at">segment_method =</span> <span class="st">&#39;equallength&#39;</span>,</span>
-<span id="cb339-3"><a href="segmentizing.html#cb339-3" tabindex="-1"></a>                        <span class="at">segment_target_km =</span> <span class="dv">100</span>,</span>
-<span id="cb339-4"><a href="segmentizing.html#cb339-4" tabindex="-1"></a>                        <span class="at">segment_max_interval =</span> <span class="dv">48</span>,</span>
-<span id="cb339-5"><a href="segmentizing.html#cb339-5" tabindex="-1"></a>                        <span class="at">verbose=</span><span class="cn">FALSE</span>,</span>
-<span id="cb339-6"><a href="segmentizing.html#cb339-6" tabindex="-1"></a>                        <span class="at">to_plot =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-424-1.png" width="672" /></p>
+<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb338-1"><a href="segmentizing.html#cb338-1" tabindex="-1"></a>cruz_demo <span class="ot">&lt;-</span> <span class="fu">segmentize</span>(cruz,</span>
+<span id="cb338-2"><a href="segmentizing.html#cb338-2" tabindex="-1"></a>                        <span class="at">segment_method =</span> <span class="st">&#39;equallength&#39;</span>,</span>
+<span id="cb338-3"><a href="segmentizing.html#cb338-3" tabindex="-1"></a>                        <span class="at">segment_target_km =</span> <span class="dv">100</span>,</span>
+<span id="cb338-4"><a href="segmentizing.html#cb338-4" tabindex="-1"></a>                        <span class="at">segment_max_interval =</span> <span class="dv">48</span>,</span>
+<span id="cb338-5"><a href="segmentizing.html#cb338-5" tabindex="-1"></a>                        <span class="at">verbose=</span><span class="cn">FALSE</span>,</span>
+<span id="cb338-6"><a href="segmentizing.html#cb338-6" tabindex="-1"></a>                        <span class="at">to_plot =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-423-1.png" width="672" /></p>
 </div>
 </div>
 <div id="contiguous-vs.-non-contiguous-effort" class="section level2 unnumbered hasAnchor">
 <h2>Contiguous vs. non-contiguous effort<a href="segmentizing.html#contiguous-vs.-non-contiguous-effort" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The default example at the top allows for non-contiguous effort; a segment is allowed to contain effort separated by gaps as large as 24 hours (<code>settings$segment_max_interval</code>). To coerce segments to represent only contiguous effort, make that setting very small:</p>
-<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="segmentizing.html#cb340-1" tabindex="-1"></a>cruz_demo <span class="ot">&lt;-</span> <span class="fu">segmentize</span>(cruz,</span>
-<span id="cb340-2"><a href="segmentizing.html#cb340-2" tabindex="-1"></a>                        <span class="at">segment_method =</span> <span class="st">&#39;equallength&#39;</span>,</span>
-<span id="cb340-3"><a href="segmentizing.html#cb340-3" tabindex="-1"></a>                        <span class="at">segment_target_km =</span> <span class="dv">30</span>,</span>
-<span id="cb340-4"><a href="segmentizing.html#cb340-4" tabindex="-1"></a>                        <span class="at">segment_max_interval =</span> .<span class="dv">1</span>,</span>
-<span id="cb340-5"><a href="segmentizing.html#cb340-5" tabindex="-1"></a>                        <span class="at">verbose=</span><span class="cn">FALSE</span>,</span>
-<span id="cb340-6"><a href="segmentizing.html#cb340-6" tabindex="-1"></a>                        <span class="at">to_plot =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-425-1.png" width="672" /></p>
+<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb339-1"><a href="segmentizing.html#cb339-1" tabindex="-1"></a>cruz_demo <span class="ot">&lt;-</span> <span class="fu">segmentize</span>(cruz,</span>
+<span id="cb339-2"><a href="segmentizing.html#cb339-2" tabindex="-1"></a>                        <span class="at">segment_method =</span> <span class="st">&#39;equallength&#39;</span>,</span>
+<span id="cb339-3"><a href="segmentizing.html#cb339-3" tabindex="-1"></a>                        <span class="at">segment_target_km =</span> <span class="dv">30</span>,</span>
+<span id="cb339-4"><a href="segmentizing.html#cb339-4" tabindex="-1"></a>                        <span class="at">segment_max_interval =</span> .<span class="dv">1</span>,</span>
+<span id="cb339-5"><a href="segmentizing.html#cb339-5" tabindex="-1"></a>                        <span class="at">verbose=</span><span class="cn">FALSE</span>,</span>
+<span id="cb339-6"><a href="segmentizing.html#cb339-6" tabindex="-1"></a>                        <span class="at">to_plot =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-424-1.png" width="672" /></p>
 <p>You can see that many contiguous periods of effort were much shorter than the target length of 30 km. This is why allowing for non-contiguous effort can be advantageous for target segment lengths larger than 5 - 10 km.</p>
 </div>
 <div id="segment-remainder-handling" class="section level2 unnumbered hasAnchor">
@@ -524,46 +519,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>If you don’t want that level of complexity, you can simply assign a single setting: <code>'append'</code> will append the remainder in all cases, regardless of remainder length relative to the target length. The same idea goes for <code>'segment'</code>. Here is a simple comparison of those two approaches:</p>
 <div id="append" class="section level3 unnumbered hasAnchor">
 <h3><code>"append"</code><a href="segmentizing.html#append" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb340"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb340-1"><a href="segmentizing.html#cb340-1" tabindex="-1"></a>cruz_demo <span class="ot">&lt;-</span> <span class="fu">segmentize</span>(cruz,</span>
+<span id="cb340-2"><a href="segmentizing.html#cb340-2" tabindex="-1"></a>                        <span class="at">segment_method =</span> <span class="st">&#39;equallength&#39;</span>,</span>
+<span id="cb340-3"><a href="segmentizing.html#cb340-3" tabindex="-1"></a>                        <span class="at">segment_target_km =</span> <span class="dv">10</span>,</span>
+<span id="cb340-4"><a href="segmentizing.html#cb340-4" tabindex="-1"></a>                        <span class="at">segment_max_interval =</span> <span class="dv">6</span>,</span>
+<span id="cb340-5"><a href="segmentizing.html#cb340-5" tabindex="-1"></a>                        <span class="at">segment_remainder_handling =</span> <span class="st">&#39;append&#39;</span>,</span>
+<span id="cb340-6"><a href="segmentizing.html#cb340-6" tabindex="-1"></a>                        <span class="at">verbose=</span><span class="cn">FALSE</span>,</span>
+<span id="cb340-7"><a href="segmentizing.html#cb340-7" tabindex="-1"></a>                        <span class="at">to_plot =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-425-1.png" width="672" /></p>
+</div>
+<div id="segment" class="section level3 unnumbered hasAnchor">
+<h3><code>"segment"</code><a href="segmentizing.html#segment" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb341-1"><a href="segmentizing.html#cb341-1" tabindex="-1"></a>cruz_demo <span class="ot">&lt;-</span> <span class="fu">segmentize</span>(cruz,</span>
 <span id="cb341-2"><a href="segmentizing.html#cb341-2" tabindex="-1"></a>                        <span class="at">segment_method =</span> <span class="st">&#39;equallength&#39;</span>,</span>
 <span id="cb341-3"><a href="segmentizing.html#cb341-3" tabindex="-1"></a>                        <span class="at">segment_target_km =</span> <span class="dv">10</span>,</span>
 <span id="cb341-4"><a href="segmentizing.html#cb341-4" tabindex="-1"></a>                        <span class="at">segment_max_interval =</span> <span class="dv">6</span>,</span>
-<span id="cb341-5"><a href="segmentizing.html#cb341-5" tabindex="-1"></a>                        <span class="at">segment_remainder_handling =</span> <span class="st">&#39;append&#39;</span>,</span>
+<span id="cb341-5"><a href="segmentizing.html#cb341-5" tabindex="-1"></a>                        <span class="at">segment_remainder_handling =</span> <span class="st">&#39;segment&#39;</span>,</span>
 <span id="cb341-6"><a href="segmentizing.html#cb341-6" tabindex="-1"></a>                        <span class="at">verbose=</span><span class="cn">FALSE</span>,</span>
 <span id="cb341-7"><a href="segmentizing.html#cb341-7" tabindex="-1"></a>                        <span class="at">to_plot =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="figures/unnamed-chunk-426-1.png" width="672" /></p>
 </div>
-<div id="segment" class="section level3 unnumbered hasAnchor">
-<h3><code>"segment"</code><a href="segmentizing.html#segment" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="disperse" class="section level3 unnumbered hasAnchor">
+<h3><code>"disperse"</code><a href="segmentizing.html#disperse" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The other possible setting is <code>'disperse'</code>, which disperses the remainder evenly across all segments. To demonstrate, let’s use a target length of 10 km.</p>
 <div class="sourceCode" id="cb342"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb342-1"><a href="segmentizing.html#cb342-1" tabindex="-1"></a>cruz_demo <span class="ot">&lt;-</span> <span class="fu">segmentize</span>(cruz,</span>
 <span id="cb342-2"><a href="segmentizing.html#cb342-2" tabindex="-1"></a>                        <span class="at">segment_method =</span> <span class="st">&#39;equallength&#39;</span>,</span>
 <span id="cb342-3"><a href="segmentizing.html#cb342-3" tabindex="-1"></a>                        <span class="at">segment_target_km =</span> <span class="dv">10</span>,</span>
 <span id="cb342-4"><a href="segmentizing.html#cb342-4" tabindex="-1"></a>                        <span class="at">segment_max_interval =</span> <span class="dv">6</span>,</span>
-<span id="cb342-5"><a href="segmentizing.html#cb342-5" tabindex="-1"></a>                        <span class="at">segment_remainder_handling =</span> <span class="st">&#39;segment&#39;</span>,</span>
+<span id="cb342-5"><a href="segmentizing.html#cb342-5" tabindex="-1"></a>                        <span class="at">segment_remainder_handling =</span> <span class="st">&#39;disperse&#39;</span>,</span>
 <span id="cb342-6"><a href="segmentizing.html#cb342-6" tabindex="-1"></a>                        <span class="at">verbose=</span><span class="cn">FALSE</span>,</span>
 <span id="cb342-7"><a href="segmentizing.html#cb342-7" tabindex="-1"></a>                        <span class="at">to_plot =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="figures/unnamed-chunk-427-1.png" width="672" /></p>
-</div>
-<div id="disperse" class="section level3 unnumbered hasAnchor">
-<h3><code>"disperse"</code><a href="segmentizing.html#disperse" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<p>The other possible setting is <code>'disperse'</code>, which disperses the remainder evenly across all segments. To demonstrate, let’s use a target length of 10 km.</p>
+<p>Note that most segments are longer than the target length, due to the impact of dispersing the remainder. If you wanted, you could combat this by making the target length slightly smaller:</p>
 <div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb343-1"><a href="segmentizing.html#cb343-1" tabindex="-1"></a>cruz_demo <span class="ot">&lt;-</span> <span class="fu">segmentize</span>(cruz,</span>
 <span id="cb343-2"><a href="segmentizing.html#cb343-2" tabindex="-1"></a>                        <span class="at">segment_method =</span> <span class="st">&#39;equallength&#39;</span>,</span>
-<span id="cb343-3"><a href="segmentizing.html#cb343-3" tabindex="-1"></a>                        <span class="at">segment_target_km =</span> <span class="dv">10</span>,</span>
+<span id="cb343-3"><a href="segmentizing.html#cb343-3" tabindex="-1"></a>                        <span class="at">segment_target_km =</span> <span class="fl">9.5</span>,</span>
 <span id="cb343-4"><a href="segmentizing.html#cb343-4" tabindex="-1"></a>                        <span class="at">segment_max_interval =</span> <span class="dv">6</span>,</span>
 <span id="cb343-5"><a href="segmentizing.html#cb343-5" tabindex="-1"></a>                        <span class="at">segment_remainder_handling =</span> <span class="st">&#39;disperse&#39;</span>,</span>
 <span id="cb343-6"><a href="segmentizing.html#cb343-6" tabindex="-1"></a>                        <span class="at">verbose=</span><span class="cn">FALSE</span>,</span>
 <span id="cb343-7"><a href="segmentizing.html#cb343-7" tabindex="-1"></a>                        <span class="at">to_plot =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="figures/unnamed-chunk-428-1.png" width="672" /></p>
-<p>Note that most segments are longer than the target length, due to the impact of dispersing the remainder. If you wanted, you could combat this by making the target length slightly smaller:</p>
-<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="segmentizing.html#cb344-1" tabindex="-1"></a>cruz_demo <span class="ot">&lt;-</span> <span class="fu">segmentize</span>(cruz,</span>
-<span id="cb344-2"><a href="segmentizing.html#cb344-2" tabindex="-1"></a>                        <span class="at">segment_method =</span> <span class="st">&#39;equallength&#39;</span>,</span>
-<span id="cb344-3"><a href="segmentizing.html#cb344-3" tabindex="-1"></a>                        <span class="at">segment_target_km =</span> <span class="fl">9.5</span>,</span>
-<span id="cb344-4"><a href="segmentizing.html#cb344-4" tabindex="-1"></a>                        <span class="at">segment_max_interval =</span> <span class="dv">6</span>,</span>
-<span id="cb344-5"><a href="segmentizing.html#cb344-5" tabindex="-1"></a>                        <span class="at">segment_remainder_handling =</span> <span class="st">&#39;disperse&#39;</span>,</span>
-<span id="cb344-6"><a href="segmentizing.html#cb344-6" tabindex="-1"></a>                        <span class="at">verbose=</span><span class="cn">FALSE</span>,</span>
-<span id="cb344-7"><a href="segmentizing.html#cb344-7" tabindex="-1"></a>                        <span class="at">to_plot =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-429-1.png" width="672" /></p>
 <p>But in general, the <code>disperse</code> option may be more appropriate for shorter segment lengths.</p>
 </div>
 </div>
@@ -576,13 +571,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="habitat-modeling" class="section level3 unnumbered hasAnchor">
 <h3>Habitat modeling<a href="segmentizing.html#habitat-modeling" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To replicate the methods used in typical habitat modeling studies, use smaller segment lengths of contiguous effort.</p>
-<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb345-1"><a href="segmentizing.html#cb345-1" tabindex="-1"></a>cruz_demo <span class="ot">&lt;-</span> <span class="fu">segmentize</span>(cruz,</span>
-<span id="cb345-2"><a href="segmentizing.html#cb345-2" tabindex="-1"></a>                        <span class="at">segment_method =</span> <span class="st">&#39;equallength&#39;</span>,</span>
-<span id="cb345-3"><a href="segmentizing.html#cb345-3" tabindex="-1"></a>                        <span class="at">segment_target_km =</span> <span class="dv">5</span>,</span>
-<span id="cb345-4"><a href="segmentizing.html#cb345-4" tabindex="-1"></a>                        <span class="at">segment_max_interval =</span> .<span class="dv">1</span>,</span>
-<span id="cb345-5"><a href="segmentizing.html#cb345-5" tabindex="-1"></a>                        <span class="at">verbose=</span><span class="cn">FALSE</span>,</span>
-<span id="cb345-6"><a href="segmentizing.html#cb345-6" tabindex="-1"></a>                        <span class="at">to_plot =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-430-1.png" width="672" /></p>
+<div class="sourceCode" id="cb344"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb344-1"><a href="segmentizing.html#cb344-1" tabindex="-1"></a>cruz_demo <span class="ot">&lt;-</span> <span class="fu">segmentize</span>(cruz,</span>
+<span id="cb344-2"><a href="segmentizing.html#cb344-2" tabindex="-1"></a>                        <span class="at">segment_method =</span> <span class="st">&#39;equallength&#39;</span>,</span>
+<span id="cb344-3"><a href="segmentizing.html#cb344-3" tabindex="-1"></a>                        <span class="at">segment_target_km =</span> <span class="dv">5</span>,</span>
+<span id="cb344-4"><a href="segmentizing.html#cb344-4" tabindex="-1"></a>                        <span class="at">segment_max_interval =</span> .<span class="dv">1</span>,</span>
+<span id="cb344-5"><a href="segmentizing.html#cb344-5" tabindex="-1"></a>                        <span class="at">verbose=</span><span class="cn">FALSE</span>,</span>
+<span id="cb344-6"><a href="segmentizing.html#cb344-6" tabindex="-1"></a>                        <span class="at">to_plot =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-429-1.png" width="672" /></p>
 
 </div>
 </div>
