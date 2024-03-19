@@ -6,7 +6,7 @@ library(LTabundR)
 library(ggplot2)
 ```
 
-To facilitate mapping with the processed data objects produced by `LTabundR`, we provide the following datasets and functions. These features are designed specifically for creating maps in `R` using the packages `ggplot()` and `sf`. 
+To facilitate mapping with the processed data objects produced by `LTabundR`, we provide the following datasets and functions. These features are designed specifically for creating maps in `R` using the packages `ggplot2` and `sf`. 
 
 ## Creating a base map {-} 
 
@@ -31,7 +31,7 @@ xlims <- c(-162, -153)
 ylims <- c(17, 24.2)
 ```
 
-To create a simple map of the main Hawaiian islands, for example, you can use the `LTabundR` datasets named `"land"` and `"coastline"`, which are global datasets prepared using the `rnaturalearth` package, and the dataset `"eez_hawaii`, all of which have been provided as `sf` objects:    
+To create a simple map of the main Hawaiian islands, for example, you can use the `LTabundR` datasets named `"land"` and `"coastline"`, which are global datasets downloaded using the `rnaturalearth` package, and the dataset `"eez_hawaii`, all of which have been provided as `sf` objects:    
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
 # Load dataset
@@ -315,13 +315,12 @@ ggplot() +
 
 `LTabundR` also has an interactive map function, which maps survey data using the `leaflet` package.  
 
-```{r, echo=TRUE, eval=FALSE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
 map_cruz(cruz_1720,
           cohort=1,
           eez_show=FALSE,
           strata_show=FALSE,
           effort_show=TRUE,
-          effort_resolution=1,
           sightings_show=TRUE,
           sightings_color = 'firebrick',
           verbose=FALSE)
@@ -334,7 +333,7 @@ Note that you can also click on sightings and tracklines to see their details. R
 Finally, note that `LTabundR` comes with an interactive data explorer app (a `Shiny` app) for filtering survey data according to effort scenario and species code, toggling `map_cruz()` settings, and reviewing summary tables of effort and sightings (including inspection of truncation distances). 
 
 ```{r, echo=TRUE, eval=FALSE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
-cruz_explorer(cruz)
+cruz_explorer(cruz_1720)
 ```
 
 *Screenshots from this app:*

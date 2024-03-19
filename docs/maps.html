@@ -434,7 +434,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="maps" class="section level1 hasAnchor" number="6">
 <h1><span class="header-section-number">6</span> Maps<a href="maps.html#maps" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>To facilitate mapping with the processed data objects produced by <code>LTabundR</code>, we provide the following datasets and functions. These features are designed specifically for creating maps in <code>R</code> using the packages <code>ggplot()</code> and <code>sf</code>.</p>
+<p>To facilitate mapping with the processed data objects produced by <code>LTabundR</code>, we provide the following datasets and functions. These features are designed specifically for creating maps in <code>R</code> using the packages <code>ggplot2</code> and <code>sf</code>.</p>
 <div id="creating-a-base-map" class="section level2 unnumbered hasAnchor">
 <h2>Creating a base map<a href="maps.html#creating-a-base-map" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>All of the mapping functions in <code>LTabundR</code> are designed to be added onto a pre-existing map that you have already created with <code>ggplot2</code>, which itself has several functions that tie into the spatial functions in the package <code>sf</code>. There are already several great resources out there for creating maps with <code>ggplot</code> and <code>sf</code>. (<a href="https://r-spatial.org/r/2018/10/25/ggplot2-sf.html">Here is one example.</a>).</p>
@@ -446,7 +446,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>It will also be helpful to create objects for your desired geographic range, since you might need to refer to them multiple times:</p>
 <div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="maps.html#cb115-1" tabindex="-1"></a>xlims <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">162</span>, <span class="sc">-</span><span class="dv">153</span>)</span>
 <span id="cb115-2"><a href="maps.html#cb115-2" tabindex="-1"></a>ylims <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">17</span>, <span class="fl">24.2</span>)</span></code></pre></div>
-<p>To create a simple map of the main Hawaiian islands, for example, you can use the <code>LTabundR</code> datasets named <code>"land"</code> and <code>"coastline"</code>, which are global datasets prepared using the <code>rnaturalearth</code> package, and the dataset <code>"eez_hawaii</code>, all of which have been provided as <code>sf</code> objects:</p>
+<p>To create a simple map of the main Hawaiian islands, for example, you can use the <code>LTabundR</code> datasets named <code>"land"</code> and <code>"coastline"</code>, which are global datasets downloaded using the <code>rnaturalearth</code> package, and the dataset <code>"eez_hawaii</code>, all of which have been provided as <code>sf</code> objects:</p>
 <div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="maps.html#cb116-1" tabindex="-1"></a><span class="co"># Load dataset</span></span>
 <span id="cb116-2"><a href="maps.html#cb116-2" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;land&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
 <span id="cb116-3"><a href="maps.html#cb116-3" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;coastline&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
@@ -693,16 +693,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb134-3"><a href="maps.html#cb134-3" tabindex="-1"></a>          <span class="at">eez_show=</span><span class="cn">FALSE</span>,</span>
 <span id="cb134-4"><a href="maps.html#cb134-4" tabindex="-1"></a>          <span class="at">strata_show=</span><span class="cn">FALSE</span>,</span>
 <span id="cb134-5"><a href="maps.html#cb134-5" tabindex="-1"></a>          <span class="at">effort_show=</span><span class="cn">TRUE</span>,</span>
-<span id="cb134-6"><a href="maps.html#cb134-6" tabindex="-1"></a>          <span class="at">effort_resolution=</span><span class="dv">1</span>,</span>
-<span id="cb134-7"><a href="maps.html#cb134-7" tabindex="-1"></a>          <span class="at">sightings_show=</span><span class="cn">TRUE</span>,</span>
-<span id="cb134-8"><a href="maps.html#cb134-8" tabindex="-1"></a>          <span class="at">sightings_color =</span> <span class="st">&#39;firebrick&#39;</span>,</span>
-<span id="cb134-9"><a href="maps.html#cb134-9" tabindex="-1"></a>          <span class="at">verbose=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<span id="cb134-6"><a href="maps.html#cb134-6" tabindex="-1"></a>          <span class="at">sightings_show=</span><span class="cn">TRUE</span>,</span>
+<span id="cb134-7"><a href="maps.html#cb134-7" tabindex="-1"></a>          <span class="at">sightings_color =</span> <span class="st">&#39;firebrick&#39;</span>,</span>
+<span id="cb134-8"><a href="maps.html#cb134-8" tabindex="-1"></a>          <span class="at">verbose=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <p>Note that you can also click on sightings and tracklines to see their details. Refer to the documentation for this function (<code>?map_cruz</code>) to see all the options available for stylizing these maps.</p>
 </div>
 <div id="interactive-dashboard" class="section level2 unnumbered hasAnchor">
 <h2>Interactive dashboard<a href="maps.html#interactive-dashboard" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Finally, note that <code>LTabundR</code> comes with an interactive data explorer app (a <code>Shiny</code> app) for filtering survey data according to effort scenario and species code, toggling <code>map_cruz()</code> settings, and reviewing summary tables of effort and sightings (including inspection of truncation distances).</p>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="maps.html#cb135-1" tabindex="-1"></a><span class="fu">cruz_explorer</span>(cruz)</span></code></pre></div>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="maps.html#cb135-1" tabindex="-1"></a><span class="fu">cruz_explorer</span>(cruz_1720)</span></code></pre></div>
 <p><em>Screenshots from this app:</em></p>
  <br />
 

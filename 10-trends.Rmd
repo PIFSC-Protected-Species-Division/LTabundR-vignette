@@ -4,11 +4,6 @@
 library(dplyr)
 library(magrittr)
 library(LTabundR)
-
-rerun_from_scratch <- FALSE
-# If you want to confirm the package works, change to TRUE.
-# If you already know it does, change to FALSE so that knitting is quick
-# (it will use saved R objects instead of producing them anew)
 ```
 
 When a species' density appears to change dramatically from one survey year to the next, it could be due to several factors: the species' abundance may have changed; its range may have shifted; or the timing of its migratory movements may have shifted. This apparent change could also be due solely to random chance: you can sample the exact same population in two different surveys, and you are liable to produce different abundance estimates due simply to random variation in how often you encounter your target species. In other words, *random variation in the encounter rate* may lead you to estimate a change in abundance, when in fact there is no change. 
@@ -30,7 +25,7 @@ cruz <- cnp_150km_1986_2020
 
 Filter it to systematic effort in the years of interest: 
 
-```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
 cruzi <- 
   filter_cruz(cruz,
               analysis_only = TRUE,
@@ -40,22 +35,16 @@ cruzi <-
               bft_range = 0:6)
 ```
 
-Conduct the ER simulation, passing the species code for the Bryde's whale (`"072"`). For the purposes of this example, we will only use 100 iterations.  
+Conduct the ER simulation, passing the species code for the Bryde's whale (`"072"`). 
 
-```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
-er_results <- 
-  er_simulator(spp = '072', cruz = cruzi, iterations = 100)
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.height=4, fig.width=7}
+er_results <- er_simulator(spp = '072', 
+                           cruz = cruzi, 
+                           iterations = 1000,
+                           verbose = FALSE)
 ```
 
-```{r, echo=FALSE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
-save(er_results, file='er_results.RData')
-```
-
-```{r, echo=FALSE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
-load('er_results.RData')
-```
-
-This routine provides a list with two slots: 
+This routine provides a list with three slots: 
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
 er_results %>% names
@@ -69,41 +58,17 @@ er_results$summary
 
 In this example, the encounter rates observed in 2002 and 2010 are very likely due to some process *other* than random variation in the encounter rate, such as range shifts, seasonal movement timing shifts, and/or changes in abundance. However, the observed encounter rate in 2017 could easily be explained by random variation in the ER.    
 
-The `details` slot returns the simulation predictions for each year, which can be used to replicate the histograms that are printed when the function is run.
+The `details` slot returns the simulation predictions for each year:
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.height=9, fig.width=7}
-er_results$details[, 1:6]
+er_results$details %>% head
+
+er_results$details %>% tail
 ```
 
-```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.height=9, fig.width=7}
-spp <- '072'
-years <- er_results$summary$years
-obsi <- er_results$summary$observed
-bsits <- er_results$details
+The `p` slot returns a faceted histogram of the results:  
 
-par(mfrow=c(length(years),1))
-xmax <- 1.05*max(c(bsits, obsi))
-xmin <- 0.95*min(c(bsits, obsi))
-i=1
-pvals <- c()
-for(i in 1:length(years)){
-    # Plot
-    main_title <- paste0(paste('Species ',spp,collapse='-'),' :: ',years[i])
-    hist(bsits[i,],
-       xlim=c(xmin, xmax),
-       breaks= seq(xmin, xmax, length=30),
-       col = 'grey60',
-       border = 'grey85',
-       main = years[i], #main_title,
-       xlab = 'Simulated sightings')
-    abline(v=obsi[i], col='red', lwd=2)
-  }
-par(mfrow=c(1,1))
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.height=4, fig.width=7}
+er_results$p
 ```
-
-
-
-
-
-
 
