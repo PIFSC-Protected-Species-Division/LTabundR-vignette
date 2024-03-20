@@ -165,7 +165,8 @@ species <- list(
 
 - Note also that we had to pool Beaufort sea states 0-2 for Risso's dolphins in order to maintain a monotonic decline in the *Rg(0)* ~ Beaufort curve.  
 
-- Note also that we limited the geostrata used to model the fin whale *Rg(0)* curve to the California Current System ('CCS', after Barlow 2015), so that zero-inflated segments did not confound the model.  
+- Note also that we limited the geostrata used to model the fin whale *Rg(0)* curve to the California Current System ('CCS', after Barlow 2015), so that zero-inflated segments did not confound the model. In general we recommend that survey effort should only be included for regions within a species' normal expected range. Otherwise zero-inflation may have an effect on *Rg(0)* model results.  
+
 
 We then pass this species list to `g0_table()`. In this example, we are only estimating the *Rg(0)* relationship, without conducting jackknife estimation: 
 

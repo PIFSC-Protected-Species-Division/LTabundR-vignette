@@ -341,8 +341,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="plots.html"><a href="plots.html#abundance-plots"><i class="fa fa-check"></i>Abundance plots</a></li>
 <li class="chapter" data-level="" data-path="plots.html"><a href="plots.html#detection-function-plots"><i class="fa fa-check"></i>Detection function plots</a></li>
 </ul></li>
+<li class="chapter" data-level="15" data-path="combining-lta-results.html"><a href="combining-lta-results.html"><i class="fa fa-check"></i><b>15</b> Combining <code>lta()</code> results</a></li>
 <li class="part"><span><b>V Case studies</b></span></li>
-<li class="chapter" data-level="15" data-path="whiceas.html"><a href="whiceas.html"><i class="fa fa-check"></i><b>15</b> WHICEAS</a>
+<li class="chapter" data-level="16" data-path="whiceas.html"><a href="whiceas.html"><i class="fa fa-check"></i><b>16</b> WHICEAS</a>
 <ul>
 <li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#data-processing"><i class="fa fa-check"></i>Data processing</a>
 <ul>
@@ -370,13 +371,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#results-tables"><i class="fa fa-check"></i>Results tables</a></li>
 </ul></li>
 <li class="part"><span><b>VI Appendix</b></span></li>
-<li class="chapter" data-level="16" data-path="stratagallery.html"><a href="stratagallery.html"><i class="fa fa-check"></i><b>16</b> Strata gallery</a>
+<li class="chapter" data-level="17" data-path="stratagallery.html"><a href="stratagallery.html"><i class="fa fa-check"></i><b>17</b> Strata gallery</a>
 <ul>
 <li class="chapter" data-level="" data-path="stratagallery.html"><a href="stratagallery.html#central-north-pacific"><i class="fa fa-check"></i>Central North Pacific</a></li>
 <li class="chapter" data-level="" data-path="stratagallery.html"><a href="stratagallery.html#california-current"><i class="fa fa-check"></i>California Current</a></li>
 <li class="chapter" data-level="" data-path="stratagallery.html"><a href="stratagallery.html#etp"><i class="fa fa-check"></i>ETP</a></li>
 </ul></li>
-<li class="chapter" data-level="17" data-path="segmentizing.html"><a href="segmentizing.html"><i class="fa fa-check"></i><b>17</b> Segmentizing</a>
+<li class="chapter" data-level="18" data-path="segmentizing.html"><a href="segmentizing.html"><i class="fa fa-check"></i><b>18</b> Segmentizing</a>
 <ul>
 <li class="chapter" data-level="" data-path="segmentizing.html"><a href="segmentizing.html#approach"><i class="fa fa-check"></i>Approach</a>
 <ul>
@@ -401,7 +402,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="segmentizing.html"><a href="segmentizing.html#habitat-modeling"><i class="fa fa-check"></i>Habitat modeling</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="18" data-path="validation.html"><a href="validation.html"><i class="fa fa-check"></i><b>18</b> Validation</a>
+<li class="chapter" data-level="19" data-path="validation.html"><a href="validation.html"><i class="fa fa-check"></i><b>19</b> Validation</a>
 <ul>
 <li class="chapter" data-level="" data-path="validation.html"><a href="validation.html#data-processing-1"><i class="fa fa-check"></i>Data processing</a>
 <ul>
@@ -410,7 +411,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="validation.html"><a href="validation.html#effort"><i class="fa fa-check"></i>Effort</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="19" data-path="spp_codes.html"><a href="spp_codes.html"><i class="fa fa-check"></i><b>19</b> NOAA/NMFS species codes</a>
+<li class="chapter" data-level="20" data-path="spp_codes.html"><a href="spp_codes.html"><i class="fa fa-check"></i><b>20</b> NOAA/NMFS species codes</a>
 <ul>
 <li class="chapter" data-level="" data-path="spp_codes.html"><a href="spp_codes.html#table"><i class="fa fa-check"></i>Table</a></li>
 <li class="chapter" data-level="" data-path="spp_codes.html"><a href="spp_codes.html#species_translator"><i class="fa fa-check"></i><code>species_translator()</code></a></li>
@@ -536,15 +537,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb162-2"><a href="lta.html#cb162-2" tabindex="-1"></a>                   <span class="at">covariates_factor =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>),</span>
 <span id="cb162-3"><a href="lta.html#cb162-3" tabindex="-1"></a>                   <span class="at">covariates_levels =</span> <span class="dv">2</span>,</span>
 <span id="cb162-4"><a href="lta.html#cb162-4" tabindex="-1"></a>                   <span class="at">covariates_n_per_level =</span> <span class="dv">10</span>,</span>
-<span id="cb162-5"><a href="lta.html#cb162-5" tabindex="-1"></a>                   <span class="at">detection_function_base =</span> <span class="st">&#39;hn&#39;</span>,</span>
-<span id="cb162-6"><a href="lta.html#cb162-6" tabindex="-1"></a>                   <span class="at">base_model =</span> <span class="st">&#39;~1&#39;</span>,</span>
-<span id="cb162-7"><a href="lta.html#cb162-7" tabindex="-1"></a>                   <span class="at">delta_aic =</span> <span class="dv">2</span>)</span></code></pre></div>
+<span id="cb162-5"><a href="lta.html#cb162-5" tabindex="-1"></a>                   <span class="at">simplify_cue =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb162-6"><a href="lta.html#cb162-6" tabindex="-1"></a>                   <span class="at">simplify_bino =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb162-7"><a href="lta.html#cb162-7" tabindex="-1"></a>                   <span class="at">detection_function_base =</span> <span class="st">&#39;hn&#39;</span>,</span>
+<span id="cb162-8"><a href="lta.html#cb162-8" tabindex="-1"></a>                   <span class="at">base_model =</span> <span class="st">&#39;~1&#39;</span>,</span>
+<span id="cb162-9"><a href="lta.html#cb162-9" tabindex="-1"></a>                   <span class="at">delta_aic =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><em>(Note that all of these inputs have defaults, and are therefore optional.)</em></p>
 <ul>
 <li><p><strong><code>covariates</code></strong> Covariates you wish to include as candidates in detection function models, provided as a character vector. The covariates must match columns existing within <code>cruz$cohorts$&lt;cohort_name&gt;$sightings</code>. Note that the function will ignore case, coercing all covariates to lowercase. Default: no covariates.</p></li>
 <li><p><strong><code>covariates_factor</code></strong> A Boolean vector, which must be the same length as <code>covariates</code>, indicating whether each covariate should be treated as a factor instead of a numeric. Default: <code>NULL</code>.</p></li>
 <li><p><strong><code>covariates_levels</code></strong> The minimum number of levels a factor covariate must have in order to be included as an eligible covariate. Default: <code>2</code>.</p></li>
 <li><p><strong><code>covariates_n_per_level</code></strong> The minimum number of observations within each level of a factor covariate. If this condition is not met, the covariate is excluded from the candidates. Default: <code>10</code>.</p></li>
+<li><p><strong><code>simplify_cue</code></strong> A Boolean, with default <code>TRUE</code>, indicating whether or not cue codes should be simplified before being included as a covariate in detection function fitting. This can help to overcome the factor sample size limitations that may prevent inclusion as a covariate. If <code>TRUE</code>, cues <code>0</code>, <code>1</code>, <code>2</code>, <code>4</code>, and <code>7</code> are coerced to <code>5</code>, representing ‘other’ cues.</p></li>
+<li><p><strong><code>simplify_bino</code></strong> A Boolean, with default <code>TRUE</code>, indicating whether or not sighting method codes should be simplified before being included as a covariate in detection function fitting. This can help to overcome the factor sample size limitations that may prevent inclusion as a covariate. If <code>TRUE</code>, methods other than <code>4</code> are all coerced to <code>5</code>, representing ‘other’ methods.</p></li>
 <li><p><strong><code>detection_function_base</code></strong> The base key for the detection function, provided as a character vector. Accepted values are <code>"hn"</code> (half-normal key, the default, which exhibits greater stability when fitting to cetacean survey data; <a href="https://www.int-res.com/abstracts/meps/v291/p1-21/">Gerrodette and Forcada 2005</a>), <code>"hr"</code> (hazard-rate), or <code>c("hn", "hr)</code>, which will loop through both keys and attempt model fitting.</p></li>
 <li><p><strong><code>base_model</code></strong> The initial model formula, upon which to build using candidate covariates. If not provided by the user, the default is <code>"~ 1"</code>.</p></li>
 <li><p><strong><code>delta_aic</code></strong> The AIC difference between the model yielding the lowest AIC and other candidate models, used to define the best-fitting models. Typically, AIC differences of less than 2 (the default) indicate effectively equal model performance. If this value is not zero, then model averaging will be done: if multiple models are within <code>delta_aic</code> of the model with the lowest AIC, all “best” models will be used in subsequent steps and their results will be averaged. See <code>Details</code> below.</p></li>

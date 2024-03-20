@@ -140,6 +140,8 @@ df_settings = list(covariates = c('bft','lnsstot','cruise','year','ship','specie
                    covariates_factor = c(FALSE, FALSE, TRUE, TRUE, TRUE, TRUE),
                    covariates_levels = 2,
                    covariates_n_per_level = 10,
+                   simplify_cue = TRUE,
+                   simplify_bino = TRUE,
                    detection_function_base = 'hn',
                    base_model = '~1',
                    delta_aic = 2)
@@ -153,7 +155,11 @@ df_settings = list(covariates = c('bft','lnsstot','cruise','year','ship','specie
 
 - **`covariates_levels`** The minimum number of levels a factor covariate must have in order to be included as an eligible covariate.  Default: `2`.
 
-- **`covariates_n_per_level`** The minimum number of observations within each level of a factor covariate. If this condition is not met, the covariate is excluded from the candidates.  Default: `10`.
+- **`covariates_n_per_level`** The minimum number of observations within each level of a factor covariate. If this condition is not met, the covariate is excluded from the candidates.  Default: `10`.  
+
+- **`simplify_cue`** A Boolean, with default `TRUE`, indicating whether or not cue codes should be simplified before being included as a covariate in detection function fitting. This can help to overcome the factor sample size limitations that may prevent inclusion as a covariate. If `TRUE`, cues `0`, `1`, `2`, `4`, and `7` are coerced to `5`, representing 'other' cues.  
+
+- **`simplify_bino`** A Boolean, with default `TRUE`, indicating whether or not sighting method codes should be simplified before being included as a covariate in detection function fitting. This can help to overcome the factor sample size limitations that may prevent inclusion as a covariate. If `TRUE`, methods other than `4` are all coerced to `5`, representing 'other' methods.  
 
 - **`detection_function_base`** The base key for the detection function, provided as a character vector. Accepted values are `"hn"` (half-normal key, the default, which exhibits greater stability when fitting to cetacean survey data; [Gerrodette and Forcada 2005](https://www.int-res.com/abstracts/meps/v291/p1-21/)), `"hr"` (hazard-rate), or `c("hn", "hr)`, which will loop through both keys and attempt model fitting.
 

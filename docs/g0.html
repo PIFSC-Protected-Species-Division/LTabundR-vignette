@@ -341,8 +341,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="plots.html"><a href="plots.html#abundance-plots"><i class="fa fa-check"></i>Abundance plots</a></li>
 <li class="chapter" data-level="" data-path="plots.html"><a href="plots.html#detection-function-plots"><i class="fa fa-check"></i>Detection function plots</a></li>
 </ul></li>
+<li class="chapter" data-level="15" data-path="combining-lta-results.html"><a href="combining-lta-results.html"><i class="fa fa-check"></i><b>15</b> Combining <code>lta()</code> results</a></li>
 <li class="part"><span><b>V Case studies</b></span></li>
-<li class="chapter" data-level="15" data-path="whiceas.html"><a href="whiceas.html"><i class="fa fa-check"></i><b>15</b> WHICEAS</a>
+<li class="chapter" data-level="16" data-path="whiceas.html"><a href="whiceas.html"><i class="fa fa-check"></i><b>16</b> WHICEAS</a>
 <ul>
 <li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#data-processing"><i class="fa fa-check"></i>Data processing</a>
 <ul>
@@ -370,13 +371,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="whiceas.html"><a href="whiceas.html#results-tables"><i class="fa fa-check"></i>Results tables</a></li>
 </ul></li>
 <li class="part"><span><b>VI Appendix</b></span></li>
-<li class="chapter" data-level="16" data-path="stratagallery.html"><a href="stratagallery.html"><i class="fa fa-check"></i><b>16</b> Strata gallery</a>
+<li class="chapter" data-level="17" data-path="stratagallery.html"><a href="stratagallery.html"><i class="fa fa-check"></i><b>17</b> Strata gallery</a>
 <ul>
 <li class="chapter" data-level="" data-path="stratagallery.html"><a href="stratagallery.html#central-north-pacific"><i class="fa fa-check"></i>Central North Pacific</a></li>
 <li class="chapter" data-level="" data-path="stratagallery.html"><a href="stratagallery.html#california-current"><i class="fa fa-check"></i>California Current</a></li>
 <li class="chapter" data-level="" data-path="stratagallery.html"><a href="stratagallery.html#etp"><i class="fa fa-check"></i>ETP</a></li>
 </ul></li>
-<li class="chapter" data-level="17" data-path="segmentizing.html"><a href="segmentizing.html"><i class="fa fa-check"></i><b>17</b> Segmentizing</a>
+<li class="chapter" data-level="18" data-path="segmentizing.html"><a href="segmentizing.html"><i class="fa fa-check"></i><b>18</b> Segmentizing</a>
 <ul>
 <li class="chapter" data-level="" data-path="segmentizing.html"><a href="segmentizing.html#approach"><i class="fa fa-check"></i>Approach</a>
 <ul>
@@ -401,7 +402,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="segmentizing.html"><a href="segmentizing.html#habitat-modeling"><i class="fa fa-check"></i>Habitat modeling</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="18" data-path="validation.html"><a href="validation.html"><i class="fa fa-check"></i><b>18</b> Validation</a>
+<li class="chapter" data-level="19" data-path="validation.html"><a href="validation.html"><i class="fa fa-check"></i><b>19</b> Validation</a>
 <ul>
 <li class="chapter" data-level="" data-path="validation.html"><a href="validation.html#data-processing-1"><i class="fa fa-check"></i>Data processing</a>
 <ul>
@@ -410,7 +411,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="validation.html"><a href="validation.html#effort"><i class="fa fa-check"></i>Effort</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="19" data-path="spp_codes.html"><a href="spp_codes.html"><i class="fa fa-check"></i><b>19</b> NOAA/NMFS species codes</a>
+<li class="chapter" data-level="20" data-path="spp_codes.html"><a href="spp_codes.html"><i class="fa fa-check"></i><b>20</b> NOAA/NMFS species codes</a>
 <ul>
 <li class="chapter" data-level="" data-path="spp_codes.html"><a href="spp_codes.html#table"><i class="fa fa-check"></i>Table</a></li>
 <li class="chapter" data-level="" data-path="spp_codes.html"><a href="spp_codes.html#species_translator"><i class="fa fa-check"></i><code>species_translator()</code></a></li>
@@ -566,7 +567,7 @@ So <em>g(0)</em> matters, and the assumption of detection functions that <em>g(0
 <ul>
 <li><p>Note that we used shorter truncation distances for cryptic species.</p></li>
 <li><p>Note also that we had to pool Beaufort sea states 0-2 for Risso’s dolphins in order to maintain a monotonic decline in the <em>Rg(0)</em> ~ Beaufort curve.</p></li>
-<li><p>Note also that we limited the geostrata used to model the fin whale <em>Rg(0)</em> curve to the California Current System (‘CCS’, after Barlow 2015), so that zero-inflated segments did not confound the model.</p></li>
+<li><p>Note also that we limited the geostrata used to model the fin whale <em>Rg(0)</em> curve to the California Current System (‘CCS’, after Barlow 2015), so that zero-inflated segments did not confound the model. In general we recommend that survey effort should only be included for regions within a species’ normal expected range. Otherwise zero-inflation may have an effect on <em>Rg(0)</em> model results.</p></li>
 </ul>
 <p>We then pass this species list to <code>g0_table()</code>. In this example, we are only estimating the <em>Rg(0)</em> relationship, without conducting jackknife estimation:</p>
 <div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="g0.html#cb146-1" tabindex="-1"></a>rg0s <span class="ot">&lt;-</span> <span class="fu">g0_table</span>(cruzi,</span>

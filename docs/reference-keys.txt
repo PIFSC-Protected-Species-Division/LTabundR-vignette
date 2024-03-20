@@ -13,6 +13,7 @@ subgroups2
 diagnostic-plots
 tables
 plots
+combining-lta-results
 whiceas
 stratagallery
 segmentizing

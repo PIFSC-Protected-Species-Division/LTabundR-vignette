@@ -240,3 +240,26 @@ df_plot(lta_result,
 ```
 
 
+# Combining `lta()` results
+
+`LTabundR` provides a function, `lta_pool()`, that allows you to pool, or concatenate, the results of two separate `lta()` runs in order to achieve the desired number of bootstrap iterations. An example use case: you already have a `lta()` result, which you have named `lta1`, for a species pool with 1,000-iterations. You want to see if the `CV` estimate is liable to change if you do more iterations, so you can run the same `lta()` call again and save the result to a new object, `lta2`. You can then pool these two results together:
+
+```{r, echo=TRUE, eval=FALSE, collapse=TRUE, include=TRUE}
+# Put the lta outputs into a list
+ltas <- list(lta1, lta2)
+
+# Pool bootstraps
+lta3 <- lta_pool(ltas)
+```
+
+The resulting object can be treated the same as another other `lta()` result, for example you can run `lta_diagnostics()` or `lta_report()`. 
+
+Another use case: You have two `lta()` outputs, one with 600 iterations and another with 500. You want to pool the two outputs but only keep 1,000 iterations total. Specify the `bootstraps` input in the `lta_pool()` call in order to randomly select 1,000 of the 1,100 bootstraps available.
+
+```{r, echo=TRUE, eval=FALSE, collapse=TRUE, include=TRUE}
+# Put the lta outputs into a list
+ltas <- list(lta1, lta2)
+
+# Pool bootstraps
+lta3 <- lta_pool(ltas, bootstraps=1000)
+```
