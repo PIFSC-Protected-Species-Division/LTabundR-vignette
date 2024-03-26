@@ -289,6 +289,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10" data-path="trend-analysis.html"><a href="trend-analysis.html"><i class="fa fa-check"></i><b>10</b> Trend analysis</a></li>
 <li class="chapter" data-level="11" data-path="subgroups2.html"><a href="subgroups2.html"><i class="fa fa-check"></i><b>11</b> Subgroup-based analysis</a>
 <ul>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#reminder-on-data-processing"><i class="fa fa-check"></i>Reminder on data processing</a></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#manual-data-updates"><i class="fa fa-check"></i>Manual data updates</a>
 <ul>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#reviewing-processed-subgroup-data"><i class="fa fa-check"></i>Reviewing processed subgroup data</a></li>
@@ -464,27 +465,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="trend-analysis.html#cb199-1" tabindex="-1"></a>er_results<span class="sc">$</span>summary</span>
 <span id="cb199-2"><a href="trend-analysis.html#cb199-2" tabindex="-1"></a>  years observed     p</span>
 <span id="cb199-3"><a href="trend-analysis.html#cb199-3" tabindex="-1"></a><span class="dv">1</span>  <span class="dv">2010</span>       <span class="dv">19</span> <span class="fl">0.000</span></span>
-<span id="cb199-4"><a href="trend-analysis.html#cb199-4" tabindex="-1"></a><span class="dv">2</span>  <span class="dv">2002</span>       <span class="dv">10</span> <span class="fl">0.559</span></span>
+<span id="cb199-4"><a href="trend-analysis.html#cb199-4" tabindex="-1"></a><span class="dv">2</span>  <span class="dv">2002</span>       <span class="dv">10</span> <span class="fl">0.579</span></span>
 <span id="cb199-5"><a href="trend-analysis.html#cb199-5" tabindex="-1"></a><span class="dv">3</span>  <span class="dv">2017</span>        <span class="dv">2</span> <span class="fl">1.000</span></span></code></pre></div>
 <p>In this example, the encounter rates observed in 2002 and 2010 are very likely due to some process <em>other</em> than random variation in the encounter rate, such as range shifts, seasonal movement timing shifts, and/or changes in abundance. However, the observed encounter rate in 2017 could easily be explained by random variation in the ER.</p>
 <p>The <code>details</code> slot returns the simulation predictions for each year:</p>
 <div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="trend-analysis.html#cb200-1" tabindex="-1"></a>er_results<span class="sc">$</span>details <span class="sc">%&gt;%</span> head</span>
-<span id="cb200-2"><a href="trend-analysis.html#cb200-2" tabindex="-1"></a>  year p obs       sim</span>
-<span id="cb200-3"><a href="trend-analysis.html#cb200-3" tabindex="-1"></a><span class="dv">1</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span> <span class="fl">10.252722</span></span>
-<span id="cb200-4"><a href="trend-analysis.html#cb200-4" tabindex="-1"></a><span class="dv">2</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span> <span class="fl">13.815847</span></span>
-<span id="cb200-5"><a href="trend-analysis.html#cb200-5" tabindex="-1"></a><span class="dv">3</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span> <span class="fl">12.343647</span></span>
-<span id="cb200-6"><a href="trend-analysis.html#cb200-6" tabindex="-1"></a><span class="dv">4</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span> <span class="fl">10.276965</span></span>
-<span id="cb200-7"><a href="trend-analysis.html#cb200-7" tabindex="-1"></a><span class="dv">5</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span>  <span class="fl">9.773762</span></span>
-<span id="cb200-8"><a href="trend-analysis.html#cb200-8" tabindex="-1"></a><span class="dv">6</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span>  <span class="fl">7.063934</span></span>
+<span id="cb200-2"><a href="trend-analysis.html#cb200-2" tabindex="-1"></a>  year p obs      sim</span>
+<span id="cb200-3"><a href="trend-analysis.html#cb200-3" tabindex="-1"></a><span class="dv">1</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span> <span class="fl">10.33848</span></span>
+<span id="cb200-4"><a href="trend-analysis.html#cb200-4" tabindex="-1"></a><span class="dv">2</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span> <span class="fl">11.92743</span></span>
+<span id="cb200-5"><a href="trend-analysis.html#cb200-5" tabindex="-1"></a><span class="dv">3</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span> <span class="fl">11.69343</span></span>
+<span id="cb200-6"><a href="trend-analysis.html#cb200-6" tabindex="-1"></a><span class="dv">4</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span>  <span class="fl">9.45814</span></span>
+<span id="cb200-7"><a href="trend-analysis.html#cb200-7" tabindex="-1"></a><span class="dv">5</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span> <span class="fl">11.46028</span></span>
+<span id="cb200-8"><a href="trend-analysis.html#cb200-8" tabindex="-1"></a><span class="dv">6</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span> <span class="fl">11.21720</span></span>
 <span id="cb200-9"><a href="trend-analysis.html#cb200-9" tabindex="-1"></a></span>
 <span id="cb200-10"><a href="trend-analysis.html#cb200-10" tabindex="-1"></a>er_results<span class="sc">$</span>details <span class="sc">%&gt;%</span> tail</span>
 <span id="cb200-11"><a href="trend-analysis.html#cb200-11" tabindex="-1"></a>     year p obs       sim</span>
-<span id="cb200-12"><a href="trend-analysis.html#cb200-12" tabindex="-1"></a><span class="dv">2995</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span> <span class="fl">11.024636</span></span>
-<span id="cb200-13"><a href="trend-analysis.html#cb200-13" tabindex="-1"></a><span class="dv">2996</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span> <span class="fl">10.437415</span></span>
-<span id="cb200-14"><a href="trend-analysis.html#cb200-14" tabindex="-1"></a><span class="dv">2997</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span>  <span class="fl">9.716545</span></span>
-<span id="cb200-15"><a href="trend-analysis.html#cb200-15" tabindex="-1"></a><span class="dv">2998</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span>  <span class="fl">8.887581</span></span>
-<span id="cb200-16"><a href="trend-analysis.html#cb200-16" tabindex="-1"></a><span class="dv">2999</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span> <span class="fl">11.862783</span></span>
-<span id="cb200-17"><a href="trend-analysis.html#cb200-17" tabindex="-1"></a><span class="dv">3000</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span>  <span class="fl">8.524221</span></span></code></pre></div>
+<span id="cb200-12"><a href="trend-analysis.html#cb200-12" tabindex="-1"></a><span class="dv">2995</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span> <span class="fl">10.373593</span></span>
+<span id="cb200-13"><a href="trend-analysis.html#cb200-13" tabindex="-1"></a><span class="dv">2996</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span>  <span class="fl">8.107085</span></span>
+<span id="cb200-14"><a href="trend-analysis.html#cb200-14" tabindex="-1"></a><span class="dv">2997</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span>  <span class="fl">7.641444</span></span>
+<span id="cb200-15"><a href="trend-analysis.html#cb200-15" tabindex="-1"></a><span class="dv">2998</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span>  <span class="fl">9.918345</span></span>
+<span id="cb200-16"><a href="trend-analysis.html#cb200-16" tabindex="-1"></a><span class="dv">2999</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span> <span class="fl">11.483213</span></span>
+<span id="cb200-17"><a href="trend-analysis.html#cb200-17" tabindex="-1"></a><span class="dv">3000</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span> <span class="fl">10.519033</span></span></code></pre></div>
 <p>The <code>p</code> slot returns a faceted histogram of the results:</p>
 <div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="trend-analysis.html#cb201-1" tabindex="-1"></a>er_results<span class="sc">$</span>p</span></code></pre></div>
 <p><img src="figures/unnamed-chunk-255-1.png" width="672" /></p>

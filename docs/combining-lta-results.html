@@ -289,6 +289,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10" data-path="trend-analysis.html"><a href="trend-analysis.html"><i class="fa fa-check"></i><b>10</b> Trend analysis</a></li>
 <li class="chapter" data-level="11" data-path="subgroups2.html"><a href="subgroups2.html"><i class="fa fa-check"></i><b>11</b> Subgroup-based analysis</a>
 <ul>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#reminder-on-data-processing"><i class="fa fa-check"></i>Reminder on data processing</a></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#manual-data-updates"><i class="fa fa-check"></i>Manual data updates</a>
 <ul>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#reviewing-processed-subgroup-data"><i class="fa fa-check"></i>Reviewing processed subgroup data</a></li>
@@ -436,18 +437,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="combining-lta-results" class="section level1 hasAnchor" number="15">
 <h1><span class="header-section-number">15</span> Combining <code>lta()</code> results<a href="combining-lta-results.html#combining-lta-results" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><code>LTabundR</code> provides a function, <code>lta_pool()</code>, that allows you to pool, or concatenate, the results of two separate <code>lta()</code> runs in order to achieve the desired number of bootstrap iterations. An example use case: you already have a <code>lta()</code> result, which you have named <code>lta1</code>, for a species pool with 1,000-iterations. You want to see if the <code>CV</code> estimate is liable to change if you do more iterations, so you can run the same <code>lta()</code> call again and save the result to a new object, <code>lta2</code>. You can then pool these two results together:</p>
-<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="combining-lta-results.html#cb292-1" tabindex="-1"></a><span class="co"># Put the lta outputs into a list</span></span>
-<span id="cb292-2"><a href="combining-lta-results.html#cb292-2" tabindex="-1"></a>ltas <span class="ot">&lt;-</span> <span class="fu">list</span>(lta1, lta2)</span>
-<span id="cb292-3"><a href="combining-lta-results.html#cb292-3" tabindex="-1"></a></span>
-<span id="cb292-4"><a href="combining-lta-results.html#cb292-4" tabindex="-1"></a><span class="co"># Pool bootstraps</span></span>
-<span id="cb292-5"><a href="combining-lta-results.html#cb292-5" tabindex="-1"></a>lta3 <span class="ot">&lt;-</span> <span class="fu">lta_pool</span>(ltas)</span></code></pre></div>
+<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="combining-lta-results.html#cb305-1" tabindex="-1"></a><span class="co"># Put the lta outputs into a list</span></span>
+<span id="cb305-2"><a href="combining-lta-results.html#cb305-2" tabindex="-1"></a>ltas <span class="ot">&lt;-</span> <span class="fu">list</span>(lta1, lta2)</span>
+<span id="cb305-3"><a href="combining-lta-results.html#cb305-3" tabindex="-1"></a></span>
+<span id="cb305-4"><a href="combining-lta-results.html#cb305-4" tabindex="-1"></a><span class="co"># Pool bootstraps</span></span>
+<span id="cb305-5"><a href="combining-lta-results.html#cb305-5" tabindex="-1"></a>lta3 <span class="ot">&lt;-</span> <span class="fu">lta_pool</span>(ltas)</span></code></pre></div>
 <p>The resulting object can be treated the same as another other <code>lta()</code> result, for example you can run <code>lta_diagnostics()</code> or <code>lta_report()</code>.</p>
 <p>Another use case: You have two <code>lta()</code> outputs, one with 600 iterations and another with 500. You want to pool the two outputs but only keep 1,000 iterations total. Specify the <code>bootstraps</code> input in the <code>lta_pool()</code> call in order to randomly select 1,000 of the 1,100 bootstraps available.</p>
-<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="combining-lta-results.html#cb293-1" tabindex="-1"></a><span class="co"># Put the lta outputs into a list</span></span>
-<span id="cb293-2"><a href="combining-lta-results.html#cb293-2" tabindex="-1"></a>ltas <span class="ot">&lt;-</span> <span class="fu">list</span>(lta1, lta2)</span>
-<span id="cb293-3"><a href="combining-lta-results.html#cb293-3" tabindex="-1"></a></span>
-<span id="cb293-4"><a href="combining-lta-results.html#cb293-4" tabindex="-1"></a><span class="co"># Pool bootstraps</span></span>
-<span id="cb293-5"><a href="combining-lta-results.html#cb293-5" tabindex="-1"></a>lta3 <span class="ot">&lt;-</span> <span class="fu">lta_pool</span>(ltas, <span class="at">bootstraps=</span><span class="dv">1000</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="combining-lta-results.html#cb306-1" tabindex="-1"></a><span class="co"># Put the lta outputs into a list</span></span>
+<span id="cb306-2"><a href="combining-lta-results.html#cb306-2" tabindex="-1"></a>ltas <span class="ot">&lt;-</span> <span class="fu">list</span>(lta1, lta2)</span>
+<span id="cb306-3"><a href="combining-lta-results.html#cb306-3" tabindex="-1"></a></span>
+<span id="cb306-4"><a href="combining-lta-results.html#cb306-4" tabindex="-1"></a><span class="co"># Pool bootstraps</span></span>
+<span id="cb306-5"><a href="combining-lta-results.html#cb306-5" tabindex="-1"></a>lta3 <span class="ot">&lt;-</span> <span class="fu">lta_pool</span>(ltas, <span class="at">bootstraps=</span><span class="dv">1000</span>)</span></code></pre></div>
 
 </div>
 
