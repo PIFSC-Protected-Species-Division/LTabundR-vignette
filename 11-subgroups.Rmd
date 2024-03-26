@@ -17,7 +17,7 @@ False killer whales (*Pseudorca crassidens*) are rare and occur in dispersed sub
 
 An additional complication is that false killer whales in Hawaiian waters belong to three discrete populations -- the Main Hawaiian Islands insular population, the Northwestern Hawaiian Islands (NWHI) population, and a pelagic population -- whose ranges partially overlap, which means that population assignment cannot always be based simply on the geographic location of sightings. When geographic assignment of population is not possible, biopsy-sampled genetics or photo-identification inference, if available, is used to assign each sighting to a population *post-hoc*.  
 
-To accommodate these special circumstances for false killer whales (and potentially other species with subgroup structure) with an appropriate balance of flexibility and efficiency, `LTabundR` includes a function named `lta_subgroup()`, whose use looks something like this: 
+To accommodate these special circumstances for false killer whales (and potentially other species with subgroup structure) with an appropriate balance of flexibility and efficiency, `LTabundR` includes a function named `lta_subgroup()`, whose use will look something like this: 
 
 ```{r, echo=TRUE, eval=FALSE, collapse=TRUE, message=FALSE, warning=FALSE}
 lta_subgroup(df_sits,
@@ -34,7 +34,6 @@ lta_subgroup(df_sits,
              g0_jackknife_fraction = 0.1,
              abundance_area = NULL,
              iterations = 5000,
-             density_bootstraps = 10000,
              output_dir = NULL,
              toplot = TRUE,
              verbose = TRUE
@@ -44,11 +43,130 @@ Note that there are several required inputs (without any defaults) as well as ma
 
 We will step through each of these inputs below, using a case study in which we estimate the abundance of the pelagic false killer whale population in the Hawaiian EEZ for 2017 ([Bradford et al. 2020](https://repository.library.noaa.gov/view/noaa/24756)). 
 
-Before proceeding, we recommend that you review the details of [how subgroup data are processed](#subgroups) within the `LTabundR` framework.
+### Reminder on data processing {-} 
+
+`LTabundR` has been designed to make a first-pass attempt at processing subgroup data resulting from the PC protocol. We recommend that you review the details of [how subgroup data are processed](#subgroups) within the `LTabundR` framework. For convenience, below we provide the minimum data processing code needed to reproduce the analysis we present here. 
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+# Local path to DAS file
+das_file <- 'data/surveys/CenPac1986-2020_Final_alb.das'
+```
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+# Strata to use
+data(strata_cnp)
+strata_cnp %>% names
+
+my_strata <- strata_cnp[c(1, 2, 11, 12)]
+my_strata %>% names
+```
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+# Survey-wide settings
+data(species_codes)
+data(ships)
+data(group_size_coefficients)
+survey <- load_survey_settings(
+  out_handling = 'remove',
+  min_row_interval = 2,
+  max_row_interval = 3600,
+  max_row_km = 100,
+  km_filler = 1,
+  speed_filler = 10 * 1.852,
+  segment_method = "equallength",
+  segment_target_km = 150,
+  segment_max_interval = 24,
+  segment_remainder_handling = c("segment"),
+  ship_list = ships,
+  species_codes = species_codes,
+  group_size_coefficients = group_size_coefficients,
+  smear_angles = FALSE)
+```
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+# Cohort-specific settings
+all_species <- load_cohort_settings(
+  id = "all", 
+  probable_species = FALSE,
+  sighting_method = 0,
+  cue_range = 0:7,
+  school_size_range = c(0, 10000),
+  school_size_calibrate = TRUE,
+  calibration_floor = 0,
+  use_low_if_na = TRUE, 
+  io_sightings = 0,
+  geometric_mean_group = TRUE,
+  truncation_km = 7.5, 
+  beaufort_range = 0:6,
+  abeam_sightings = FALSE, 
+  strata_overlap_handling = c("smallest"),
+  distance_types = c('S','F','N'),
+  distance_modes = c('P','C'),
+  distance_on_off = TRUE)
+```
+
+```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
+# Gather settings
+settings <- load_settings(strata = my_strata,
+                          survey = survey,
+                          cohorts = list(all_species))
+
+# Process data
+cruz <- process_surveys(das_file, 
+                        settings)
+```
+
+```{r, echo=FALSE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
+save(cruz, file='subgroup_cruz_og.RData')
+```
+
+```{r, echo=FALSE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+load('subgroup_cruz_og.RData')
+```
+
+This `cruz` object has the geostrata relevant to the subgroup analysis we are replicating here: 
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+cruz$strata
+```
+
+The `all` cohort for this `cruz` object has a `subgroups` slot...
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+cruz$cohorts$all %>% names
+```
+
+... which has three slots inside it: 
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+cruz$cohorts$all$subgroups %>% names
+```
+
+The `events` slot is the closest thing to raw `DAS` data: each row is a subgroup size estimate from a single observer. The `subgroups` slot has a line for each subgroup, with the subgroup size averaged across observers. The `sightings` slot has a line for each sighting within each phase of the PC protocol, with group size representing the sum of all subgroups in the respective phase.   
+
+Here are all the columns within the `events` slot: 
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+cruz$cohorts$all$subgroups$events %>% names
+```
+
+Note that each subgroup has automatically been assigned to a phase of the PC protocol: 
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+cruz$cohorts$all$subgroups$events$phase %>% head(20)
+```
+
+And that each subgroup has been given a blank placeholder of `NA` in the population column: 
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+cruz$cohorts$all$subgroups$events$population %>% head()
+```
+
+
 
 ## Manual data updates {-}  
 
-`LTabundR` has been designed to make a first-pass attempt at processing subgroup data resulting from the PC protocol.  In most cases the processed subgroup data will need to be reviewed carefully and it is probable that some manual edits will be necessary. To facilitate that process, `LTabundR` offers functions that allow the user to review the processed data, stage reproducible edits using code, and re-process the data to apply those edits.   
+In most cases the processed subgroup data will need to be reviewed carefully and it is probable that some manual edits will be necessary. To facilitate that process, `LTabundR` offers functions that allow the user to review the processed data, stage reproducible edits using code, and re-process the data to apply those edits.   
 
 In short, here are the functions related to each step in this editing workflow: 
 
@@ -67,7 +185,7 @@ We provide details for each of those steps in the following subsections.
 For reviewing processed subgroup data, use the **`subgroup_explorer()`** function. 
 
 ```{r, echo=TRUE, eval=FALSE, collapse=TRUE, message=FALSE, warning=FALSE}
-subgroup_explorer(cruz, cohort='pseudorca')
+subgroup_explorer(cruz, cohort='all')
 ```
 
 This function launches an interactive `Shiny` dashboard for exploring the processed subgroups `events`. It will look like this: 
@@ -82,49 +200,26 @@ To stage code for reproducible edits to the processed data, two functions are av
 
 The function `subgroup_populations()` allows you to batch-assign subgroup events to certain populations based upon spatial polygons. Its use looks like this: 
 
-```{r, echo=FALSE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
-# Load cruz obkect
-data("cnp_150km_1986_2020")
-cruz <- cnp_150km_1986_2020
-```
-
 ```{r, echo=TRUE, eval=FALSE, collapse=TRUE, message=FALSE, warning=FALSE}
 subgroup_populations(populations,
                      cruz,
-                     cohort='pseudorca',
+                     cohort='all',
                      default_pop = 'pelagic')
 ```
 
-When you run this function, it returns a `data.frame` of instructions in which each row is a population assignment for a subgroup event: 
-
-```{r, echo=FALSE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
-mhi <- cruz$settings$strata$MHI
-nwhi <- cruz$settings$strata$NWHI
-populations <- list(MHI = mhi,
-                    NWHI = nwhi)
-
-subgroup_populations(populations,
-                     cruz,
-                     cohort='pseudorca',
-                     default_pop = 'pelagic',
-                     verbose=FALSE) %>% head
-```
-
-This `data.frame` is formatted exactly as needed to pass these edits to the re-processing routine `process_subgroups()`.  The column `population` contains the population assignment, and `pop_prob` contains the probility that the event is assigned to this population. The latter will be `1.0` unless the event occurs in overlapping polygons, in which case the `population` column will display all eligible population names separated by a semicolon (e.g., if there are two overlapping polygons named `"MHI"` and `"NWHI"`, the `population` will be shown as `"MHI;NWHI"`), and the `pop_prob` column will display an equal probability of assignment for each of those populations (e.g., `"0.5;0.5"`). If an event does not occur within any of the polygons provided, it will be given the `default_pop` name, with a default `pop_prob` of `1.0`.    
-
-In the `subgroup_populations()` function, the `populations` input is a named list of polygon coordinates, very similar to the way `strata` are supplied in the settings for `process_surveys()`. Here's an example of what that list could look like if you chose to use some of the strata in your `cruz` `settings`:  
+In this function, the `populations` input is a named list of polygon coordinates, very similar to the way `strata` are supplied in the settings for `process_surveys()`. Here's an example of what that list could look like if you chose to use some of the strata in your `cruz` `settings`:  
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
 # Pull polygons from settings
-mhi <- cruz$settings$strata$MHI
-nwhi <- cruz$settings$strata$NWHI
+mhi_fkw <- cruz$settings$strata$mhi_fkw
+nwhi_fkw <- cruz$settings$strata$nwhi_fkw
 
 # Example of data structure
-mhi %>% head 
+mhi_fkw %>% head 
 
 # Create populations object
-populations <- list(MHI = mhi,
-                    NWHI = nwhi)
+populations <- list(MHI = mhi_fkw,
+                    NWHI = nwhi_fkw)
 ```
 
 The name of each list slot will be treated as the name of the population occurring within the respective polygon.  When we used these polygons as the population boundaries, we get the following variety of population assignments and probabilities:  
@@ -133,7 +228,7 @@ The name of each list slot will be treated as the name of the population occurri
 pops <- 
   subgroup_populations(populations, 
                        cruz, 
-                       cohort = 'pseudorca', 
+                       cohort = 'all', 
                        default_pop = 'pelagic')
 
 pops$population %>% table
@@ -141,18 +236,33 @@ pops$population %>% table
 pops$pop_prob %>% table
 ```
 
+When you run the function `subgroup_populations()`, it returns a `data.frame` of instructions in which each row is a population assignment for a subgroup event:  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+subgroup_populations(populations,
+                     cruz,
+                     cohort='all',
+                     default_pop = 'pelagic',
+                     verbose=FALSE) %>% head
+```
+
+This `data.frame` is formatted exactly as needed to pass these edits to the re-processing routine `process_subgroups()`, as shown below.  The column `population` contains the population assignment, and `pop_prob` contains the probability that the event is assigned to this population. The latter will be `1.0` unless the event occurs in overlapping polygons, in which case the `population` column will display all eligible population names separated by a semicolon (e.g., if there are two overlapping polygons named `"MHI"` and `"NWHI"`, the `population` will be shown as `"MHI;NWHI"`), and the `pop_prob` column will display an equal probability of assignment for each of those populations (e.g., `"0.5;0.5"`). If an event does not occur within any of the polygons provided, it will be given the `default_pop` name, with a default `pop_prob` of `1.0`.    
+
+Note that if your data do not have population structure, you can skip this step and proceed. 
+
+
 
 #### Stage specific edits {-}
 
 To manually stage specific edits to the processed subgroup data, use the `subgroup_edits()` function. Its use will look something like this, though the latter inputs depend on the type of edit you are staging: 
 
 ```{r, echo=TRUE, eval=FALSE, collapse=TRUE, message=FALSE, warning=FALSE}
-subgroup_edits(cohort = 'pseudorca',
+subgroup_edits(cohort = 'all',
                sgid = '1108-20111026-004-A',
                ...) # remaining inputs depend on the type of edit
 ```
 
-The input `sgid` refers to the unique subgroup ID assigned, which you can find when you look at the subgroup data with `subgroup_explorer()` (described above). You can supply a single `sgid` or a vector of `sgid`'s.   
+The input `sgid` refers to the unique subgroup ID assigned, which you can find when you look at the subgroup data with `subgroup_explorer()` (described above). You can supply a single `sgid` or a vector of `sgid values.   
 
 This `subgroup_edits()` function returns a `list` of staged edits that can be passed directly to the subgroup re-processing routine we explain further below. 
 
@@ -162,16 +272,15 @@ This `subgroup_edits()` function returns a `list` of staged edits that can be pa
 If you need to fix population assignments on a case-by-case basis after using the batch-assignment function, `subgroup_populations()` discussed above, use the following syntax:  
 
 ```{r, echo=TRUE, eval=FALSE, collapse=TRUE, message=FALSE, warning=FALSE}
-subgroup_edits(cohort = 'pseudorca',
+subgroup_edits(cohort = 'all',
                sgid = '1108-20111026-004-A',
                population = 'MHI;NWHI',
                pop_prob = '0.5;0.5')
 ```
 
-The `population` input takes a character vector, with length of either 1 or the same as `sgid`, indicating the new population(s) to assign the `sgid`(s). If you want a `sgid` to be eligible for multiple populations, separate the population names with a semicolon. Both this input and `pop_prob` needs to not provided in order for the edit to work properly. 
+The `population` input takes a character vector, with length of either 1 or the same as `sgid`, indicating the new population(s) to assign the `sgid`(s). If you want a `sgid` to be eligible for multiple populations, separate the population names with a semicolon. Both this input and `pop_prob` needs to be provided in order for the edit to work properly. 
 
-The `pop_prob` input takes a vector, with length of either 1 or the same as `sgid`
-and values ranging between 0 and 1, indicating the probability of each population assignment for the `sgid`'s. If you want a `sgid` to be eligible for multiple populations, provide a character vector and separate the probabilities by a semicolon, e.g., `"0.5;0.5"`. Both this input and `population` needs to not be provided in order for the edit to work properly.  
+The `pop_prob` input takes a vector, with length of either 1 or the same as `sgid` and values ranging between 0 and 1, indicating the probability of each population assignment for the `sgid`(s). If you want a `sgid` to be eligible for multiple populations, provide a character vector and separate the probabilities by a semicolon, e.g., `"0.5;0.5"`. Both this input and `population` need to be provided in order for the edit to work properly.  
 
 
 ##### Edit phases {-}
@@ -179,7 +288,7 @@ and values ranging between 0 and 1, indicating the probability of each populatio
 If you need to fix the phase assignment for subgroup event(s), use the following syntax:  
 
 ```{r, echo=TRUE, eval=FALSE, collapse=TRUE, message=FALSE, warning=FALSE}
-subgroup_edits(cohort = 'pseudorca',
+subgroup_edits(cohort = 'all',
                sgid = '1108-20111026-004-A',
                phase = 2)
 ```
@@ -191,7 +300,7 @@ The input `phase` takes a numeric vector, with length of either 1 or the same as
 If you want to control whether a subgroup event was seen by the primary/standard observer (the column `ObsStd` is either `TRUE` or `FALSE`), use the following syntax:  
 
 ```{r, echo=TRUE, eval=FALSE, collapse=TRUE, message=FALSE, warning=FALSE}
-subgroup_edits(cohort = 'pseudorca',
+subgroup_edits(cohort = 'all',
                sgid = '1108-20111026-004-A',
                ObsStd = TRUE)
 ```
@@ -204,12 +313,12 @@ The input `ObsStd` takes a Boolean vector, with length of either 1 or the same a
 In rare cases you may need to delete a subgroup so that it does not affect any aspect of the analysis. To do so, use this syntax:  
 
 ```{r, echo=TRUE, eval=FALSE, collapse=TRUE, message=FALSE, warning=FALSE}
-subgroup_edits(cohort = 'pseudorca',
+subgroup_edits(cohort = 'all',
                sgid = '1108-20111026-004-A',
                exclude = TRUE)
 ```
 
-The input `exclude` takes a Boolean vector, with length of either 1 or the same as `sgid`, indicating which `sgid`'s to erase: `TRUE` means exclude, `FALSE` means keep. We recommend implementing these edits last, since the removal of a row of data may possible have downstream effects on how other edits are applied.  
+The input `exclude` takes a Boolean vector, with length of either 1 or the same as `sgid`, indicating which `sgid`(s) to erase: `TRUE` means exclude, `FALSE` means keep. We recommend implementing these edits last, since the removal of a row of data may have downstream effects on how other edits are applied.  
 
 
 #### Re-processing subgroup data {-}
@@ -218,14 +327,16 @@ Here is an arbitrary example of how a set of staged edits may look in your code:
 
 ```{r, echo=TRUE, eval=FALSE, collapse=TRUE, message=FALSE, warning=FALSE}
 # Batch-edit population assignments ========
-mhi <- cruz$settings$strata$MHI
-nwhi <- cruz$settings$strata$NWHI
-new_pops <- subgroup_populations(populations = list(MHI = mhi, NWHI = nwhi), 
+mhi_fkw <- cruz$settings$strata$mhi_fkw
+nwhi_fkw <- cruz$settings$strata$nwhi_fkw
+new_pops <- subgroup_populations(populations = list(MHI = mhi_fkw, 
+                                                    NWHI = nwhi_fkw), 
                                  cruz, 
-                                 cohort = 'pseudorca', 
+                                 cohort = 'all', 
                                  default_pop = 'pelagic')
 
 # Case-by-case edits =======================
+cohort <- 'all'
 
 # Population changes
 edit1 <- subgroup_edits(cohort=cohort, 
@@ -260,36 +371,26 @@ cruz_revised <- process_subgroups(cruz, edits = edits)
 
 You can use the `subgroup_explorer()` function to verify that changes were applied as intended.  
 
-We will use most of these functions in the code below that prepares inputs for the `lta_subgroups()` function to replicate the 2017 estimates for [Bradford et al. (2020)](https://repository.library.noaa.gov/view/noaa/24756).  
+We will use most of these functions in the code below that prepares inputs for the `lta_subgroups()` function to replicate the false killer whale abundance estimates from HICEAS 2017 ([Bradford et al. 2020](https://repository.library.noaa.gov/view/noaa/24756)).  
 
 ## Inputs to `lta_subgroup()` {-}  
 
 ### `df_sits` {-}  
 
-This is a `data.frame` of sightings you want to use to fit the detection function model. For false killer whales in [Bradford et al. (2020)](https://repository.library.noaa.gov/view/noaa/24756), this is a combination of filtered sightings prior to 2011 (made without the PC protocol) and "Phase 1" sightings from 2011 onwards (using the PC protocol). No filtering will be applied to these sightings within this function, so make sure you provide the data pre-filtered. [Bradford et al. (2020)](https://repository.library.noaa.gov/view/noaa/24756) used a single detection function for all populations of false killer whales. 
+This is a `data.frame` of sightings you want to use to fit the detection function model. For false killer whales in [Bradford et al. (2020)](https://repository.library.noaa.gov/view/noaa/24756), this is a combination of filtered sightings prior to 2011 (made without the PC protocol, but where the sighting was considered to represent the first subgroup detection) and "Phase 1" subgroup detections from 2011 onwards (using the PC protocol). No filtering will be applied to these sightings within this function, so make sure you provide the data pre-filtered. [Bradford et al. (2020)](https://repository.library.noaa.gov/view/noaa/24756) used a single detection function for all populations of false killer whales. 
 
-`LTabundR` has a built-in dataset of processed surveys from all NOAA cruises in the Pacific, 1986-2020. We will use that here as a starting point: 
-
-```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
-data("noaa_10km_1986_2020")
-cruz <- noaa_10km_1986_2020
-```
-
-The code used to generate this dataset can be seen by pulling up the help documentation: `?noaa_10km_1986_2020`.  
-
-This dataset was not processed with subgroups in mind, but we can easily add the default subgroup processing to the `cruz` object using the function `process_subgroups()` (without supplying edits this first time round):  
-
-```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
-cruz <- process_subgroups(cruz)
-```
-
-Now that the subgroup data are processed, they need to be filtered for use in the detection function model. On-Effort sightings from 1986-2010 were eligible for use, specifically: `OnEffort` is `TRUE`, `EffType` can be `"S"`, `"F"`, or `"N"`; no mixed-species schools; no sightings past beam; and only detections made by a primary observer.  
+This dataset needs to be filtered for use in the detection function model. On-Effort sightings from 1986-2010 were eligible for use, specifically: `OnEffort` is `TRUE`, `EffType` can be `"S"`, `"F"`, or `"N"`; no mixed-species schools; no sightings past beam; and only detections made by a primary observer.  
 
 Here we draw those sightings from the above `cruz` object, filtering as needed, and to simplify we will select only a few key columns.     
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
-sits1  <-
-  cruz$cohorts$all$sightings %>%
+# Start with a safe copy
+cruz_df <- cruz
+```
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+sits_1986_2010  <-
+  cruz_df$cohorts$all$sightings %>%
   filter(OnEffort == TRUE,
          year >= 1986,
          year <= 2010,
@@ -298,39 +399,110 @@ sits1  <-
          species == '033', # code for false killer whales
          ObsStd == TRUE,
          mixed == FALSE,
-         Bearing <= 90) %>%
+         Bearing <= 90 | Bearing >= 270) %>%
   select(DateTime, Lat, Lon, Cruise, PerpDistKm) %>% 
   arrange(DateTime)
-
-sits1 %>% nrow
-
-sits1 %>% head
 ```
 
-To add to this pool of sightings, we also included Phase 1 subgroup detections from 2011 to 2017 based on the PC protocol. Specific criteria: PC Protocol is `Phase 1`, `OnEffort` is `TRUE`,  `EffType` can be `"S"`, `"F"`, or `"N"`; no mixed-species schools; no sightings past beam; detection made by primary observer.   
-    
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
-sits2  <-
-  cruz$cohorts$all$subgroups$subgroups %>%
+sits_1986_2010 %>% nrow
+```
+
+```{r, echo=FALSE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+row.names(sits_1986_2010) <- NULL
+```
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+sits_1986_2010 %>% head
+```
+
+We add one sighting from 2016 that is going to be treated like a pre-2011 sighting, since it was not made with the PC protocol: 
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+sit_1604_018 <- 
+  cruz_df$cohorts$all$sightings %>% 
+  filter(Cruise == 1604, 
+         SightNo == '018') %>% 
+  select(DateTime, Lat, Lon, Cruise, PerpDistKm)
+```
+
+```{r, echo=FALSE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+row.names(sit_1604_018) <- NULL
+```
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+sit_1604_018
+```
+
+To add to this pool of sightings, we also include Phase 1 subgroup detections from 2011 to 2017 based on the PC protocol. Specific criteria: PC Protocol is `Phase 1`, `OnEffort` is `TRUE`,  `EffType` can be `"S"`, `"F"`, or `"N"`; no mixed-species schools; no sightings past beam; detection made by primary observer.   
+    
+Before we apply these filters, we need to make a few edits for a some special cases:  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+# These subgroups should have a standard observer 
+# according to ALB et al. (2020):
+edit1 <- subgroup_edits(cohort = 'all', 
+                        sgid = '1705-20170912-056-B',
+                        ObsStd = TRUE)
+
+edit2 <- subgroup_edits(cohort = 'all', 
+                        sgid = '1706-20170727-039-D',
+                        ObsStd = TRUE)
+
+edit3 <- subgroup_edits(cohort = 'all', 
+                        sgid = '1706-20170912-119-K',
+                        ObsStd = TRUE)
+
+edit4 <- subgroup_edits(cohort = 'all', 
+                        sgid = '1705-20170929-073-C',
+                        ObsStd = TRUE)
+
+# This subgroup was found to be a mixed-species after the fact
+# so it is excluded from the dataset:
+edit5 <- subgroup_edits(cohort = 'all', 
+                        sgid = '1203-20120513-069-A',
+                        exclude = TRUE)
+
+# Now update the cruz object with these edits
+edits <- list(edit1, edit2, edit3, edit4, edit5)
+cruz_df <- process_subgroups(cruz_df, edits = edits)
+```
+
+```{r, echo=FALSE, eval=FALSE, collapse=TRUE, message=FALSE, warning=FALSE}
+# SCRATCHPAD
+cruz_df$cohorts$all$subgroups$events %>% 
+  filter(Cruise == 1705, 
+         SightNo == '073',
+         SubGrp == 'C') %>% 
+  as.data.frame
+```
+  
+Now apply filter: 
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+sits_2011_2017  <-
+  cruz_df$cohorts$all$subgroups$subgroups %>%
   filter(OnEffort == TRUE,
          lubridate::year(DateTime) >= 2011,
          lubridate::year(DateTime) <= 2017,
          ObsStd == TRUE,
-         Angle <= 90,
+         Angle <= 90 | Angle >= 270,
          Species == '033',
          Phase == 1) %>%
   select(DateTime, Lat, Lon, Cruise, PerpDistKm = PerpDist) %>% 
   arrange(DateTime)
+  
+sits_2011_2017 %>% nrow
 
-sits2 %>% nrow
-
-sits2 %>% head
+sits_2011_2017 %>% head
 ```
 
 To create `df_sits` for detection function fitting, we combine these datasets together:  
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
-df_sits <- rbind(sits1, sits2)
+df_sits <- rbind(sits_1986_2010, 
+                 sit_1604_018,
+                 sits_2011_2017)
 df_sits %>% nrow
 ```
 
@@ -375,13 +547,13 @@ truncation_distance <- 4.5
 
 ### `ss` {-}  
 
-This is a numeric vector of subgroup school sizes. The function will find this vector's arithmetic mean and bootstrapped CV. In [Bradford et al. (2020)](https://repository.library.noaa.gov/view/noaa/24756), school size data come from all Phase 1 and Phase 2 estimates of subgroup sizes from 2011 onwards. In the processed `cruz` object, each of those estimates is the geometric mean of repeat estimates from separate observers.  
+This is a numeric vector of subgroup sizes. The function will find this vector's arithmetic mean and bootstrapped CV. In [Bradford et al. (2020)](https://repository.library.noaa.gov/view/noaa/24756), these data come from Phase 1 and Phase 2 estimates of subgroup sizes from 2011 onwards. In the processed `cruz` object, each of those estimates is the geometric mean of repeat estimates from separate observers.  
 
 
-Some of these estimates need to be removed for various reasons that were not captured in the original `DAS` file. However, these estimates should only be removed from the dataset used for school size estimation -- they could still be used in `df_sits` and other inputs as long as their details meet their respective criteria. The vectors below provide the subgroup ID's that should be removed for the purposes of group size estimation:  
+Some of these estimates need to be removed for various reasons that were not captured in processing the `DAS` file. However, these subgroups may only need to be removed from the dataset used for subgroup size estimation -- they may still be used in `df_sits` and other inputs as long as their details meet the respective criteria of each parameter. The vectors below provide the subgroup ID's that should be removed for the purposes of subgroup size estimation:  
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
-# Subgroup missed by primary observer
+# Subgroup sighted by non-primary observer
 missed_by_primary <- c('1706-20170912-119-M',
                        '1706-20170912-119-P',
                        '1706-20170913-122-C',
@@ -423,16 +595,16 @@ events <- events %>% filter(! sgid %in% missed_by_primary,
                             ! sgid %in% subgroup_fluidity)
 ```
 
-We then use the `LTabundR` function `subgroup_subgroups()` to turn these observer-level detections into a single row for each subgroup, with group sizes averaged using the geometric mean:  
+We then use the `LTabundR` function `subgroup_subgroups()` to turn these observer-species estimates into a single row for each subgroup, with subgroup sizes averaged using the geometric mean:  
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
 subgroups <- subgroup_subgroups(events)
 ```
 
-We can then use these subgroups to conduct additional filtering for each phase of the PC protocol. Phase 1 detections need to be within 4.5km, not past the beam, and made by primary observer with a valid "best" estimate..  Phase 2 detections need to be within 4.5km and with a valid "best" estimate.
+We can then use these subgroups to conduct additional filtering for each phase of the PC protocol. Phase 1 detections need to be within 4.5km, not past the beam, and made by a primary observer with a valid "best" estimate.  Phase 2 detections need to be within 4.5km and have a valid "best" estimate.
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
-# Filter that apply to both phases
+# Filters that apply to both phases
 ss  <-
   subgroups %>% 
   filter(lubridate::year(DateTime) >= 2011,
@@ -449,6 +621,10 @@ ss_phase1 <-
   ss %>% 
   filter(Phase == 1,
          Angle <= 90)
+
+# (Ideally, ObsStd == TRUE would have been used to filter 
+# for primary observer sightings, but the way data were collected 
+# for a couple of sightings necessitated the manual way above)
 
 ss_phase1 %>% nrow
 ```
@@ -467,84 +643,6 @@ ss_phase2 %>% nrow
 ss <- rbind(ss_phase1, ss_phase2) 
 ```
 
-
-```{r, echo=FALSE, eval=FALSE, collapse=TRUE, message=FALSE, warning=FALSE}
-# SCRATCH
-
-library(readxl)
-fkw <- read_xlsx("/Users/ekezell/Downloads/FKWSummary_2017analysis.xlsx", sheet=4)
-fkw %>% names
-names(fkw)[20] <- 'why'
-#i <- sapply(fkw$why, function(x){grepl('primary', x)}) %>% c() %>% which
-#fkw[i,]
-fkw <- fkw %>% select(Date, SightNo, Phase, SubGrp, use=`Use?`, why)
-fkw
-(dt <- stringr::str_pad(as.character(fkw$Date), width=6, side='left', pad='0'))
-fkw$Date <- paste0('20', substr(dt,5,6), '-', substr(dt,1,2), '-', substr(dt,3,4))
-
-fkw$sgid <- 
-  paste0(gsub('-','',fkw$Date),'-',
-       stringr::str_pad(fkw$SightNo, width=3, side='left',pad='0'),'-',
-       fkw$SubGrp)
-
-fkw2join <- fkw %>% select(sgid, use, why)
-ss2join <- 
-  ss %>% 
-  mutate(sgid = substr(sgid, 6, nchar(sgid))) %>% 
-  select(Cruise, OnEffort:Bft, sgid, stratum, Phase, GSBest_geom_valid)
-
-df <- full_join(ss2join, fkw2join, by='sgid')
-df
-
-df %>% filter(use == 'NO' & !is.na(OnEffort))
-df %>% filter(use == 'YES' & is.na(OnEffort))
-df %>% filter(is.na(use))
-df$use %>% table
-
-events %>% filter(sgid == '1705-20170912-056-C') %>% as.data.frame
-
-alb <- 
-  fkw %>% 
-  mutate(sgid = paste0(Date,SightNo,Phase,SubGrp, sep=' ')) %>% 
-  filter(Phase %in% c(1, 2)) %>% 
-  filter(use == 'YES') %>% 
-  group_by(Phase, Date) %>% 
-  summarize(ALB = length(unique(sgid))) %>% 
-  mutate(Phase = as.character(Phase)) %>% 
-  as.data.frame
-
-ltabundr <-
-  ss %>% 
-  group_by(Phase, Date) %>% 
-  summarize(ltabundr = length(unique(sgid))) %>% 
-  mutate(Phase = as.character(Phase)) %>% 
-  as.data.frame
-
-# DISCREPANCIES
-  full_join(alb, ltabundr, by=c('Phase', 'Date')) %>% 
-  mutate(ALB = replace_na(ALB, 0)) %>% 
-  mutate(ltabundr = replace_na(ltabundr, 0)) %>% 
-  filter(ALB != ltabundr) %>% 
-  print
-  
-  dti <- '2017-09-12'
-
-  if(TRUE){
-    fkw %>% 
-      filter(Date == dti, Phase == 1) %>% 
-      mutate(sgid = paste(Date,SightNo,Phase,SubGrp, sep=' - ')) %>% 
-      group_by(sgid) %>% summarize(use = use[1]) %>% 
-      as.data.frame %>% 
-      print
-    ss %>% 
-      filter(Date == dti) %>% 
-      select(Phase, Cruise, Date, OnEffort, EffType, Bft, PerpDist, GSBest_geom_valid, ObsStd, sgid, stratum_OtherCNP) %>% 
-      #group_by(sgid) %>% tally() %>% 
-      print
-  }
-```
-
-
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
 # Pull out group size vector
 ss <- ss %>% pull(GSBest_geom)
@@ -562,9 +660,9 @@ The sample size in [Bradford et al. (2020)](https://repository.library.noaa.gov/
 
 This is a `data.frame` with estimates of Relative *g(0)* and its CV at each Beaufort sea state. If this input is left `NULL`, then these estimates will be produced by the function using the subsequent `g0_` inputs below. If this input is *not* supplied and any of the subsequent `g0_` inputs are missing, then *g(0)* will be assumed to be 1.0 with CV of 0.0.  
 
-When you do supply this `Rg0` input, the `data.frame` has three required columns: `bft` (Beaufort sea state, numbers between 0 and 6), `Rg0` (*Rg(0)* estimates for each Beaufort state), `Rg0_CV` (the CV of the *Rg(0)* estimate in each Beaufort state). Other columns are allowed but will be ignored. 
+When you do supply this `Rg0` input, the `data.frame` has three required columns: `bft` (Beaufort sea state, numbers between 0 and 6), `Rg0` (*Rg(0)* estimates for each Beaufort state), and `Rg0_CV` (the CV of the *Rg(0)* estimate in each Beaufort state). Other columns are allowed but will be ignored. 
 
-Here is an example of a valid `Rg0` input based on the values reported for false killer whales in [Bradford et al. (2020)](https://www.fisheries.noaa.gov/inport/item/59592).  (These numbers are also available in the built-in dataset `data(barlow_2015)`.). 
+Here is an example of a valid `Rg0` input based on the values reported for false killer whales in [Bradford et al. (2020)](https://www.fisheries.noaa.gov/inport/item/59592).  (These numbers are also available in the built-in dataset `data(barlow_2015)`). 
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
 Rg0 <- data.frame(bft = 0:6,
@@ -578,7 +676,7 @@ Again: if you supply this input, then the following `g0_` inputs will be ignored
 
 ### `cruz10` {-}  
 
-This is a processed `cruz` object with short segment lengths, ideally 10 km or less (hence the 10 in the input name). This `cruz` object will be used to estimate *Rg(0)*, i.e., the relative trackline detection probability (see its chapter), using the following `g0_` inputs. The built-in dataset we have already laoded, `data("noaa_10km_1986_2020")` is already processed with 10-km segments.  
+This is a processed `cruz` object with short segment lengths, ideally 10 km or less (hence the 10 in the input name). This `cruz` object will be used to estimate *Rg(0)*, i.e., the relative trackline detection probability (see its chapter), using the following `g0_` inputs. The built-in dataset we have already loaded, `data("noaa_10km_1986_2020")` is already processed with 10-km segments.  
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
 cruz10 <- cruz
@@ -620,44 +718,12 @@ g0_jackknife_fraction = 0.1
 
 ### `density_segments` {-}  
 
-The survey segments to be used in density/abundance estimation. For example, [Bradford et al. (2020)](https://repository.library.noaa.gov/view/noaa/24756) used 150-km segments to estimate false killer whale density in the Hawaiian EEZ in 2017. For this we can use the 1986-2020 dataset we loaded above, but we need to re-segmentize the `cruz` object since it was originally processed for 10-km segments. 
+The survey segments to be used in density/abundance estimation. For example, [Bradford et al. (2020)](https://repository.library.noaa.gov/view/noaa/24756) used 150-km segments to estimate false killer whale density in the Hawaiian EEZ in 2017. For this we can use the same `cruz` we processed above and have been using throughout this chapter.  
 
-```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
-# Save a safe copy
-cruz150 <- cruz
-```
-
-```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
-# Resegmentize
-cruz150 <- 
-  segmentize(cruz150, 
-             segment_method = 'equallength',
-             segment_target_km = 150,
-             segment_max_interval = 48,
-             segment_remainder_handling = c('segment'),
-             beaufort_range = 0:6,
-             distance_types = c('S', 'F', 'N'),
-             verbose=FALSE)
-
-# Re-process sightings
-cruz150 <- process_sightings(cruz150, verbose=FALSE)
-
-# Re-process subgroups
-cruz150 <- process_subgroups(cruz150, verbose=FALSE)
-```
-
-```{r, echo=FALSE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
-save(cruz150, file='subgroup_cruz.RData')
-```
-
-```{r, echo=FALSE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
-load('subgroup_cruz.RData')
-```
-
-Note that no filtering will be applied to these segments by the `lta_subgroup()` function, so we need to filter them ourselves first: we want only systematic segments for the Hawaiian EEZ in 2017 (specifically, just cruises 1705 and 1706).  
+Note that no filtering will be applied to these segments by the `lta_subgroup()` function, so we need to filter them ourselves first: we want only systematic-effort segments for the Hawaiian EEZ in 2017 (specifically, just cruises 1705 and 1706).  
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
-cruzi <- filter_cruz(cruz = cruz150,
+cruzi <- filter_cruz(cruz = cruz,
                       analysis_only = TRUE,
                       years = 2017,
                       cruises = c(1705, 1706),
@@ -670,10 +736,10 @@ cruzi <- filter_cruz(cruz = cruz150,
 At this point we need to batch-assign detections to their respective populations. To do so, we draw stock boundary polygons from the `cruz` strata:  
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
-mhi <- cruz$settings$strata$MHI
-nwhi <- cruz$settings$strata$NWHI
-populations <- list(MHI = mhi,
-                    NWHI = nwhi)
+mhi <- cruz$settings$strata$mhi_fkw
+nwhi <- cruz$settings$strata$nwhi_fkw
+populations <- list(MHI = mhi_fkw,
+                    NWHI = nwhi_fkw)
 ```
 
 We then run the function `subgroup_populations()` to automatically assign each subgroup to a population based on their location within those polygons:  
@@ -697,7 +763,7 @@ pops$population %>% table
 
 We also need to stage a few specific edits to the processed data, based on the some of the extenuating circumstances discussed in [Bradford et al. (2020)](https://repository.library.noaa.gov/view/noaa/24756).    
 
-**Sighting 133** subgroups have a special population probability:  
+**Sighting 133** subgroups did not have biological data to assign them to NWHI, so they could be NWHI or pelagic according to an established probability (based on survey data):    
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
 sit133 <- 
@@ -707,7 +773,8 @@ sit133 <-
                           "1706-20170917-133-C",  
                           "1706-20170917-133-D",  
                           "1706-20170917-133-E",
-                          "1706-20170917-133-F"),
+                          "1706-20170917-133-F",
+                          "1706-20170917-133-G"),
                  population = 'NWHI;pelagic',
                  pop_prob = '0.4;0.6')
 
@@ -715,7 +782,7 @@ sit133 <-
 sit133
 ```
 
-**Sighting 033** subgroups were automatically placed in the NWHI population, but [Bradford et al. (2020)](https://repository.library.noaa.gov/view/noaa/24756) has them in the Pelagic population.  
+**Sighting 033** subgroups were automatically placed in the NWHI population, but biological data collected indicated they were from the pelagic population ([Bradford et al. 2020](https://repository.library.noaa.gov/view/noaa/24756)).  
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
 sit033 <- 
@@ -743,20 +810,18 @@ sit122 <-
                  pop_prob = '1')
 ```
 
-**Sighting 039** has a subgroup that was in fact seen by the primary observer, according to Bradford et al. (2020):  
+**Sighting 039** has a subgroup that was in fact seen by the primary observer:  
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
-# Sighting 039: ALB says subgroup D observer is valid; LTabundR says no.
 sit039 <- 
   subgroup_edits(cohort=1,
                  sgid = "1706-20170727-039-D",
                  ObsStd = TRUE)
 ```
 
-**Sighting 073** has a subgroup that was in fact seen by the primary observer, according to Bradford et al. (2020):  
+The same goes for a subgroup in **Sighting 073**:  
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
-# Sighting 073: ALB says subgroup C observer is valid; LTabundR says no
 sit073 <- 
   subgroup_edits(cohort=1,
                  sgid = "1705-20170929-073-C",
@@ -803,7 +868,7 @@ density_das <- cruzi$cohorts$all$das
 
 ### `density_sightings` {-}  
 
-These are the encounters to use in density/abundance estimation. In [Bradford et al. (2020)](https://repository.library.noaa.gov/view/noaa/24756), these were the Phase 1 detections of false killer whale subgroups within a given region and year. For this demonstration our focus is the Hawaiian EEZ in 2017. Criteria are: `OnEffort` is `TRUE`, `EffType` is `"S"`, within truncation disance, no abeam sightings, primary observer, Pelagic and NWHI populations only. No filtering is applied to these sightings within the `lta_subgroups()` function, so make sure only the sightings you wish to use are included and nothing more.  
+These are the encounters to use in density/abundance estimation. In [Bradford et al. (2020)](https://repository.library.noaa.gov/view/noaa/24756), these were the Phase 1 detections of false killer whale subgroups within a given region and year. For this demonstration, our focus is the Hawaiian EEZ in 2017. Criteria are: `OnEffort` is `TRUE`, `EffType` is `"S"`, within truncation distance, no abeam sightings, primary observer, pelagic and NWHI populations only. No filtering is applied to these sightings within the `lta_subgroups()` function, so make sure only the subgroups you wish to use are included and nothing more.  
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
 density_sightings  <-
@@ -833,31 +898,6 @@ density_sightings %>%
   summarize(n=n()) #%>% pull(n) %>% sum()
 ```
 
-
-```{r, echo=FALSE, eval=FALSE, collapse=TRUE, message=FALSE, warning=FALSE}
-# SCRATCH
-library(readxl)
-fkw <- read_xlsx("/Users/ekezell/Downloads/FKWSummary_2017analysis.xlsx", sheet=3)
-fkw %>% names
-fkw <- fkw %>% select(SightNo = `Sighting no.`, Population, tot=`Phase 1TOT`, est=`Phase 1EST`, n=`n pelagic`)
-fkw$n %>% sum
-fkw %>% nrow
-fkw %>% filter(n>0)
-
-density_sightings %>% 
-  select(Cruise, Date, SightNo, population, GSBest_geom) %>% 
-  arrange(Date) %>% 
-  group_by(Cruise, Date, SightNo, population) %>% 
-  summarize(n=n()) #%>% pull(n) %>% sum()
-
-density_sightings$SightNo %>% unique %>% sort
-siti <-   cruzi$cohorts$all$subgroups$subgroups %>% 
-    filter(SightNo == '073', Phase == 1)
-siti
-siti$sgid
-```
-
-
 [Bradford et al. (2020)](https://repository.library.noaa.gov/view/noaa/24756) had a sample size of 23.6 for the pelagic stock in the Hawaiian EEZ. The fraction comes from the fact that one sighting (`SightNo` 133, which has 6 subgroups) has a prorated population designation, with a 0.6 probability that it belongs to the pelagic stock and a 0.4 probability that is belongs to the Northwest Hawaiian Islands (NWHI) stock. The 3.6 comes from `0.6 of the sighting's `6` subgroups.  
 
 
@@ -885,9 +925,7 @@ abundance_area
 
 ### Remaining inputs {-}  
 
-**`iterations`**: Number of iterations to use in the various CV bootstrapping procedures occurring throughout this function, specifically: effective strip width CV estimation, subgroup size CV estimation, weighted *g(0)* CV estimation, and encounter rate estimation.  
-
-**`density_bootstraps`**: Number of bootstrap iterations to use for the CV estimate of density and abundance specifically. This input allows this final step to use a different (typically larger) iteration size than the iterations input above.   
+**`iterations`**: Number of iterations to use in the various CV bootstrapping procedures occurring throughout this function, specifically: effective strip width CV estimation, subgroup size CV estimation, weighted *g(0)* CV estimation, encounter rate estimation, and density/abundance estimation.  
 
 **`output_dir`**: The path in which results RData files should be stored. If left "", the current working directory will be used.  
 
@@ -898,7 +936,7 @@ abundance_area
 
 ## Running `lta_subgroup()` {-}  
 
-To demonstrate how the `lta_subgroup()` function works, we use it here without re-modling the Relative *g(0)* parameters. 
+To demonstrate how the `lta_subgroup()` function works, we use it here without re-modeling the Relative *g(0)* parameters. 
 
 We first estimate parameters for the Hawaii EEZ stratum. Our main interest there is the pelagic stock, but we need to include both populations (pelagic *and* NWHI), since one of the sightings has a prorated population assignment. After running `lta_subgroup()`, we will only focus on the results for the pelagic stock.  
 
@@ -917,11 +955,10 @@ results_eez <-
                density_sightings = density_sightings,
                Rg0 = Rg0,
                abundance_area = abundance_area,
-               iterations = 1000,
+               iterations = 5000,
                output_dir = 'subgroup_eez/',
                toplot = TRUE,
-               verbose = TRUE,
-               density_bootstraps = 10000)
+               verbose = TRUE)
 ```
 
 ```{r, echo=FALSE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
@@ -938,7 +975,7 @@ To re-run this for the other geostratum of interest in the [Bradford et al. (202
 
 ```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE, fig.height=6, fig.width=6}
 # Filter DAS to rows within the NWHi stratum
-das_nwhi <- density_das %>% filter(stratum_NWHI == TRUE)
+das_nwhi <- density_das %>% filter(stratum_nwhi_fkw == TRUE)
 
 # Use these rows to get segment IDs
 nwhi_segment_ids <- das_nwhi$seg_id %>% unique
@@ -947,13 +984,13 @@ nwhi_segment_ids <- das_nwhi$seg_id %>% unique
 segments_nwhi <- density_segments %>% filter(seg_id %in% nwhi_segment_ids)
 
 # Filter sightings to those within NWHI stratum
-sightings_nwhi <- density_sightings %>% filter(stratum_NWHI == TRUE)
+sightings_nwhi <- density_sightings %>% filter(stratum_nwhi_fkw == TRUE)
 ```
 
 ```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE, fig.height=6, fig.width=6}
 # Update abundance area
 area_nwhi <- strata_area(strata_all = strata_cnp,
-                         strata_keep = 'NWHI')$km2
+                         strata_keep = 'nwhi_fkw')$km2
 
 area_nwhi
 ```
@@ -970,11 +1007,10 @@ results_nwhi <-
                density_sightings = sightings_nwhi,
                Rg0 = Rg0,
                abundance_area = area_nwhi,
-               iterations = 1000,
+               iterations = 5000,
                output_dir = 'subgroup_nwhi/',
                toplot = TRUE,
-               verbose = TRUE,
-               density_bootstraps = 10000)
+               verbose = TRUE)
 ```
 
 ```{r, echo=FALSE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
@@ -1015,7 +1051,7 @@ results_eez$bft
 results_nwhi$bft
 ```
 
-The `g0_details` slot includes the results from the `g0_model()` and `g0_weighted()` functions called internally by `lta_subgroup()` (or alternatively, it simply returns the values manually supplied in the `Rg0` input`.  See those functions' documentation pages for details.  
+The `g0_details` slot includes the results from the `g0_model()` and `g0_weighted()` functions called internally by `lta_subgroup()` (or alternatively, it simply returns the values manually supplied in the `Rg0` input).  See those functions' documentation pages for details.  
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
 results_eez$g0_details
