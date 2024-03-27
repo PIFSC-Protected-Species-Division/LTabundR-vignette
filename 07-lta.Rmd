@@ -248,9 +248,9 @@ Each of these sub-lists specifies the details for a single estimate of density/a
 
 You can imagine that building up these sub-lists can get tedious. It can also introduce the possibility of error or inconsistencies across estimates of multiple species. To address that issue, `LTabundR` includes the function `lta_estimates()`, which makes your code for preparing an `estimates` object much more efficient. That function is demonstrated in the Case Studies chapters. 
 
-```{r, echo=FALSE, eval=rerun_from_scratch, collapse=TRUE, include=TRUE}
-## Run it {-} 
-#To run `lta()` with the above inputs, use this code: 
+To run `lta()` with the above inputs, use this code: 
+
+```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, include=TRUE}
 results <- lta(cruz, Rg0, fit_filters, df_settings, estimates)
 ```
 
@@ -276,12 +276,15 @@ More details on the `lta()` output are provided below.
 
 By default, the `lta()` function produces a single estimate of the detection function and a single estimate of density/abundance estimate for each sub-list within `estimates()`. However, you can obtain the coefficient of variation (CV) of those estimates by activating the function's bootstrap variance estimation feature. To do this, add `bootstraps` as an input specifying a large number of iterations (1,000 iterations is standard, but we suggest first testing your code with 5 - 10 bootstraps before committing; the function typically requires ~1 hour per 100 bootstraps.). 
 
-For the purposes of example only, we will just use 10 bootstrap iterations here:  
+For the purposes of example, we will use just 100 bootstrap iterations:  
 
 ```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, include=TRUE}
-results <- lta(cruz, Rg0,
-               fit_filters, df_settings, estimates,
-               bootstraps = 10)
+results <- lta(cruz, 
+               Rg0,
+               fit_filters, 
+               df_settings, 
+               estimates,
+               bootstraps = 100)
 ```
 
 ```{r, echo=FALSE, eval=rerun_from_scratch, collapse=TRUE}
@@ -295,6 +298,31 @@ load('lta_eg2.RData')
 ```
 
 This command will first produce official estimates of the detection function and density/abundance, then it will repeat the analysis for the number of iterations you have specified. In each iteration, survey segments are re-sampled according to standard bootstrap variance estimation methods (see more details below, in "Behind the Scenes").  
+
+We describe the output of `lta()` in detail below, but here is a brief snapshot of the bootstrap results, for one of the species-region-year estimates:  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE}
+results$bootstrap$summary[2, ] %>%  as.data.frame
+```
+
+### The Delta Method {-}
+
+`LTabundR` provides a function, **`lta_delta_method()`**, that allows you to re-calculate the CV and 95% Confidence Intervals of your density/abundance estimate using a modification of the Delta Method. The reason we provide this is that abundance estimates using our bootstrap approach have been found found to be extremely sensitive to the distribution of *g(0)* when it is included in the bootstrap procedure. Given that the true distribution of errors in *g(0)* is not known, an alternative approach is to add the uncertainty attributed to *g(0)* estimates after the bootstrap process using the delta method, which assums that the resulting abundance estimates are log-normally distributed. This is what we implement in `lta_delta_method()`: that function takes the output of `lta()` call in which bootstrap iterations were performed, then replaces the `CV` and `L95` and `U95` confidence intervals within the output using the delta method.
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE}
+# Put your lta() output into a list
+ltas <- list(results)
+
+# Run delta method
+results_dm <- lta_delta_method(ltas,
+                               verbose=FALSE)
+```
+
+Now view how results have changed from above:  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE}
+results_dm[[1]]$bootstrap$summary[2, ] %>% as.data.frame
+```
 
 ## Other inputs {-} 
 
