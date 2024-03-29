@@ -1132,7 +1132,7 @@ This function performs the following operations:
 
 11. Estimates abundance by scaling the density estimate by the provided `abundance_area` input.  
 
-12. Creates a bootstrap-resampled distribution of the density estimate by iteratively drawing values from the resampled distributions of the constituent parameters of the density equation.  
+12. Creates a bootstrap-resampled distribution of the density estimate by iteratively drawing values (without replacement) from the resampled distributions of the constituent parameters of the density equation.  
 
 13. Creates a bootstrap-resampled distribution of the abundance estimate by scaling the density distribution by the `abundance_area` input.  
 

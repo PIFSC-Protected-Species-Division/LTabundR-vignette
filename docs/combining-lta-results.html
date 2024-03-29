@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>15 Combining lta() results | User’s guide for LTabundR</title>
+  <title>Chapter 15 Combining lta() results | User’s guide for LTabundR</title>
   <meta name="description" content="vignette" />
   <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="15 Combining lta() results | User’s guide for LTabundR" />
+  <meta property="og:title" content="Chapter 15 Combining lta() results | User’s guide for LTabundR" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="vignette" />
   <meta name="github-repo" content="emk-noaa/emk-noaa.github.io" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="15 Combining lta() results | User’s guide for LTabundR" />
+  <meta name="twitter:title" content="Chapter 15 Combining lta() results | User’s guide for LTabundR" />
   
   <meta name="twitter:description" content="vignette" />
   
@@ -438,7 +438,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="combining-lta-results" class="section level1 hasAnchor" number="15">
-<h1><span class="header-section-number">15</span> Combining <code>lta()</code> results<a href="combining-lta-results.html#combining-lta-results" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<h1><span class="header-section-number">Chapter 15</span> Combining <code>lta()</code> results<a href="combining-lta-results.html#combining-lta-results" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><code>LTabundR</code> provides a function, <code>lta_pool()</code>, that allows you to pool, or concatenate, the results of two separate <code>lta()</code> runs in order to achieve the desired number of bootstrap iterations. An example use case: you already have a <code>lta()</code> result, which you have named <code>lta1</code>, for a species pool with 1,000-iterations. You want to see if the <code>CV</code> estimate is liable to change if you do more iterations, so you can run the same <code>lta()</code> call again and save the result to a new object, <code>lta2</code>. You can then pool these two results together:</p>
 <div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="combining-lta-results.html#cb309-1" tabindex="-1"></a><span class="co"># Put the lta outputs into a list</span></span>
 <span id="cb309-2"><a href="combining-lta-results.html#cb309-2" tabindex="-1"></a>ltas <span class="ot">&lt;-</span> <span class="fu">list</span>(lta1, lta2)</span>

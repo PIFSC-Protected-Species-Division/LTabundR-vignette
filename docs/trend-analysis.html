@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>10 Trend analysis | User’s guide for LTabundR</title>
+  <title>Chapter 10 Trend analysis | User’s guide for LTabundR</title>
   <meta name="description" content="vignette" />
   <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="10 Trend analysis | User’s guide for LTabundR" />
+  <meta property="og:title" content="Chapter 10 Trend analysis | User’s guide for LTabundR" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="vignette" />
   <meta name="github-repo" content="emk-noaa/emk-noaa.github.io" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="10 Trend analysis | User’s guide for LTabundR" />
+  <meta name="twitter:title" content="Chapter 10 Trend analysis | User’s guide for LTabundR" />
   
   <meta name="twitter:description" content="vignette" />
   
@@ -438,7 +438,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="trend-analysis" class="section level1 hasAnchor" number="10">
-<h1><span class="header-section-number">10</span> Trend analysis<a href="trend-analysis.html#trend-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<h1><span class="header-section-number">Chapter 10</span> Trend analysis<a href="trend-analysis.html#trend-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>When a species’ density appears to change dramatically from one survey year to the next, it could be due to several factors: the species’ abundance may have changed; its range may have shifted; or the timing of its migratory movements may have shifted. This apparent change could also be due solely to random chance: you can sample the exact same population in two different surveys, and you are liable to produce different abundance estimates due simply to random variation in how often you encounter your target species. In other words, <em>random variation in the encounter rate</em> may lead you to estimate a change in abundance, when in fact there is no change.</p>
 <p>For this reason, whenever you suspect that abundance has changed between years – i.e., whenever the confidence intervals for two years do not overlap – it is good practice to carry out follow-up tests. One such test was developed in (<a href="https://www.fisheries.noaa.gov/inport/item/59592">Bradford et al. 2020</a> and Bradford et al. (2021). That test has been provided in <code>LTabundR</code> with the function <code>er_simulator()</code>, which refers to a simulation-based test of random variation in the <strong>e</strong>ncounter <strong>r</strong>ate (ER).</p>
 <p>This function uses randomization simulations to test for the probability that year-to-year changes observed in a species’ encounter rate are due to random sampling variation (and not actual change in the encounter rate). More specifcially, this function uses bootstrap sampling of survey segments to see if random variation in sampling could possibly produce an apparent but immaterial change in encounter rate across years.</p>
@@ -468,27 +468,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb203-1"><a href="trend-analysis.html#cb203-1" tabindex="-1"></a>er_results<span class="sc">$</span>summary</span>
 <span id="cb203-2"><a href="trend-analysis.html#cb203-2" tabindex="-1"></a>  years observed     p</span>
 <span id="cb203-3"><a href="trend-analysis.html#cb203-3" tabindex="-1"></a><span class="dv">1</span>  <span class="dv">2010</span>       <span class="dv">19</span> <span class="fl">0.000</span></span>
-<span id="cb203-4"><a href="trend-analysis.html#cb203-4" tabindex="-1"></a><span class="dv">2</span>  <span class="dv">2002</span>       <span class="dv">10</span> <span class="fl">0.598</span></span>
+<span id="cb203-4"><a href="trend-analysis.html#cb203-4" tabindex="-1"></a><span class="dv">2</span>  <span class="dv">2002</span>       <span class="dv">10</span> <span class="fl">0.597</span></span>
 <span id="cb203-5"><a href="trend-analysis.html#cb203-5" tabindex="-1"></a><span class="dv">3</span>  <span class="dv">2017</span>        <span class="dv">2</span> <span class="fl">1.000</span></span></code></pre></div>
 <p>In this example, the encounter rates observed in 2002 and 2010 are very likely due to some process <em>other</em> than random variation in the encounter rate, such as range shifts, seasonal movement timing shifts, and/or changes in abundance. However, the observed encounter rate in 2017 could easily be explained by random variation in the ER.</p>
 <p>The <code>details</code> slot returns the simulation predictions for each year:</p>
 <div class="sourceCode" id="cb204"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb204-1"><a href="trend-analysis.html#cb204-1" tabindex="-1"></a>er_results<span class="sc">$</span>details <span class="sc">%&gt;%</span> head</span>
-<span id="cb204-2"><a href="trend-analysis.html#cb204-2" tabindex="-1"></a>  year p obs      sim</span>
-<span id="cb204-3"><a href="trend-analysis.html#cb204-3" tabindex="-1"></a><span class="dv">1</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span> <span class="fl">13.32813</span></span>
-<span id="cb204-4"><a href="trend-analysis.html#cb204-4" tabindex="-1"></a><span class="dv">2</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span> <span class="fl">10.54978</span></span>
-<span id="cb204-5"><a href="trend-analysis.html#cb204-5" tabindex="-1"></a><span class="dv">3</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span> <span class="fl">12.55457</span></span>
-<span id="cb204-6"><a href="trend-analysis.html#cb204-6" tabindex="-1"></a><span class="dv">4</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span> <span class="fl">13.50801</span></span>
-<span id="cb204-7"><a href="trend-analysis.html#cb204-7" tabindex="-1"></a><span class="dv">5</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span> <span class="fl">10.48964</span></span>
-<span id="cb204-8"><a href="trend-analysis.html#cb204-8" tabindex="-1"></a><span class="dv">6</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span> <span class="fl">10.10418</span></span>
+<span id="cb204-2"><a href="trend-analysis.html#cb204-2" tabindex="-1"></a>  year p obs       sim</span>
+<span id="cb204-3"><a href="trend-analysis.html#cb204-3" tabindex="-1"></a><span class="dv">1</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span> <span class="fl">13.309875</span></span>
+<span id="cb204-4"><a href="trend-analysis.html#cb204-4" tabindex="-1"></a><span class="dv">2</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span>  <span class="fl">9.708838</span></span>
+<span id="cb204-5"><a href="trend-analysis.html#cb204-5" tabindex="-1"></a><span class="dv">3</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span>  <span class="fl">8.947618</span></span>
+<span id="cb204-6"><a href="trend-analysis.html#cb204-6" tabindex="-1"></a><span class="dv">4</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span> <span class="fl">12.422430</span></span>
+<span id="cb204-7"><a href="trend-analysis.html#cb204-7" tabindex="-1"></a><span class="dv">5</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span>  <span class="fl">9.649261</span></span>
+<span id="cb204-8"><a href="trend-analysis.html#cb204-8" tabindex="-1"></a><span class="dv">6</span> <span class="dv">2010</span> <span class="dv">0</span>  <span class="dv">19</span>  <span class="fl">6.858193</span></span>
 <span id="cb204-9"><a href="trend-analysis.html#cb204-9" tabindex="-1"></a></span>
 <span id="cb204-10"><a href="trend-analysis.html#cb204-10" tabindex="-1"></a>er_results<span class="sc">$</span>details <span class="sc">%&gt;%</span> tail</span>
 <span id="cb204-11"><a href="trend-analysis.html#cb204-11" tabindex="-1"></a>     year p obs       sim</span>
-<span id="cb204-12"><a href="trend-analysis.html#cb204-12" tabindex="-1"></a><span class="dv">2995</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span> <span class="fl">11.296787</span></span>
-<span id="cb204-13"><a href="trend-analysis.html#cb204-13" tabindex="-1"></a><span class="dv">2996</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span> <span class="fl">10.758669</span></span>
-<span id="cb204-14"><a href="trend-analysis.html#cb204-14" tabindex="-1"></a><span class="dv">2997</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span> <span class="fl">11.127983</span></span>
-<span id="cb204-15"><a href="trend-analysis.html#cb204-15" tabindex="-1"></a><span class="dv">2998</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span>  <span class="fl">8.212947</span></span>
-<span id="cb204-16"><a href="trend-analysis.html#cb204-16" tabindex="-1"></a><span class="dv">2999</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span>  <span class="fl">7.700997</span></span>
-<span id="cb204-17"><a href="trend-analysis.html#cb204-17" tabindex="-1"></a><span class="dv">3000</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span> <span class="fl">11.199442</span></span></code></pre></div>
+<span id="cb204-12"><a href="trend-analysis.html#cb204-12" tabindex="-1"></a><span class="dv">2995</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span>  <span class="fl">7.551910</span></span>
+<span id="cb204-13"><a href="trend-analysis.html#cb204-13" tabindex="-1"></a><span class="dv">2996</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span> <span class="fl">10.563208</span></span>
+<span id="cb204-14"><a href="trend-analysis.html#cb204-14" tabindex="-1"></a><span class="dv">2997</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span>  <span class="fl">9.907162</span></span>
+<span id="cb204-15"><a href="trend-analysis.html#cb204-15" tabindex="-1"></a><span class="dv">2998</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span> <span class="fl">10.782731</span></span>
+<span id="cb204-16"><a href="trend-analysis.html#cb204-16" tabindex="-1"></a><span class="dv">2999</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span>  <span class="fl">6.077727</span></span>
+<span id="cb204-17"><a href="trend-analysis.html#cb204-17" tabindex="-1"></a><span class="dv">3000</span> <span class="dv">2017</span> <span class="dv">1</span>   <span class="dv">2</span>  <span class="fl">8.322810</span></span></code></pre></div>
 <p>The <code>p</code> slot returns a faceted histogram of the results:</p>
 <div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb205-1"><a href="trend-analysis.html#cb205-1" tabindex="-1"></a>er_results<span class="sc">$</span>p</span></code></pre></div>
 <p><img src="figures/unnamed-chunk-258-1.png" width="672" /></p>

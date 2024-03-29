@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>11 Subgroup-based analysis | User’s guide for LTabundR</title>
+  <title>Chapter 11 Subgroup-based analysis | User’s guide for LTabundR</title>
   <meta name="description" content="vignette" />
   <meta name="generator" content="bookdown 0.35 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="11 Subgroup-based analysis | User’s guide for LTabundR" />
+  <meta property="og:title" content="Chapter 11 Subgroup-based analysis | User’s guide for LTabundR" />
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="vignette" />
   <meta name="github-repo" content="emk-noaa/emk-noaa.github.io" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="11 Subgroup-based analysis | User’s guide for LTabundR" />
+  <meta name="twitter:title" content="Chapter 11 Subgroup-based analysis | User’s guide for LTabundR" />
   
   <meta name="twitter:description" content="vignette" />
   
@@ -438,7 +438,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="subgroups2" class="section level1 hasAnchor" number="11">
-<h1><span class="header-section-number">11</span> Subgroup-based analysis<a href="subgroups2.html#subgroups2" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<h1><span class="header-section-number">Chapter 11</span> Subgroup-based analysis<a href="subgroups2.html#subgroups2" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>False killer whales (<em>Pseudorca crassidens</em>) are rare and occur in dispersed subgroups, which complicates conventional distance sampling approaches to line-transect analysis (<a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0090464">Bradford et al. 2014</a>). To better estimate their abundance in Hawaiian waters, the Pacific Islands Fisheries Science Center initiated a sub-group protocol referred to as the “PC Protocol”, a reference to the species’ scientific name. Data collected using the PC Protocol is then analyzed using a subgroup-based analytical approach (<a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0090464">Bradford et al. 2014</a>, <a href="https://repository.library.noaa.gov/view/noaa/24756">2020</a>).</p>
 <p>An additional complication is that false killer whales in Hawaiian waters belong to three discrete populations – the Main Hawaiian Islands insular population, the Northwestern Hawaiian Islands (NWHI) population, and a pelagic population – whose ranges partially overlap, which means that population assignment cannot always be based simply on the geographic location of sightings. When geographic assignment of population is not possible, biopsy-sampled genetics or photo-identification inference, if available, is used to assign each sighting to a population <em>post-hoc</em>.</p>
 <p>To accommodate these special circumstances for false killer whales (and potentially other species with subgroup structure) with an appropriate balance of flexibility and efficiency, <code>LTabundR</code> includes a function named <code>lta_subgroup()</code>, whose use will look something like this:</p>
@@ -1373,7 +1373,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li><p>Creates a bootstrap-resampled distribution of the weighted <em>g(0)</em> estimate.</p></li>
 <li><p>Estimates density using the point estimates of effective strip width, subgroup size, <em>g(0)</em>, and the encounter rate.</p></li>
 <li><p>Estimates abundance by scaling the density estimate by the provided <code>abundance_area</code> input.</p></li>
-<li><p>Creates a bootstrap-resampled distribution of the density estimate by iteratively drawing values from the resampled distributions of the constituent parameters of the density equation.</p></li>
+<li><p>Creates a bootstrap-resampled distribution of the density estimate by iteratively drawing values (without replacement) from the resampled distributions of the constituent parameters of the density equation.</p></li>
 <li><p>Creates a bootstrap-resampled distribution of the abundance estimate by scaling the density distribution by the <code>abundance_area</code> input.</p></li>
 </ol>
 <p>Note that this approach could theoretically be used for other species that occur in subgroups.</p>

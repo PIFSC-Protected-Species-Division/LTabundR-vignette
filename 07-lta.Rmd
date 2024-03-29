@@ -578,8 +578,6 @@ To handle this, a separate, *subgroup-based* analytical approach was developed (
 
 - Study periods that span years, such as a December - January survey. This is not yet handled well within the `LTabundR` framework.  
 
-- More will go here.  
-
 
 ## Behind the scenes {-}  
 
