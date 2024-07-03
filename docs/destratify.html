@@ -443,93 +443,93 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>On the previous page, we demonstrated how to accommodate a stratified analysis by providing an <code>estimates</code> sub-list for each geostratum.</p>
 <p>For example, in 2002 the Hawaiian EEZ was surveyed with different effort intensity in the Main Hawaiian Islands region compared to pelagic waters.</p>
 <p>Here is the code that generates density/abundance estimates of striped dolphins in 2002 (stratified) and 2010 (unstratified), with only 10 bootstrap iterations:</p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="destratify.html#cb192-1" tabindex="-1"></a><span class="co"># Survey data</span></span>
-<span id="cb192-2"><a href="destratify.html#cb192-2" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;cnp_150km_1986_2020&quot;</span>)</span>
-<span id="cb192-3"><a href="destratify.html#cb192-3" tabindex="-1"></a>cruz <span class="ot">&lt;-</span> cnp_150km_1986_2020</span>
-<span id="cb192-4"><a href="destratify.html#cb192-4" tabindex="-1"></a></span>
-<span id="cb192-5"><a href="destratify.html#cb192-5" tabindex="-1"></a><span class="co"># Rg0 table</span></span>
-<span id="cb192-6"><a href="destratify.html#cb192-6" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;g0_results&quot;</span>)</span>
-<span id="cb192-7"><a href="destratify.html#cb192-7" tabindex="-1"></a>Rg0 <span class="ot">&lt;-</span> g0_results</span>
-<span id="cb192-8"><a href="destratify.html#cb192-8" tabindex="-1"></a></span>
-<span id="cb192-9"><a href="destratify.html#cb192-9" tabindex="-1"></a><span class="co"># Detection function filters</span></span>
-<span id="cb192-10"><a href="destratify.html#cb192-10" tabindex="-1"></a>fit_filters <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">spp =</span> <span class="fu">c</span>(<span class="st">&#39;013&#39;</span>, <span class="st">&#39;026&#39;</span>, <span class="st">&#39;031&#39;</span>), </span>
-<span id="cb192-11"><a href="destratify.html#cb192-11" tabindex="-1"></a>                   <span class="at">pool =</span> <span class="st">&#39;Multi-species pool 1&#39;</span>,</span>
-<span id="cb192-12"><a href="destratify.html#cb192-12" tabindex="-1"></a>                   <span class="at">cohort =</span> <span class="st">&#39;all&#39;</span>,</span>
-<span id="cb192-13"><a href="destratify.html#cb192-13" tabindex="-1"></a>                   <span class="at">truncation_distance =</span> <span class="dv">5</span>,</span>
-<span id="cb192-14"><a href="destratify.html#cb192-14" tabindex="-1"></a>                   <span class="at">other_species =</span> <span class="st">&#39;remove&#39;</span>)</span>
-<span id="cb192-15"><a href="destratify.html#cb192-15" tabindex="-1"></a></span>
-<span id="cb192-16"><a href="destratify.html#cb192-16" tabindex="-1"></a><span class="co"># Detection function settings</span></span>
-<span id="cb192-17"><a href="destratify.html#cb192-17" tabindex="-1"></a>df_settings <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">covariates =</span> <span class="fu">c</span>(<span class="st">&#39;bft&#39;</span>,<span class="st">&#39;lnsstot&#39;</span>,<span class="st">&#39;cruise&#39;</span>,<span class="st">&#39;year&#39;</span>,<span class="st">&#39;ship&#39;</span>,<span class="st">&#39;species&#39;</span>),</span>
-<span id="cb192-18"><a href="destratify.html#cb192-18" tabindex="-1"></a>                   <span class="at">covariates_factor =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>),</span>
-<span id="cb192-19"><a href="destratify.html#cb192-19" tabindex="-1"></a>                   <span class="at">covariates_levels =</span> <span class="dv">2</span>,</span>
-<span id="cb192-20"><a href="destratify.html#cb192-20" tabindex="-1"></a>                   <span class="at">covariates_n_per_level =</span> <span class="dv">10</span>,</span>
-<span id="cb192-21"><a href="destratify.html#cb192-21" tabindex="-1"></a>                   <span class="at">detection_function_base =</span> <span class="st">&#39;hn&#39;</span>,</span>
-<span id="cb192-22"><a href="destratify.html#cb192-22" tabindex="-1"></a>                   <span class="at">base_model =</span> <span class="st">&#39;~1&#39;</span>,</span>
-<span id="cb192-23"><a href="destratify.html#cb192-23" tabindex="-1"></a>                   <span class="at">delta_aic =</span> <span class="dv">2</span>)</span>
-<span id="cb192-24"><a href="destratify.html#cb192-24" tabindex="-1"></a></span>
-<span id="cb192-25"><a href="destratify.html#cb192-25" tabindex="-1"></a><span class="co"># Estimates</span></span>
-<span id="cb192-26"><a href="destratify.html#cb192-26" tabindex="-1"></a>estimates <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb192-27"><a href="destratify.html#cb192-27" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">spp =</span> <span class="st">&#39;013&#39;</span>,</span>
-<span id="cb192-28"><a href="destratify.html#cb192-28" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">&#39;Striped dolphin&#39;</span>,</span>
-<span id="cb192-29"><a href="destratify.html#cb192-29" tabindex="-1"></a>         <span class="at">years =</span> <span class="dv">2002</span>,</span>
-<span id="cb192-30"><a href="destratify.html#cb192-30" tabindex="-1"></a>         <span class="at">regions =</span> <span class="st">&#39;MHI&#39;</span>),</span>
-<span id="cb192-31"><a href="destratify.html#cb192-31" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">spp =</span> <span class="st">&#39;013&#39;</span>,</span>
-<span id="cb192-32"><a href="destratify.html#cb192-32" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">&#39;Striped dolphin&#39;</span>,</span>
-<span id="cb192-33"><a href="destratify.html#cb192-33" tabindex="-1"></a>         <span class="at">years =</span> <span class="dv">2002</span>,</span>
-<span id="cb192-34"><a href="destratify.html#cb192-34" tabindex="-1"></a>         <span class="at">regions =</span> <span class="st">&#39;HI_EEZ&#39;</span>,</span>
-<span id="cb192-35"><a href="destratify.html#cb192-35" tabindex="-1"></a>         <span class="at">regions_remove =</span> <span class="st">&#39;MHI&#39;</span>),</span>
-<span id="cb192-36"><a href="destratify.html#cb192-36" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">spp =</span> <span class="st">&#39;013&#39;</span>,</span>
-<span id="cb192-37"><a href="destratify.html#cb192-37" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">&#39;Striped dolphin&#39;</span>,</span>
-<span id="cb192-38"><a href="destratify.html#cb192-38" tabindex="-1"></a>         <span class="at">years =</span> <span class="dv">2010</span>,</span>
-<span id="cb192-39"><a href="destratify.html#cb192-39" tabindex="-1"></a>         <span class="at">regions =</span> <span class="st">&#39;HI_EEZ&#39;</span>))</span>
-<span id="cb192-40"><a href="destratify.html#cb192-40" tabindex="-1"></a></span>
-<span id="cb192-41"><a href="destratify.html#cb192-41" tabindex="-1"></a><span class="co"># Run it</span></span>
-<span id="cb192-42"><a href="destratify.html#cb192-42" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">lta</span>(cruz, Rg0, </span>
-<span id="cb192-43"><a href="destratify.html#cb192-43" tabindex="-1"></a>               fit_filters, df_settings, estimates, </span>
-<span id="cb192-44"><a href="destratify.html#cb192-44" tabindex="-1"></a>               <span class="at">bootstraps =</span> <span class="dv">10</span>)</span>
-<span id="cb192-45"><a href="destratify.html#cb192-45" tabindex="-1"></a></span>
-<span id="cb192-46"><a href="destratify.html#cb192-46" tabindex="-1"></a><span class="co"># Save it locally</span></span>
-<span id="cb192-47"><a href="destratify.html#cb192-47" tabindex="-1"></a><span class="fu">saveRDS</span>(results, <span class="at">file=</span><span class="st">&#39;lta/multispecies_pool_1.RData&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="destratify.html#cb195-1" tabindex="-1"></a><span class="co"># Survey data</span></span>
+<span id="cb195-2"><a href="destratify.html#cb195-2" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;cnp_150km_1986_2020&quot;</span>)</span>
+<span id="cb195-3"><a href="destratify.html#cb195-3" tabindex="-1"></a>cruz <span class="ot">&lt;-</span> cnp_150km_1986_2020</span>
+<span id="cb195-4"><a href="destratify.html#cb195-4" tabindex="-1"></a></span>
+<span id="cb195-5"><a href="destratify.html#cb195-5" tabindex="-1"></a><span class="co"># Rg0 table</span></span>
+<span id="cb195-6"><a href="destratify.html#cb195-6" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;g0_results&quot;</span>)</span>
+<span id="cb195-7"><a href="destratify.html#cb195-7" tabindex="-1"></a>Rg0 <span class="ot">&lt;-</span> g0_results</span>
+<span id="cb195-8"><a href="destratify.html#cb195-8" tabindex="-1"></a></span>
+<span id="cb195-9"><a href="destratify.html#cb195-9" tabindex="-1"></a><span class="co"># Detection function filters</span></span>
+<span id="cb195-10"><a href="destratify.html#cb195-10" tabindex="-1"></a>fit_filters <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">spp =</span> <span class="fu">c</span>(<span class="st">&#39;013&#39;</span>, <span class="st">&#39;026&#39;</span>, <span class="st">&#39;031&#39;</span>), </span>
+<span id="cb195-11"><a href="destratify.html#cb195-11" tabindex="-1"></a>                   <span class="at">pool =</span> <span class="st">&#39;Multi-species pool 1&#39;</span>,</span>
+<span id="cb195-12"><a href="destratify.html#cb195-12" tabindex="-1"></a>                   <span class="at">cohort =</span> <span class="st">&#39;all&#39;</span>,</span>
+<span id="cb195-13"><a href="destratify.html#cb195-13" tabindex="-1"></a>                   <span class="at">truncation_distance =</span> <span class="dv">5</span>,</span>
+<span id="cb195-14"><a href="destratify.html#cb195-14" tabindex="-1"></a>                   <span class="at">other_species =</span> <span class="st">&#39;remove&#39;</span>)</span>
+<span id="cb195-15"><a href="destratify.html#cb195-15" tabindex="-1"></a></span>
+<span id="cb195-16"><a href="destratify.html#cb195-16" tabindex="-1"></a><span class="co"># Detection function settings</span></span>
+<span id="cb195-17"><a href="destratify.html#cb195-17" tabindex="-1"></a>df_settings <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">covariates =</span> <span class="fu">c</span>(<span class="st">&#39;bft&#39;</span>,<span class="st">&#39;lnsstot&#39;</span>,<span class="st">&#39;cruise&#39;</span>,<span class="st">&#39;year&#39;</span>,<span class="st">&#39;ship&#39;</span>,<span class="st">&#39;species&#39;</span>),</span>
+<span id="cb195-18"><a href="destratify.html#cb195-18" tabindex="-1"></a>                   <span class="at">covariates_factor =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>, <span class="cn">TRUE</span>),</span>
+<span id="cb195-19"><a href="destratify.html#cb195-19" tabindex="-1"></a>                   <span class="at">covariates_levels =</span> <span class="dv">2</span>,</span>
+<span id="cb195-20"><a href="destratify.html#cb195-20" tabindex="-1"></a>                   <span class="at">covariates_n_per_level =</span> <span class="dv">10</span>,</span>
+<span id="cb195-21"><a href="destratify.html#cb195-21" tabindex="-1"></a>                   <span class="at">detection_function_base =</span> <span class="st">&#39;hn&#39;</span>,</span>
+<span id="cb195-22"><a href="destratify.html#cb195-22" tabindex="-1"></a>                   <span class="at">base_model =</span> <span class="st">&#39;~1&#39;</span>,</span>
+<span id="cb195-23"><a href="destratify.html#cb195-23" tabindex="-1"></a>                   <span class="at">delta_aic =</span> <span class="dv">2</span>)</span>
+<span id="cb195-24"><a href="destratify.html#cb195-24" tabindex="-1"></a></span>
+<span id="cb195-25"><a href="destratify.html#cb195-25" tabindex="-1"></a><span class="co"># Estimates</span></span>
+<span id="cb195-26"><a href="destratify.html#cb195-26" tabindex="-1"></a>estimates <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb195-27"><a href="destratify.html#cb195-27" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">spp =</span> <span class="st">&#39;013&#39;</span>,</span>
+<span id="cb195-28"><a href="destratify.html#cb195-28" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">&#39;Striped dolphin&#39;</span>,</span>
+<span id="cb195-29"><a href="destratify.html#cb195-29" tabindex="-1"></a>         <span class="at">years =</span> <span class="dv">2002</span>,</span>
+<span id="cb195-30"><a href="destratify.html#cb195-30" tabindex="-1"></a>         <span class="at">regions =</span> <span class="st">&#39;MHI&#39;</span>),</span>
+<span id="cb195-31"><a href="destratify.html#cb195-31" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">spp =</span> <span class="st">&#39;013&#39;</span>,</span>
+<span id="cb195-32"><a href="destratify.html#cb195-32" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">&#39;Striped dolphin&#39;</span>,</span>
+<span id="cb195-33"><a href="destratify.html#cb195-33" tabindex="-1"></a>         <span class="at">years =</span> <span class="dv">2002</span>,</span>
+<span id="cb195-34"><a href="destratify.html#cb195-34" tabindex="-1"></a>         <span class="at">regions =</span> <span class="st">&#39;HI_EEZ&#39;</span>,</span>
+<span id="cb195-35"><a href="destratify.html#cb195-35" tabindex="-1"></a>         <span class="at">regions_remove =</span> <span class="st">&#39;MHI&#39;</span>),</span>
+<span id="cb195-36"><a href="destratify.html#cb195-36" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">spp =</span> <span class="st">&#39;013&#39;</span>,</span>
+<span id="cb195-37"><a href="destratify.html#cb195-37" tabindex="-1"></a>         <span class="at">title =</span> <span class="st">&#39;Striped dolphin&#39;</span>,</span>
+<span id="cb195-38"><a href="destratify.html#cb195-38" tabindex="-1"></a>         <span class="at">years =</span> <span class="dv">2010</span>,</span>
+<span id="cb195-39"><a href="destratify.html#cb195-39" tabindex="-1"></a>         <span class="at">regions =</span> <span class="st">&#39;HI_EEZ&#39;</span>))</span>
+<span id="cb195-40"><a href="destratify.html#cb195-40" tabindex="-1"></a></span>
+<span id="cb195-41"><a href="destratify.html#cb195-41" tabindex="-1"></a><span class="co"># Run it</span></span>
+<span id="cb195-42"><a href="destratify.html#cb195-42" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">lta</span>(cruz, Rg0, </span>
+<span id="cb195-43"><a href="destratify.html#cb195-43" tabindex="-1"></a>               fit_filters, df_settings, estimates, </span>
+<span id="cb195-44"><a href="destratify.html#cb195-44" tabindex="-1"></a>               <span class="at">bootstraps =</span> <span class="dv">10</span>)</span>
+<span id="cb195-45"><a href="destratify.html#cb195-45" tabindex="-1"></a></span>
+<span id="cb195-46"><a href="destratify.html#cb195-46" tabindex="-1"></a><span class="co"># Save it locally</span></span>
+<span id="cb195-47"><a href="destratify.html#cb195-47" tabindex="-1"></a><span class="fu">saveRDS</span>(results, <span class="at">file=</span><span class="st">&#39;lta/multispecies_pool_1.RData&#39;</span>)</span></code></pre></div>
 <p>Let’s read these results back in using the <code>LTabundR</code> function <code>lta_enlist()</code>, which stores LTA results in a flexible list structure.</p>
-<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="destratify.html#cb193-1" tabindex="-1"></a>ltas <span class="ot">&lt;-</span> <span class="fu">lta_enlist</span>(<span class="st">&#39;lta/&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="destratify.html#cb196-1" tabindex="-1"></a>ltas <span class="ot">&lt;-</span> <span class="fu">lta_enlist</span>(<span class="st">&#39;lta/&#39;</span>)</span></code></pre></div>
 <p>As these results stand, 2002 estimates are stratified into 2 separate regions:</p>
-<div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="destratify.html#cb194-1" tabindex="-1"></a>(ltas <span class="sc">%&gt;%</span> <span class="fu">lta_report</span>(<span class="at">verbose =</span> <span class="cn">FALSE</span>))<span class="sc">$</span>table4</span>
-<span id="cb194-2"><a href="destratify.html#cb194-2" tabindex="-1"></a>                         <span class="dv">2002</span> (HI_EEZ) <span class="sc">-</span> (MHI)                        <span class="dv">2002</span></span>
-<span id="cb194-3"><a href="destratify.html#cb194-3" tabindex="-1"></a><span class="dv">1</span> Species or category Density        Abundance   CV         <span class="dv">95</span>% CI Density</span>
-<span id="cb194-4"><a href="destratify.html#cb194-4" tabindex="-1"></a><span class="dv">2</span>     Striped dolphin   <span class="fl">19.64</span>           <span class="dv">44</span>,<span class="dv">436</span> <span class="fl">0.46</span> <span class="dv">28</span>,<span class="dv">104-112</span>,<span class="dv">414</span>   <span class="fl">17.49</span></span>
-<span id="cb194-5"><a href="destratify.html#cb194-5" tabindex="-1"></a>      (MHI)                    <span class="dv">2010</span>  (HI_EEZ)                    </span>
-<span id="cb194-6"><a href="destratify.html#cb194-6" tabindex="-1"></a><span class="dv">1</span> Abundance   CV     <span class="dv">95</span><span class="sc">% CI Density Abundance   CV         95%</span> CI</span>
-<span id="cb194-7"><a href="destratify.html#cb194-7" tabindex="-1"></a><span class="dv">2</span>     <span class="dv">3</span>,<span class="dv">709</span> <span class="fl">1.40</span> <span class="dv">372-23</span>,<span class="dv">787</span>   <span class="fl">32.29</span>    <span class="dv">79</span>,<span class="dv">911</span> <span class="fl">0.37</span> <span class="dv">40</span>,<span class="dv">538-162</span>,<span class="dv">150</span></span></code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="destratify.html#cb197-1" tabindex="-1"></a>(ltas <span class="sc">%&gt;%</span> <span class="fu">lta_report</span>(<span class="at">verbose =</span> <span class="cn">FALSE</span>))<span class="sc">$</span>table4</span>
+<span id="cb197-2"><a href="destratify.html#cb197-2" tabindex="-1"></a>                         <span class="dv">2002</span> (HI_EEZ) <span class="sc">-</span> (MHI)                        <span class="dv">2002</span></span>
+<span id="cb197-3"><a href="destratify.html#cb197-3" tabindex="-1"></a><span class="dv">1</span> Species or category Density        Abundance   CV         <span class="dv">95</span>% CI Density</span>
+<span id="cb197-4"><a href="destratify.html#cb197-4" tabindex="-1"></a><span class="dv">2</span>     Striped dolphin   <span class="fl">19.64</span>           <span class="dv">44</span>,<span class="dv">436</span> <span class="fl">0.46</span> <span class="dv">28</span>,<span class="dv">104-112</span>,<span class="dv">414</span>   <span class="fl">17.49</span></span>
+<span id="cb197-5"><a href="destratify.html#cb197-5" tabindex="-1"></a>      (MHI)                    <span class="dv">2010</span>  (HI_EEZ)                    </span>
+<span id="cb197-6"><a href="destratify.html#cb197-6" tabindex="-1"></a><span class="dv">1</span> Abundance   CV     <span class="dv">95</span><span class="sc">% CI Density Abundance   CV         95%</span> CI</span>
+<span id="cb197-7"><a href="destratify.html#cb197-7" tabindex="-1"></a><span class="dv">2</span>     <span class="dv">3</span>,<span class="dv">709</span> <span class="fl">1.40</span> <span class="dv">372-23</span>,<span class="dv">787</span>   <span class="fl">32.29</span>    <span class="dv">79</span>,<span class="dv">911</span> <span class="fl">0.37</span> <span class="dv">40</span>,<span class="dv">538-162</span>,<span class="dv">150</span></span></code></pre></div>
 <p>Now let’s process these LTA results through an <code>LTabundR</code> function, <code>lta_destratify()</code>, which will combine the separate regional estimates from 2002 into a single estimate for the year.</p>
-<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="destratify.html#cb195-1" tabindex="-1"></a>ltas_2a <span class="ot">&lt;-</span></span>
-<span id="cb195-2"><a href="destratify.html#cb195-2" tabindex="-1"></a>  <span class="fu">lta_destratify</span>(ltas,</span>
-<span id="cb195-3"><a href="destratify.html#cb195-3" tabindex="-1"></a>               <span class="at">years =</span> <span class="dv">2002</span>,</span>
-<span id="cb195-4"><a href="destratify.html#cb195-4" tabindex="-1"></a>               <span class="at">combine_method =</span> <span class="st">&#39;arithmetic&#39;</span>,</span>
-<span id="cb195-5"><a href="destratify.html#cb195-5" tabindex="-1"></a>               <span class="at">new_region =</span> <span class="st">&#39;(HI_EEZ)&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="destratify.html#cb198-1" tabindex="-1"></a>ltas_2a <span class="ot">&lt;-</span></span>
+<span id="cb198-2"><a href="destratify.html#cb198-2" tabindex="-1"></a>  <span class="fu">lta_destratify</span>(ltas,</span>
+<span id="cb198-3"><a href="destratify.html#cb198-3" tabindex="-1"></a>               <span class="at">years =</span> <span class="dv">2002</span>,</span>
+<span id="cb198-4"><a href="destratify.html#cb198-4" tabindex="-1"></a>               <span class="at">combine_method =</span> <span class="st">&#39;arithmetic&#39;</span>,</span>
+<span id="cb198-5"><a href="destratify.html#cb198-5" tabindex="-1"></a>               <span class="at">new_region =</span> <span class="st">&#39;(HI_EEZ)&#39;</span>)</span></code></pre></div>
 <p>The <code>new_region</code> argument specifies how to refer to the combined region. In this case we want the 2002 study area to be named the same as the unstratified 2010 study area, hence <code>"(HI_EEZ)"</code>. The <code>combine_method</code> argument is explained below.</p>
 <p>Now let’s re-check the summary table:</p>
-<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="destratify.html#cb196-1" tabindex="-1"></a>(ltas_2a <span class="sc">%&gt;%</span> <span class="fu">lta_report</span>(<span class="at">verbose=</span><span class="cn">FALSE</span>))<span class="sc">$</span>table4</span>
-<span id="cb196-2"><a href="destratify.html#cb196-2" tabindex="-1"></a>                         <span class="dv">2002</span>  (HI_EEZ)                       <span class="dv">2010</span>  (HI_EEZ)</span>
-<span id="cb196-3"><a href="destratify.html#cb196-3" tabindex="-1"></a><span class="dv">1</span> Species or category Density Abundance   CV        <span class="dv">95</span>% CI Density Abundance</span>
-<span id="cb196-4"><a href="destratify.html#cb196-4" tabindex="-1"></a><span class="dv">2</span>     Striped dolphin   <span class="fl">19.46</span>    <span class="dv">48</span>,<span class="dv">145</span> <span class="fl">1.29</span> <span class="dv">6</span>,<span class="dv">896-336</span>,<span class="dv">137</span>   <span class="fl">32.29</span>    <span class="dv">79</span>,<span class="dv">911</span></span>
-<span id="cb196-5"><a href="destratify.html#cb196-5" tabindex="-1"></a>                     </span>
-<span id="cb196-6"><a href="destratify.html#cb196-6" tabindex="-1"></a><span class="dv">1</span>   CV         <span class="dv">95</span>% CI</span>
-<span id="cb196-7"><a href="destratify.html#cb196-7" tabindex="-1"></a><span class="dv">2</span> <span class="fl">0.37</span> <span class="dv">40</span>,<span class="dv">538-162</span>,<span class="dv">150</span></span></code></pre></div>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="destratify.html#cb199-1" tabindex="-1"></a>(ltas_2a <span class="sc">%&gt;%</span> <span class="fu">lta_report</span>(<span class="at">verbose=</span><span class="cn">FALSE</span>))<span class="sc">$</span>table4</span>
+<span id="cb199-2"><a href="destratify.html#cb199-2" tabindex="-1"></a>                         <span class="dv">2002</span>  (HI_EEZ)                       <span class="dv">2010</span>  (HI_EEZ)</span>
+<span id="cb199-3"><a href="destratify.html#cb199-3" tabindex="-1"></a><span class="dv">1</span> Species or category Density Abundance   CV        <span class="dv">95</span>% CI Density Abundance</span>
+<span id="cb199-4"><a href="destratify.html#cb199-4" tabindex="-1"></a><span class="dv">2</span>     Striped dolphin   <span class="fl">19.46</span>    <span class="dv">48</span>,<span class="dv">145</span> <span class="fl">1.29</span> <span class="dv">6</span>,<span class="dv">896-336</span>,<span class="dv">137</span>   <span class="fl">32.29</span>    <span class="dv">79</span>,<span class="dv">911</span></span>
+<span id="cb199-5"><a href="destratify.html#cb199-5" tabindex="-1"></a>                     </span>
+<span id="cb199-6"><a href="destratify.html#cb199-6" tabindex="-1"></a><span class="dv">1</span>   CV         <span class="dv">95</span>% CI</span>
+<span id="cb199-7"><a href="destratify.html#cb199-7" tabindex="-1"></a><span class="dv">2</span> <span class="fl">0.37</span> <span class="dv">40</span>,<span class="dv">538-162</span>,<span class="dv">150</span></span></code></pre></div>
 <p>There is now only one set of columns for 2002, and the values therein are combinations of the stratified regions.</p>
 <p>The “de-stratification” routine within <code>lta_destratify()</code> sums abundance estimates across regions to get combined abundance. To estimate density in the combined regions, the function uses weighted averaging in which the area of a geostratum serves as its weight. To estimate CV and confidence interval of the combined result, the function uses one of two <code>combine_methods</code> (this is an argument in the function). The default method is <code>"arithmetic"</code>, which uses classic formulae to estimate the combined variance and the corresponding confidence interval. This is done in a way that allows multiple geostrata to be combined, not just two.</p>
 <p>The second option, <code>"bootstrap"</code>, uses an iterative method that draws bootstrap samples, with replacement, from the bootstrap estimate of density within each stratified region.</p>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="destratify.html#cb197-1" tabindex="-1"></a>ltas_2b <span class="ot">&lt;-</span></span>
-<span id="cb197-2"><a href="destratify.html#cb197-2" tabindex="-1"></a>  <span class="fu">lta_destratify</span>(ltas,</span>
-<span id="cb197-3"><a href="destratify.html#cb197-3" tabindex="-1"></a>               <span class="at">years =</span> <span class="dv">2002</span>,</span>
-<span id="cb197-4"><a href="destratify.html#cb197-4" tabindex="-1"></a>               <span class="at">combine_method =</span> <span class="st">&#39;bootstrap&#39;</span>,</span>
-<span id="cb197-5"><a href="destratify.html#cb197-5" tabindex="-1"></a>               <span class="at">new_region =</span> <span class="st">&#39;(HI_EEZ)&#39;</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="destratify.html#cb198-1" tabindex="-1"></a>(ltas_2b <span class="sc">%&gt;%</span> <span class="fu">lta_report</span>(<span class="at">verbose=</span><span class="cn">FALSE</span>))<span class="sc">$</span>table4</span>
-<span id="cb198-2"><a href="destratify.html#cb198-2" tabindex="-1"></a>                         <span class="dv">2002</span>  (HI_EEZ)                        <span class="dv">2010</span>  (HI_EEZ)</span>
-<span id="cb198-3"><a href="destratify.html#cb198-3" tabindex="-1"></a><span class="dv">1</span> Species or category Density Abundance   CV         <span class="dv">95</span>% CI Density Abundance</span>
-<span id="cb198-4"><a href="destratify.html#cb198-4" tabindex="-1"></a><span class="dv">2</span>     Striped dolphin   <span class="fl">19.46</span>    <span class="dv">48</span>,<span class="dv">145</span> <span class="fl">0.42</span> <span class="dv">14</span>,<span class="dv">475-111</span>,<span class="dv">755</span>   <span class="fl">32.29</span>    <span class="dv">79</span>,<span class="dv">911</span></span>
-<span id="cb198-5"><a href="destratify.html#cb198-5" tabindex="-1"></a>                     </span>
-<span id="cb198-6"><a href="destratify.html#cb198-6" tabindex="-1"></a><span class="dv">1</span>   CV         <span class="dv">95</span>% CI</span>
-<span id="cb198-7"><a href="destratify.html#cb198-7" tabindex="-1"></a><span class="dv">2</span> <span class="fl">0.37</span> <span class="dv">40</span>,<span class="dv">538-162</span>,<span class="dv">150</span></span></code></pre></div>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="destratify.html#cb200-1" tabindex="-1"></a>ltas_2b <span class="ot">&lt;-</span></span>
+<span id="cb200-2"><a href="destratify.html#cb200-2" tabindex="-1"></a>  <span class="fu">lta_destratify</span>(ltas,</span>
+<span id="cb200-3"><a href="destratify.html#cb200-3" tabindex="-1"></a>               <span class="at">years =</span> <span class="dv">2002</span>,</span>
+<span id="cb200-4"><a href="destratify.html#cb200-4" tabindex="-1"></a>               <span class="at">combine_method =</span> <span class="st">&#39;bootstrap&#39;</span>,</span>
+<span id="cb200-5"><a href="destratify.html#cb200-5" tabindex="-1"></a>               <span class="at">new_region =</span> <span class="st">&#39;(HI_EEZ)&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb201-1"><a href="destratify.html#cb201-1" tabindex="-1"></a>(ltas_2b <span class="sc">%&gt;%</span> <span class="fu">lta_report</span>(<span class="at">verbose=</span><span class="cn">FALSE</span>))<span class="sc">$</span>table4</span>
+<span id="cb201-2"><a href="destratify.html#cb201-2" tabindex="-1"></a>                         <span class="dv">2002</span>  (HI_EEZ)                        <span class="dv">2010</span>  (HI_EEZ)</span>
+<span id="cb201-3"><a href="destratify.html#cb201-3" tabindex="-1"></a><span class="dv">1</span> Species or category Density Abundance   CV         <span class="dv">95</span>% CI Density Abundance</span>
+<span id="cb201-4"><a href="destratify.html#cb201-4" tabindex="-1"></a><span class="dv">2</span>     Striped dolphin   <span class="fl">19.46</span>    <span class="dv">48</span>,<span class="dv">145</span> <span class="fl">0.42</span> <span class="dv">14</span>,<span class="dv">475-111</span>,<span class="dv">755</span>   <span class="fl">32.29</span>    <span class="dv">79</span>,<span class="dv">911</span></span>
+<span id="cb201-5"><a href="destratify.html#cb201-5" tabindex="-1"></a>                     </span>
+<span id="cb201-6"><a href="destratify.html#cb201-6" tabindex="-1"></a><span class="dv">1</span>   CV         <span class="dv">95</span>% CI</span>
+<span id="cb201-7"><a href="destratify.html#cb201-7" tabindex="-1"></a><span class="dv">2</span> <span class="fl">0.37</span> <span class="dv">40</span>,<span class="dv">538-162</span>,<span class="dv">150</span></span></code></pre></div>
 <p>Note that use of <code>lta_destratify()</code> only makes sense if the stratified regions have zero overlap.</p>
 
 </div>

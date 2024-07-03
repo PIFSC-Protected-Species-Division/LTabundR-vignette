@@ -46,7 +46,6 @@ lta(cruz,
     df_settings,
     estimates,
     use_g0 = TRUE,
-    ss_correction = 1,
     abund_eff_types = c("S"),
     abund_bft_range = 0:6,
     bootstraps = 0,
@@ -335,7 +334,6 @@ lta(cruz,
     df_settings,
     estimates,
     use_g0 = TRUE,
-    ss_correction = 1,
     abund_eff_types = c("S"),
     abund_bft_range = 0:6,
     bootstraps = 10
@@ -344,8 +342,6 @@ lta(cruz,
 ```
 
 - **`use_g0`**: A Boolean, with default `TRUE`, indicating whether or not to use custom `g(0)` value(s). If `FALSE`, the assumed `g(0)` value will be 1. This is an easy way to toggle on-and-off automated *g(0)* estimation and/or ignore manually supplied *g(0)* values.  
-
-- **`ss_correction`**: Should a correction be applied to school sizes? School sizes will be scaled by this number. The default, `1`, means no changes will occur.  
 
 - **`abund_eff_types`**:  The `EffType` values that are acceptable as systematic effort when estimating density/abundance. The default is just `"S"` (systematic effort), but in some surveys/cases you may wish to use fine-scale effort (`"F"`) too.
 

@@ -443,270 +443,270 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="creating-a-base-map" class="section level2 unnumbered hasAnchor">
 <h2>Creating a base map<a href="maps.html#creating-a-base-map" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>All of the mapping functions in <code>LTabundR</code> are designed to be added onto a pre-existing map that you have already created with <code>ggplot2</code>, which itself has several functions that tie into the spatial functions in the package <code>sf</code>. There are already several great resources out there for creating maps with <code>ggplot</code> and <code>sf</code>. (<a href="https://r-spatial.org/r/2018/10/25/ggplot2-sf.html">Here is one example.</a>).</p>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb113-1"><a href="maps.html#cb113-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb113-2"><a href="maps.html#cb113-2" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
-<span id="cb113-3"><a href="maps.html#cb113-3" tabindex="-1"></a><span class="fu">library</span>(LTabundR)</span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="maps.html#cb116-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb116-2"><a href="maps.html#cb116-2" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb116-3"><a href="maps.html#cb116-3" tabindex="-1"></a><span class="fu">library</span>(LTabundR)</span></code></pre></div>
 <p>Here we provide a couple simple examples to demonstrate some of the spatial datasets that come with <code>LTabundR</code>. To begin, decide upon the CRS projection you wish to use for your map. (<a href="https://www.pmassicotte.com/posts/2021-11-12-choosing-the-right-projection/">This website may be helpful.</a>).</p>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb114-1"><a href="maps.html#cb114-1" tabindex="-1"></a>my_crs <span class="ot">&lt;-</span> <span class="dv">4326</span></span></code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="maps.html#cb117-1" tabindex="-1"></a>my_crs <span class="ot">&lt;-</span> <span class="dv">4326</span></span></code></pre></div>
 <p>It will also be helpful to create objects for your desired geographic range, since you might need to refer to them multiple times:</p>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb115-1"><a href="maps.html#cb115-1" tabindex="-1"></a>xlims <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">162</span>, <span class="sc">-</span><span class="dv">153</span>)</span>
-<span id="cb115-2"><a href="maps.html#cb115-2" tabindex="-1"></a>ylims <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">17</span>, <span class="fl">24.2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="maps.html#cb118-1" tabindex="-1"></a>xlims <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">162</span>, <span class="sc">-</span><span class="dv">153</span>)</span>
+<span id="cb118-2"><a href="maps.html#cb118-2" tabindex="-1"></a>ylims <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">17</span>, <span class="fl">24.2</span>)</span></code></pre></div>
 <p>To create a simple map of the main Hawaiian islands, for example, you can use the <code>LTabundR</code> datasets named <code>"land"</code> and <code>"coastline"</code>, which are global datasets downloaded using the <code>rnaturalearth</code> package, and the dataset <code>"eez_hawaii</code>, all of which have been provided as <code>sf</code> objects:</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb116-1"><a href="maps.html#cb116-1" tabindex="-1"></a><span class="co"># Load dataset</span></span>
-<span id="cb116-2"><a href="maps.html#cb116-2" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;land&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
-<span id="cb116-3"><a href="maps.html#cb116-3" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;coastline&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
-<span id="cb116-4"><a href="maps.html#cb116-4" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;eez_hawaii&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
-<span id="cb116-5"><a href="maps.html#cb116-5" tabindex="-1"></a></span>
-<span id="cb116-6"><a href="maps.html#cb116-6" tabindex="-1"></a><span class="co"># Look at an example of structure</span></span>
-<span id="cb116-7"><a href="maps.html#cb116-7" tabindex="-1"></a>coastline <span class="sc">%&gt;%</span> head</span>
-<span id="cb116-8"><a href="maps.html#cb116-8" tabindex="-1"></a>Simple feature collection with <span class="dv">6</span> features and <span class="dv">3</span> fields</span>
-<span id="cb116-9"><a href="maps.html#cb116-9" tabindex="-1"></a>Geometry type<span class="sc">:</span> LINESTRING</span>
-<span id="cb116-10"><a href="maps.html#cb116-10" tabindex="-1"></a>Dimension<span class="sc">:</span>     XY</span>
-<span id="cb116-11"><a href="maps.html#cb116-11" tabindex="-1"></a>Bounding box<span class="sc">:</span>  xmin<span class="sc">:</span> <span class="sc">-</span><span class="dv">180</span> ymin<span class="sc">:</span> <span class="sc">-</span><span class="fl">85.22194</span> xmax<span class="sc">:</span> <span class="fl">166.2263</span> ymax<span class="sc">:</span> <span class="fl">3.492087</span></span>
-<span id="cb116-12"><a href="maps.html#cb116-12" tabindex="-1"></a>Geodetic CRS<span class="sc">:</span>  WGS <span class="dv">84</span></span>
-<span id="cb116-13"><a href="maps.html#cb116-13" tabindex="-1"></a>  featurecla scalerank min_zoom                       geometry</span>
-<span id="cb116-14"><a href="maps.html#cb116-14" tabindex="-1"></a><span class="dv">1</span>  Coastline         <span class="dv">0</span>        <span class="dv">0</span> <span class="fu">LINESTRING</span> (<span class="fl">59.91603</span> <span class="sc">-</span><span class="dv">67</span>.<span class="dv">40</span>...</span>
-<span id="cb116-15"><a href="maps.html#cb116-15" tabindex="-1"></a><span class="dv">2</span>  Coastline         <span class="dv">0</span>        <span class="dv">0</span> <span class="fu">LINESTRING</span> (<span class="sc">-</span><span class="fl">51.73062</span> <span class="sc">-</span><span class="dv">82</span>.<span class="dv">0</span>...</span>
-<span id="cb116-16"><a href="maps.html#cb116-16" tabindex="-1"></a><span class="dv">3</span>  Coastline         <span class="dv">6</span>        <span class="dv">5</span> <span class="fu">LINESTRING</span> (<span class="fl">166.137</span> <span class="sc">-</span><span class="dv">50</span>.<span class="dv">864</span>...</span>
-<span id="cb116-17"><a href="maps.html#cb116-17" tabindex="-1"></a><span class="dv">4</span>  Coastline         <span class="dv">0</span>        <span class="dv">0</span> <span class="fu">LINESTRING</span> (<span class="sc">-</span><span class="fl">56.66832</span> <span class="sc">-</span><span class="dv">36</span>.<span class="dv">7</span>...</span>
-<span id="cb116-18"><a href="maps.html#cb116-18" tabindex="-1"></a><span class="dv">5</span>  Coastline         <span class="dv">0</span>        <span class="dv">0</span> <span class="fu">LINESTRING</span> (<span class="sc">-</span><span class="fl">51.07939</span> <span class="dv">3</span>.<span class="dv">492</span>...</span>
-<span id="cb116-19"><a href="maps.html#cb116-19" tabindex="-1"></a><span class="dv">6</span>  Coastline         <span class="dv">6</span>        <span class="dv">5</span> <span class="fu">LINESTRING</span> (<span class="sc">-</span><span class="fl">80.75935</span> <span class="sc">-</span><span class="dv">33</span>.<span class="dv">7</span>...</span>
-<span id="cb116-20"><a href="maps.html#cb116-20" tabindex="-1"></a></span>
-<span id="cb116-21"><a href="maps.html#cb116-21" tabindex="-1"></a><span class="co"># Specify CRS</span></span>
-<span id="cb116-22"><a href="maps.html#cb116-22" tabindex="-1"></a><span class="fu">st_crs</span>(coastline) <span class="ot">&lt;-</span> my_crs</span>
-<span id="cb116-23"><a href="maps.html#cb116-23" tabindex="-1"></a><span class="fu">st_crs</span>(land) <span class="ot">&lt;-</span> my_crs</span>
-<span id="cb116-24"><a href="maps.html#cb116-24" tabindex="-1"></a><span class="fu">st_crs</span>(eez_hawaii) <span class="ot">&lt;-</span> my_crs</span></code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="maps.html#cb119-1" tabindex="-1"></a><span class="co"># Load dataset</span></span>
+<span id="cb119-2"><a href="maps.html#cb119-2" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;land&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
+<span id="cb119-3"><a href="maps.html#cb119-3" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;coastline&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
+<span id="cb119-4"><a href="maps.html#cb119-4" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;eez_hawaii&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
+<span id="cb119-5"><a href="maps.html#cb119-5" tabindex="-1"></a></span>
+<span id="cb119-6"><a href="maps.html#cb119-6" tabindex="-1"></a><span class="co"># Look at an example of structure</span></span>
+<span id="cb119-7"><a href="maps.html#cb119-7" tabindex="-1"></a>coastline <span class="sc">%&gt;%</span> head</span>
+<span id="cb119-8"><a href="maps.html#cb119-8" tabindex="-1"></a>Simple feature collection with <span class="dv">6</span> features and <span class="dv">3</span> fields</span>
+<span id="cb119-9"><a href="maps.html#cb119-9" tabindex="-1"></a>Geometry type<span class="sc">:</span> LINESTRING</span>
+<span id="cb119-10"><a href="maps.html#cb119-10" tabindex="-1"></a>Dimension<span class="sc">:</span>     XY</span>
+<span id="cb119-11"><a href="maps.html#cb119-11" tabindex="-1"></a>Bounding box<span class="sc">:</span>  xmin<span class="sc">:</span> <span class="sc">-</span><span class="dv">180</span> ymin<span class="sc">:</span> <span class="sc">-</span><span class="fl">85.22194</span> xmax<span class="sc">:</span> <span class="fl">166.2263</span> ymax<span class="sc">:</span> <span class="fl">3.492087</span></span>
+<span id="cb119-12"><a href="maps.html#cb119-12" tabindex="-1"></a>Geodetic CRS<span class="sc">:</span>  WGS <span class="dv">84</span></span>
+<span id="cb119-13"><a href="maps.html#cb119-13" tabindex="-1"></a>  featurecla scalerank min_zoom                       geometry</span>
+<span id="cb119-14"><a href="maps.html#cb119-14" tabindex="-1"></a><span class="dv">1</span>  Coastline         <span class="dv">0</span>        <span class="dv">0</span> <span class="fu">LINESTRING</span> (<span class="fl">59.91603</span> <span class="sc">-</span><span class="dv">67</span>.<span class="dv">40</span>...</span>
+<span id="cb119-15"><a href="maps.html#cb119-15" tabindex="-1"></a><span class="dv">2</span>  Coastline         <span class="dv">0</span>        <span class="dv">0</span> <span class="fu">LINESTRING</span> (<span class="sc">-</span><span class="fl">51.73062</span> <span class="sc">-</span><span class="dv">82</span>.<span class="dv">0</span>...</span>
+<span id="cb119-16"><a href="maps.html#cb119-16" tabindex="-1"></a><span class="dv">3</span>  Coastline         <span class="dv">6</span>        <span class="dv">5</span> <span class="fu">LINESTRING</span> (<span class="fl">166.137</span> <span class="sc">-</span><span class="dv">50</span>.<span class="dv">864</span>...</span>
+<span id="cb119-17"><a href="maps.html#cb119-17" tabindex="-1"></a><span class="dv">4</span>  Coastline         <span class="dv">0</span>        <span class="dv">0</span> <span class="fu">LINESTRING</span> (<span class="sc">-</span><span class="fl">56.66832</span> <span class="sc">-</span><span class="dv">36</span>.<span class="dv">7</span>...</span>
+<span id="cb119-18"><a href="maps.html#cb119-18" tabindex="-1"></a><span class="dv">5</span>  Coastline         <span class="dv">0</span>        <span class="dv">0</span> <span class="fu">LINESTRING</span> (<span class="sc">-</span><span class="fl">51.07939</span> <span class="dv">3</span>.<span class="dv">492</span>...</span>
+<span id="cb119-19"><a href="maps.html#cb119-19" tabindex="-1"></a><span class="dv">6</span>  Coastline         <span class="dv">6</span>        <span class="dv">5</span> <span class="fu">LINESTRING</span> (<span class="sc">-</span><span class="fl">80.75935</span> <span class="sc">-</span><span class="dv">33</span>.<span class="dv">7</span>...</span>
+<span id="cb119-20"><a href="maps.html#cb119-20" tabindex="-1"></a></span>
+<span id="cb119-21"><a href="maps.html#cb119-21" tabindex="-1"></a><span class="co"># Specify CRS</span></span>
+<span id="cb119-22"><a href="maps.html#cb119-22" tabindex="-1"></a><span class="fu">st_crs</span>(coastline) <span class="ot">&lt;-</span> my_crs</span>
+<span id="cb119-23"><a href="maps.html#cb119-23" tabindex="-1"></a><span class="fu">st_crs</span>(land) <span class="ot">&lt;-</span> my_crs</span>
+<span id="cb119-24"><a href="maps.html#cb119-24" tabindex="-1"></a><span class="fu">st_crs</span>(eez_hawaii) <span class="ot">&lt;-</span> my_crs</span></code></pre></div>
 <p>Now build a simple map, specifying the geographic range:</p>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb117-1"><a href="maps.html#cb117-1" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb117-2"><a href="maps.html#cb117-2" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>land, <span class="at">fill=</span><span class="st">&#39;darkslategrey&#39;</span>, <span class="at">color=</span><span class="cn">NA</span>, <span class="at">alpha=</span>.<span class="dv">6</span>) <span class="sc">+</span> </span>
-<span id="cb117-3"><a href="maps.html#cb117-3" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>coastline, <span class="at">color=</span><span class="st">&#39;darkslategrey&#39;</span>, <span class="at">alpha=</span><span class="dv">1</span>, <span class="at">lwd=</span>.<span class="dv">2</span>) <span class="sc">+</span> </span>
-<span id="cb117-4"><a href="maps.html#cb117-4" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>eez_hawaii, <span class="at">color=</span><span class="st">&#39;grey50&#39;</span>, <span class="at">alpha=</span>.<span class="dv">5</span>, <span class="at">lwd=</span>.<span class="dv">4</span>) <span class="sc">+</span> </span>
-<span id="cb117-5"><a href="maps.html#cb117-5" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim=</span>xlims, <span class="at">ylim=</span>ylims)</span>
-<span id="cb117-6"><a href="maps.html#cb117-6" tabindex="-1"></a></span>
-<span id="cb117-7"><a href="maps.html#cb117-7" tabindex="-1"></a>p</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-155-1.png" width="576" /></p>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="maps.html#cb120-1" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb120-2"><a href="maps.html#cb120-2" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>land, <span class="at">fill=</span><span class="st">&#39;darkslategrey&#39;</span>, <span class="at">color=</span><span class="cn">NA</span>, <span class="at">alpha=</span>.<span class="dv">6</span>) <span class="sc">+</span> </span>
+<span id="cb120-3"><a href="maps.html#cb120-3" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>coastline, <span class="at">color=</span><span class="st">&#39;darkslategrey&#39;</span>, <span class="at">alpha=</span><span class="dv">1</span>, <span class="at">lwd=</span>.<span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb120-4"><a href="maps.html#cb120-4" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>eez_hawaii, <span class="at">color=</span><span class="st">&#39;grey50&#39;</span>, <span class="at">alpha=</span>.<span class="dv">5</span>, <span class="at">lwd=</span>.<span class="dv">4</span>) <span class="sc">+</span> </span>
+<span id="cb120-5"><a href="maps.html#cb120-5" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim=</span>xlims, <span class="at">ylim=</span>ylims)</span>
+<span id="cb120-6"><a href="maps.html#cb120-6" tabindex="-1"></a></span>
+<span id="cb120-7"><a href="maps.html#cb120-7" tabindex="-1"></a>p</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-158-1.png" width="576" /></p>
 <p>Remove some of the default features:</p>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb118-1"><a href="maps.html#cb118-1" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> </span>
-<span id="cb118-2"><a href="maps.html#cb118-2" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb118-3"><a href="maps.html#cb118-3" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
-<span id="cb118-4"><a href="maps.html#cb118-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;grey45&quot;</span>),</span>
-<span id="cb118-5"><a href="maps.html#cb118-5" tabindex="-1"></a>        <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb118-6"><a href="maps.html#cb118-6" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>())</span>
-<span id="cb118-7"><a href="maps.html#cb118-7" tabindex="-1"></a></span>
-<span id="cb118-8"><a href="maps.html#cb118-8" tabindex="-1"></a>p</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-156-1.png" width="576" /></p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="maps.html#cb121-1" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> </span>
+<span id="cb121-2"><a href="maps.html#cb121-2" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb121-3"><a href="maps.html#cb121-3" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb121-4"><a href="maps.html#cb121-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;grey45&quot;</span>),</span>
+<span id="cb121-5"><a href="maps.html#cb121-5" tabindex="-1"></a>        <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb121-6"><a href="maps.html#cb121-6" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb121-7"><a href="maps.html#cb121-7" tabindex="-1"></a></span>
+<span id="cb121-8"><a href="maps.html#cb121-8" tabindex="-1"></a>p</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-159-1.png" width="576" /></p>
 <p>Make it a bit fancier, using some functions from the package <code>ggspatial</code>:</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb119-1"><a href="maps.html#cb119-1" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> </span>
-<span id="cb119-2"><a href="maps.html#cb119-2" tabindex="-1"></a>  ggspatial<span class="sc">::</span><span class="fu">annotation_north_arrow</span>(<span class="at">location =</span> <span class="st">&quot;bl&quot;</span>,</span>
-<span id="cb119-3"><a href="maps.html#cb119-3" tabindex="-1"></a>                                    <span class="at">which_north =</span> <span class="st">&quot;true&quot;</span>,</span>
-<span id="cb119-4"><a href="maps.html#cb119-4" tabindex="-1"></a>                                    <span class="at">height =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&#39;cm&#39;</span>),</span>
-<span id="cb119-5"><a href="maps.html#cb119-5" tabindex="-1"></a>                                    <span class="at">width =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&#39;cm&#39;</span>),</span>
-<span id="cb119-6"><a href="maps.html#cb119-6" tabindex="-1"></a>                                    <span class="at">style =</span> ggspatial<span class="sc">::</span>north_arrow_fancy_orienteering) <span class="sc">+</span></span>
-<span id="cb119-7"><a href="maps.html#cb119-7" tabindex="-1"></a>  ggspatial<span class="sc">::</span><span class="fu">annotation_scale</span>(<span class="at">location=</span><span class="st">&#39;br&#39;</span>)</span>
-<span id="cb119-8"><a href="maps.html#cb119-8" tabindex="-1"></a>  </span>
-<span id="cb119-9"><a href="maps.html#cb119-9" tabindex="-1"></a>p</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-157-1.png" width="576" /></p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="maps.html#cb122-1" tabindex="-1"></a>p <span class="ot">&lt;-</span> p <span class="sc">+</span> </span>
+<span id="cb122-2"><a href="maps.html#cb122-2" tabindex="-1"></a>  ggspatial<span class="sc">::</span><span class="fu">annotation_north_arrow</span>(<span class="at">location =</span> <span class="st">&quot;bl&quot;</span>,</span>
+<span id="cb122-3"><a href="maps.html#cb122-3" tabindex="-1"></a>                                    <span class="at">which_north =</span> <span class="st">&quot;true&quot;</span>,</span>
+<span id="cb122-4"><a href="maps.html#cb122-4" tabindex="-1"></a>                                    <span class="at">height =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&#39;cm&#39;</span>),</span>
+<span id="cb122-5"><a href="maps.html#cb122-5" tabindex="-1"></a>                                    <span class="at">width =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&#39;cm&#39;</span>),</span>
+<span id="cb122-6"><a href="maps.html#cb122-6" tabindex="-1"></a>                                    <span class="at">style =</span> ggspatial<span class="sc">::</span>north_arrow_fancy_orienteering) <span class="sc">+</span></span>
+<span id="cb122-7"><a href="maps.html#cb122-7" tabindex="-1"></a>  ggspatial<span class="sc">::</span><span class="fu">annotation_scale</span>(<span class="at">location=</span><span class="st">&#39;br&#39;</span>)</span>
+<span id="cb122-8"><a href="maps.html#cb122-8" tabindex="-1"></a>  </span>
+<span id="cb122-9"><a href="maps.html#cb122-9" tabindex="-1"></a>p</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-160-1.png" width="576" /></p>
 <p>Now this base map is ready for some actual survey data! We can use the built-in dataset for Pacific surveys, 1986 - 2020:</p>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="maps.html#cb120-1" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;noaa_10km_1986_2020&quot;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
-<span id="cb120-2"><a href="maps.html#cb120-2" tabindex="-1"></a>cruz <span class="ot">&lt;-</span> noaa_10km_1986_2020</span></code></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="maps.html#cb123-1" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;noaa_10km_1986_2020&quot;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
+<span id="cb123-2"><a href="maps.html#cb123-2" tabindex="-1"></a>cruz <span class="ot">&lt;-</span> noaa_10km_1986_2020</span></code></pre></div>
 </div>
 <div id="add-stratum-boundaries" class="section level2 unnumbered hasAnchor">
 <h2>Add stratum boundaries<a href="maps.html#add-stratum-boundaries" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Use the function <code>gg_geostratum()</code> to add geostratum boundaries from your <code>cruz</code> object to your map:</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="maps.html#cb121-1" tabindex="-1"></a><span class="fu">gg_geostratum</span>(p, </span>
-<span id="cb121-2"><a href="maps.html#cb121-2" tabindex="-1"></a>              cruz, </span>
-<span id="cb121-3"><a href="maps.html#cb121-3" tabindex="-1"></a>              <span class="at">strata =</span> <span class="fu">c</span>(<span class="st">&#39;MHI&#39;</span>, <span class="st">&#39;WHICEAS&#39;</span>)) <span class="sc">+</span> </span>
-<span id="cb121-4"><a href="maps.html#cb121-4" tabindex="-1"></a>  <span class="co"># force limits to stay unchanged</span></span>
-<span id="cb121-5"><a href="maps.html#cb121-5" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim=</span>xlims, <span class="at">ylim=</span>ylims) </span></code></pre></div>
-<p><img src="figures/unnamed-chunk-159-1.png" width="576" /></p>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="maps.html#cb124-1" tabindex="-1"></a><span class="fu">gg_geostratum</span>(p, </span>
+<span id="cb124-2"><a href="maps.html#cb124-2" tabindex="-1"></a>              cruz, </span>
+<span id="cb124-3"><a href="maps.html#cb124-3" tabindex="-1"></a>              <span class="at">strata =</span> <span class="fu">c</span>(<span class="st">&#39;MHI&#39;</span>, <span class="st">&#39;WHICEAS&#39;</span>)) <span class="sc">+</span> </span>
+<span id="cb124-4"><a href="maps.html#cb124-4" tabindex="-1"></a>  <span class="co"># force limits to stay unchanged</span></span>
+<span id="cb124-5"><a href="maps.html#cb124-5" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim=</span>xlims, <span class="at">ylim=</span>ylims) </span></code></pre></div>
+<p><img src="figures/unnamed-chunk-162-1.png" width="576" /></p>
 <p>Here that function is again, demonstrating some of the optional inputs:</p>
-<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="maps.html#cb122-1" tabindex="-1"></a><span class="fu">gg_geostratum</span>(p, </span>
-<span id="cb122-2"><a href="maps.html#cb122-2" tabindex="-1"></a>              cruz, </span>
-<span id="cb122-3"><a href="maps.html#cb122-3" tabindex="-1"></a>              <span class="at">strata =</span> <span class="fu">c</span>(<span class="st">&#39;MHI&#39;</span>, <span class="st">&#39;WHICEAS&#39;</span>),</span>
-<span id="cb122-4"><a href="maps.html#cb122-4" tabindex="-1"></a>              <span class="at">color =</span> <span class="fu">c</span>(<span class="st">&#39;darkorange&#39;</span>, <span class="st">&#39;darkorchid&#39;</span>), </span>
-<span id="cb122-5"><a href="maps.html#cb122-5" tabindex="-1"></a>              <span class="at">lty =</span> <span class="dv">3</span>,</span>
-<span id="cb122-6"><a href="maps.html#cb122-6" tabindex="-1"></a>              <span class="at">lwd =</span> .<span class="dv">5</span>) <span class="sc">+</span> </span>
-<span id="cb122-7"><a href="maps.html#cb122-7" tabindex="-1"></a>  <span class="co"># force limits to stay unchanged</span></span>
-<span id="cb122-8"><a href="maps.html#cb122-8" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim=</span>xlims, <span class="at">ylim=</span>ylims)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-160-1.png" width="576" /></p>
+<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="maps.html#cb125-1" tabindex="-1"></a><span class="fu">gg_geostratum</span>(p, </span>
+<span id="cb125-2"><a href="maps.html#cb125-2" tabindex="-1"></a>              cruz, </span>
+<span id="cb125-3"><a href="maps.html#cb125-3" tabindex="-1"></a>              <span class="at">strata =</span> <span class="fu">c</span>(<span class="st">&#39;MHI&#39;</span>, <span class="st">&#39;WHICEAS&#39;</span>),</span>
+<span id="cb125-4"><a href="maps.html#cb125-4" tabindex="-1"></a>              <span class="at">color =</span> <span class="fu">c</span>(<span class="st">&#39;darkorange&#39;</span>, <span class="st">&#39;darkorchid&#39;</span>), </span>
+<span id="cb125-5"><a href="maps.html#cb125-5" tabindex="-1"></a>              <span class="at">lty =</span> <span class="dv">3</span>,</span>
+<span id="cb125-6"><a href="maps.html#cb125-6" tabindex="-1"></a>              <span class="at">lwd =</span> .<span class="dv">5</span>) <span class="sc">+</span> </span>
+<span id="cb125-7"><a href="maps.html#cb125-7" tabindex="-1"></a>  <span class="co"># force limits to stay unchanged</span></span>
+<span id="cb125-8"><a href="maps.html#cb125-8" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim=</span>xlims, <span class="at">ylim=</span>ylims)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-163-1.png" width="576" /></p>
 </div>
 <div id="add-effort-tracklines" class="section level2 unnumbered hasAnchor">
 <h2>Add effort tracklines<a href="maps.html#add-effort-tracklines" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Before adding survey data, let’s filter down to just the WHICEAS cruises from 2017 to 2020:</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="maps.html#cb123-1" tabindex="-1"></a>cruz_1720 <span class="ot">&lt;-</span> </span>
-<span id="cb123-2"><a href="maps.html#cb123-2" tabindex="-1"></a>  <span class="fu">filter_cruz</span>(cruz,</span>
-<span id="cb123-3"><a href="maps.html#cb123-3" tabindex="-1"></a>              <span class="at">eff_types =</span> <span class="st">&#39;S&#39;</span>,</span>
-<span id="cb123-4"><a href="maps.html#cb123-4" tabindex="-1"></a>              <span class="at">bft_range =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">6</span>,</span>
-<span id="cb123-5"><a href="maps.html#cb123-5" tabindex="-1"></a>              <span class="at">years =</span> <span class="fu">c</span>(<span class="dv">2017</span>, <span class="dv">2020</span>),</span>
-<span id="cb123-6"><a href="maps.html#cb123-6" tabindex="-1"></a>              <span class="at">regions =</span> <span class="st">&#39;WHICEAS&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="maps.html#cb126-1" tabindex="-1"></a>cruz_1720 <span class="ot">&lt;-</span> </span>
+<span id="cb126-2"><a href="maps.html#cb126-2" tabindex="-1"></a>  <span class="fu">filter_cruz</span>(cruz,</span>
+<span id="cb126-3"><a href="maps.html#cb126-3" tabindex="-1"></a>              <span class="at">eff_types =</span> <span class="st">&#39;S&#39;</span>,</span>
+<span id="cb126-4"><a href="maps.html#cb126-4" tabindex="-1"></a>              <span class="at">bft_range =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">6</span>,</span>
+<span id="cb126-5"><a href="maps.html#cb126-5" tabindex="-1"></a>              <span class="at">years =</span> <span class="fu">c</span>(<span class="dv">2017</span>, <span class="dv">2020</span>),</span>
+<span id="cb126-6"><a href="maps.html#cb126-6" tabindex="-1"></a>              <span class="at">regions =</span> <span class="st">&#39;WHICEAS&#39;</span>)</span></code></pre></div>
 <p>Now use the function <code>gg_effort()</code> to add effort tracklines from your <code>cruz</code> object to your map:</p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="maps.html#cb124-1" tabindex="-1"></a><span class="fu">gg_effort</span>(p, cruz_1720)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-162-1.png" width="576" /></p>
+<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="maps.html#cb127-1" tabindex="-1"></a><span class="fu">gg_effort</span>(p, cruz_1720)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-165-1.png" width="576" /></p>
 <p>To color code by Beaufort sea state:</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb125-1"><a href="maps.html#cb125-1" tabindex="-1"></a><span class="fu">gg_effort</span>(p, </span>
-<span id="cb125-2"><a href="maps.html#cb125-2" tabindex="-1"></a>          cruz_1720,</span>
-<span id="cb125-3"><a href="maps.html#cb125-3" tabindex="-1"></a>          <span class="at">color_by_bft =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb125-4"><a href="maps.html#cb125-4" tabindex="-1"></a>          <span class="at">alpha=</span>.<span class="dv">3</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-163-1.png" width="576" /></p>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="maps.html#cb128-1" tabindex="-1"></a><span class="fu">gg_effort</span>(p, </span>
+<span id="cb128-2"><a href="maps.html#cb128-2" tabindex="-1"></a>          cruz_1720,</span>
+<span id="cb128-3"><a href="maps.html#cb128-3" tabindex="-1"></a>          <span class="at">color_by_bft =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb128-4"><a href="maps.html#cb128-4" tabindex="-1"></a>          <span class="at">alpha=</span>.<span class="dv">3</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-166-1.png" width="576" /></p>
 <p>Add faceting (you can use any column from the processed <code>DAS</code> data in subsequent <code>ggplot2</code> commands:</p>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="maps.html#cb126-1" tabindex="-1"></a><span class="fu">gg_effort</span>(p, </span>
-<span id="cb126-2"><a href="maps.html#cb126-2" tabindex="-1"></a>          cruz_1720,</span>
-<span id="cb126-3"><a href="maps.html#cb126-3" tabindex="-1"></a>          <span class="at">color_by_bft =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb126-4"><a href="maps.html#cb126-4" tabindex="-1"></a>          <span class="at">alpha=</span>.<span class="dv">3</span>) <span class="sc">+</span> </span>
-<span id="cb126-5"><a href="maps.html#cb126-5" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>year)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-164-1.png" width="672" /></p>
+<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="maps.html#cb129-1" tabindex="-1"></a><span class="fu">gg_effort</span>(p, </span>
+<span id="cb129-2"><a href="maps.html#cb129-2" tabindex="-1"></a>          cruz_1720,</span>
+<span id="cb129-3"><a href="maps.html#cb129-3" tabindex="-1"></a>          <span class="at">color_by_bft =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb129-4"><a href="maps.html#cb129-4" tabindex="-1"></a>          <span class="at">alpha=</span>.<span class="dv">3</span>) <span class="sc">+</span> </span>
+<span id="cb129-5"><a href="maps.html#cb129-5" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>year)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-167-1.png" width="672" /></p>
 </div>
 <div id="add-sightings" class="section level2 unnumbered hasAnchor">
 <h2>Add sightings<a href="maps.html#add-sightings" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Use the function <code>gg_sightings()</code> to add sightings from your <code>cruz</code> object to your map:</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb127-1"><a href="maps.html#cb127-1" tabindex="-1"></a><span class="fu">gg_sightings</span>(p, cruz_1720, <span class="at">cex=</span><span class="dv">2</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-165-1.png" width="576" /></p>
-<p>To plot detections of certain species only:</p>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb128-1"><a href="maps.html#cb128-1" tabindex="-1"></a><span class="fu">gg_sightings</span>(p, cruz_1720, </span>
-<span id="cb128-2"><a href="maps.html#cb128-2" tabindex="-1"></a>             <span class="at">spp =</span> <span class="st">&#39;076&#39;</span>, </span>
-<span id="cb128-3"><a href="maps.html#cb128-3" tabindex="-1"></a>             <span class="at">color=</span><span class="st">&#39;firebrick&#39;</span>, </span>
-<span id="cb128-4"><a href="maps.html#cb128-4" tabindex="-1"></a>             <span class="at">cex=</span><span class="dv">2</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-166-1.png" width="576" /></p>
-<p>To color-code detections by species:</p>
-<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb129-1"><a href="maps.html#cb129-1" tabindex="-1"></a><span class="fu">gg_sightings</span>(p, cruz_1720, </span>
-<span id="cb129-2"><a href="maps.html#cb129-2" tabindex="-1"></a>             <span class="at">spp =</span> <span class="fu">c</span>(<span class="st">&#39;076&#39;</span>, <span class="st">&#39;046&#39;</span>), </span>
-<span id="cb129-3"><a href="maps.html#cb129-3" tabindex="-1"></a>             <span class="at">color_by_spp =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb129-4"><a href="maps.html#cb129-4" tabindex="-1"></a>             <span class="at">cex =</span> <span class="dv">2</span>,</span>
-<span id="cb129-5"><a href="maps.html#cb129-5" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="dv">1</span>,</span>
-<span id="cb129-6"><a href="maps.html#cb129-6" tabindex="-1"></a>             <span class="at">pch =</span> <span class="dv">15</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-167-1.png" width="576" /></p>
-<p>To translate species codes to full common names, you can supply a <code>data.frame</code> with the necessary translation information. <code>LTabundR</code> comes with a built-in dataset for Pacific species, <code>"species_codes"</code>.</p>
-<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="maps.html#cb130-1" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;species_codes&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
-<span id="cb130-2"><a href="maps.html#cb130-2" tabindex="-1"></a></span>
-<span id="cb130-3"><a href="maps.html#cb130-3" tabindex="-1"></a><span class="fu">gg_sightings</span>(p, cruz_1720, </span>
-<span id="cb130-4"><a href="maps.html#cb130-4" tabindex="-1"></a>             <span class="at">spp =</span> <span class="fu">c</span>(<span class="st">&#39;076&#39;</span>, <span class="st">&#39;046&#39;</span>), </span>
-<span id="cb130-5"><a href="maps.html#cb130-5" tabindex="-1"></a>             <span class="at">spp_translate =</span> species_codes,</span>
-<span id="cb130-6"><a href="maps.html#cb130-6" tabindex="-1"></a>             <span class="at">color_by_spp =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb130-7"><a href="maps.html#cb130-7" tabindex="-1"></a>             <span class="at">alpha =</span> .<span class="dv">8</span>,</span>
-<span id="cb130-8"><a href="maps.html#cb130-8" tabindex="-1"></a>             <span class="at">cex =</span> <span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb130-1"><a href="maps.html#cb130-1" tabindex="-1"></a><span class="fu">gg_sightings</span>(p, cruz_1720, <span class="at">cex=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="figures/unnamed-chunk-168-1.png" width="576" /></p>
+<p>To plot detections of certain species only:</p>
+<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="maps.html#cb131-1" tabindex="-1"></a><span class="fu">gg_sightings</span>(p, cruz_1720, </span>
+<span id="cb131-2"><a href="maps.html#cb131-2" tabindex="-1"></a>             <span class="at">spp =</span> <span class="st">&#39;076&#39;</span>, </span>
+<span id="cb131-3"><a href="maps.html#cb131-3" tabindex="-1"></a>             <span class="at">color=</span><span class="st">&#39;firebrick&#39;</span>, </span>
+<span id="cb131-4"><a href="maps.html#cb131-4" tabindex="-1"></a>             <span class="at">cex=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-169-1.png" width="576" /></p>
+<p>To color-code detections by species:</p>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="maps.html#cb132-1" tabindex="-1"></a><span class="fu">gg_sightings</span>(p, cruz_1720, </span>
+<span id="cb132-2"><a href="maps.html#cb132-2" tabindex="-1"></a>             <span class="at">spp =</span> <span class="fu">c</span>(<span class="st">&#39;076&#39;</span>, <span class="st">&#39;046&#39;</span>), </span>
+<span id="cb132-3"><a href="maps.html#cb132-3" tabindex="-1"></a>             <span class="at">color_by_spp =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb132-4"><a href="maps.html#cb132-4" tabindex="-1"></a>             <span class="at">cex =</span> <span class="dv">2</span>,</span>
+<span id="cb132-5"><a href="maps.html#cb132-5" tabindex="-1"></a>             <span class="at">alpha =</span> <span class="dv">1</span>,</span>
+<span id="cb132-6"><a href="maps.html#cb132-6" tabindex="-1"></a>             <span class="at">pch =</span> <span class="dv">15</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-170-1.png" width="576" /></p>
+<p>To translate species codes to full common names, you can supply a <code>data.frame</code> with the necessary translation information. <code>LTabundR</code> comes with a built-in dataset for Pacific species, <code>"species_codes"</code>.</p>
+<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="maps.html#cb133-1" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;species_codes&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
+<span id="cb133-2"><a href="maps.html#cb133-2" tabindex="-1"></a></span>
+<span id="cb133-3"><a href="maps.html#cb133-3" tabindex="-1"></a><span class="fu">gg_sightings</span>(p, cruz_1720, </span>
+<span id="cb133-4"><a href="maps.html#cb133-4" tabindex="-1"></a>             <span class="at">spp =</span> <span class="fu">c</span>(<span class="st">&#39;076&#39;</span>, <span class="st">&#39;046&#39;</span>), </span>
+<span id="cb133-5"><a href="maps.html#cb133-5" tabindex="-1"></a>             <span class="at">spp_translate =</span> species_codes,</span>
+<span id="cb133-6"><a href="maps.html#cb133-6" tabindex="-1"></a>             <span class="at">color_by_spp =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb133-7"><a href="maps.html#cb133-7" tabindex="-1"></a>             <span class="at">alpha =</span> .<span class="dv">8</span>,</span>
+<span id="cb133-8"><a href="maps.html#cb133-8" tabindex="-1"></a>             <span class="at">cex =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-171-1.png" width="576" /></p>
 </div>
 <div id="other-base-maps" class="section level2 unnumbered hasAnchor">
 <h2>Other base maps<a href="maps.html#other-base-maps" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <div id="hawaiian-eez" class="section level3 unnumbered hasAnchor">
 <h3>Hawaiian EEZ<a href="maps.html#hawaiian-eez" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The Hawaii EEZ is tricky to map because it crosses the International Date Line (IDL). To facilitate maps of this region, <code>LTabundR</code> includes a function, <code>ggplot_idl()</code>, to which you can pass a <code>ggplot2</code> map object.</p>
-<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb131-1"><a href="maps.html#cb131-1" tabindex="-1"></a><span class="co"># Load datasets</span></span>
-<span id="cb131-2"><a href="maps.html#cb131-2" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;land&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
-<span id="cb131-3"><a href="maps.html#cb131-3" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;coastline&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
-<span id="cb131-4"><a href="maps.html#cb131-4" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;eez_hawaii&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
-<span id="cb131-5"><a href="maps.html#cb131-5" tabindex="-1"></a></span>
-<span id="cb131-6"><a href="maps.html#cb131-6" tabindex="-1"></a><span class="co"># Specify CRS</span></span>
-<span id="cb131-7"><a href="maps.html#cb131-7" tabindex="-1"></a>my_crs <span class="ot">&lt;-</span> <span class="dv">4326</span></span>
-<span id="cb131-8"><a href="maps.html#cb131-8" tabindex="-1"></a><span class="fu">st_crs</span>(coastline) <span class="ot">&lt;-</span> my_crs</span>
-<span id="cb131-9"><a href="maps.html#cb131-9" tabindex="-1"></a><span class="fu">st_crs</span>(land) <span class="ot">&lt;-</span> my_crs</span>
-<span id="cb131-10"><a href="maps.html#cb131-10" tabindex="-1"></a><span class="fu">st_crs</span>(eez_hawaii) <span class="ot">&lt;-</span> my_crs</span>
-<span id="cb131-11"><a href="maps.html#cb131-11" tabindex="-1"></a></span>
-<span id="cb131-12"><a href="maps.html#cb131-12" tabindex="-1"></a><span class="co"># Make map</span></span>
-<span id="cb131-13"><a href="maps.html#cb131-13" tabindex="-1"></a>p <span class="ot">&lt;-</span></span>
-<span id="cb131-14"><a href="maps.html#cb131-14" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb131-15"><a href="maps.html#cb131-15" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>land, <span class="at">fill=</span><span class="st">&#39;darkslategrey&#39;</span>, <span class="at">color=</span><span class="cn">NA</span>, <span class="at">alpha=</span>.<span class="dv">6</span>) <span class="sc">+</span> </span>
-<span id="cb131-16"><a href="maps.html#cb131-16" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>coastline, <span class="at">color=</span><span class="st">&#39;darkslategrey&#39;</span>, <span class="at">alpha=</span><span class="dv">1</span>, <span class="at">lwd=</span>.<span class="dv">2</span>) <span class="sc">+</span> </span>
-<span id="cb131-17"><a href="maps.html#cb131-17" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>eez_hawaii, <span class="at">color=</span><span class="st">&#39;grey50&#39;</span>, <span class="at">alpha=</span>.<span class="dv">5</span>, <span class="at">lwd=</span>.<span class="dv">4</span>) <span class="sc">+</span> </span>
-<span id="cb131-18"><a href="maps.html#cb131-18" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb131-19"><a href="maps.html#cb131-19" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
-<span id="cb131-20"><a href="maps.html#cb131-20" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;grey45&quot;</span>),</span>
-<span id="cb131-21"><a href="maps.html#cb131-21" tabindex="-1"></a>        <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb131-22"><a href="maps.html#cb131-22" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>()) </span>
-<span id="cb131-23"><a href="maps.html#cb131-23" tabindex="-1"></a></span>
-<span id="cb131-24"><a href="maps.html#cb131-24" tabindex="-1"></a><span class="co"># Handle IDL</span></span>
-<span id="cb131-25"><a href="maps.html#cb131-25" tabindex="-1"></a><span class="fu">ggplot_idl</span>(p, </span>
-<span id="cb131-26"><a href="maps.html#cb131-26" tabindex="-1"></a>           <span class="at">lon_range=</span><span class="fu">c</span>(<span class="dv">175</span>, <span class="sc">-</span><span class="dv">150</span>),</span>
-<span id="cb131-27"><a href="maps.html#cb131-27" tabindex="-1"></a>           <span class="at">lat_range =</span> <span class="fu">c</span>(<span class="fl">14.8</span>, <span class="dv">33</span>))</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-169-1.png" width="576" /></p>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="maps.html#cb134-1" tabindex="-1"></a><span class="co"># Load datasets</span></span>
+<span id="cb134-2"><a href="maps.html#cb134-2" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;land&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
+<span id="cb134-3"><a href="maps.html#cb134-3" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;coastline&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
+<span id="cb134-4"><a href="maps.html#cb134-4" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;eez_hawaii&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
+<span id="cb134-5"><a href="maps.html#cb134-5" tabindex="-1"></a></span>
+<span id="cb134-6"><a href="maps.html#cb134-6" tabindex="-1"></a><span class="co"># Specify CRS</span></span>
+<span id="cb134-7"><a href="maps.html#cb134-7" tabindex="-1"></a>my_crs <span class="ot">&lt;-</span> <span class="dv">4326</span></span>
+<span id="cb134-8"><a href="maps.html#cb134-8" tabindex="-1"></a><span class="fu">st_crs</span>(coastline) <span class="ot">&lt;-</span> my_crs</span>
+<span id="cb134-9"><a href="maps.html#cb134-9" tabindex="-1"></a><span class="fu">st_crs</span>(land) <span class="ot">&lt;-</span> my_crs</span>
+<span id="cb134-10"><a href="maps.html#cb134-10" tabindex="-1"></a><span class="fu">st_crs</span>(eez_hawaii) <span class="ot">&lt;-</span> my_crs</span>
+<span id="cb134-11"><a href="maps.html#cb134-11" tabindex="-1"></a></span>
+<span id="cb134-12"><a href="maps.html#cb134-12" tabindex="-1"></a><span class="co"># Make map</span></span>
+<span id="cb134-13"><a href="maps.html#cb134-13" tabindex="-1"></a>p <span class="ot">&lt;-</span></span>
+<span id="cb134-14"><a href="maps.html#cb134-14" tabindex="-1"></a>  <span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb134-15"><a href="maps.html#cb134-15" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>land, <span class="at">fill=</span><span class="st">&#39;darkslategrey&#39;</span>, <span class="at">color=</span><span class="cn">NA</span>, <span class="at">alpha=</span>.<span class="dv">6</span>) <span class="sc">+</span> </span>
+<span id="cb134-16"><a href="maps.html#cb134-16" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>coastline, <span class="at">color=</span><span class="st">&#39;darkslategrey&#39;</span>, <span class="at">alpha=</span><span class="dv">1</span>, <span class="at">lwd=</span>.<span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb134-17"><a href="maps.html#cb134-17" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>eez_hawaii, <span class="at">color=</span><span class="st">&#39;grey50&#39;</span>, <span class="at">alpha=</span>.<span class="dv">5</span>, <span class="at">lwd=</span>.<span class="dv">4</span>) <span class="sc">+</span> </span>
+<span id="cb134-18"><a href="maps.html#cb134-18" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb134-19"><a href="maps.html#cb134-19" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb134-20"><a href="maps.html#cb134-20" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;grey45&quot;</span>),</span>
+<span id="cb134-21"><a href="maps.html#cb134-21" tabindex="-1"></a>        <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb134-22"><a href="maps.html#cb134-22" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>()) </span>
+<span id="cb134-23"><a href="maps.html#cb134-23" tabindex="-1"></a></span>
+<span id="cb134-24"><a href="maps.html#cb134-24" tabindex="-1"></a><span class="co"># Handle IDL</span></span>
+<span id="cb134-25"><a href="maps.html#cb134-25" tabindex="-1"></a><span class="fu">ggplot_idl</span>(p, </span>
+<span id="cb134-26"><a href="maps.html#cb134-26" tabindex="-1"></a>           <span class="at">lon_range=</span><span class="fu">c</span>(<span class="dv">175</span>, <span class="sc">-</span><span class="dv">150</span>),</span>
+<span id="cb134-27"><a href="maps.html#cb134-27" tabindex="-1"></a>           <span class="at">lat_range =</span> <span class="fu">c</span>(<span class="fl">14.8</span>, <span class="dv">33</span>))</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-172-1.png" width="576" /></p>
 </div>
 <div id="california-current-system" class="section level3 unnumbered hasAnchor">
 <h3>California Current System<a href="maps.html#california-current-system" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb132-1"><a href="maps.html#cb132-1" tabindex="-1"></a>my_crs <span class="ot">&lt;-</span> <span class="dv">4326</span></span>
-<span id="cb132-2"><a href="maps.html#cb132-2" tabindex="-1"></a>xlims <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">130</span>, <span class="sc">-</span><span class="dv">116</span>)</span>
-<span id="cb132-3"><a href="maps.html#cb132-3" tabindex="-1"></a>ylims <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">49</span>)</span>
-<span id="cb132-4"><a href="maps.html#cb132-4" tabindex="-1"></a></span>
-<span id="cb132-5"><a href="maps.html#cb132-5" tabindex="-1"></a><span class="co"># Load dataset</span></span>
-<span id="cb132-6"><a href="maps.html#cb132-6" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;land&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
-<span id="cb132-7"><a href="maps.html#cb132-7" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;coastline&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
-<span id="cb132-8"><a href="maps.html#cb132-8" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;eez_ccs&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
-<span id="cb132-9"><a href="maps.html#cb132-9" tabindex="-1"></a></span>
-<span id="cb132-10"><a href="maps.html#cb132-10" tabindex="-1"></a><span class="co"># Specify CRS</span></span>
-<span id="cb132-11"><a href="maps.html#cb132-11" tabindex="-1"></a><span class="fu">st_crs</span>(coastline) <span class="ot">&lt;-</span> my_crs</span>
-<span id="cb132-12"><a href="maps.html#cb132-12" tabindex="-1"></a><span class="fu">st_crs</span>(land) <span class="ot">&lt;-</span> my_crs</span>
-<span id="cb132-13"><a href="maps.html#cb132-13" tabindex="-1"></a><span class="fu">st_crs</span>(eez_ccs) <span class="ot">&lt;-</span> my_crs</span>
-<span id="cb132-14"><a href="maps.html#cb132-14" tabindex="-1"></a></span>
-<span id="cb132-15"><a href="maps.html#cb132-15" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb132-16"><a href="maps.html#cb132-16" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>land, <span class="at">fill=</span><span class="st">&#39;darkslategrey&#39;</span>, <span class="at">color=</span><span class="cn">NA</span>, <span class="at">alpha=</span>.<span class="dv">6</span>) <span class="sc">+</span> </span>
-<span id="cb132-17"><a href="maps.html#cb132-17" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>coastline, <span class="at">color=</span><span class="st">&#39;darkslategrey&#39;</span>, <span class="at">alpha=</span><span class="dv">1</span>, <span class="at">lwd=</span>.<span class="dv">2</span>) <span class="sc">+</span> </span>
-<span id="cb132-18"><a href="maps.html#cb132-18" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>eez_ccs, <span class="at">color=</span><span class="st">&#39;grey50&#39;</span>, <span class="at">alpha=</span>.<span class="dv">5</span>, <span class="at">lwd=</span>.<span class="dv">4</span>) <span class="sc">+</span> </span>
-<span id="cb132-19"><a href="maps.html#cb132-19" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim=</span>xlims, <span class="at">ylim=</span>ylims) <span class="sc">+</span> </span>
-<span id="cb132-20"><a href="maps.html#cb132-20" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb132-21"><a href="maps.html#cb132-21" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
-<span id="cb132-22"><a href="maps.html#cb132-22" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;grey45&quot;</span>),</span>
-<span id="cb132-23"><a href="maps.html#cb132-23" tabindex="-1"></a>        <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb132-24"><a href="maps.html#cb132-24" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
-<span id="cb132-25"><a href="maps.html#cb132-25" tabindex="-1"></a>  ggspatial<span class="sc">::</span><span class="fu">annotation_north_arrow</span>(<span class="at">location =</span> <span class="st">&quot;bl&quot;</span>,</span>
-<span id="cb132-26"><a href="maps.html#cb132-26" tabindex="-1"></a>                                    <span class="at">which_north =</span> <span class="st">&quot;true&quot;</span>,</span>
-<span id="cb132-27"><a href="maps.html#cb132-27" tabindex="-1"></a>                                    <span class="at">height =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&#39;cm&#39;</span>),</span>
-<span id="cb132-28"><a href="maps.html#cb132-28" tabindex="-1"></a>                                    <span class="at">width =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&#39;cm&#39;</span>),</span>
-<span id="cb132-29"><a href="maps.html#cb132-29" tabindex="-1"></a>                                    <span class="at">style =</span> ggspatial<span class="sc">::</span>north_arrow_fancy_orienteering) <span class="sc">+</span></span>
-<span id="cb132-30"><a href="maps.html#cb132-30" tabindex="-1"></a>  ggspatial<span class="sc">::</span><span class="fu">annotation_scale</span>(<span class="at">location=</span><span class="st">&#39;br&#39;</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-170-1.png" width="576" /></p>
+<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="maps.html#cb135-1" tabindex="-1"></a>my_crs <span class="ot">&lt;-</span> <span class="dv">4326</span></span>
+<span id="cb135-2"><a href="maps.html#cb135-2" tabindex="-1"></a>xlims <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">130</span>, <span class="sc">-</span><span class="dv">116</span>)</span>
+<span id="cb135-3"><a href="maps.html#cb135-3" tabindex="-1"></a>ylims <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">30</span>, <span class="dv">49</span>)</span>
+<span id="cb135-4"><a href="maps.html#cb135-4" tabindex="-1"></a></span>
+<span id="cb135-5"><a href="maps.html#cb135-5" tabindex="-1"></a><span class="co"># Load dataset</span></span>
+<span id="cb135-6"><a href="maps.html#cb135-6" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;land&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
+<span id="cb135-7"><a href="maps.html#cb135-7" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;coastline&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
+<span id="cb135-8"><a href="maps.html#cb135-8" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;eez_ccs&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
+<span id="cb135-9"><a href="maps.html#cb135-9" tabindex="-1"></a></span>
+<span id="cb135-10"><a href="maps.html#cb135-10" tabindex="-1"></a><span class="co"># Specify CRS</span></span>
+<span id="cb135-11"><a href="maps.html#cb135-11" tabindex="-1"></a><span class="fu">st_crs</span>(coastline) <span class="ot">&lt;-</span> my_crs</span>
+<span id="cb135-12"><a href="maps.html#cb135-12" tabindex="-1"></a><span class="fu">st_crs</span>(land) <span class="ot">&lt;-</span> my_crs</span>
+<span id="cb135-13"><a href="maps.html#cb135-13" tabindex="-1"></a><span class="fu">st_crs</span>(eez_ccs) <span class="ot">&lt;-</span> my_crs</span>
+<span id="cb135-14"><a href="maps.html#cb135-14" tabindex="-1"></a></span>
+<span id="cb135-15"><a href="maps.html#cb135-15" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb135-16"><a href="maps.html#cb135-16" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>land, <span class="at">fill=</span><span class="st">&#39;darkslategrey&#39;</span>, <span class="at">color=</span><span class="cn">NA</span>, <span class="at">alpha=</span>.<span class="dv">6</span>) <span class="sc">+</span> </span>
+<span id="cb135-17"><a href="maps.html#cb135-17" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>coastline, <span class="at">color=</span><span class="st">&#39;darkslategrey&#39;</span>, <span class="at">alpha=</span><span class="dv">1</span>, <span class="at">lwd=</span>.<span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb135-18"><a href="maps.html#cb135-18" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>eez_ccs, <span class="at">color=</span><span class="st">&#39;grey50&#39;</span>, <span class="at">alpha=</span>.<span class="dv">5</span>, <span class="at">lwd=</span>.<span class="dv">4</span>) <span class="sc">+</span> </span>
+<span id="cb135-19"><a href="maps.html#cb135-19" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim=</span>xlims, <span class="at">ylim=</span>ylims) <span class="sc">+</span> </span>
+<span id="cb135-20"><a href="maps.html#cb135-20" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb135-21"><a href="maps.html#cb135-21" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb135-22"><a href="maps.html#cb135-22" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;grey45&quot;</span>),</span>
+<span id="cb135-23"><a href="maps.html#cb135-23" tabindex="-1"></a>        <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb135-24"><a href="maps.html#cb135-24" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb135-25"><a href="maps.html#cb135-25" tabindex="-1"></a>  ggspatial<span class="sc">::</span><span class="fu">annotation_north_arrow</span>(<span class="at">location =</span> <span class="st">&quot;bl&quot;</span>,</span>
+<span id="cb135-26"><a href="maps.html#cb135-26" tabindex="-1"></a>                                    <span class="at">which_north =</span> <span class="st">&quot;true&quot;</span>,</span>
+<span id="cb135-27"><a href="maps.html#cb135-27" tabindex="-1"></a>                                    <span class="at">height =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&#39;cm&#39;</span>),</span>
+<span id="cb135-28"><a href="maps.html#cb135-28" tabindex="-1"></a>                                    <span class="at">width =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&#39;cm&#39;</span>),</span>
+<span id="cb135-29"><a href="maps.html#cb135-29" tabindex="-1"></a>                                    <span class="at">style =</span> ggspatial<span class="sc">::</span>north_arrow_fancy_orienteering) <span class="sc">+</span></span>
+<span id="cb135-30"><a href="maps.html#cb135-30" tabindex="-1"></a>  ggspatial<span class="sc">::</span><span class="fu">annotation_scale</span>(<span class="at">location=</span><span class="st">&#39;br&#39;</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-173-1.png" width="576" /></p>
 </div>
 <div id="eastern-tropical-pacific" class="section level3 unnumbered hasAnchor">
 <h3>Eastern tropical Pacific<a href="maps.html#eastern-tropical-pacific" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The built-in <code>LTabundR</code> dataset <code>data(eez)</code> has all EEZ boundaries for US territories.</p>
-<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb133-1"><a href="maps.html#cb133-1" tabindex="-1"></a>my_crs <span class="ot">&lt;-</span> <span class="dv">4326</span></span>
-<span id="cb133-2"><a href="maps.html#cb133-2" tabindex="-1"></a>xlims <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">175</span>, <span class="sc">-</span><span class="dv">60</span>)</span>
-<span id="cb133-3"><a href="maps.html#cb133-3" tabindex="-1"></a>ylims <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">20</span>, <span class="dv">49</span>)</span>
-<span id="cb133-4"><a href="maps.html#cb133-4" tabindex="-1"></a></span>
-<span id="cb133-5"><a href="maps.html#cb133-5" tabindex="-1"></a><span class="co"># Load dataset</span></span>
-<span id="cb133-6"><a href="maps.html#cb133-6" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;land&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
-<span id="cb133-7"><a href="maps.html#cb133-7" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;coastline&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
-<span id="cb133-8"><a href="maps.html#cb133-8" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;eez&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
-<span id="cb133-9"><a href="maps.html#cb133-9" tabindex="-1"></a></span>
-<span id="cb133-10"><a href="maps.html#cb133-10" tabindex="-1"></a><span class="co"># Specify CRS</span></span>
-<span id="cb133-11"><a href="maps.html#cb133-11" tabindex="-1"></a><span class="fu">st_crs</span>(coastline) <span class="ot">&lt;-</span> my_crs</span>
-<span id="cb133-12"><a href="maps.html#cb133-12" tabindex="-1"></a><span class="fu">st_crs</span>(land) <span class="ot">&lt;-</span> my_crs</span>
-<span id="cb133-13"><a href="maps.html#cb133-13" tabindex="-1"></a><span class="fu">st_crs</span>(eez) <span class="ot">&lt;-</span> my_crs</span>
-<span id="cb133-14"><a href="maps.html#cb133-14" tabindex="-1"></a></span>
-<span id="cb133-15"><a href="maps.html#cb133-15" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb133-16"><a href="maps.html#cb133-16" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>land, <span class="at">fill=</span><span class="st">&#39;darkslategrey&#39;</span>, <span class="at">color=</span><span class="cn">NA</span>, <span class="at">alpha=</span>.<span class="dv">6</span>) <span class="sc">+</span> </span>
-<span id="cb133-17"><a href="maps.html#cb133-17" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>coastline, <span class="at">color=</span><span class="st">&#39;darkslategrey&#39;</span>, <span class="at">alpha=</span><span class="dv">1</span>, <span class="at">lwd=</span>.<span class="dv">2</span>) <span class="sc">+</span> </span>
-<span id="cb133-18"><a href="maps.html#cb133-18" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>eez, <span class="at">color=</span><span class="st">&#39;grey50&#39;</span>, <span class="at">alpha=</span>.<span class="dv">5</span>, <span class="at">lwd=</span>.<span class="dv">4</span>) <span class="sc">+</span> </span>
-<span id="cb133-19"><a href="maps.html#cb133-19" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim=</span>xlims, <span class="at">ylim=</span>ylims)  <span class="sc">+</span></span>
-<span id="cb133-20"><a href="maps.html#cb133-20" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb133-21"><a href="maps.html#cb133-21" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
-<span id="cb133-22"><a href="maps.html#cb133-22" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;grey45&quot;</span>),</span>
-<span id="cb133-23"><a href="maps.html#cb133-23" tabindex="-1"></a>        <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb133-24"><a href="maps.html#cb133-24" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
-<span id="cb133-25"><a href="maps.html#cb133-25" tabindex="-1"></a>  ggspatial<span class="sc">::</span><span class="fu">annotation_north_arrow</span>(<span class="at">location =</span> <span class="st">&quot;bl&quot;</span>,</span>
-<span id="cb133-26"><a href="maps.html#cb133-26" tabindex="-1"></a>                                    <span class="at">which_north =</span> <span class="st">&quot;true&quot;</span>,</span>
-<span id="cb133-27"><a href="maps.html#cb133-27" tabindex="-1"></a>                                    <span class="at">height =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&#39;cm&#39;</span>),</span>
-<span id="cb133-28"><a href="maps.html#cb133-28" tabindex="-1"></a>                                    <span class="at">width =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&#39;cm&#39;</span>),</span>
-<span id="cb133-29"><a href="maps.html#cb133-29" tabindex="-1"></a>                                    <span class="at">style =</span> ggspatial<span class="sc">::</span>north_arrow_fancy_orienteering) <span class="sc">+</span></span>
-<span id="cb133-30"><a href="maps.html#cb133-30" tabindex="-1"></a>  ggspatial<span class="sc">::</span><span class="fu">annotation_scale</span>(<span class="at">location=</span><span class="st">&#39;br&#39;</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-171-1.png" width="576" /></p>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb136-1"><a href="maps.html#cb136-1" tabindex="-1"></a>my_crs <span class="ot">&lt;-</span> <span class="dv">4326</span></span>
+<span id="cb136-2"><a href="maps.html#cb136-2" tabindex="-1"></a>xlims <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">175</span>, <span class="sc">-</span><span class="dv">60</span>)</span>
+<span id="cb136-3"><a href="maps.html#cb136-3" tabindex="-1"></a>ylims <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">20</span>, <span class="dv">49</span>)</span>
+<span id="cb136-4"><a href="maps.html#cb136-4" tabindex="-1"></a></span>
+<span id="cb136-5"><a href="maps.html#cb136-5" tabindex="-1"></a><span class="co"># Load dataset</span></span>
+<span id="cb136-6"><a href="maps.html#cb136-6" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;land&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
+<span id="cb136-7"><a href="maps.html#cb136-7" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;coastline&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
+<span id="cb136-8"><a href="maps.html#cb136-8" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;eez&#39;</span>, <span class="at">package=</span><span class="st">&#39;LTabundR&#39;</span>)</span>
+<span id="cb136-9"><a href="maps.html#cb136-9" tabindex="-1"></a></span>
+<span id="cb136-10"><a href="maps.html#cb136-10" tabindex="-1"></a><span class="co"># Specify CRS</span></span>
+<span id="cb136-11"><a href="maps.html#cb136-11" tabindex="-1"></a><span class="fu">st_crs</span>(coastline) <span class="ot">&lt;-</span> my_crs</span>
+<span id="cb136-12"><a href="maps.html#cb136-12" tabindex="-1"></a><span class="fu">st_crs</span>(land) <span class="ot">&lt;-</span> my_crs</span>
+<span id="cb136-13"><a href="maps.html#cb136-13" tabindex="-1"></a><span class="fu">st_crs</span>(eez) <span class="ot">&lt;-</span> my_crs</span>
+<span id="cb136-14"><a href="maps.html#cb136-14" tabindex="-1"></a></span>
+<span id="cb136-15"><a href="maps.html#cb136-15" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb136-16"><a href="maps.html#cb136-16" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>land, <span class="at">fill=</span><span class="st">&#39;darkslategrey&#39;</span>, <span class="at">color=</span><span class="cn">NA</span>, <span class="at">alpha=</span>.<span class="dv">6</span>) <span class="sc">+</span> </span>
+<span id="cb136-17"><a href="maps.html#cb136-17" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>coastline, <span class="at">color=</span><span class="st">&#39;darkslategrey&#39;</span>, <span class="at">alpha=</span><span class="dv">1</span>, <span class="at">lwd=</span>.<span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb136-18"><a href="maps.html#cb136-18" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data=</span>eez, <span class="at">color=</span><span class="st">&#39;grey50&#39;</span>, <span class="at">alpha=</span>.<span class="dv">5</span>, <span class="at">lwd=</span>.<span class="dv">4</span>) <span class="sc">+</span> </span>
+<span id="cb136-19"><a href="maps.html#cb136-19" tabindex="-1"></a>  <span class="fu">coord_sf</span>(<span class="at">xlim=</span>xlims, <span class="at">ylim=</span>ylims)  <span class="sc">+</span></span>
+<span id="cb136-20"><a href="maps.html#cb136-20" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="cn">NULL</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb136-21"><a href="maps.html#cb136-21" tabindex="-1"></a>  <span class="fu">theme_light</span>() <span class="sc">+</span></span>
+<span id="cb136-22"><a href="maps.html#cb136-22" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">&quot;grey45&quot;</span>),</span>
+<span id="cb136-23"><a href="maps.html#cb136-23" tabindex="-1"></a>        <span class="at">panel.grid.major =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb136-24"><a href="maps.html#cb136-24" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb136-25"><a href="maps.html#cb136-25" tabindex="-1"></a>  ggspatial<span class="sc">::</span><span class="fu">annotation_north_arrow</span>(<span class="at">location =</span> <span class="st">&quot;bl&quot;</span>,</span>
+<span id="cb136-26"><a href="maps.html#cb136-26" tabindex="-1"></a>                                    <span class="at">which_north =</span> <span class="st">&quot;true&quot;</span>,</span>
+<span id="cb136-27"><a href="maps.html#cb136-27" tabindex="-1"></a>                                    <span class="at">height =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&#39;cm&#39;</span>),</span>
+<span id="cb136-28"><a href="maps.html#cb136-28" tabindex="-1"></a>                                    <span class="at">width =</span> <span class="fu">unit</span>(<span class="dv">1</span>, <span class="st">&#39;cm&#39;</span>),</span>
+<span id="cb136-29"><a href="maps.html#cb136-29" tabindex="-1"></a>                                    <span class="at">style =</span> ggspatial<span class="sc">::</span>north_arrow_fancy_orienteering) <span class="sc">+</span></span>
+<span id="cb136-30"><a href="maps.html#cb136-30" tabindex="-1"></a>  ggspatial<span class="sc">::</span><span class="fu">annotation_scale</span>(<span class="at">location=</span><span class="st">&#39;br&#39;</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-174-1.png" width="576" /></p>
 </div>
 </div>
 <div id="interactive-maps" class="section level2 unnumbered hasAnchor">
 <h2>Interactive maps<a href="maps.html#interactive-maps" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p><code>LTabundR</code> also has an interactive map function, which maps survey data using the <code>leaflet</code> package.</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb134-1"><a href="maps.html#cb134-1" tabindex="-1"></a><span class="fu">map_cruz</span>(cruz_1720,</span>
-<span id="cb134-2"><a href="maps.html#cb134-2" tabindex="-1"></a>          <span class="at">cohort=</span><span class="dv">1</span>,</span>
-<span id="cb134-3"><a href="maps.html#cb134-3" tabindex="-1"></a>          <span class="at">eez_show=</span><span class="cn">FALSE</span>,</span>
-<span id="cb134-4"><a href="maps.html#cb134-4" tabindex="-1"></a>          <span class="at">strata_show=</span><span class="cn">FALSE</span>,</span>
-<span id="cb134-5"><a href="maps.html#cb134-5" tabindex="-1"></a>          <span class="at">effort_show=</span><span class="cn">TRUE</span>,</span>
-<span id="cb134-6"><a href="maps.html#cb134-6" tabindex="-1"></a>          <span class="at">sightings_show=</span><span class="cn">TRUE</span>,</span>
-<span id="cb134-7"><a href="maps.html#cb134-7" tabindex="-1"></a>          <span class="at">sightings_color =</span> <span class="st">&#39;firebrick&#39;</span>,</span>
-<span id="cb134-8"><a href="maps.html#cb134-8" tabindex="-1"></a>          <span class="at">verbose=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb137-1"><a href="maps.html#cb137-1" tabindex="-1"></a><span class="fu">map_cruz</span>(cruz_1720,</span>
+<span id="cb137-2"><a href="maps.html#cb137-2" tabindex="-1"></a>          <span class="at">cohort=</span><span class="dv">1</span>,</span>
+<span id="cb137-3"><a href="maps.html#cb137-3" tabindex="-1"></a>          <span class="at">eez_show=</span><span class="cn">FALSE</span>,</span>
+<span id="cb137-4"><a href="maps.html#cb137-4" tabindex="-1"></a>          <span class="at">strata_show=</span><span class="cn">FALSE</span>,</span>
+<span id="cb137-5"><a href="maps.html#cb137-5" tabindex="-1"></a>          <span class="at">effort_show=</span><span class="cn">TRUE</span>,</span>
+<span id="cb137-6"><a href="maps.html#cb137-6" tabindex="-1"></a>          <span class="at">sightings_show=</span><span class="cn">TRUE</span>,</span>
+<span id="cb137-7"><a href="maps.html#cb137-7" tabindex="-1"></a>          <span class="at">sightings_color =</span> <span class="st">&#39;firebrick&#39;</span>,</span>
+<span id="cb137-8"><a href="maps.html#cb137-8" tabindex="-1"></a>          <span class="at">verbose=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <p>Note that you can also click on sightings and tracklines to see their details. Refer to the documentation for this function (<code>?map_cruz</code>) to see all the options available for stylizing these maps.</p>
 </div>
 <div id="interactive-dashboard" class="section level2 unnumbered hasAnchor">
 <h2>Interactive dashboard<a href="maps.html#interactive-dashboard" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Finally, note that <code>LTabundR</code> comes with an interactive data explorer app (a <code>Shiny</code> app) for filtering survey data according to effort scenario and species code, toggling <code>map_cruz()</code> settings, and reviewing summary tables of effort and sightings (including inspection of truncation distances).</p>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb135-1"><a href="maps.html#cb135-1" tabindex="-1"></a><span class="fu">cruz_explorer</span>(cruz_1720)</span></code></pre></div>
+<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="maps.html#cb138-1" tabindex="-1"></a><span class="fu">cruz_explorer</span>(cruz_1720)</span></code></pre></div>
 <p><em>Screenshots from this app:</em></p>
  <br />
 
