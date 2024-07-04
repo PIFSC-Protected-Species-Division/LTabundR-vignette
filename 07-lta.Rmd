@@ -148,7 +148,7 @@ df_settings = list(covariates = c('bft','lnsstot','cruise','year','ship','specie
 
 *(Note that all of these inputs have defaults, and are therefore optional.)*
 
-- **`covariates`** Covariates you wish to include as candidates in detection function models, provided as a character vector. The covariates must match columns existing within `cruz$cohorts$<cohort_name>$sightings`. Note that the function will ignore case, coercing all covariates to lowercase. Default: no covariates.
+- **`covariates`** Covariates you wish to include as candidates in detection function models, provided as a character vector. The covariates must match columns existing within `cruz$cohorts$<cohort_name>$sightings`. (For help adding custom covariates to this dataset, see [here](#customcovars)). Note that the function will ignore case, coercing all covariates to lowercase. Default: no covariates. 
 
 - **`covariates_factor`** A Boolean vector, which must be the same length as `covariates`, indicating whether each covariate should be treated as a factor instead of a numeric.  Default: `NULL`. 
 
@@ -570,6 +570,77 @@ False killer whales are rare and occur in dispersed subgroups, which complicates
 
 To handle this, a separate, *subgroup-based* analytical approach was developed ([Bradford et al. 2014](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0090464)). This approach could theoretically be used for other species that occur in subgroups. We cover this in a [subsequent chapter](#subgroups2). 
 
+### Custom covariates {.unnumbered #customcovars}
+
+You can only fit detection functions with covariates that exist in your `cruz` object, specifically within the `cruz$cohorts$<cohort>$sightings` dataset. However, you are free to add columns to that dataset *after* processing in order to include custom covariates within your line-transect analysis. Here is an example of how to do so:
+
+Say you wanted to add swell height anomaly as a detection function covariate. First, add this column to your sightings data:
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE, fig.height=5, fig.width=7}
+# Get average swell across all cruz effort
+(avg_swell <- cruz$cohorts$all$das$SwellHght %>% mean(na.rm=TRUE))
+
+# Get sighting swell height values
+swells <- cruz$cohorts$all$sightings$SwellHght
+
+# Add anomaly column to sightings dataset
+cruz$cohorts$all$sightings$swell_anomaly <- swells - avg_swell
+
+# Review histogram of new covariate
+cruz$cohorts$all$sightings$swell_anomaly %>% hist
+```
+
+
+Now update the `df_settings` with your new covariate:
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE}
+df_settings = list(covariates = c('bft','lnsstot','species', 'swell_anomaly'),
+                   covariates_factor = c(FALSE, FALSE, TRUE, FALSE),
+                   covariates_levels = 2,
+                   covariates_n_per_level = 10,
+                   simplify_cue = TRUE,
+                   simplify_bino = TRUE,
+                   detection_function_base = 'hn',
+                   base_model = '~1',
+                   delta_aic = 2)
+```
+                   
+Now try using it as a covariate in a run of the `lta()` function for one of the simple estimates we did above: 
+
+Specify `fit_filters` for this example: 
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE}
+fit_filters = list(spp = c('013', '026', '031'), 
+                   pool = 'Multi-species pool 1',
+                   cohort = 'all',
+                   truncation_distance = 5,
+                   other_species = 'remove')
+```
+
+Specify our estimate of interest for this example: 
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE}
+estimates <- list(list(spp = '013',
+                       title = 'Striped dolphin',
+                       years = 2017,
+                       regions = 'WHICEAS',
+                       g0=1, g0_cv=0))
+```
+
+Run the line-transect analysis:  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE}
+demo <- lta(cruz, Rg0, fit_filters, df_settings, estimates,
+            toplot = FALSE, verbose = FALSE)
+```
+
+Check out the detection functions that were evaluated:  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE}
+demo$df$all_models %>% 
+  select(Formula, AIC)
+```
+
 ### Other scenarios {-}  
 
 - Study periods that span years, such as a December - January survey. This is not yet handled well within the `LTabundR` framework.  
@@ -706,7 +777,7 @@ Say you want to estimate abundance for false killer whales within the Northweste
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width = 7, fig.height = 8}
 demo <- strata_area(strata_all = cruz$settings$strata,
-                    strata_keep = c('MHI','NWHI'),
+                    strata_keep = c('MHI','nwhi_fkw'),
                     verbose = FALSE)
 ```
 
@@ -715,7 +786,7 @@ Say you want to estimate abundance for the Hawaiian EEZ *outside* of those parti
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width = 7, fig.height = 8}
 demo <- strata_area(strata_all = cruz$settings$strata,
                     strata_keep = 'HI_EEZ',
-                    strata_remove = c('MHI','NWHI'),
+                    strata_remove = c('MHI','nwhi_fkw'),
                     verbose = FALSE)
 ```
 

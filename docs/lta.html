@@ -280,6 +280,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#species-combinations-g0"><i class="fa fa-check"></i>Species combinations &amp; <em>g(0)</em></a></li>
 <li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#geostratum-combinations"><i class="fa fa-check"></i>Geostratum combinations</a></li>
 <li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#subgroup-based-analyses"><i class="fa fa-check"></i>Subgroup-based analyses</a></li>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#customcovars"><i class="fa fa-check"></i>Custom covariates</a></li>
 <li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#other-scenarios"><i class="fa fa-check"></i>Other scenarios</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#behind-the-scenes-1"><i class="fa fa-check"></i>Behind the scenes</a>
@@ -463,14 +464,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb160-4"><a href="lta.html#cb160-4" tabindex="-1"></a>    df_settings,</span>
 <span id="cb160-5"><a href="lta.html#cb160-5" tabindex="-1"></a>    estimates,</span>
 <span id="cb160-6"><a href="lta.html#cb160-6" tabindex="-1"></a>    <span class="at">use_g0 =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb160-7"><a href="lta.html#cb160-7" tabindex="-1"></a>    <span class="at">ss_correction =</span> <span class="dv">1</span>,</span>
-<span id="cb160-8"><a href="lta.html#cb160-8" tabindex="-1"></a>    <span class="at">abund_eff_types =</span> <span class="fu">c</span>(<span class="st">&quot;S&quot;</span>),</span>
-<span id="cb160-9"><a href="lta.html#cb160-9" tabindex="-1"></a>    <span class="at">abund_bft_range =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">6</span>,</span>
-<span id="cb160-10"><a href="lta.html#cb160-10" tabindex="-1"></a>    <span class="at">bootstraps =</span> <span class="dv">0</span>,</span>
-<span id="cb160-11"><a href="lta.html#cb160-11" tabindex="-1"></a>    <span class="at">results_file =</span> <span class="cn">NULL</span>,</span>
-<span id="cb160-12"><a href="lta.html#cb160-12" tabindex="-1"></a>    <span class="at">toplot =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb160-13"><a href="lta.html#cb160-13" tabindex="-1"></a>    <span class="at">verbose =</span> <span class="cn">TRUE</span></span>
-<span id="cb160-14"><a href="lta.html#cb160-14" tabindex="-1"></a>)</span></code></pre></div>
+<span id="cb160-7"><a href="lta.html#cb160-7" tabindex="-1"></a>    <span class="at">abund_eff_types =</span> <span class="fu">c</span>(<span class="st">&quot;S&quot;</span>),</span>
+<span id="cb160-8"><a href="lta.html#cb160-8" tabindex="-1"></a>    <span class="at">abund_bft_range =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">6</span>,</span>
+<span id="cb160-9"><a href="lta.html#cb160-9" tabindex="-1"></a>    <span class="at">bootstraps =</span> <span class="dv">0</span>,</span>
+<span id="cb160-10"><a href="lta.html#cb160-10" tabindex="-1"></a>    <span class="at">results_file =</span> <span class="cn">NULL</span>,</span>
+<span id="cb160-11"><a href="lta.html#cb160-11" tabindex="-1"></a>    <span class="at">toplot =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb160-12"><a href="lta.html#cb160-12" tabindex="-1"></a>    <span class="at">verbose =</span> <span class="cn">TRUE</span></span>
+<span id="cb160-13"><a href="lta.html#cb160-13" tabindex="-1"></a>)</span></code></pre></div>
 <p>Below we explain each of the key required inputs, discuss other optional inputs, and explore the results produced by <code>lta()</code>.</p>
 </div>
 <div id="key-inputs" class="section level2 unnumbered hasAnchor">
@@ -548,7 +548,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb165-9"><a href="lta.html#cb165-9" tabindex="-1"></a>                   <span class="at">delta_aic =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><em>(Note that all of these inputs have defaults, and are therefore optional.)</em></p>
 <ul>
-<li><p><strong><code>covariates</code></strong> Covariates you wish to include as candidates in detection function models, provided as a character vector. The covariates must match columns existing within <code>cruz$cohorts$&lt;cohort_name&gt;$sightings</code>. Note that the function will ignore case, coercing all covariates to lowercase. Default: no covariates.</p></li>
+<li><p><strong><code>covariates</code></strong> Covariates you wish to include as candidates in detection function models, provided as a character vector. The covariates must match columns existing within <code>cruz$cohorts$&lt;cohort_name&gt;$sightings</code>. (For help adding custom covariates to this dataset, see <a href="lta.html#customcovars">here</a>). Note that the function will ignore case, coercing all covariates to lowercase. Default: no covariates.</p></li>
 <li><p><strong><code>covariates_factor</code></strong> A Boolean vector, which must be the same length as <code>covariates</code>, indicating whether each covariate should be treated as a factor instead of a numeric. Default: <code>NULL</code>.</p></li>
 <li><p><strong><code>covariates_levels</code></strong> The minimum number of levels a factor covariate must have in order to be included as an eligible covariate. Default: <code>2</code>.</p></li>
 <li><p><strong><code>covariates_n_per_level</code></strong> The minimum number of observations within each level of a factor covariate. If this condition is not met, the covariate is excluded from the candidates. Default: <code>10</code>.</p></li>
@@ -699,15 +699,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb174-4"><a href="lta.html#cb174-4" tabindex="-1"></a>    df_settings,</span>
 <span id="cb174-5"><a href="lta.html#cb174-5" tabindex="-1"></a>    estimates,</span>
 <span id="cb174-6"><a href="lta.html#cb174-6" tabindex="-1"></a>    <span class="at">use_g0 =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb174-7"><a href="lta.html#cb174-7" tabindex="-1"></a>    <span class="at">ss_correction =</span> <span class="dv">1</span>,</span>
-<span id="cb174-8"><a href="lta.html#cb174-8" tabindex="-1"></a>    <span class="at">abund_eff_types =</span> <span class="fu">c</span>(<span class="st">&quot;S&quot;</span>),</span>
-<span id="cb174-9"><a href="lta.html#cb174-9" tabindex="-1"></a>    <span class="at">abund_bft_range =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">6</span>,</span>
-<span id="cb174-10"><a href="lta.html#cb174-10" tabindex="-1"></a>    <span class="at">bootstraps =</span> <span class="dv">10</span></span>
-<span id="cb174-11"><a href="lta.html#cb174-11" tabindex="-1"></a>    <span class="at">toplot =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb174-12"><a href="lta.html#cb174-12" tabindex="-1"></a>    <span class="at">verbose =</span> <span class="cn">TRUE</span>,)</span></code></pre></div>
+<span id="cb174-7"><a href="lta.html#cb174-7" tabindex="-1"></a>    <span class="at">abund_eff_types =</span> <span class="fu">c</span>(<span class="st">&quot;S&quot;</span>),</span>
+<span id="cb174-8"><a href="lta.html#cb174-8" tabindex="-1"></a>    <span class="at">abund_bft_range =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">6</span>,</span>
+<span id="cb174-9"><a href="lta.html#cb174-9" tabindex="-1"></a>    <span class="at">bootstraps =</span> <span class="dv">10</span></span>
+<span id="cb174-10"><a href="lta.html#cb174-10" tabindex="-1"></a>    <span class="at">toplot =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb174-11"><a href="lta.html#cb174-11" tabindex="-1"></a>    <span class="at">verbose =</span> <span class="cn">TRUE</span>,)</span></code></pre></div>
 <ul>
 <li><p><strong><code>use_g0</code></strong>: A Boolean, with default <code>TRUE</code>, indicating whether or not to use custom <code>g(0)</code> value(s). If <code>FALSE</code>, the assumed <code>g(0)</code> value will be 1. This is an easy way to toggle on-and-off automated <em>g(0)</em> estimation and/or ignore manually supplied <em>g(0)</em> values.</p></li>
-<li><p><strong><code>ss_correction</code></strong>: Should a correction be applied to school sizes? School sizes will be scaled by this number. The default, <code>1</code>, means no changes will occur.</p></li>
 <li><p><strong><code>abund_eff_types</code></strong>: The <code>EffType</code> values that are acceptable as systematic effort when estimating density/abundance. The default is just <code>"S"</code> (systematic effort), but in some surveys/cases you may wish to use fine-scale effort (<code>"F"</code>) too.</p></li>
 <li><p><strong><code>abund_bft_range</code></strong>: The Beaufort sea state values that are acceptable during systematic effort for estimating density/abundance. The default is sea states 0 - 6.</p></li>
 <li><p><strong><code>toplot</code></strong>: A Boolean, with default <code>TRUE</code>, indicating whether detection function plots (<code>Distance::plot.ds()</code>) should be displayed as the candidate models are tested.</p></li>
@@ -923,6 +921,62 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>False killer whales are rare and occur in dispersed subgroups, which complicates conventional distance sampling approaches to line-transect analysis.</p>
 <p>To handle this, a separate, <em>subgroup-based</em> analytical approach was developed (<a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0090464">Bradford et al. 2014</a>). This approach could theoretically be used for other species that occur in subgroups. We cover this in a <a href="subgroups2.html#subgroups2">subsequent chapter</a>.</p>
 </div>
+<div id="customcovars" class="section level3 unnumbered hasAnchor">
+<h3>Custom covariates<a href="lta.html#customcovars" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>You can only fit detection functions with covariates that exist in your <code>cruz</code> object, specifically within the <code>cruz$cohorts$&lt;cohort&gt;$sightings</code> dataset. However, you are free to add columns to that dataset <em>after</em> processing in order to include custom covariates within your line-transect analysis. Here is an example of how to do so:</p>
+<p>Say you wanted to add swell height anomaly as a detection function covariate. First, add this column to your sightings data:</p>
+<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="lta.html#cb188-1" tabindex="-1"></a><span class="co"># Get average swell across all cruz effort</span></span>
+<span id="cb188-2"><a href="lta.html#cb188-2" tabindex="-1"></a>(avg_swell <span class="ot">&lt;-</span> cruz<span class="sc">$</span>cohorts<span class="sc">$</span>all<span class="sc">$</span>das<span class="sc">$</span>SwellHght <span class="sc">%&gt;%</span> <span class="fu">mean</span>(<span class="at">na.rm=</span><span class="cn">TRUE</span>))</span>
+<span id="cb188-3"><a href="lta.html#cb188-3" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">5.237323</span></span>
+<span id="cb188-4"><a href="lta.html#cb188-4" tabindex="-1"></a></span>
+<span id="cb188-5"><a href="lta.html#cb188-5" tabindex="-1"></a><span class="co"># Get sighting swell height values</span></span>
+<span id="cb188-6"><a href="lta.html#cb188-6" tabindex="-1"></a>swells <span class="ot">&lt;-</span> cruz<span class="sc">$</span>cohorts<span class="sc">$</span>all<span class="sc">$</span>sightings<span class="sc">$</span>SwellHght</span>
+<span id="cb188-7"><a href="lta.html#cb188-7" tabindex="-1"></a></span>
+<span id="cb188-8"><a href="lta.html#cb188-8" tabindex="-1"></a><span class="co"># Add anomaly column to sightings dataset</span></span>
+<span id="cb188-9"><a href="lta.html#cb188-9" tabindex="-1"></a>cruz<span class="sc">$</span>cohorts<span class="sc">$</span>all<span class="sc">$</span>sightings<span class="sc">$</span>swell_anomaly <span class="ot">&lt;-</span> swells <span class="sc">-</span> avg_swell</span>
+<span id="cb188-10"><a href="lta.html#cb188-10" tabindex="-1"></a></span>
+<span id="cb188-11"><a href="lta.html#cb188-11" tabindex="-1"></a><span class="co"># Review histogram of new covariate</span></span>
+<span id="cb188-12"><a href="lta.html#cb188-12" tabindex="-1"></a>cruz<span class="sc">$</span>cohorts<span class="sc">$</span>all<span class="sc">$</span>sightings<span class="sc">$</span>swell_anomaly <span class="sc">%&gt;%</span> hist</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-240-1.png" width="672" /></p>
+<p>Now update the <code>df_settings</code> with your new covariate:</p>
+<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="lta.html#cb189-1" tabindex="-1"></a>df_settings <span class="ot">=</span> <span class="fu">list</span>(<span class="at">covariates =</span> <span class="fu">c</span>(<span class="st">&#39;bft&#39;</span>,<span class="st">&#39;lnsstot&#39;</span>,<span class="st">&#39;species&#39;</span>, <span class="st">&#39;swell_anomaly&#39;</span>),</span>
+<span id="cb189-2"><a href="lta.html#cb189-2" tabindex="-1"></a>                   <span class="at">covariates_factor =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>, <span class="cn">FALSE</span>),</span>
+<span id="cb189-3"><a href="lta.html#cb189-3" tabindex="-1"></a>                   <span class="at">covariates_levels =</span> <span class="dv">2</span>,</span>
+<span id="cb189-4"><a href="lta.html#cb189-4" tabindex="-1"></a>                   <span class="at">covariates_n_per_level =</span> <span class="dv">10</span>,</span>
+<span id="cb189-5"><a href="lta.html#cb189-5" tabindex="-1"></a>                   <span class="at">simplify_cue =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb189-6"><a href="lta.html#cb189-6" tabindex="-1"></a>                   <span class="at">simplify_bino =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb189-7"><a href="lta.html#cb189-7" tabindex="-1"></a>                   <span class="at">detection_function_base =</span> <span class="st">&#39;hn&#39;</span>,</span>
+<span id="cb189-8"><a href="lta.html#cb189-8" tabindex="-1"></a>                   <span class="at">base_model =</span> <span class="st">&#39;~1&#39;</span>,</span>
+<span id="cb189-9"><a href="lta.html#cb189-9" tabindex="-1"></a>                   <span class="at">delta_aic =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p>Now try using it as a covariate in a run of the <code>lta()</code> function for one of the simple estimates we did above:</p>
+<p>Specify <code>fit_filters</code> for this example:</p>
+<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="lta.html#cb190-1" tabindex="-1"></a>fit_filters <span class="ot">=</span> <span class="fu">list</span>(<span class="at">spp =</span> <span class="fu">c</span>(<span class="st">&#39;013&#39;</span>, <span class="st">&#39;026&#39;</span>, <span class="st">&#39;031&#39;</span>), </span>
+<span id="cb190-2"><a href="lta.html#cb190-2" tabindex="-1"></a>                   <span class="at">pool =</span> <span class="st">&#39;Multi-species pool 1&#39;</span>,</span>
+<span id="cb190-3"><a href="lta.html#cb190-3" tabindex="-1"></a>                   <span class="at">cohort =</span> <span class="st">&#39;all&#39;</span>,</span>
+<span id="cb190-4"><a href="lta.html#cb190-4" tabindex="-1"></a>                   <span class="at">truncation_distance =</span> <span class="dv">5</span>,</span>
+<span id="cb190-5"><a href="lta.html#cb190-5" tabindex="-1"></a>                   <span class="at">other_species =</span> <span class="st">&#39;remove&#39;</span>)</span></code></pre></div>
+<p>Specify our estimate of interest for this example:</p>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="lta.html#cb191-1" tabindex="-1"></a>estimates <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">list</span>(<span class="at">spp =</span> <span class="st">&#39;013&#39;</span>,</span>
+<span id="cb191-2"><a href="lta.html#cb191-2" tabindex="-1"></a>                       <span class="at">title =</span> <span class="st">&#39;Striped dolphin&#39;</span>,</span>
+<span id="cb191-3"><a href="lta.html#cb191-3" tabindex="-1"></a>                       <span class="at">years =</span> <span class="dv">2017</span>,</span>
+<span id="cb191-4"><a href="lta.html#cb191-4" tabindex="-1"></a>                       <span class="at">regions =</span> <span class="st">&#39;WHICEAS&#39;</span>,</span>
+<span id="cb191-5"><a href="lta.html#cb191-5" tabindex="-1"></a>                       <span class="at">g0=</span><span class="dv">1</span>, <span class="at">g0_cv=</span><span class="dv">0</span>))</span></code></pre></div>
+<p>Run the line-transect analysis:</p>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="lta.html#cb192-1" tabindex="-1"></a>demo <span class="ot">&lt;-</span> <span class="fu">lta</span>(cruz, Rg0, fit_filters, df_settings, estimates,</span>
+<span id="cb192-2"><a href="lta.html#cb192-2" tabindex="-1"></a>            <span class="at">toplot =</span> <span class="cn">FALSE</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p>Check out the detection functions that were evaluated:</p>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="lta.html#cb193-1" tabindex="-1"></a>demo<span class="sc">$</span>df<span class="sc">$</span>all_models <span class="sc">%&gt;%</span> </span>
+<span id="cb193-2"><a href="lta.html#cb193-2" tabindex="-1"></a>  <span class="fu">select</span>(Formula, AIC)</span>
+<span id="cb193-3"><a href="lta.html#cb193-3" tabindex="-1"></a>                   Formula     AIC</span>
+<span id="cb193-4"><a href="lta.html#cb193-4" tabindex="-1"></a><span class="dv">1</span>                 <span class="sc">~</span><span class="dv">1</span> <span class="sc">+</span> bft <span class="fl">712.620</span></span>
+<span id="cb193-5"><a href="lta.html#cb193-5" tabindex="-1"></a><span class="dv">2</span>       <span class="sc">~</span><span class="dv">1</span> <span class="sc">+</span> bft <span class="sc">+</span> lnsstot <span class="fl">713.404</span></span>
+<span id="cb193-6"><a href="lta.html#cb193-6" tabindex="-1"></a><span class="dv">3</span>                      <span class="sc">~</span> <span class="dv">1</span> <span class="fl">714.457</span></span>
+<span id="cb193-7"><a href="lta.html#cb193-7" tabindex="-1"></a><span class="dv">4</span> <span class="sc">~</span><span class="dv">1</span> <span class="sc">+</span> bft <span class="sc">+</span> swell_anomaly <span class="fl">714.503</span></span>
+<span id="cb193-8"><a href="lta.html#cb193-8" tabindex="-1"></a><span class="dv">5</span>             <span class="sc">~</span><span class="dv">1</span> <span class="sc">+</span> lnsstot <span class="fl">714.679</span></span>
+<span id="cb193-9"><a href="lta.html#cb193-9" tabindex="-1"></a><span class="dv">6</span>       <span class="sc">~</span><span class="dv">1</span> <span class="sc">+</span> bft <span class="sc">+</span> species <span class="fl">715.123</span></span>
+<span id="cb193-10"><a href="lta.html#cb193-10" tabindex="-1"></a><span class="dv">7</span>       <span class="sc">~</span><span class="dv">1</span> <span class="sc">+</span> swell_anomaly <span class="fl">715.611</span></span>
+<span id="cb193-11"><a href="lta.html#cb193-11" tabindex="-1"></a><span class="dv">8</span>             <span class="sc">~</span><span class="dv">1</span> <span class="sc">+</span> species <span class="fl">717.581</span></span></code></pre></div>
+</div>
 <div id="other-scenarios" class="section level3 unnumbered hasAnchor">
 <h3>Other scenarios<a href="lta.html#other-scenarios" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <ul>
@@ -993,43 +1047,43 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Unless you manually specify the study area in your <code>estimates</code> list, <code>lta()</code> will calculate your study area for you based on the geostrata you provide. It does so by calling the <code>LTabundR</code> function <code>strata_area()</code>, which you can use on your own to explore geostratum combination options. This function was designed using the <code>sf</code> package to handle complex polygon combinations, and it uses Natural Earth datasets to remove land within your study area (this is a feature you can turn off, if you want).</p>
 <p>Here are some examples of how <code>strata_area()</code> handles complex scenarios.</p>
 <p>Say you want to estimate abundance in the ‘WHCEAS’ study area, but you want to make sure the study area estimate is accurately removing land:</p>
-<div class="sourceCode" id="cb188"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb188-1"><a href="lta.html#cb188-1" tabindex="-1"></a>demo <span class="ot">&lt;-</span> <span class="fu">strata_area</span>(<span class="at">strata_all =</span> cruz<span class="sc">$</span>settings<span class="sc">$</span>strata,</span>
-<span id="cb188-2"><a href="lta.html#cb188-2" tabindex="-1"></a>                    <span class="at">strata_keep =</span> <span class="fu">c</span>(<span class="st">&#39;WHICEAS&#39;</span>),</span>
-<span id="cb188-3"><a href="lta.html#cb188-3" tabindex="-1"></a>                    <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-240-1.png" width="672" /></p>
-<p>Say you want to estimate abundance in the pelagic Hawaiian EEZ, ignoring effort and sightings within the Main Hawaiian Islands stratum and accurately removing the area of the small Northwestern Hawaaian Islands:</p>
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb189-1"><a href="lta.html#cb189-1" tabindex="-1"></a>demo <span class="ot">&lt;-</span> <span class="fu">strata_area</span>(<span class="at">strata_all =</span> cruz<span class="sc">$</span>settings<span class="sc">$</span>strata,</span>
-<span id="cb189-2"><a href="lta.html#cb189-2" tabindex="-1"></a>                    <span class="at">strata_keep =</span> <span class="fu">c</span>(<span class="st">&#39;HI_EEZ&#39;</span>),</span>
-<span id="cb189-3"><a href="lta.html#cb189-3" tabindex="-1"></a>                    <span class="at">strata_remove =</span> <span class="fu">c</span>(<span class="st">&#39;MHI&#39;</span>),</span>
-<span id="cb189-4"><a href="lta.html#cb189-4" tabindex="-1"></a>                    <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-241-1.png" width="672" /></p>
-<div class="sourceCode" id="cb190"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb190-1"><a href="lta.html#cb190-1" tabindex="-1"></a></span>
-<span id="cb190-2"><a href="lta.html#cb190-2" tabindex="-1"></a>strata_all <span class="ot">=</span> cruz<span class="sc">$</span>settings<span class="sc">$</span>strata</span>
-<span id="cb190-3"><a href="lta.html#cb190-3" tabindex="-1"></a>strata_keep <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;HI_EEZ&#39;</span>)</span>
-<span id="cb190-4"><a href="lta.html#cb190-4" tabindex="-1"></a>strata_remove <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;MHI&#39;</span>)</span>
-<span id="cb190-5"><a href="lta.html#cb190-5" tabindex="-1"></a>verbose <span class="ot">=</span> <span class="cn">FALSE</span></span></code></pre></div>
-<p>Say you want to estimate abundance of pelagic bottlenose dolphins within the WHICEAS study area, ignoring the insular stocks:</p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb191-1"><a href="lta.html#cb191-1" tabindex="-1"></a>demo <span class="ot">&lt;-</span> <span class="fu">strata_area</span>(<span class="at">strata_all =</span> cruz<span class="sc">$</span>settings<span class="sc">$</span>strata,</span>
-<span id="cb191-2"><a href="lta.html#cb191-2" tabindex="-1"></a>                    <span class="at">strata_keep =</span> <span class="fu">c</span>(<span class="st">&#39;WHICEAS&#39;</span>),</span>
-<span id="cb191-3"><a href="lta.html#cb191-3" tabindex="-1"></a>                    <span class="at">strata_remove =</span> <span class="fu">c</span>(<span class="st">&#39;Bottlenose_KaNi&#39;</span>,<span class="st">&#39;Bottlenose_OUFI&#39;</span>,<span class="st">&#39;Bottlenose_BI&#39;</span>),</span>
-<span id="cb191-4"><a href="lta.html#cb191-4" tabindex="-1"></a>                    <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-242-1.png" width="672" /></p>
-<p>Say you want to estimate abundance for <em>only</em> the insular bottlenose stocks:</p>
-<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb192-1"><a href="lta.html#cb192-1" tabindex="-1"></a>demo <span class="ot">&lt;-</span> <span class="fu">strata_area</span>(<span class="at">strata_all =</span> cruz<span class="sc">$</span>settings<span class="sc">$</span>strata,</span>
-<span id="cb192-2"><a href="lta.html#cb192-2" tabindex="-1"></a>                    <span class="at">strata_keep =</span> <span class="fu">c</span>(<span class="st">&#39;Bottlenose_KaNi&#39;</span>,<span class="st">&#39;Bottlenose_OUFI&#39;</span>,<span class="st">&#39;Bottlenose_BI&#39;</span>),</span>
-<span id="cb192-3"><a href="lta.html#cb192-3" tabindex="-1"></a>                    <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-243-1.png" width="672" /></p>
-<p>Say you want to estimate abundance for false killer whales within the Northwestern Hawaiian Islands and Main Hawaiian Islands study areas combined, but those geostrata partially overlap:</p>
-<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="lta.html#cb193-1" tabindex="-1"></a>demo <span class="ot">&lt;-</span> <span class="fu">strata_area</span>(<span class="at">strata_all =</span> cruz<span class="sc">$</span>settings<span class="sc">$</span>strata,</span>
-<span id="cb193-2"><a href="lta.html#cb193-2" tabindex="-1"></a>                    <span class="at">strata_keep =</span> <span class="fu">c</span>(<span class="st">&#39;MHI&#39;</span>,<span class="st">&#39;NWHI&#39;</span>),</span>
-<span id="cb193-3"><a href="lta.html#cb193-3" tabindex="-1"></a>                    <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb193-4"><a href="lta.html#cb193-4" tabindex="-1"></a>Error <span class="cf">in</span> strata_all[<span class="fu">names</span>(strata_all) <span class="sc">==</span> strati_name][[<span class="dv">1</span>]]<span class="sc">:</span> subscript out of bounds</span></code></pre></div>
-<p>Say you want to estimate abundance for the Hawaiian EEZ <em>outside</em> of those partially overlapping geostrata:</p>
 <div class="sourceCode" id="cb194"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb194-1"><a href="lta.html#cb194-1" tabindex="-1"></a>demo <span class="ot">&lt;-</span> <span class="fu">strata_area</span>(<span class="at">strata_all =</span> cruz<span class="sc">$</span>settings<span class="sc">$</span>strata,</span>
-<span id="cb194-2"><a href="lta.html#cb194-2" tabindex="-1"></a>                    <span class="at">strata_keep =</span> <span class="st">&#39;HI_EEZ&#39;</span>,</span>
-<span id="cb194-3"><a href="lta.html#cb194-3" tabindex="-1"></a>                    <span class="at">strata_remove =</span> <span class="fu">c</span>(<span class="st">&#39;MHI&#39;</span>,<span class="st">&#39;NWHI&#39;</span>),</span>
-<span id="cb194-4"><a href="lta.html#cb194-4" tabindex="-1"></a>                    <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb194-5"><a href="lta.html#cb194-5" tabindex="-1"></a>Error <span class="cf">in</span> strata_all[<span class="fu">names</span>(strata_all) <span class="sc">==</span> strati_name][[<span class="dv">1</span>]]<span class="sc">:</span> subscript out of bounds</span></code></pre></div>
+<span id="cb194-2"><a href="lta.html#cb194-2" tabindex="-1"></a>                    <span class="at">strata_keep =</span> <span class="fu">c</span>(<span class="st">&#39;WHICEAS&#39;</span>),</span>
+<span id="cb194-3"><a href="lta.html#cb194-3" tabindex="-1"></a>                    <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-246-1.png" width="672" /></p>
+<p>Say you want to estimate abundance in the pelagic Hawaiian EEZ, ignoring effort and sightings within the Main Hawaiian Islands stratum and accurately removing the area of the small Northwestern Hawaaian Islands:</p>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb195-1"><a href="lta.html#cb195-1" tabindex="-1"></a>demo <span class="ot">&lt;-</span> <span class="fu">strata_area</span>(<span class="at">strata_all =</span> cruz<span class="sc">$</span>settings<span class="sc">$</span>strata,</span>
+<span id="cb195-2"><a href="lta.html#cb195-2" tabindex="-1"></a>                    <span class="at">strata_keep =</span> <span class="fu">c</span>(<span class="st">&#39;HI_EEZ&#39;</span>),</span>
+<span id="cb195-3"><a href="lta.html#cb195-3" tabindex="-1"></a>                    <span class="at">strata_remove =</span> <span class="fu">c</span>(<span class="st">&#39;MHI&#39;</span>),</span>
+<span id="cb195-4"><a href="lta.html#cb195-4" tabindex="-1"></a>                    <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-247-1.png" width="672" /></p>
+<div class="sourceCode" id="cb196"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb196-1"><a href="lta.html#cb196-1" tabindex="-1"></a></span>
+<span id="cb196-2"><a href="lta.html#cb196-2" tabindex="-1"></a>strata_all <span class="ot">=</span> cruz<span class="sc">$</span>settings<span class="sc">$</span>strata</span>
+<span id="cb196-3"><a href="lta.html#cb196-3" tabindex="-1"></a>strata_keep <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;HI_EEZ&#39;</span>)</span>
+<span id="cb196-4"><a href="lta.html#cb196-4" tabindex="-1"></a>strata_remove <span class="ot">=</span> <span class="fu">c</span>(<span class="st">&#39;MHI&#39;</span>)</span>
+<span id="cb196-5"><a href="lta.html#cb196-5" tabindex="-1"></a>verbose <span class="ot">=</span> <span class="cn">FALSE</span></span></code></pre></div>
+<p>Say you want to estimate abundance of pelagic bottlenose dolphins within the WHICEAS study area, ignoring the insular stocks:</p>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb197-1"><a href="lta.html#cb197-1" tabindex="-1"></a>demo <span class="ot">&lt;-</span> <span class="fu">strata_area</span>(<span class="at">strata_all =</span> cruz<span class="sc">$</span>settings<span class="sc">$</span>strata,</span>
+<span id="cb197-2"><a href="lta.html#cb197-2" tabindex="-1"></a>                    <span class="at">strata_keep =</span> <span class="fu">c</span>(<span class="st">&#39;WHICEAS&#39;</span>),</span>
+<span id="cb197-3"><a href="lta.html#cb197-3" tabindex="-1"></a>                    <span class="at">strata_remove =</span> <span class="fu">c</span>(<span class="st">&#39;Bottlenose_KaNi&#39;</span>,<span class="st">&#39;Bottlenose_OUFI&#39;</span>,<span class="st">&#39;Bottlenose_BI&#39;</span>),</span>
+<span id="cb197-4"><a href="lta.html#cb197-4" tabindex="-1"></a>                    <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-248-1.png" width="672" /></p>
+<p>Say you want to estimate abundance for <em>only</em> the insular bottlenose stocks:</p>
+<div class="sourceCode" id="cb198"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb198-1"><a href="lta.html#cb198-1" tabindex="-1"></a>demo <span class="ot">&lt;-</span> <span class="fu">strata_area</span>(<span class="at">strata_all =</span> cruz<span class="sc">$</span>settings<span class="sc">$</span>strata,</span>
+<span id="cb198-2"><a href="lta.html#cb198-2" tabindex="-1"></a>                    <span class="at">strata_keep =</span> <span class="fu">c</span>(<span class="st">&#39;Bottlenose_KaNi&#39;</span>,<span class="st">&#39;Bottlenose_OUFI&#39;</span>,<span class="st">&#39;Bottlenose_BI&#39;</span>),</span>
+<span id="cb198-3"><a href="lta.html#cb198-3" tabindex="-1"></a>                    <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-249-1.png" width="672" /></p>
+<p>Say you want to estimate abundance for false killer whales within the Northwestern Hawaiian Islands and Main Hawaiian Islands study areas combined, but those geostrata partially overlap:</p>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb199-1"><a href="lta.html#cb199-1" tabindex="-1"></a>demo <span class="ot">&lt;-</span> <span class="fu">strata_area</span>(<span class="at">strata_all =</span> cruz<span class="sc">$</span>settings<span class="sc">$</span>strata,</span>
+<span id="cb199-2"><a href="lta.html#cb199-2" tabindex="-1"></a>                    <span class="at">strata_keep =</span> <span class="fu">c</span>(<span class="st">&#39;MHI&#39;</span>,<span class="st">&#39;nwhi_fkw&#39;</span>),</span>
+<span id="cb199-3"><a href="lta.html#cb199-3" tabindex="-1"></a>                    <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-250-1.png" width="672" /></p>
+<p>Say you want to estimate abundance for the Hawaiian EEZ <em>outside</em> of those partially overlapping geostrata:</p>
+<div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="lta.html#cb200-1" tabindex="-1"></a>demo <span class="ot">&lt;-</span> <span class="fu">strata_area</span>(<span class="at">strata_all =</span> cruz<span class="sc">$</span>settings<span class="sc">$</span>strata,</span>
+<span id="cb200-2"><a href="lta.html#cb200-2" tabindex="-1"></a>                    <span class="at">strata_keep =</span> <span class="st">&#39;HI_EEZ&#39;</span>,</span>
+<span id="cb200-3"><a href="lta.html#cb200-3" tabindex="-1"></a>                    <span class="at">strata_remove =</span> <span class="fu">c</span>(<span class="st">&#39;MHI&#39;</span>,<span class="st">&#39;nwhi_fkw&#39;</span>),</span>
+<span id="cb200-4"><a href="lta.html#cb200-4" tabindex="-1"></a>                    <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-251-1.png" width="672" /></p>
 </div>
 <div id="g0-estimation" class="section level4 unnumbered hasAnchor">
 <h4><em>g(0)</em> estimation<a href="lta.html#g0-estimation" class="anchor-section" aria-label="Anchor link to header"></a></h4>

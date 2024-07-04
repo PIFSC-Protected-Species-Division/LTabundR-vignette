@@ -280,6 +280,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#species-combinations-g0"><i class="fa fa-check"></i>Species combinations &amp; <em>g(0)</em></a></li>
 <li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#geostratum-combinations"><i class="fa fa-check"></i>Geostratum combinations</a></li>
 <li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#subgroup-based-analyses"><i class="fa fa-check"></i>Subgroup-based analyses</a></li>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#customcovars"><i class="fa fa-check"></i>Custom covariates</a></li>
 <li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#other-scenarios"><i class="fa fa-check"></i>Other scenarios</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#behind-the-scenes-1"><i class="fa fa-check"></i>Behind the scenes</a>
@@ -442,25 +443,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="abundance-plots" class="section level2 unnumbered hasAnchor">
 <h2>Abundance plots<a href="plots.html#abundance-plots" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To plot the abundance estimate with error bars representing the 95% confidence interval, use the function <code>lta_plot()</code>:</p>
-<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="plots.html#cb309-1" tabindex="-1"></a><span class="fu">lta_plot</span>(lta_result, </span>
-<span id="cb309-2"><a href="plots.html#cb309-2" tabindex="-1"></a>         <span class="at">nrows=</span><span class="dv">1</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-380-1.png" width="672" /></p>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="plots.html#cb315-1" tabindex="-1"></a><span class="fu">lta_plot</span>(lta_result, </span>
+<span id="cb315-2"><a href="plots.html#cb315-2" tabindex="-1"></a>         <span class="at">nrows=</span><span class="dv">1</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-386-1.png" width="672" /></p>
 </div>
 <div id="detection-function-plots" class="section level2 unnumbered hasAnchor">
 <h2>Detection function plots<a href="plots.html#detection-function-plots" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To plot the best-fit detection model for a species pool, use the <code>df_plot()</code> function.</p>
-<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="plots.html#cb310-1" tabindex="-1"></a><span class="fu">df_plot</span>(lta_result)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-381-1.png" width="672" /></p>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="plots.html#cb316-1" tabindex="-1"></a><span class="fu">df_plot</span>(lta_result)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-387-1.png" width="672" /></p>
 <p>This function provides various stylization options, including the option to show multiple best-fitting models atop a single histogram of detections:</p>
-<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="plots.html#cb311-1" tabindex="-1"></a><span class="fu">df_plot</span>(lta_result,</span>
-<span id="cb311-2"><a href="plots.html#cb311-2" tabindex="-1"></a>        <span class="at">model_colors=</span>RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="at">n =</span> <span class="dv">4</span>, <span class="at">name =</span> <span class="st">&quot;Dark2&quot;</span>),</span>
-<span id="cb311-3"><a href="plots.html#cb311-3" tabindex="-1"></a>        <span class="at">model_pch =</span> <span class="dv">16</span>,</span>
-<span id="cb311-4"><a href="plots.html#cb311-4" tabindex="-1"></a>        <span class="at">pt_show=</span><span class="dv">2</span>,</span>
-<span id="cb311-5"><a href="plots.html#cb311-5" tabindex="-1"></a>        <span class="at">pt_alpha=</span>.<span class="dv">3</span>,</span>
-<span id="cb311-6"><a href="plots.html#cb311-6" tabindex="-1"></a>        <span class="at">bootstrap_show =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb311-7"><a href="plots.html#cb311-7" tabindex="-1"></a>        <span class="at">legend_show=</span><span class="cn">TRUE</span>,</span>
-<span id="cb311-8"><a href="plots.html#cb311-8" tabindex="-1"></a>        <span class="at">legend_x=</span><span class="fl">2.8</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-382-1.png" width="672" /></p>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="plots.html#cb317-1" tabindex="-1"></a><span class="fu">df_plot</span>(lta_result,</span>
+<span id="cb317-2"><a href="plots.html#cb317-2" tabindex="-1"></a>        <span class="at">model_colors=</span>RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="at">n =</span> <span class="dv">4</span>, <span class="at">name =</span> <span class="st">&quot;Dark2&quot;</span>),</span>
+<span id="cb317-3"><a href="plots.html#cb317-3" tabindex="-1"></a>        <span class="at">model_pch =</span> <span class="dv">16</span>,</span>
+<span id="cb317-4"><a href="plots.html#cb317-4" tabindex="-1"></a>        <span class="at">pt_show=</span><span class="dv">2</span>,</span>
+<span id="cb317-5"><a href="plots.html#cb317-5" tabindex="-1"></a>        <span class="at">pt_alpha=</span>.<span class="dv">3</span>,</span>
+<span id="cb317-6"><a href="plots.html#cb317-6" tabindex="-1"></a>        <span class="at">bootstrap_show =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb317-7"><a href="plots.html#cb317-7" tabindex="-1"></a>        <span class="at">legend_show=</span><span class="cn">TRUE</span>,</span>
+<span id="cb317-8"><a href="plots.html#cb317-8" tabindex="-1"></a>        <span class="at">legend_x=</span><span class="fl">2.8</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-388-1.png" width="672" /></p>
 </div>
 </div>
             </section>
