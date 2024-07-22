@@ -395,8 +395,6 @@ First we can define common values that will be constant across all estimates we 
 results_path <- 'whiceas/lta/'
 bootstraps <- 200 # use a low number for this demo
 years <- 1986:2020
-fit_regions <- NULL
-fit_not_regions <- NULL
 toplot = TRUE
 verbose = TRUE
 
@@ -458,15 +456,16 @@ if(TRUE){ # toggle
          cohort = 'all',
          truncation_distance = 5,
          other_species = 'remove',
-         years = years,
-         regions = fit_regions,
-         not_regions = fit_not_regions)
+         years = years)
 
   # Density / abundance estimation plan
   estimates <-
     c(estimator(spp = '013', title = "Striped dolphin"),
       estimator(spp = '026', title = "Fraser's dolphin", alt_g0_spp = '013'),
       estimator(spp = '031', title = "Melon-headed whale", alt_g0_spp = '013'))
+  
+  # Check for missing data
+  checks <- lta_checks(cruz, df_settings, fit_filters, estimates)
   
   # Run analysis
   results <- lta(cruz, Rg0, fit_filters, df_settings, estimates,
@@ -496,9 +495,7 @@ if(TRUE){ # toggle
          pool = 'Multi-species pool 2',
          cohort = 'all',
          truncation_distance = 5,
-         years = years,
-         regions = fit_regions,
-         not_regions = fit_not_regions)
+         years = years)
 
   # Density / abundance estimation plan
   estimates <-
@@ -506,6 +503,9 @@ if(TRUE){ # toggle
         estimator(spp = '021', title = "Risso's dolphin"),
         estimator(spp = '032', title = "Pygmy killer whale"))
 
+  # Check for missing data
+  checks <- lta_checks(cruz, df_settings, fit_filters, estimates)
+  
   # Run analysis
   results <- lta(cruz, Rg0, fit_filters, df_settings, estimates,
                  use_g0 = TRUE,
@@ -533,15 +533,16 @@ if(TRUE){ # toggle
          pool = 'Multi-species pool 3',
          cohort = 'all',
          truncation_distance = 5,
-         years = years,
-         regions = fit_regions,
-         not_regions = fit_not_regions)
+         years = years)
 
   # Density / abundance estimation plan
   estimates <-
     c(estimator(spp = '036', title = "Short-finned pilot whale"),
       estimator(spp = '065', title = "Longman's beaked whale", 
                 alt_g0_spp = '036'))
+  
+  # Check for missing data
+  checks <- lta_checks(cruz, df_settings, fit_filters, estimates)
   
   # Run analysis
   results <- lta(cruz, Rg0, fit_filters, df_settings, estimates,
@@ -569,14 +570,15 @@ if(TRUE){ # toggle
          cohort = 'all',
          truncation_distance = 5.5,
          other_species = 'remove',
-         years = years,
-         regions = fit_regions,
-         not_regions = fit_not_regions)
+         years = years)
 
   # Density / abundance estimation plan
   estimates <-
       c(estimator(spp = '037', title = "Killer whale"),
         estimator(spp = '046', title = "Sperm whale"))
+  
+  # Check for missing data
+  checks <- lta_checks(cruz, df_settings, fit_filters, estimates)
   
   # Run analysis
   results <- lta(cruz, Rg0, fit_filters, df_settings, estimates,
@@ -605,9 +607,7 @@ if(TRUE){ # toggle
          pool = 'Multi-species pool 5',
          cohort = 'all',
          truncation_distance = 4.5,
-         years = years,
-         regions = fit_regions,
-         not_regions = fit_not_regions)
+         years = years)
 
   # Density / abundance estimation plan
   estimates <-
@@ -642,6 +642,9 @@ if(TRUE){ # toggle
   estimates[[11]]$g0 <- 0.11; estimates[[11]]$g0_cv <- 0.30
   estimates[[12]]$g0 <- 0.11; estimates[[12]]$g0_cv <- 0.30
   
+  # Check for missing data
+  checks <- lta_checks(cruz, df_settings, fit_filters, estimates)
+  
   # Run analysis
   results <- lta(cruz, Rg0, fit_filters, df_settings, estimates,
                  use_g0 = TRUE,
@@ -671,9 +674,7 @@ if(TRUE){ # toggle
          pool = 'Multi-species pool 6',
          cohort = 'all',
          truncation_distance = 5.0,
-         years = years,
-         regions = fit_regions,
-         not_regions = fit_not_regions)
+         years = years)
 
   # Density / abundance estimation plan
   estimates <-
@@ -687,7 +688,10 @@ if(TRUE){ # toggle
                 alt_g0_spp = c('072', '073', '099', '074'),
                 combine_g0 = TRUE))
   
-  # Run analysis
+  # Check for missing data
+  checks <- lta_checks(cruz, df_settings, fit_filters, estimates)
+  
+   # Run analysis
   results <- lta(cruz, Rg0, fit_filters, df_settings, estimates,
                  use_g0 = TRUE,
                  bootstraps = bootstraps,
@@ -710,12 +714,13 @@ if(TRUE){ # toggle
          pool = 'Humpback whale',
          cohort = 'all',
          truncation_distance = 5.5,
-         years = years,
-         regions = fit_regions,
-         not_regions = fit_not_regions)
+         years = years)
 
   # Density / abundance estimation plan
    estimates <-c(estimator(spp = '076', title = "Humpback whale"))
+  
+  # Check for missing data
+  checks <- lta_checks(cruz, df_settings, fit_filters, estimates)
   
   # Run analysis
   results <- lta(cruz, Rg0, fit_filters, df_settings, estimates,
@@ -743,9 +748,7 @@ if(TRUE){ # toggle
          cohort = 'all',
          truncation_distance = 5.5,
          other_species = 'coerce',
-         years = years,
-         regions = fit_regions,
-         not_regions = fit_not_regions)
+         years = years)
 
   # Density / abundance estimation plan
   estimates <-
@@ -753,6 +756,9 @@ if(TRUE){ # toggle
                   title = "Unidentified rorqual",
                   alt_g0_spp = c('071','099','074','075'),
                   combine_g0 = TRUE))
+  
+  # Check for missing data
+  checks <- lta_checks(cruz, df_settings, fit_filters, estimates)
   
   # Run analysis
   results <- lta(cruz, Rg0, fit_filters, df_settings, estimates,
@@ -783,15 +789,16 @@ if(TRUE){ # toggle
          cohort = 'all',
          truncation_distance = 5.5,
          other_species = 'coerce',
-         years = years,
-         regions = fit_regions,
-         not_regions = fit_not_regions)
+         years = years)
 
   # Density / abundance estimation plan
   estimates <- estimator(spp = spp, 
                          title = pool_title,
                          alt_g0_spp = c('002','013','018','015', '036', '021'),
                          combine_g0 = TRUE)
+  
+  # Check for missing data
+  checks <- lta_checks(cruz, df_settings, fit_filters, estimates)
   
   # Run analysis
   results <- lta(cruz, Rg0, fit_filters, df_settings, estimates,
@@ -822,15 +829,16 @@ if(TRUE){ # toggle
          cohort = 'all',
          truncation_distance = 5.5,
          other_species = 'coerce',
-         years = years,
-         regions = fit_regions,
-         not_regions = fit_not_regions)
+         years = years)
 
   # Density / abundance estimation plan
   estimates <- estimator(spp = spp, 
                          title = pool_title, 
                          g0=1.0, 
                          g0_cv = 0.0)
+  
+  # Check for missing data
+  checks <- lta_checks(cruz, df_settings, fit_filters, estimates)
   
   # Run analysis
   results <- lta(cruz, Rg0, fit_filters, df_settings, estimates,
@@ -857,9 +865,7 @@ if(TRUE){ # toggle
          pool = 'Bottlenose dolphin',
          cohort = 'bottlenose',
          truncation_distance = 5,
-         years = years,
-         regions = fit_regions,
-         not_regions = fit_not_regions)
+         years = years)
 
   # Density / abundance estimation plan
   scenarios <- list(
@@ -874,6 +880,9 @@ if(TRUE){ # toggle
   
   estimator <- lta_estimates(scenarios)
   estimates <- estimator(spp = '018', title = 'Bottlenose dolphin')
+  
+  # Check for missing data
+  checks <- lta_checks(cruz, df_settings, fit_filters, estimates)
   
   # Run analysis
   results <- lta(cruz, Rg0, fit_filters, df_settings, estimates,
@@ -900,9 +909,7 @@ if(TRUE){ # toggle
          pool = 'Pantropical spotted dolphin',
          cohort = 'spotted',
          truncation_distance = 5,
-         years = years,
-         regions = fit_regions,
-         not_regions = fit_not_regions)
+         years = years)
   
   # Density / abundance estimation plan
   scenarios <- list(
@@ -917,6 +924,9 @@ if(TRUE){ # toggle
   
   estimator <- lta_estimates(scenarios)
   estimates <- estimator(spp = '002', title = 'Pantropical spotted dolphin')
+  
+  # Check for missing data
+  checks <- lta_checks(cruz, df_settings, fit_filters, estimates)
   
   # Run analysis
   results <- lta(cruz, Rg0, fit_filters, df_settings, estimates,

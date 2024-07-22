@@ -270,6 +270,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#the-delta-method"><i class="fa fa-check"></i>The Delta Method</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#other-inputs"><i class="fa fa-check"></i>Other inputs</a></li>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#data-checks-qaqc"><i class="fa fa-check"></i>Data checks &amp; QA/QC</a></li>
 <li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#output"><i class="fa fa-check"></i>Output</a>
 <ul>
 <li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#during-processing"><i class="fa fa-check"></i>During processing</a></li>
@@ -604,7 +605,7 @@ So <em>g(0)</em> matters, and the assumption of detection functions that <em>g(0
 <p>To view the distribution of effort in this WHICEAS 2017 across sea states, we can use the function <code>summarize_bft()</code>:</p>
 <div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="g0.html#cb153-1" tabindex="-1"></a><span class="fu">summarize_bft</span>(cruz_17)<span class="sc">$</span>overall</span>
 <span id="cb153-2"><a href="g0.html#cb153-2" tabindex="-1"></a><span class="co"># A tibble: 6 × 3</span></span>
-<span id="cb153-3"><a href="g0.html#cb153-3" tabindex="-1"></a>   bftr    km   prop</span>
+<span id="cb153-3"><a href="g0.html#cb153-3" tabindex="-1"></a>    Bft    km   prop</span>
 <span id="cb153-4"><a href="g0.html#cb153-4" tabindex="-1"></a>  <span class="sc">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>  <span class="er">&lt;</span>dbl<span class="sc">&gt;</span></span>
 <span id="cb153-5"><a href="g0.html#cb153-5" tabindex="-1"></a><span class="dv">1</span>     <span class="dv">1</span>  <span class="fl">132.</span> <span class="fl">0.0203</span></span>
 <span id="cb153-6"><a href="g0.html#cb153-6" tabindex="-1"></a><span class="dv">2</span>     <span class="dv">2</span>  <span class="fl">585.</span> <span class="fl">0.0899</span></span>
@@ -628,7 +629,7 @@ So <em>g(0)</em> matters, and the assumption of detection functions that <em>g(0
 <span id="cb156-4"><a href="g0.html#cb156-4" tabindex="-1"></a><span class="co"># Summarize Bft effort</span></span>
 <span id="cb156-5"><a href="g0.html#cb156-5" tabindex="-1"></a><span class="fu">summarize_bft</span>(cruz_20)<span class="sc">$</span>overall</span>
 <span id="cb156-6"><a href="g0.html#cb156-6" tabindex="-1"></a><span class="co"># A tibble: 6 × 3</span></span>
-<span id="cb156-7"><a href="g0.html#cb156-7" tabindex="-1"></a>   bftr     km   prop</span>
+<span id="cb156-7"><a href="g0.html#cb156-7" tabindex="-1"></a>    Bft     km   prop</span>
 <span id="cb156-8"><a href="g0.html#cb156-8" tabindex="-1"></a>  <span class="sc">&lt;</span>dbl<span class="sc">&gt;</span>  <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>  <span class="er">&lt;</span>dbl<span class="sc">&gt;</span></span>
 <span id="cb156-9"><a href="g0.html#cb156-9" tabindex="-1"></a><span class="dv">1</span>     <span class="dv">1</span>   <span class="fl">84.3</span> <span class="fl">0.0160</span></span>
 <span id="cb156-10"><a href="g0.html#cb156-10" tabindex="-1"></a><span class="dv">2</span>     <span class="dv">2</span>  <span class="fl">266.</span>  <span class="fl">0.0505</span></span>

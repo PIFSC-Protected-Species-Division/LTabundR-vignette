@@ -286,13 +286,13 @@ cruz$cohorts$all$sightings %>% names
 
 Columns 42 onwards correspond to sightings information.  Columns of note:  
 
-- `species` contains the species code. There is only one species-code per row (i.e, multi-species sightings have been expanded to multiple rows).  
+- **`species`** contains the species code. There is only one species-code per row (i.e, multi-species sightings have been expanded to multiple rows).  
 
-- `best`, `low`, and `high` contain the refined group size estimates, averaged across observers and calibrated according to the cohort's settings specifications. For multi-species sightings, these numbers represent the number of individuals for the single species represented in the row (i.e., the original group size estimate has been scaled by the percentage attritbuted to this species).  
+- **`best`**, **`low`**, and **`high`** contain the refined group size estimates, averaged across observers and calibrated according to the cohort's settings specifications. For multi-species sightings, these numbers represent the number of individuals for the single species represented in the row (i.e., the original group size estimate has been scaled by the percentage attritbuted to this species).  
 
-- The columns following those group size estimates (`prob` through `spp_max`) detail how group sizes were estimated: `prob` indicates whether probable species codes were accepted; `mixed` indicates whether this species' sighting is part of a mixed-species sighting; `n_sp` provides the number of species occurring in this sighitng; `n_obs` gives the number of observers who contributed group size estimates; `n_best` through `n_high` gives the number of valid group size estimates given; and `calibr` indicates whether or not calibration was applied to this sighting (based on the settings; see next section); `mixed_max` indicates whether this species was the most abundant in the sighting (if multi-species); `spp_max` indicates the species code for the most abundant species in the sighting (if multi-species).  
+- The columns following those group size estimates (`prob` through `spp_max`) detail how group sizes were estimated: **`prob`** indicates whether probable species codes were accepted; **`mixed`** indicates whether this species' sighting is part of a mixed-species sighting; **`n_sp`** provides the number of species occurring in this sighting; **`n_obs`** gives the number of observers who contributed group size estimates; **`n_best`** through **`n_high`** gives the number of valid group size estimates given; and **`calibr`** indicates whether or not calibration was applied to this sighting (based on the settings; see next section); **`mixed_max`** indicates whether this species was the most abundant in the sighting (if multi-species); **`spp_max`** indicates the species code for the most abundant species in the sighting (if multi-species). The column **`ss_valid`** indicates whether or not sufficient data were available to produce a group size estimate usable in detection function model fitting and abundance estimation. For more details, see the *"Missing data" paragraphs below.  
 
-- As explained above, the final column, `included`, indicates whether this species should be included in the analysis.  
+- As explained above, the final column, **`included`**, indicates whether this species should be included in the analysis.  
 
 
 Here is a glimpse of the data: 
@@ -380,6 +380,23 @@ cruz_demo$cohorts$all$sightings$calibr %>% head(20)
 Note that when `geometric_mean = TRUE` but calibration is not carried out, the simple geometric mean is calculated instead of the *weighted* geometric mean, since the weights are the variance estimates from the calibration routine.  
 
 Also note that group size calibration is only carried out if `settings$group_size_calibration` is not `NULL`.  However, even when calibration coefficients *are* provided, it is possible to specify that calibration should only be carried out for raw estimates above a minimum threshold (see cohort setting `calibration_floor`, whose default is `0`), since observers may be unlikely to mis-estimate the group size of a lone whale or pair. For observers who have calibration coefficients in the `settings$group_size_coefficients` table, that minimum is specified for each observer individually. For observers not in that table, calibration will only be applied to raw group size estimates above `settings$cohorts[[i]]$calibration_floor` or above.   
+
+**Missing data:** Some sightings may be missing data regarding group size estimates: perhaps not all observers provided all three estimates (best-low-high), or perhaps not all observers provided group size percentages for mixed-species groups. When data are processed in `LTabundR`, the resulting `sightings` table includes a column, `ss_valid`, to indicate whether enough data were available to produce a group size estimate that is usable for detection function fitting and abundance estimation. The procedure for determining whether `ss_valid` is `TRUE` or `FALSE` for a sighting is as follows:  
+
+For each sighting, loop through each's observer's estimate of group size:  
+
+1.  (*Optional*) Apply a calibration adjustment to the observer's best estimate, as discussed above; if any part of the calibration adjustment process fails, the original estimates are used (observer `ss_valid` is still `TRUE` for the observer-sighting).  
+
+2.  If the observer's best estimate is `NA` or less than `0`, the low estimate is used as the best estimate and the observer's `ss_valid` becomes `FALSE`.  
+
+3.  If the low estimate is `NA` or less than `0`, the best estimate is coerced to `1` and the observer's `ss_valid` remains `FALSE`.  
+
+4.  After all observer estimates have been processed, filter to estimates where observer `ss_valid` is `TRUE`. If at least one observer estimate remains, the sighting's *overall* `ss_valid` status is `TRUE`; if no estimates remain, the overall `ss_valid` status becomes `FALSE` and the best size estimate becomes `NA`.  
+
+5.  If `ss_valid` is `TRUE` after this filter, the remaining observer estimates are used to find the geometric mean (or geometric weighted mean) estimate of group size. If that mean estimate is less than `0` or `NA` for any reason, overall `ss_valid` becomes `FALSE` and the geometric (weighted) mean of the raw low estimates is used. If the low estimate has to be used and it is less than `0` or `NA`, the best estimate becomes `1.0` and overall `ss_valid` remains `FALSE`.  
+
+6.  *For mixed-species groups:* If multiple percentage estimates are available for a species in a mixed-species group, the average of those percentage estimates will be used (as discussed above).  If only a *single* percentage estimate is available for a species in a mixed-species group, that single percentage estimate will be used (`ss_valid` will not be changed).  If *no* percentage estimate is available for a species in a mixed-species group, then the best estimate for that species will become `NA` and `ss_valid` will become `FALSE` if it is not already.  
+
 
 
 ### Process subgroups {.unnumbered #subgroups}

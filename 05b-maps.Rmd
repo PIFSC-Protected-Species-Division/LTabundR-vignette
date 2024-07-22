@@ -4,6 +4,8 @@
 library(dplyr)
 library(LTabundR)
 library(ggplot2)
+library(leaflet)
+library(widgetframe)
 ```
 
 To facilitate mapping with the processed data objects produced by `LTabundR`, we provide the following datasets and functions. These features are designed specifically for creating maps in `R` using the packages `ggplot2` and `sf`. 
@@ -315,7 +317,7 @@ ggplot() +
 
 `LTabundR` also has an interactive map function, which maps survey data using the `leaflet` package.  
 
-```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
+```{r, echo=TRUE, eval=FALSE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
 map_cruz(cruz_1720,
           cohort=1,
           eez_show=FALSE,
@@ -327,6 +329,7 @@ map_cruz(cruz_1720,
 ```
 
 Note that you can also click on sightings and tracklines to see their details. Refer to the documentation for this function (`?map_cruz`) to see all the options available for stylizing these maps.
+
 
 ## Interactive dashboard {-}
 

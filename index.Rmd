@@ -20,6 +20,7 @@ always_allow_html: true
 ```{r setup, include=FALSE, echo = FALSE}
 # Basic knitr options
 library(knitr)
+library(widgetframe)
 opts_chunk$set(comment = NA, 
                echo=FALSE,
                warning = FALSE, 
@@ -28,11 +29,11 @@ opts_chunk$set(comment = NA,
                cache = FALSE,
                fig.width = 9.64,
                fig.height = 5.9,
-               fig.path = 'figures/')
+               fig.path = 'figures/',
+               widgetframe_widgets_dir = 'widgets')
 options(scipen=999)
 
 ```
-
 
 # Overview {-} 
 

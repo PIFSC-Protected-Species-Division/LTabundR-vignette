@@ -338,7 +338,7 @@ lta(cruz,
     abund_bft_range = 0:6,
     bootstraps = 10
     toplot = TRUE,
-    verbose = TRUE,)
+    verbose = TRUE)
 ```
 
 - **`use_g0`**: A Boolean, with default `TRUE`, indicating whether or not to use custom `g(0)` value(s). If `FALSE`, the assumed `g(0)` value will be 1. This is an easy way to toggle on-and-off automated *g(0)* estimation and/or ignore manually supplied *g(0)* values.  
@@ -352,6 +352,23 @@ lta(cruz,
 - **`verbose`**: A Boolean, with default `TRUE`, indicating whether or not updates should be printed to the Console.
 
 
+## Data checks & QA/QC {-} 
+
+To assist analysts with checking their data for any missing data that may impact the sample sizes for detection function fitting and/or abundance estimation, `LTabundR` provides the function `lta_checks()`.  
+
+This function is designed for a QA/QC step before running the `lta()` function. It checks for missing data in covariate columns (e.g., `"Bft"` or `"year"`), group size columns (if `"lnsstot"` is a desired covariate), and the perpendicular distance column (`"PerpDistKm"`). The function runs these checks twice: first for all sightings to be used in fitting the detection function (where missing data are not preferred but would not be fatal; sightings with incomplete data would simply be removed, lowering your sample size for the model fit), and second for detections that contribute to each point estimate of density/abundance (here missing data is disastrous; unless the missing data are filled in, the detection would be removed and the density estimate would be affected.) This function can be used to pinpoint and address holes in the data as the user sees fit.  
+
+The function uses the exact same objects that are passed as inputs to the `lta()` function. It returns messages to your `Console` flagging any missing data, as well as a `list()` object with all details necessary for locating rows with missing data in your `cruz` object.    
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE}
+checks <- lta_checks(cruz, 
+                     df_settings, 
+                     fit_filters, 
+                     estimates)
+```
+
+Note that the final lines of those messages provided instructions for what to do in the event that you find missing data that you wish to address (e.g., perhaps you want to replace a missing group size with the average group size from the survey-region-year).    
+  
 ## Output {-} 
 
 ### During processing {-}  
@@ -585,11 +602,13 @@ swells <- cruz$cohorts$all$sightings$SwellHght
 
 # Add anomaly column to sightings dataset
 cruz$cohorts$all$sightings$swell_anomaly <- swells - avg_swell
-
-# Review histogram of new covariate
-cruz$cohorts$all$sightings$swell_anomaly %>% hist
 ```
 
+Review histogram of new covariate:  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE, fig.height=5, fig.width=7}
+cruz$cohorts$all$sightings$swell_anomaly %>% hist
+```
 
 Now update the `df_settings` with your new covariate:
 
@@ -818,15 +837,15 @@ All models within `delta_aic` of the model with the lowest AIC qualify as best-f
 
 If multiple best-fitting models occur, we will find the average ESW for each sighting across all models, using a weighted mean approach in which we weight according to model AIC. To turn off this model averaging step, set `delta_aic` to `0` to avoid passing multiple models to the abundance estimation stage.  
 
-Note that if `lnsstot` is included as a covariate, the function will (1) check to see if the `sightings` dataframe has a column named `ss_valid` (all `cruz` objects do), then, if so, (2) filter `sightings` only to rows where `ss_valid` is `TRUE`, meaning the group size estimate for that sighting is a valid estimate.  This means that the sample size used for fitting a detection function could be reduced if there are sightings with `ss_valid = FALSE` and `lnsstot` is used as a covariate in the fitting routine. However, this will not affect the sample size used for abundance estimation in the subsequent step (*see details below*).    
+Note that if `lnsstot` is included as a covariate, the function will (1) check to see if the `sightings` dataframe has a column named `ss_valid` (all `cruz` objects do), then, if so, (2) filter `sightings` only to rows where `ss_valid` is `TRUE`, meaning the group size estimate for that sighting is a valid estimate.  This means that the sample size used for fitting a detection function could be reduced if there are sightings with `ss_valid = FALSE` and `lnsstot` is used as a covariate in the fitting routine.     
 
 This stage of the `lta()` command is executed within a backend function, `LTabundR::fit_df()`, which has its own documentation for your reference.
 
 #### Estimating density & abundance {-}  
 
-Estimates are produced for various combinations of species, regions, and years, according to the arguments specified in your `estimates` list(s). Before these estimates are produced, we filter the data used to fit the detection function to strictly systematic (design-based) effort (i.e., `EffType = "S"`), in which standard protocols are in use (i.e., `OnEffort = TRUE`) and the Beaufort sea state is less than 7 (though these controls can be modified using the `lta()` inputs `abund_eff_types` and `abund_bft_range` (see above).  
+Estimates are produced for various combinations of species, regions, and years, according to the arguments specified in your `estimates` list(s). Before these estimates are produced, we filter the data used to fit the detection function to strictly systematic (design-based) effort (i.e., `EffType = "S"`), in which standard protocols are in use (i.e., `OnEffort = TRUE`) and the Beaufort sea state is less than 7 (though these controls can be modified using the `lta()` inputs `abund_eff_types` and `abund_bft_range` (*see above*).  
 
-Note that if `sightings` has a column named `ss_valid` (all standard `cruz` objects do) and if any of the rows in that column are `FALSE`, those rows will have their `best` group size estimate (which will be `NA` or `1`, since they are invalid) replaced by the mean best estimate for their respective species in the year for which abundance is being estimated. Currently the data used for that mean estimate are not specific to a given region, just the year of the abundance estimate.
+Note that if `sightings` has a column named `ss_valid` (all standard `cruz` objects do) and if any of the rows in that column are `FALSE`, those sightings will be removed, since density/abundance estimation depends absolutely upon reliable group size estimates. This will artificially reduce your density/abundance estimate, which is a serious problem. To review your data for any invalid group size estimates for the species-region-year of interest for your density/abundance estimate, see the `LTabundR` function `lta_checks()` (presented higher up in this chapter).  
 
 This stage of the `lta()` command is executed within a back-end function, `LTabundR::abundance()`, which has its own documentation for your reference.
 
