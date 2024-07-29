@@ -33,7 +33,7 @@ effort %>%  names()
 
 #### Total surveyed {-}  
 
-The slot `$total` provides the grand total distance and unique dates surveyed: 
+The slot `$total` provides the grand total distance and unique dates surveyed:
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, include=TRUE}
 library(DT)
@@ -43,6 +43,8 @@ effort$total %>%
           "function(settings, json) {$(this.api().table().container()).css({'font-size': '9pt'});}")
        )) 
 ```
+
+The column `days` shows the total unique dates of the year on which effort occurred, and the column `cruise_days` accounts for the possibility that multiple cruises were at sea simultaneously.  
 
 #### Total surveyed by effort {-}  
 
@@ -123,7 +125,7 @@ bft$details %>%
        )) 
 ```
 
-### Default filtering
+### Default filtering {-}
 
 By default, this function only summarizes effort that can be used for detection function model fitting, (i.e., where the column `use` is `TRUE`). To turn off this filter, you can change the input `use_only` to `FALSE`:  
 
@@ -258,7 +260,7 @@ species$regional_total %>%
 #### Regional summaries (analysis only) {-}  
 
 ```{r, echo=FALSE, eval=TRUE, collapse=TRUE, include=TRUE}
-species$yearly_total %>% 
+species$regional_analysis %>% 
   DT::datatable(options=list(initComplete = htmlwidgets::JS(
           "function(settings, json) {$(this.api().table().container()).css({'font-size': '9pt'});}")
        ))

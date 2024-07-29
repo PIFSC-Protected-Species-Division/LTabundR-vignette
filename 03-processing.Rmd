@@ -8,8 +8,6 @@ library(magrittr)
 library(LTabundR)
 library(swfscDAS)
 
-load('whiceas_settings.RData')
-
 rerun_from_scratch <- FALSE
 # If you want to confirm the package works, change to TRUE.
 # If you already know it does, change to FALSE so that knitting is quick
@@ -23,9 +21,15 @@ In our WHICEAS case study example, we are interested in estimating density/abund
 das_file <- 'data/surveys/CenPac1986-2020_Final_alb.das'
 ```
 
-To follow along, this data file can be downloaded [here](https://raw.githubusercontent.com/emk-noaa/LTAvignette/main/data/surveys/CenPac1986-2020_Final_alb.das).
+To follow along, this data file can be downloaded [here](https://raw.githubusercontent.com/emk-noaa/LTAvignette/main/data/surveys/CenPac1986-2020_Final_alb.das). (Right-click link and select "Save Link As...".)   
 
-You can process your survey data using a single function, **`process_surveys()`**, which takes two primary arguments: the filepath(s) to your `DAS` survey data, and your `settings` object. For example:  
+If they are not still in your work environment, you will need to load your saved settings compiled at the end of the vignette settings page: 
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
+load('whiceas_settings.RData')
+```
+
+You can process your survey data with these sightings using a single function, **`process_surveys()`**, which takes two primary arguments: the filepath(s) to your `DAS` survey data, and your `settings` object. For example:  
 
 ```{r, echo=TRUE, eval=FALSE, collapse=TRUE}
 cruz <- process_surveys(das_file, 
@@ -33,7 +37,7 @@ cruz <- process_surveys(das_file,
 ```
 
 That single command will convert your raw `DAS` data to a "`cruz`" object, a list of polished datasets that are prepared to be passed to subsequent analyses.  
-
+f
 In our case we will use a third argument to apply edits to the `DAS` data before processing (see previous page for details on those edits): 
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
@@ -166,7 +170,7 @@ This list, with these three primary slots, will be referred to from hereon as a 
 
 ### Segmentize the data {-} 
 
-To allocate survey data into discrete 'effort segments', which are used in variance estimation in subsequent steps, run the function `segmentize()`. This process is controlled by both survey-wide and cohort-specific [settings]{#settings}, which are now carried in a slot within the `cruz` object.  The process is outlined in detail in the [Appendix on Segmentizing](#segmentizing).
+To allocate survey data into discrete 'effort segments', which are used in variance estimation in subsequent steps, run the function `segmentize()`. This process is controlled by both survey-wide and cohort-specific [settings]{#settings}, which are now carried in a slot within the `cruz` object.  The process is outlined in detail in the [Appendix on segmentizing](#segmentizing).
 
 ```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE}
 cruz <- segmentize(cruz, verbose=FALSE)
@@ -228,7 +232,7 @@ And the `das` slot holds the original `data.frame` of `DAS` data, modified sligh
 cruz$cohorts$all$das %>% names
 ```
 
-The `segmentize()` function and its associated settings were designed to give researchers full control over how data are segmented, be it for design-based density analysis (which tend to use long segments of 100 km or more and allow for non-contiguous effort to be included in the same segment) or for habitat modeling (which tend to use short segments of 5 - 10 km and disallow non-contiguous effort to be pooled into the same segment). To demonstrate that versatility, checkout the [appendix on segmentizing](#segmentizing).  
+The `segmentize()` function and its associated settings were designed to give researchers full control over how data are segmented, be it for design-based density analysis (which tend to use long segments of 100 km or more and allow for non-contiguous effort to be included in the same segment) or for habitat modeling (which tend to use short segments of 5 - 10 km and disallow non-contiguous effort to be pooled into the same segment). To demonstrate that versatility, checkout the  [Appendix on segmentizing](#segmentizing).  
 
 
 ### Process sightings {-}  
@@ -284,13 +288,13 @@ The `sightings` table has many other variables:
 cruz$cohorts$all$sightings %>% names
 ```
 
-Columns 42 onwards correspond to sightings information.  Columns of note:  
+Columns 44 onwards correspond to sightings information.  Columns of note:  
 
 - **`species`** contains the species code. There is only one species-code per row (i.e, multi-species sightings have been expanded to multiple rows).  
 
 - **`best`**, **`low`**, and **`high`** contain the refined group size estimates, averaged across observers and calibrated according to the cohort's settings specifications. For multi-species sightings, these numbers represent the number of individuals for the single species represented in the row (i.e., the original group size estimate has been scaled by the percentage attritbuted to this species).  
 
-- The columns following those group size estimates (`prob` through `spp_max`) detail how group sizes were estimated: **`prob`** indicates whether probable species codes were accepted; **`mixed`** indicates whether this species' sighting is part of a mixed-species sighting; **`n_sp`** provides the number of species occurring in this sighting; **`n_obs`** gives the number of observers who contributed group size estimates; **`n_best`** through **`n_high`** gives the number of valid group size estimates given; and **`calibr`** indicates whether or not calibration was applied to this sighting (based on the settings; see next section); **`mixed_max`** indicates whether this species was the most abundant in the sighting (if multi-species); **`spp_max`** indicates the species code for the most abundant species in the sighting (if multi-species). The column **`ss_valid`** indicates whether or not sufficient data were available to produce a group size estimate usable in detection function model fitting and abundance estimation. For more details, see the *"Missing data" paragraphs below.  
+- The columns following those group size estimates (`prob` through `spp_max`) detail how group sizes were estimated: **`prob`** indicates whether probable species codes were accepted; **`mixed`** indicates whether this species' sighting is part of a mixed-species sighting; **`n_sp`** provides the number of species occurring in this sighting; **`n_obs`** gives the number of observers who contributed group size estimates; **`n_best`** through **`n_high`** gives the number of valid group size estimates given; and **`calibr`** indicates whether or not calibration was applied to this sighting (based on the settings; see next section); **`mixed_max`** indicates whether this species was the most abundant in the sighting (if multi-species); **`spp_max`** indicates the species code for the most abundant species in the sighting (if multi-species). The column **`ss_valid`** indicates whether or not sufficient data were available to produce a group size estimate usable in detection function model fitting and abundance estimation. For more details, see the *"Missing data"* paragraphs below.  
 
 - As explained above, the final column, **`included`**, indicates whether this species should be included in the analysis.  
 
@@ -306,7 +310,7 @@ Note that the `process_sightings()` function draws upon `cruz$settings` for incl
 
 #### Group size estimates {.unnumbered #ss_calibration} 
 
-**Group size calibration:** In the settings we are using in this tutorial, group size estimates are adjusted using the calibration models from [Barlow et al. (1998)](https://repository.library.noaa.gov/view/noaa/25848) (their analysis is refined slightly and further explained in [Gerrodette et al. (2002)](https://www.academia.edu/download/45586682/lj_02_08.pdf)). These calibration corrections are observer-specific. Most observers tend to underestimate group size and their estimates are adjusted up; others tend to overestimate and their estimates are adjusted down. Some observers do not have calibration coefficients, and for them a generic adjustment (upwards, by dividing estimates by 0.8625) is used.  
+**Group size calibration:** In the settings we are using in this tutorial, group size estimates are adjusted using the calibration models from [Barlow et al. (1998)](https://repository.library.noaa.gov/view/noaa/25848) (their analysis is refined slightly and further explained in [Gerrodette et al. (2002)](https://www.researchgate.net/publication/237121535_Calibrating_group_size_estimates_of_dolphins_in_the_eastern_tropical_Pacific_Ocean)). These calibration corrections are observer-specific. Most observers tend to underestimate group size and their estimates are adjusted up; others tend to overestimate and their estimates are adjusted down. Some observers do not have calibration coefficients, and for them a generic adjustment (upwards, by dividing estimates by 0.8625) is used.  
 
 
 **Mean estimates across observers**: In `LTabundR`, each observer's estimate is calibrated, then all observer estimates are averaged. To do that averaging, our `settings` specify that we shall use a geometric weighted mean, instead of an arithmetic mean, that weights school size estimates from multiple observers according to the variance of their calibration coefficients.   
@@ -379,13 +383,13 @@ cruz_demo$cohorts$all$sightings$calibr %>% head(20)
 
 Note that when `geometric_mean = TRUE` but calibration is not carried out, the simple geometric mean is calculated instead of the *weighted* geometric mean, since the weights are the variance estimates from the calibration routine.  
 
-Also note that group size calibration is only carried out if `settings$group_size_calibration` is not `NULL`.  However, even when calibration coefficients *are* provided, it is possible to specify that calibration should only be carried out for raw estimates above a minimum threshold (see cohort setting `calibration_floor`, whose default is `0`), since observers may be unlikely to mis-estimate the group size of a lone whale or pair. For observers who have calibration coefficients in the `settings$group_size_coefficients` table, that minimum is specified for each observer individually. For observers not in that table, calibration will only be applied to raw group size estimates above `settings$cohorts[[i]]$calibration_floor` or above.   
+Also note that group size calibration is only carried out if `settings$group_size_calibration` is not `NULL`.  However, even when calibration coefficients *are* provided, it is possible to specify that calibration should only be carried out for raw estimates above a minimum threshold (see cohort setting `calibration_floor`, whose default is `0`), since observers may be unlikely to mis-estimate the group size of a lone whale or pair. For observers who have calibration coefficients in the `settings$group_size_coefficients` table, that minimum is specified for each observer individually. For observers not in that table, calibration will only be applied to raw group size estimates above the `settings$cohorts[[i]]$calibration_floor`.     
 
 **Missing data:** Some sightings may be missing data regarding group size estimates: perhaps not all observers provided all three estimates (best-low-high), or perhaps not all observers provided group size percentages for mixed-species groups. When data are processed in `LTabundR`, the resulting `sightings` table includes a column, `ss_valid`, to indicate whether enough data were available to produce a group size estimate that is usable for detection function fitting and abundance estimation. The procedure for determining whether `ss_valid` is `TRUE` or `FALSE` for a sighting is as follows:  
 
 For each sighting, loop through each's observer's estimate of group size:  
 
-1.  (*Optional*) Apply a calibration adjustment to the observer's best estimate, as discussed above; if any part of the calibration adjustment process fails, the original estimates are used (observer `ss_valid` is still `TRUE` for the observer-sighting).  
+1.  (*Optional*) Apply a calibration adjustment to the observer's best estimate, as discussed above; if any part of the calibration adjustment process fails, the original estimates are used (observer's `ss_valid` is still `TRUE` for the sighting).  
 
 2.  If the observer's best estimate is `NA` or less than `0`, the low estimate is used as the best estimate and the observer's `ss_valid` becomes `FALSE`.  
 
@@ -393,7 +397,7 @@ For each sighting, loop through each's observer's estimate of group size:
 
 4.  After all observer estimates have been processed, filter to estimates where observer `ss_valid` is `TRUE`. If at least one observer estimate remains, the sighting's *overall* `ss_valid` status is `TRUE`; if no estimates remain, the overall `ss_valid` status becomes `FALSE` and the best size estimate becomes `NA`.  
 
-5.  If `ss_valid` is `TRUE` after this filter, the remaining observer estimates are used to find the geometric mean (or geometric weighted mean) estimate of group size. If that mean estimate is less than `0` or `NA` for any reason, overall `ss_valid` becomes `FALSE` and the geometric (weighted) mean of the raw low estimates is used. If the low estimate has to be used and it is less than `0` or `NA`, the best estimate becomes `1.0` and overall `ss_valid` remains `FALSE`.  
+5.  If `ss_valid` is `TRUE` after this filter, the remaining observer estimates are used to find the geometric mean (or geometric weighted mean) estimate of group size. If that mean estimate is less than `0` or `NA` for any reason, overall `ss_valid` becomes `FALSE` and the geometric (weighted) mean of the raw low estimates is used. If the low estimate has to be used and it is less than `0` or `NA`, the best estimate becomes `1` and overall `ss_valid` remains `FALSE`.  
 
 6.  *For mixed-species groups:* If multiple percentage estimates are available for a species in a mixed-species group, the average of those percentage estimates will be used (as discussed above).  If only a *single* percentage estimate is available for a species in a mixed-species group, that single percentage estimate will be used (`ss_valid` will not be changed).  If *no* percentage estimate is available for a species in a mixed-species group, then the best estimate for that species will become `NA` and `ss_valid` will become `FALSE` if it is not already.  
 

@@ -12,7 +12,7 @@ To facilitate mapping with the processed data objects produced by `LTabundR`, we
 
 ## Creating a base map {-} 
 
-All of the mapping functions in `LTabundR` are designed to be added onto a pre-existing map that you have already created with `ggplot2`, which itself has several functions that tie into the spatial functions in the package `sf`.  There are already several great resources out there for creating maps with `ggplot` and `sf`. ([Here is one example.](https://r-spatial.org/r/2018/10/25/ggplot2-sf.html)).   
+All of the mapping functions in `LTabundR` are designed to be added onto a pre-existing map that you have already created with `ggplot2`, which itself has several functions that tie into the spatial functions in the package `sf`.  There are already several great resources out there for creating maps with `ggplot` and `sf`. ([Here is one example.](https://r-spatial.org/r/2018/10/25/ggplot2-sf.html))   
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
 library(ggplot2)
@@ -20,7 +20,7 @@ library(sf)
 library(LTabundR)
 ```
 
-Here we provide a couple simple examples to demonstrate some of the spatial datasets that come with `LTabundR`. To begin, decide upon the CRS projection you wish to use for your map.  ([This website may be helpful.](https://www.pmassicotte.com/posts/2021-11-12-choosing-the-right-projection/)).  
+Here we provide a couple simple examples to demonstrate some of the spatial datasets that come with `LTabundR`. To begin, decide upon the CRS projection you wish to use for your map.  ([This website may be helpful.](https://www.pmassicotte.com/posts/2021-11-12-choosing-the-right-projection/))  
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE, fig.width=6, fig.height=4}
 my_crs <- 4326

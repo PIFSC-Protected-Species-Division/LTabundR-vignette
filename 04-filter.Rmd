@@ -5,7 +5,6 @@ library(dplyr)
 library(magrittr)
 library(LTabundR)
 library(swfscDAS)
-library(tmap)
 
 load('whiceas_settings.RData')
 load('whiceas_cruz.RData')
@@ -64,6 +63,7 @@ cruz_other <- filter_cruz(cruz,
 ```
 
 Say you want to combine these datasets together in order to reconstruct the equivalent of our original `cruz` object. You can do this with the `LTabundR` function, `cruz_combine()`. 
+
 ```{r, echo=FALSE, eval=FALSE}
 cruz %>% cruz_structure
 cruz_hi %>% cruz_structure

@@ -25,7 +25,7 @@ das <- das_readtext(das_file)
 das$das %>% head(20)
 ```
 
-To follow along, this data file can be downloaded [here](https://raw.githubusercontent.com/emk-noaa/LTAvignette/main/data/surveys/CenPac1986-2020_Final_alb.das).
+To follow along, this data file can be downloaded [here](https://raw.githubusercontent.com/emk-noaa/LTAvignette/main/data/surveys/CenPac1986-2020_Final_alb.das). (Right-click this link and select "Save Link As".)  
 
 ### `das_inspector()` {-} 
 
@@ -62,7 +62,7 @@ The `das_editor()` function can currently handle 6 types of edits, which we shal
 
 ### Types of editing {-} 
 
-To demonstrate the types of editing actions that can be achieved through `das_editor()`, we will use the `DAS` file from the 2020 WHICEAS survey (you can download [here](https://raw.githubusercontent.com/emk-noaa/LTAvignette/main/data/surveys/HICEASwinter2020.das)).  
+To demonstrate the types of editing actions that can be achieved through `das_editor()`, we will use the `DAS` file from the 2020 WHICEAS survey (you can download [here](https://raw.githubusercontent.com/emk-noaa/LTAvignette/main/data/surveys/HICEASwinter2020.das); right-click this link and select "Save Link As").  
 
 ```{r, echo=TRUE, eval=TRUE, message=TRUE, collapse=TRUE}
 # Local path to das_file
@@ -389,7 +389,7 @@ dase$das[[1]]$das$das[437664:437667]
 
 Note that this type of edit can be dangerous, however, since ships can cross time zone boundaries mid-day, potentially repeating timestamps and giving the appearance that the `DAS` data is out of chronological order, which may bring about consequences for data processing that are difficult to predict. 
 
-This type of edit is also time-consuming; since the time zone needs to be calculated in each `DAS` row individually, this edit could take >20 minutes to process. An expedited (and safer) approximation of this edit would be to simply adjust the timezone by the GMT offset for Guam (UTC + 10 hours).  
+This type of edit is also time-consuming; since the time zone needs to be calculated in each `DAS` row individually, this edit could take >60 minutes to process. An expedited (and safer) approximation of this edit would be to simply adjust the timezone by the GMT offset for Guam (UTC + 10 hours).  
 
 ```{r, echo=TRUE, eval=TRUE, message=TRUE, collapse=TRUE}
 edit_1004_gmt10 <- 
@@ -425,7 +425,7 @@ saveRDS(edits,file='cnp_1986_2020_edits.RData')
 
 ## Applying edits {-}
 
-The `das_editor()` function allows you to apply edits to a `DAS` file without modifiyng the original data. You supply edits to this function as a set of instructions saved within a `list` object. As explained in the previous section, you can prepare these instructions manually or use the `das_inspector()` function above to get help. For the sake of reproducibility we recommend documenting your edits as code in a script, then saving all the edits into a single list (see the previous `R` chunk above). Note that there is no limit to the number of edits that can be provided in a single `list`, and they can be provided in any order. When the edits are applied, the `LTabundR` function will sort the edits by `DAS` file and by edit type, and then apply edits in increasing order of "disruption", i.e., text replacements first, then moving rows of data (no net change in number of rows), then copying-pasting, inserting, and deleting.   
+The `das_editor()` function allows you to apply edits to a `DAS` file without modifiyng the original data. You supply edits to this function as a set of instructions saved within a `list` object. As explained in the previous section, you can prepare these instructions manually or use the `das_inspector()` function above to get help. For the sake of reproducibility, we recommend documenting your edits as code in a script and then saving all the edits into a single list (see the previous `R` chunk above). Note that there is no limit to the number of edits that can be provided in a single `list`, and they can be provided in any order. When the edits are applied, the `LTabundR` function will sort the edits by `DAS` file and by edit type, and then apply edits in increasing order of "disruption", i.e., text replacements first, then moving rows of data (no net change in number of rows), then copying-pasting, inserting, and deleting.   
 
 `LTabundR` provides two functions for applying these staged edits: **`das_editor()`** and **`das_editor_tofile()`**. The former is a simple function that applies edits then returns the modified `DAS` data directly to the `R` console. It is a handy function for testing that a specific edit makes the intended changes successfully. The latter function, `das_editor_tofile()`, applies the edits then saves new versions of the `DAS` file. Those new files can then be passed to the data processing functions described in the next chapter. (See the next chapter for examples of how to use `das_editor_tofile()`.  
 
