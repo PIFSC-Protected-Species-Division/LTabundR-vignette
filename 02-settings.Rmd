@@ -57,7 +57,7 @@ names(strata_cnp)
 # Bottlenose_KaNi: Stock boundary for the Kauai/Niihau population of bottlenose dolphins.
 # Bottlenose_OUFI: Collective stock boundaries for the adjacent Oahu and 4-Islands populations of bottlenose dolphins.
 # Bottlenose_BI: Stock boundary for the Hawaii Island population of bottlenose dolphins.
-# nwhi_kfw: Stock boundary for the Northwestern Hawaiian Islands population of false killer whales. 
+# nwhi_fkw: Stock boundary for the Northwestern Hawaiian Islands population of false killer whales. 
 # mhi_fkw: Stock boundary for the main Hawaiian Islands insular population of false killer whales.
 ```
 
@@ -145,13 +145,13 @@ The `survey_settings` input accepts a list with any of the following named slots
 
 - **`min_row_interval`:** The minimum time interval, in seconds, between rows in order for the Great Circle distance between rows to be calculated. Intervals less than this number will be assigned a distance of 0 km. The default of 2 seconds was chosen somewhat arbitrarily, with the consideration that intervals shorter than 2 seconds are likely to be affected to error in GPS location.
 
-- **`max_row_interval`:** The maximum allowable time interval, in seconds, between rows before `LTabundR` assumes that there has been a break in survey data logging. The default of 3600 seconds (6 hours) was chosen because there is usually at least 6 hours of nighttime darkness between the end of effort on one day and the start of effort on the next. 
+- **`max_row_interval`:** The maximum allowable time interval, in seconds, between rows before `LTabundR` assumes that there has been a break in survey data logging. The default of 3600 seconds (6 hours) was chosen because there is usually at least 6 hours of nighttime darkness between the end of effort on one day and the start of effort on the next. Such intervals are typically accounted for using going Off Effort at night and back On Effort the next day, but this setting catches any instances in which effort was not logged correctly.   
 
-- **`max_row_km`:** The maximum allowable distance interval, in km, between rows before the function assumes that there has been a break in survey data logging. The default was chosen arbitrarily to find a value that replicates the processing results from `ABUND`. 
+- **`max_row_km`:** The maximum allowable distance interval, in km, between rows before the function assumes that there has been a break in survey data logging. As above, such intervals are typically accounted for using going Off Effort at night and back On Effort the next day, but this setting catches any instances in which effort was not logged correctly.The default of 100km was chosen arbitrarily to find a value that replicates the processing results from `ABUND`.
 
-- **`km_filler`:** When valid speed and position information is not available (e.g., the given distance exceeds `max_row_km`), this value (in km) will be used as an estimate of the distance in between consecutive rows of data. The default was chosen arbitrarily to find a value that replicates the processing results from `ABUND`.   
+- **`km_filler`:** When valid speed and position information is not available (e.g., the given distance exceeds `max_row_km`), this value (in km) will be used as an estimate of the distance in between consecutive rows of data. The default of 1km was chosen arbitrarily to find a value that replicates the processing results from `ABUND`.   
 
-- **`speed_filler`:**  When speed is not available in the data, this value (in kph) will be used as a filler in order to estimate the distance between consecutive rows of data based on timestamp differences (when lat/long coordinates are not available). The default of 18.52 kph (10 knots) is used to replicate the value for a similar setting within the `ABUND` processing code.
+- **`speed_filler`:**  When speed is not available in the data, this value (in kph) will be used as a filler in order to estimate the distance between consecutive rows of data based on timestamp differences (when lat/long coordinates are not available). The default of 18.52 kph (10 knots) is used to replicate the value for a similar setting within the `ABUND` processing code (and it is also the target ship speed during NOAA Fisheries Surveys).
 
 - **`segment_method:`** This and the next few slots are devoted to controlling how effort will be "segmentized", or chopped into discrete sections for the purposes of estimating the variance of the density/abundance estimates. The two method options are `"day"` -- all effort within the same Cruise-StudyArea-Stratum-Year-Effort scenario will be binned into segments by calendar date -- and `"equallength"` -- effort within each unique effort scenario (Cruise-StudyArea-etc.) will be divided into segments of approximately equal length. See the [Appendix on segmentizing](#segmentizing) for details. 
 

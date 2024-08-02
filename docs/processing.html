@@ -450,9 +450,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>You can process your survey data with these sightings using a single function, <strong><code>process_surveys()</code></strong>, which takes two primary arguments: the filepath(s) to your <code>DAS</code> survey data, and your <code>settings</code> object. For example:</p>
 <div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="processing.html#cb58-1" tabindex="-1"></a>cruz <span class="ot">&lt;-</span> <span class="fu">process_surveys</span>(das_file, </span>
 <span id="cb58-2"><a href="processing.html#cb58-2" tabindex="-1"></a>                        settings)</span></code></pre></div>
-<p>That single command will convert your raw <code>DAS</code> data to a “<code>cruz</code>” object, a list of polished datasets that are prepared to be passed to subsequent analyses.<br />
-f
-In our case we will use a third argument to apply edits to the <code>DAS</code> data before processing (see previous page for details on those edits):</p>
+<p>That single command will convert your raw <code>DAS</code> data to a “<code>cruz</code>” object, a list of polished datasets that are prepared to be passed to subsequent analyses.</p>
+<p>In our case we will use a third argument to apply edits to the <code>DAS</code> data before processing (see previous page for details on those edits):</p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="processing.html#cb59-1" tabindex="-1"></a>edits <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&#39;cnp_1986_2020_edits.RData&#39;</span>)</span></code></pre></div>
 <div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="processing.html#cb60-1" tabindex="-1"></a>cruz <span class="ot">&lt;-</span> <span class="fu">process_surveys</span>(das_file, </span>
 <span id="cb60-2"><a href="processing.html#cb60-2" tabindex="-1"></a>                        settings,</span>
@@ -483,6 +482,7 @@ In our case we will use a third argument to apply edits to the <code>DAS</code> 
 <h3>Interpolate cruise data<a href="processing.html#interpolate-cruise-data" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Run the following function if you wish to interpolate the <code>DAS</code> data to a more frequent time interval, which can be useful for stratum assignment and effort calculations in some circumstances. This is only done in <code>process_surveys()</code> if the <code>settings</code> object passed to it has the <code>interpolate</code> input for <code>load_survey_settings()</code> set to a number (indicating the desired interval in seconds). In this example the interval is set to 120 seconds. Interpolation will only occur for On-Effort rows.</p>
 <div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="processing.html#cb64-1" tabindex="-1"></a>das <span class="ot">&lt;-</span> <span class="fu">das_interpolate</span>(das, <span class="at">new_interval =</span> <span class="dv">120</span>)</span></code></pre></div>
+<p>Note that this was just an example of how to use this feature.The dataset we carry forward from here will not be interpolated.</p>
 </div>
 <div id="process-strata" class="section level3 unnumbered hasAnchor">
 <h3>Process strata<a href="processing.html#process-strata" class="anchor-section" aria-label="Anchor link to header"></a></h3>

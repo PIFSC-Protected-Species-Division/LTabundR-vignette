@@ -23,12 +23,14 @@ das_file <- 'data/surveys/CenPac1986-2020_Final_alb.das'
 
 To follow along, this data file can be downloaded [here](https://raw.githubusercontent.com/emk-noaa/LTAvignette/main/data/surveys/CenPac1986-2020_Final_alb.das). (Right-click link and select "Save Link As...".)   
 
-If they are not still in your work environment, you will need to load your saved settings compiled at the end of the vignette settings page: 
+If they are not still in your work environment, you will need to load your saved settings compiled at the end of the vignette settings page:  
+
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
 load('whiceas_settings.RData')
 ```
 
+ 
 You can process your survey data with these sightings using a single function, **`process_surveys()`**, which takes two primary arguments: the filepath(s) to your `DAS` survey data, and your `settings` object. For example:  
 
 ```{r, echo=TRUE, eval=FALSE, collapse=TRUE}
@@ -37,7 +39,8 @@ cruz <- process_surveys(das_file,
 ```
 
 That single command will convert your raw `DAS` data to a "`cruz`" object, a list of polished datasets that are prepared to be passed to subsequent analyses.  
-f
+
+
 In our case we will use a third argument to apply edits to the `DAS` data before processing (see previous page for details on those edits): 
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
@@ -101,6 +104,7 @@ Run the following function if you wish to interpolate the `DAS` data to a more f
 das <- das_interpolate(das, new_interval = 120)
 ```
 
+Note that this was just an example of how to use this feature.The dataset we carry forward from here will not be interpolated.  
 
 ### Process strata {-}  
 
