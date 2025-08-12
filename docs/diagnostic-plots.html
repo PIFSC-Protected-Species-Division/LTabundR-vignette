@@ -294,7 +294,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10" data-path="trend-analysis.html"><a href="trend-analysis.html"><i class="fa fa-check"></i><b>10</b> Trend analysis</a></li>
 <li class="chapter" data-level="11" data-path="subgroups2.html"><a href="subgroups2.html"><i class="fa fa-check"></i><b>11</b> Subgroup-based analysis</a>
 <ul>
-<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#reminder-on-data-processing"><i class="fa fa-check"></i>Reminder on data processing</a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#refresher-on-data-processing"><i class="fa fa-check"></i>Refresher on data processing</a></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#manual-data-updates"><i class="fa fa-check"></i>Manual data updates</a>
 <ul>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#reviewing-processed-subgroup-data"><i class="fa fa-check"></i>Reviewing processed subgroup data</a></li>
@@ -315,7 +315,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#density_das"><i class="fa fa-check"></i><code>density_das</code></a></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#density_sightings"><i class="fa fa-check"></i><code>density_sightings</code></a></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#abundance_area"><i class="fa fa-check"></i><code>abundance_area</code></a></li>
-<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#remaining-inputs"><i class="fa fa-check"></i>Remaining inputs</a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#remaining-optional-inputs"><i class="fa fa-check"></i>Remaining optional inputs</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#running-lta_subgroup"><i class="fa fa-check"></i>Running <code>lta_subgroup()</code></a>
 <ul>
@@ -470,49 +470,49 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>Option 1: The point estimate</strong></p>
 <div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="diagnostic-plots.html#cb303-1" tabindex="-1"></a><span class="fu">lta_diagnostics</span>(lta_result, <span class="at">options =</span> <span class="dv">1</span>)</span>
 <span id="cb303-2"><a href="diagnostic-plots.html#cb303-2" tabindex="-1"></a>               title species   Region    Area year segments    km Area_covered</span>
-<span id="cb303-3"><a href="diagnostic-plots.html#cb303-3" tabindex="-1"></a><span class="dv">1</span>    Striped dolphin     <span class="dv">013</span> (HI_EEZ) <span class="dv">2474596</span> <span class="dv">2010</span>      <span class="dv">124</span> <span class="dv">17004</span>        <span class="dv">60472</span></span>
-<span id="cb303-4"><a href="diagnostic-plots.html#cb303-4" tabindex="-1"></a><span class="dv">2</span>    Striped dolphin     <span class="dv">013</span> (HI_EEZ) <span class="dv">2474596</span> <span class="dv">2017</span>      <span class="dv">131</span> <span class="dv">16281</span>        <span class="dv">58036</span></span>
-<span id="cb303-5"><a href="diagnostic-plots.html#cb303-5" tabindex="-1"></a><span class="dv">3</span>   Fraser<span class="st">&#39;s dolphin     026 (HI_EEZ) 2474596 2010      124 17004        59198</span></span>
-<span id="cb303-6"><a href="diagnostic-plots.html#cb303-6" tabindex="-1"></a><span class="st">4   Fraser&#39;</span>s dolphin     <span class="dv">026</span> (HI_EEZ) <span class="dv">2474596</span> <span class="dv">2017</span>      <span class="dv">131</span> <span class="dv">16281</span>        <span class="dv">47615</span></span>
+<span id="cb303-3"><a href="diagnostic-plots.html#cb303-3" tabindex="-1"></a><span class="dv">1</span>    Striped dolphin     <span class="dv">013</span> (HI_EEZ) <span class="dv">2474596</span> <span class="dv">2010</span>      <span class="dv">124</span> <span class="dv">17004</span>        <span class="dv">60114</span></span>
+<span id="cb303-4"><a href="diagnostic-plots.html#cb303-4" tabindex="-1"></a><span class="dv">2</span>    Striped dolphin     <span class="dv">013</span> (HI_EEZ) <span class="dv">2474596</span> <span class="dv">2017</span>      <span class="dv">130</span> <span class="dv">16281</span>        <span class="dv">57920</span></span>
+<span id="cb303-5"><a href="diagnostic-plots.html#cb303-5" tabindex="-1"></a><span class="dv">3</span>   Fraser<span class="st">&#39;s dolphin     026 (HI_EEZ) 2474596 2010      124 17004        60611</span></span>
+<span id="cb303-6"><a href="diagnostic-plots.html#cb303-6" tabindex="-1"></a><span class="st">4   Fraser&#39;</span>s dolphin     <span class="dv">026</span> (HI_EEZ) <span class="dv">2474596</span> <span class="dv">2017</span>      <span class="dv">130</span> <span class="dv">16281</span>        <span class="dv">48570</span></span>
 <span id="cb303-7"><a href="diagnostic-plots.html#cb303-7" tabindex="-1"></a><span class="dv">5</span> Melon<span class="sc">-</span>headed whale     <span class="dv">031</span> (HI_EEZ) <span class="dv">2474596</span> <span class="dv">2010</span>      <span class="dv">124</span> <span class="dv">17004</span>           <span class="cn">NA</span></span>
-<span id="cb303-8"><a href="diagnostic-plots.html#cb303-8" tabindex="-1"></a><span class="dv">6</span> Melon<span class="sc">-</span>headed whale     <span class="dv">031</span> (HI_EEZ) <span class="dv">2474596</span> <span class="dv">2017</span>      <span class="dv">131</span> <span class="dv">16281</span>        <span class="dv">54317</span></span>
+<span id="cb303-8"><a href="diagnostic-plots.html#cb303-8" tabindex="-1"></a><span class="dv">6</span> Melon<span class="sc">-</span>headed whale     <span class="dv">031</span> (HI_EEZ) <span class="dv">2474596</span> <span class="dv">2017</span>      <span class="dv">130</span> <span class="dv">16281</span>        <span class="dv">54198</span></span>
 <span id="cb303-9"><a href="diagnostic-plots.html#cb303-9" tabindex="-1"></a>  ESW_mean  n g0_est ER_clusters D_clusters N_clusters size_mean size_sd     ER</span>
-<span id="cb303-10"><a href="diagnostic-plots.html#cb303-10" tabindex="-1"></a><span class="dv">1</span>     <span class="fl">3.56</span> <span class="dv">19</span>   <span class="fl">0.33</span>      <span class="fl">0.0011</span>     <span class="fl">0.0005</span>     <span class="fl">1202.4</span>      <span class="fl">51.4</span>    <span class="fl">47.2</span> <span class="fl">0.0574</span></span>
-<span id="cb303-11"><a href="diagnostic-plots.html#cb303-11" tabindex="-1"></a><span class="dv">2</span>     <span class="fl">3.56</span> <span class="dv">17</span>   <span class="fl">0.32</span>      <span class="fl">0.0010</span>     <span class="fl">0.0005</span>     <span class="fl">1172.1</span>      <span class="fl">35.4</span>    <span class="fl">18.1</span> <span class="fl">0.0369</span></span>
-<span id="cb303-12"><a href="diagnostic-plots.html#cb303-12" tabindex="-1"></a><span class="dv">3</span>     <span class="fl">3.48</span>  <span class="dv">3</span>   <span class="fl">0.33</span>      <span class="fl">0.0002</span>     <span class="fl">0.0001</span>      <span class="fl">190.9</span>     <span class="fl">236.2</span>   <span class="fl">129.0</span> <span class="fl">0.0417</span></span>
-<span id="cb303-13"><a href="diagnostic-plots.html#cb303-13" tabindex="-1"></a><span class="dv">4</span>     <span class="fl">2.92</span>  <span class="dv">2</span>   <span class="fl">0.32</span>      <span class="fl">0.0001</span>     <span class="fl">0.0001</span>      <span class="fl">163.4</span>     <span class="fl">355.6</span>    <span class="fl">91.4</span> <span class="fl">0.0437</span></span>
+<span id="cb303-10"><a href="diagnostic-plots.html#cb303-10" tabindex="-1"></a><span class="dv">1</span>     <span class="fl">3.54</span> <span class="dv">19</span>   <span class="fl">0.33</span>      <span class="fl">0.0011</span>     <span class="fl">0.0005</span>     <span class="fl">1215.9</span>      <span class="fl">51.4</span>    <span class="fl">47.2</span> <span class="fl">0.0574</span></span>
+<span id="cb303-11"><a href="diagnostic-plots.html#cb303-11" tabindex="-1"></a><span class="dv">2</span>     <span class="fl">3.56</span> <span class="dv">17</span>   <span class="fl">0.32</span>      <span class="fl">0.0010</span>     <span class="fl">0.0005</span>     <span class="fl">1182.4</span>      <span class="fl">35.4</span>    <span class="fl">18.1</span> <span class="fl">0.0369</span></span>
+<span id="cb303-12"><a href="diagnostic-plots.html#cb303-12" tabindex="-1"></a><span class="dv">3</span>     <span class="fl">3.56</span>  <span class="dv">3</span>   <span class="fl">0.33</span>      <span class="fl">0.0002</span>     <span class="fl">0.0001</span>      <span class="fl">186.4</span>     <span class="fl">236.2</span>   <span class="fl">129.0</span> <span class="fl">0.0417</span></span>
+<span id="cb303-13"><a href="diagnostic-plots.html#cb303-13" tabindex="-1"></a><span class="dv">4</span>     <span class="fl">2.98</span>  <span class="dv">2</span>   <span class="fl">0.32</span>      <span class="fl">0.0001</span>     <span class="fl">0.0001</span>      <span class="fl">160.2</span>     <span class="fl">355.6</span>    <span class="fl">91.4</span> <span class="fl">0.0437</span></span>
 <span id="cb303-14"><a href="diagnostic-plots.html#cb303-14" tabindex="-1"></a><span class="dv">5</span>       <span class="cn">NA</span>  <span class="dv">0</span>   <span class="fl">0.33</span>      <span class="fl">0.0000</span>     <span class="fl">0.0000</span>        <span class="fl">0.0</span>        <span class="cn">NA</span>      <span class="cn">NA</span> <span class="fl">0.0000</span></span>
-<span id="cb303-15"><a href="diagnostic-plots.html#cb303-15" tabindex="-1"></a><span class="dv">6</span>     <span class="fl">3.34</span>  <span class="dv">3</span>   <span class="fl">0.32</span>      <span class="fl">0.0002</span>     <span class="fl">0.0001</span>      <span class="fl">214.3</span>     <span class="fl">189.2</span>    <span class="fl">68.4</span> <span class="fl">0.0349</span></span>
+<span id="cb303-15"><a href="diagnostic-plots.html#cb303-15" tabindex="-1"></a><span class="dv">6</span>     <span class="fl">3.33</span>  <span class="dv">3</span>   <span class="fl">0.32</span>      <span class="fl">0.0002</span>     <span class="fl">0.0001</span>      <span class="fl">214.8</span>     <span class="fl">189.2</span>    <span class="fl">68.4</span> <span class="fl">0.0349</span></span>
 <span id="cb303-16"><a href="diagnostic-plots.html#cb303-16" tabindex="-1"></a>       D     N g0_small g0_large g0_cv_small g0_cv_large</span>
-<span id="cb303-17"><a href="diagnostic-plots.html#cb303-17" tabindex="-1"></a><span class="dv">1</span> <span class="fl">0.0238</span> <span class="dv">58784</span>     <span class="fl">0.33</span>     <span class="fl">0.33</span>        <span class="fl">0.20</span>        <span class="fl">0.20</span></span>
-<span id="cb303-18"><a href="diagnostic-plots.html#cb303-18" tabindex="-1"></a><span class="dv">2</span> <span class="fl">0.0157</span> <span class="dv">38912</span>     <span class="fl">0.32</span>     <span class="fl">0.32</span>        <span class="fl">0.21</span>        <span class="fl">0.21</span></span>
-<span id="cb303-19"><a href="diagnostic-plots.html#cb303-19" tabindex="-1"></a><span class="dv">3</span> <span class="fl">0.0186</span> <span class="dv">46047</span>     <span class="fl">0.33</span>     <span class="fl">0.33</span>        <span class="fl">0.20</span>        <span class="fl">0.20</span></span>
-<span id="cb303-20"><a href="diagnostic-plots.html#cb303-20" tabindex="-1"></a><span class="dv">4</span> <span class="fl">0.0232</span> <span class="dv">57289</span>     <span class="fl">0.32</span>     <span class="fl">0.32</span>        <span class="fl">0.21</span>        <span class="fl">0.21</span></span>
+<span id="cb303-17"><a href="diagnostic-plots.html#cb303-17" tabindex="-1"></a><span class="dv">1</span> <span class="fl">0.0237</span> <span class="dv">58531</span>     <span class="fl">0.33</span>     <span class="fl">0.33</span>        <span class="fl">0.20</span>        <span class="fl">0.20</span></span>
+<span id="cb303-18"><a href="diagnostic-plots.html#cb303-18" tabindex="-1"></a><span class="dv">2</span> <span class="fl">0.0157</span> <span class="dv">38919</span>     <span class="fl">0.32</span>     <span class="fl">0.32</span>        <span class="fl">0.21</span>        <span class="fl">0.21</span></span>
+<span id="cb303-19"><a href="diagnostic-plots.html#cb303-19" tabindex="-1"></a><span class="dv">3</span> <span class="fl">0.0181</span> <span class="dv">44761</span>     <span class="fl">0.33</span>     <span class="fl">0.33</span>        <span class="fl">0.20</span>        <span class="fl">0.20</span></span>
+<span id="cb303-20"><a href="diagnostic-plots.html#cb303-20" tabindex="-1"></a><span class="dv">4</span> <span class="fl">0.0227</span> <span class="dv">56161</span>     <span class="fl">0.32</span>     <span class="fl">0.32</span>        <span class="fl">0.21</span>        <span class="fl">0.21</span></span>
 <span id="cb303-21"><a href="diagnostic-plots.html#cb303-21" tabindex="-1"></a><span class="dv">5</span> <span class="fl">0.0000</span>     <span class="dv">0</span>     <span class="fl">0.33</span>     <span class="fl">0.33</span>        <span class="fl">0.20</span>        <span class="fl">0.20</span></span>
-<span id="cb303-22"><a href="diagnostic-plots.html#cb303-22" tabindex="-1"></a><span class="dv">6</span> <span class="fl">0.0161</span> <span class="dv">39906</span>     <span class="fl">0.32</span>     <span class="fl">0.32</span>        <span class="fl">0.21</span>        <span class="fl">0.21</span></span></code></pre></div>
+<span id="cb303-22"><a href="diagnostic-plots.html#cb303-22" tabindex="-1"></a><span class="dv">6</span> <span class="fl">0.0162</span> <span class="dv">39967</span>     <span class="fl">0.32</span>     <span class="fl">0.32</span>        <span class="fl">0.21</span>        <span class="fl">0.21</span></span></code></pre></div>
 <p><strong>Option 2: Summary of bootstrap iterations</strong></p>
 <div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="diagnostic-plots.html#cb304-1" tabindex="-1"></a><span class="fu">lta_diagnostics</span>(lta_result, <span class="at">options =</span> <span class="dv">2</span>)</span>
 <span id="cb304-2"><a href="diagnostic-plots.html#cb304-2" tabindex="-1"></a>               title   Region year species iterations ESW_mean   g0_mean</span>
-<span id="cb304-3"><a href="diagnostic-plots.html#cb304-3" tabindex="-1"></a><span class="dv">1</span>   Fraser<span class="st">&#39;s dolphin (HI_EEZ) 2010     026        100 3.583041 0.3416702</span></span>
-<span id="cb304-4"><a href="diagnostic-plots.html#cb304-4" tabindex="-1"></a><span class="st">2   Fraser&#39;</span>s <span class="fu">dolphin</span> (HI_EEZ) <span class="dv">2017</span>     <span class="dv">026</span>        <span class="dv">100</span> <span class="fl">3.094781</span> <span class="fl">0.3281904</span></span>
-<span id="cb304-5"><a href="diagnostic-plots.html#cb304-5" tabindex="-1"></a><span class="dv">3</span> Melon<span class="sc">-</span>headed <span class="fu">whale</span> (HI_EEZ) <span class="dv">2010</span>     <span class="dv">031</span>        <span class="dv">100</span>      <span class="cn">NaN</span> <span class="fl">0.3231020</span></span>
-<span id="cb304-6"><a href="diagnostic-plots.html#cb304-6" tabindex="-1"></a><span class="dv">4</span> Melon<span class="sc">-</span>headed <span class="fu">whale</span> (HI_EEZ) <span class="dv">2017</span>     <span class="dv">031</span>        <span class="dv">100</span> <span class="fl">3.239299</span> <span class="fl">0.3168325</span></span>
-<span id="cb304-7"><a href="diagnostic-plots.html#cb304-7" tabindex="-1"></a><span class="dv">5</span>    Striped <span class="fu">dolphin</span> (HI_EEZ) <span class="dv">2010</span>     <span class="dv">013</span>        <span class="dv">100</span> <span class="fl">3.565911</span> <span class="fl">0.3311607</span></span>
-<span id="cb304-8"><a href="diagnostic-plots.html#cb304-8" tabindex="-1"></a><span class="dv">6</span>    Striped <span class="fu">dolphin</span> (HI_EEZ) <span class="dv">2017</span>     <span class="dv">013</span>        <span class="dv">100</span> <span class="fl">3.580167</span> <span class="fl">0.3159498</span></span>
+<span id="cb304-3"><a href="diagnostic-plots.html#cb304-3" tabindex="-1"></a><span class="dv">1</span>   Fraser<span class="st">&#39;s dolphin (HI_EEZ) 2010     026        100 3.674369 0.3348392</span></span>
+<span id="cb304-4"><a href="diagnostic-plots.html#cb304-4" tabindex="-1"></a><span class="st">2   Fraser&#39;</span>s <span class="fu">dolphin</span> (HI_EEZ) <span class="dv">2017</span>     <span class="dv">026</span>        <span class="dv">100</span> <span class="fl">3.271689</span> <span class="fl">0.3249818</span></span>
+<span id="cb304-5"><a href="diagnostic-plots.html#cb304-5" tabindex="-1"></a><span class="dv">3</span> Melon<span class="sc">-</span>headed <span class="fu">whale</span> (HI_EEZ) <span class="dv">2010</span>     <span class="dv">031</span>        <span class="dv">100</span>      <span class="cn">NaN</span> <span class="fl">0.3348392</span></span>
+<span id="cb304-6"><a href="diagnostic-plots.html#cb304-6" tabindex="-1"></a><span class="dv">4</span> Melon<span class="sc">-</span>headed <span class="fu">whale</span> (HI_EEZ) <span class="dv">2017</span>     <span class="dv">031</span>        <span class="dv">100</span> <span class="fl">3.099253</span> <span class="fl">0.3249818</span></span>
+<span id="cb304-7"><a href="diagnostic-plots.html#cb304-7" tabindex="-1"></a><span class="dv">5</span>    Striped <span class="fu">dolphin</span> (HI_EEZ) <span class="dv">2010</span>     <span class="dv">013</span>        <span class="dv">100</span> <span class="fl">3.570792</span> <span class="fl">0.3348392</span></span>
+<span id="cb304-8"><a href="diagnostic-plots.html#cb304-8" tabindex="-1"></a><span class="dv">6</span>    Striped <span class="fu">dolphin</span> (HI_EEZ) <span class="dv">2017</span>     <span class="dv">013</span>        <span class="dv">100</span> <span class="fl">3.603723</span> <span class="fl">0.3249818</span></span>
 <span id="cb304-9"><a href="diagnostic-plots.html#cb304-9" tabindex="-1"></a>      g0_cv       km         ER          D      size    Nmean  Nmedian      Nsd</span>
-<span id="cb304-10"><a href="diagnostic-plots.html#cb304-10" tabindex="-1"></a><span class="dv">1</span> <span class="fl">0.2221788</span> <span class="fl">17055.42</span> <span class="fl">0.04245259</span> <span class="fl">0.02025920</span> <span class="fl">231.01534</span> <span class="fl">50133.33</span> <span class="fl">44839.58</span> <span class="fl">39680.14</span></span>
-<span id="cb304-11"><a href="diagnostic-plots.html#cb304-11" tabindex="-1"></a><span class="dv">2</span> <span class="fl">0.2242684</span> <span class="fl">16240.37</span> <span class="fl">0.03999801</span> <span class="fl">0.02057141</span> <span class="fl">348.60057</span> <span class="fl">50905.92</span> <span class="fl">43858.56</span> <span class="fl">39747.42</span></span>
-<span id="cb304-12"><a href="diagnostic-plots.html#cb304-12" tabindex="-1"></a><span class="dv">3</span> <span class="fl">0.1836888</span> <span class="fl">17055.42</span> <span class="fl">0.00000000</span> <span class="fl">0.00000000</span>       <span class="cn">NaN</span>     <span class="fl">0.00</span>     <span class="fl">0.00</span>     <span class="fl">0.00</span></span>
-<span id="cb304-13"><a href="diagnostic-plots.html#cb304-13" tabindex="-1"></a><span class="dv">4</span> <span class="fl">0.2421172</span> <span class="fl">16240.37</span> <span class="fl">0.03601738</span> <span class="fl">0.01983840</span> <span class="fl">190.01994</span> <span class="fl">49092.02</span> <span class="fl">41762.63</span> <span class="fl">32261.45</span></span>
-<span id="cb304-14"><a href="diagnostic-plots.html#cb304-14" tabindex="-1"></a><span class="dv">5</span> <span class="fl">0.2099688</span> <span class="fl">17055.42</span> <span class="fl">0.05758173</span> <span class="fl">0.02482534</span>  <span class="fl">52.52283</span> <span class="fl">61432.68</span> <span class="fl">57097.42</span> <span class="fl">26481.48</span></span>
-<span id="cb304-15"><a href="diagnostic-plots.html#cb304-15" tabindex="-1"></a><span class="dv">6</span> <span class="fl">0.2258010</span> <span class="fl">16240.37</span> <span class="fl">0.03592027</span> <span class="fl">0.01641222</span>  <span class="fl">35.43593</span> <span class="fl">40613.61</span> <span class="fl">38207.79</span> <span class="fl">16051.23</span></span>
-<span id="cb304-16"><a href="diagnostic-plots.html#cb304-16" tabindex="-1"></a>         CV      L95       U95</span>
-<span id="cb304-17"><a href="diagnostic-plots.html#cb304-17" tabindex="-1"></a><span class="dv">1</span> <span class="fl">0.7914923</span> <span class="fl">12533.33</span> <span class="fl">200533.31</span></span>
-<span id="cb304-18"><a href="diagnostic-plots.html#cb304-18" tabindex="-1"></a><span class="dv">2</span> <span class="fl">0.7808014</span> <span class="fl">12726.48</span> <span class="fl">203623.70</span></span>
-<span id="cb304-19"><a href="diagnostic-plots.html#cb304-19" tabindex="-1"></a><span class="dv">3</span>       <span class="cn">NaN</span>      <span class="cn">NaN</span>       <span class="cn">NaN</span></span>
-<span id="cb304-20"><a href="diagnostic-plots.html#cb304-20" tabindex="-1"></a><span class="dv">4</span> <span class="fl">0.6571629</span> <span class="fl">16364.01</span> <span class="fl">147276.07</span></span>
-<span id="cb304-21"><a href="diagnostic-plots.html#cb304-21" tabindex="-1"></a><span class="dv">5</span> <span class="fl">0.4310651</span> <span class="fl">30716.34</span> <span class="fl">122865.35</span></span>
-<span id="cb304-22"><a href="diagnostic-plots.html#cb304-22" tabindex="-1"></a><span class="dv">6</span> <span class="fl">0.3952181</span> <span class="fl">20306.80</span>  <span class="fl">81227.22</span></span></code></pre></div>
+<span id="cb304-10"><a href="diagnostic-plots.html#cb304-10" tabindex="-1"></a><span class="dv">1</span> <span class="fl">0.2189724</span> <span class="fl">16942.74</span> <span class="fl">0.03958147</span> <span class="fl">0.01834906</span> <span class="fl">227.12826</span> <span class="fl">45406.50</span> <span class="fl">36253.58</span> <span class="fl">38049.74</span></span>
+<span id="cb304-11"><a href="diagnostic-plots.html#cb304-11" tabindex="-1"></a><span class="dv">2</span> <span class="fl">0.2301472</span> <span class="fl">16175.22</span> <span class="fl">0.04336513</span> <span class="fl">0.02214479</span> <span class="fl">361.68608</span> <span class="fl">54799.41</span> <span class="fl">48096.98</span> <span class="fl">43755.20</span></span>
+<span id="cb304-12"><a href="diagnostic-plots.html#cb304-12" tabindex="-1"></a><span class="dv">3</span> <span class="fl">0.2189724</span> <span class="fl">16942.74</span> <span class="fl">0.00000000</span> <span class="fl">0.00000000</span>       <span class="cn">NaN</span>     <span class="fl">0.00</span>     <span class="fl">0.00</span>     <span class="fl">0.00</span></span>
+<span id="cb304-13"><a href="diagnostic-plots.html#cb304-13" tabindex="-1"></a><span class="dv">4</span> <span class="fl">0.2301472</span> <span class="fl">16175.22</span> <span class="fl">0.03765432</span> <span class="fl">0.02099326</span> <span class="fl">190.42373</span> <span class="fl">51949.83</span> <span class="fl">42732.64</span> <span class="fl">36070.59</span></span>
+<span id="cb304-14"><a href="diagnostic-plots.html#cb304-14" tabindex="-1"></a><span class="dv">5</span> <span class="fl">0.2189724</span> <span class="fl">16942.74</span> <span class="fl">0.05620828</span> <span class="fl">0.02367771</span>  <span class="fl">51.00669</span> <span class="fl">58592.76</span> <span class="fl">55156.85</span> <span class="fl">23004.54</span></span>
+<span id="cb304-15"><a href="diagnostic-plots.html#cb304-15" tabindex="-1"></a><span class="dv">6</span> <span class="fl">0.2301472</span> <span class="fl">16175.22</span> <span class="fl">0.03370776</span> <span class="fl">0.01498972</span>  <span class="fl">34.21571</span> <span class="fl">37093.50</span> <span class="fl">34313.40</span> <span class="fl">14764.83</span></span>
+<span id="cb304-16"><a href="diagnostic-plots.html#cb304-16" tabindex="-1"></a>         CV      L95      U95</span>
+<span id="cb304-17"><a href="diagnostic-plots.html#cb304-17" tabindex="-1"></a><span class="dv">1</span> <span class="fl">0.8379799</span> <span class="fl">11351.63</span> <span class="fl">181626.0</span></span>
+<span id="cb304-18"><a href="diagnostic-plots.html#cb304-18" tabindex="-1"></a><span class="dv">2</span> <span class="fl">0.7984612</span> <span class="fl">13699.85</span> <span class="fl">219197.6</span></span>
+<span id="cb304-19"><a href="diagnostic-plots.html#cb304-19" tabindex="-1"></a><span class="dv">3</span>       <span class="cn">NaN</span>      <span class="cn">NaN</span>      <span class="cn">NaN</span></span>
+<span id="cb304-20"><a href="diagnostic-plots.html#cb304-20" tabindex="-1"></a><span class="dv">4</span> <span class="fl">0.6943350</span> <span class="fl">17316.61</span> <span class="fl">155849.5</span></span>
+<span id="cb304-21"><a href="diagnostic-plots.html#cb304-21" tabindex="-1"></a><span class="dv">5</span> <span class="fl">0.3926174</span> <span class="fl">29296.38</span> <span class="fl">117185.5</span></span>
+<span id="cb304-22"><a href="diagnostic-plots.html#cb304-22" tabindex="-1"></a><span class="dv">6</span> <span class="fl">0.3980437</span> <span class="fl">18546.75</span>  <span class="fl">74187.0</span></span></code></pre></div>
 <p><strong>Option 3: Plot of detection function</strong></p>
 <div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="diagnostic-plots.html#cb305-1" tabindex="-1"></a><span class="fu">lta_diagnostics</span>(lta_result, <span class="at">options =</span> <span class="dv">3</span>)</span></code></pre></div>
 <p><img src="figures/unnamed-chunk-371-1.png" width="925.44" /></p>
@@ -552,42 +552,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": false,
-"twitter": false,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "subsection"
-}
+  "sharing": {
+    "github": false,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
 });
 });
 </script>

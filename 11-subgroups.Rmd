@@ -34,6 +34,7 @@ lta_subgroup(df_sits,
              g0_jackknife_fraction = 0.1,
              abundance_area = NULL,
              iterations = 5000,
+             seed = NULL,
              output_dir = NULL,
              toplot = TRUE,
              verbose = TRUE
@@ -43,7 +44,7 @@ Note that there are several required inputs (without any defaults) as well as ma
 
 We will step through each of these inputs below, using a case study in which we estimate the abundance of the pelagic false killer whale population in the Hawaiian EEZ for 2017 ([Bradford et al. 2020](https://repository.library.noaa.gov/view/noaa/24756)). 
 
-### Reminder on data processing {-} 
+### Refresher on data processing {-} 
 
 `LTabundR` has been designed to make a first-pass attempt at processing subgroup data resulting from the PC protocol. We recommend that you review the details of [how subgroup data are processed](#subgroups) within the `LTabundR` framework. For convenience, below we provide the minimum data processing code needed to reproduce the analysis we present here. 
 
@@ -923,9 +924,11 @@ abundance_area <-
 abundance_area
 ```
 
-### Remaining inputs {-}  
+### Remaining optional inputs {-}  
 
 **`iterations`**: Number of iterations to use in the various CV bootstrapping procedures occurring throughout this function, specifically: effective strip width CV estimation, subgroup size CV estimation, weighted *g(0)* CV estimation, encounter rate estimation, and density/abundance estimation.  
+
+**`seed`**: Set a seed (any integer) to ensure that the bootstrap results are reproducible. If left `NULL`, the bootstrap results are liable to differ slightly for each run of this function.
 
 **`output_dir`**: The path in which results RData files should be stored. If left "", the current working directory will be used.  
 
@@ -956,6 +959,7 @@ results_eez <-
                Rg0 = Rg0,
                abundance_area = abundance_area,
                iterations = 5000,
+               seed = 123,
                output_dir = 'subgroup_eez/',
                toplot = TRUE,
                verbose = TRUE)
@@ -1008,6 +1012,7 @@ results_nwhi <-
                Rg0 = Rg0,
                abundance_area = area_nwhi,
                iterations = 5000,
+               seed = 123,
                output_dir = 'subgroup_nwhi/',
                toplot = TRUE,
                verbose = TRUE)

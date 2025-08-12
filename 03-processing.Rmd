@@ -41,11 +41,13 @@ cruz <- process_surveys(das_file,
 That single command will convert your raw `DAS` data to a "`cruz`" object, a list of polished datasets that are prepared to be passed to subsequent analyses.  
 
 
-In our case we will use a third argument to apply edits to the `DAS` data before processing (see previous page for details on those edits): 
+In our case we will use a third argument, `edits`, to apply edits to the `DAS` data before processing (see previous page for details on those edits) ... 
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
 edits <- readRDS('cnp_1986_2020_edits.RData')
 ```
+
+... and a fourth argument, `seed`, which controls random number generation in order to ensure the segments are chopped reproducibly:  
 
 ```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE}
 cruz <- process_surveys(das_file, 
@@ -177,7 +179,7 @@ This list, with these three primary slots, will be referred to from hereon as a 
 To allocate survey data into discrete 'effort segments', which are used in variance estimation in subsequent steps, run the function `segmentize()`. This process is controlled by both survey-wide and cohort-specific [settings]{#settings}, which are now carried in a slot within the `cruz` object.  The process is outlined in detail in the [Appendix on segmentizing](#segmentizing).
 
 ```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE}
-cruz <- segmentize(cruz, verbose=FALSE)
+cruz <- segmentize(cruz, seed=123, verbose=FALSE)
 ```
 
 ```{r, echo=FALSE, eval=rerun_from_scratch, collapse=TRUE}
@@ -271,8 +273,7 @@ Note that the `sightings` table has a column named `included` (`TRUE` = yes, use
 
 The `sightings` table also has a new column, `ss_valid`, 
 indicating whether or not the group size estimate for this sighting 
-is valid and appropriate for use in abundance estimation and detection function fitting
-when group size is used as a covariate. 
+is valid and appropriate for use in abundance estimation and detection function fitting when group size is used as a covariate. 
 
 Since the sightings in each cohort are processed slightly differently according to the cohort's specific settings -- most importantly the species that will be included -- you should expect different numbers of included/excluded sightings in each cohort dataset:  
 
@@ -314,10 +315,10 @@ Note that the `process_sightings()` function draws upon `cruz$settings` for incl
 
 #### Group size estimates {.unnumbered #ss_calibration} 
 
-**Group size calibration:** In the settings we are using in this tutorial, group size estimates are adjusted using the calibration models from [Barlow et al. (1998)](https://repository.library.noaa.gov/view/noaa/25848) (their analysis is refined slightly and further explained in [Gerrodette et al. (2002)](https://www.researchgate.net/publication/237121535_Calibrating_group_size_estimates_of_dolphins_in_the_eastern_tropical_Pacific_Ocean)). These calibration corrections are observer-specific. Most observers tend to underestimate group size and their estimates are adjusted up; others tend to overestimate and their estimates are adjusted down. Some observers do not have calibration coefficients, and for them a generic adjustment (upwards, by dividing estimates by 0.8625) is used.  
-
-
-**Mean estimates across observers**: In `LTabundR`, each observer's estimate is calibrated, then all observer estimates are averaged. To do that averaging, our `settings` specify that we shall use a geometric weighted mean, instead of an arithmetic mean, that weights school size estimates from multiple observers according to the variance of their calibration coefficients.   
+**Group size calibration:** In the settings we are using in this tutorial, group size estimates are adjusted using the calibration models from [Barlow et al. (1998)](https://repository.library.noaa.gov/view/noaa/25848) (their analysis is refined slightly and further explained in [Gerrodette et al. (2002)](https://www.researchgate.net/publication/237121535_Calibrating_group_size_estimates_of_dolphins_in_the_eastern_tropical_Pacific_Ocean)). These calibration corrections are observer-specific. Most observers tend to underestimate group size and their estimates are adjusted up; others tend to overestimate and their estimates are adjusted down. Some observers do not have calibration coefficients, and for them a generic adjustment (upwards, by dividing estimates by 0.8625) is used. Note that only the best estimates of size are calibrated; the high and low estimates are not.   
+ 
+ 
+**Mean estimates across observers**: In `LTabundR`, each observer's estimate is calibrated, then all observer estimates are averaged. To do that averaging, our `settings` specify that we shall use a geometric mean, instead of an arithmetic mean. Since calibration is carried out, the geometric *weighted* mean is used, which weights school size estimates from multiple observers according to the variance of their calibration coefficients. (The weighted mean is used for high and low estimates as well, even though they are not calibrated, using the variance of the calibrated best estimates as weights.) When calibration is not carried out, the geometric *unweighted* mean is used for the best, high and low estimates.  
 
 Here are our current best estimates of group size:  
 
@@ -357,7 +358,7 @@ cruz_demo$cohorts$all$sightings$best %>% head(20)
 cruz_demo$cohorts$all$sightings$calibr %>% head(20)
 ```
 
-You can also carry out calibration corrections without using a geometric weighted mean (the arithmetic mean will be used instead): 
+You can also carry out calibration corrections without using a geometric mean (the arithmetic mean will be used instead): 
 
 ```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE}
 cruz_demo <- process_sightings(cruz, 
@@ -385,9 +386,9 @@ cruz_demo$cohorts$all$sightings$best %>% head(20)
 cruz_demo$cohorts$all$sightings$calibr %>% head(20)
 ```
 
-Note that when `geometric_mean = TRUE` but calibration is not carried out, the simple geometric mean is calculated instead of the *weighted* geometric mean, since the weights are the variance estimates from the calibration routine.  
+Note that when `geometric_mean = TRUE` but calibration is not carried out, the simple unweighted geometric mean is calculated instead of the *weighted* geometric mean, since the weights are the variance estimates from the calibration routine.  
 
-Also note that group size calibration is only carried out if `settings$group_size_calibration` is not `NULL`.  However, even when calibration coefficients *are* provided, it is possible to specify that calibration should only be carried out for raw estimates above a minimum threshold (see cohort setting `calibration_floor`, whose default is `0`), since observers may be unlikely to mis-estimate the group size of a lone whale or pair. For observers who have calibration coefficients in the `settings$group_size_coefficients` table, that minimum is specified for each observer individually. For observers not in that table, calibration will only be applied to raw group size estimates above the `settings$cohorts[[i]]$calibration_floor`.     
+Also note that group size calibration is only carried out if the settings `school_size_calibrate` is `TRUE` and `group_size_coefficients` is not `NULL`.  However, even when calibration coefficients *are* provided, it is possible to specify that calibration should only be carried out for raw estimates above a minimum threshold (see cohort setting `calibration_floor`, whose default is `0`), since observers may be unlikely to mis-estimate the group size of a lone whale or pair. For observers who have calibration coefficients in the `settings$group_size_coefficients` table, that minimum is specified for each observer individually. For observers not in that table, calibration will only be applied to raw group size estimates above the `settings$cohorts[[i]]$calibration_floor`.     
 
 **Missing data:** Some sightings may be missing data regarding group size estimates: perhaps not all observers provided all three estimates (best-low-high), or perhaps not all observers provided group size percentages for mixed-species groups. When data are processed in `LTabundR`, the resulting `sightings` table includes a column, `ss_valid`, to indicate whether enough data were available to produce a group size estimate that is usable for detection function fitting and abundance estimation. The procedure for determining whether `ss_valid` is `TRUE` or `FALSE` for a sighting is as follows:  
 
@@ -441,6 +442,7 @@ cruz$cohorts$all$subgroups %>% names
   
   
 For a detailed example of how subgroup data are analyzed, see the [vignette page on subgroup analysis](#subgroups2) using data on Central North Pacific false killer whales.  
+
 
 #### Editing subgroup details {-}
 

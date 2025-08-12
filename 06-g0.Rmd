@@ -91,7 +91,8 @@ rg0 <- g0_model(spp = '013',
                 truncation_distance = 5.5,
                 cruz = cruzi,
                 constrain_shape = TRUE,
-                jackknife_fraction = .1)
+                jackknife_fraction = .1,
+                seed = 123) 
 ```
 
 ```{r, echo=FALSE, eval=rerun_from_scratch, collapse=TRUE}
@@ -107,7 +108,7 @@ save(rg0, file='Rg0_sc.RData')
 load('Rg0_sc.RData')
 ```
 
-The `jackknife_fraction` input indicates that the standard error and CV will be estimated using an iterative jackknife procedure in which 10% of the data is removed in each iteration. Find more details on this process using the function documentation, `?g0_model()`.   
+The `jackknife_fraction` input indicates that the standard error and CV will be estimated using an iterative jackknife procedure in which 10% of the data is removed in each iteration. Find more details on this process using the function documentation, `?g0_model()`. The `seed` input makes the jacknife process reproducible. It is optional and can be ignored or left `NULL` if you wish.  
 
 The input `constrain_shape` provides a way to ensure that the *Rg(0)* curve declines monotonically. Some modeled *Rg(0)* curves are liable to erreneously increase with increasing Bft due to low sample sizea at the lowest Bft (0-2) or highest Bft (5-6) states. To coerce monotonic decline, set this to `TRUE`, and the function will use a shape-constrained GAM (`scam()` from package `scam`) instead of a classic `mgcv::gam()`. We recommend beginning with `NULL` then modifying this if needed, based on the output: if the *Rg(0)* curve increases at any Bft state, try running again with `constrain_shape` set to `TRUE`. Note that this is an updated approach to the Bft-pooling method used in Barlow (2015).   
 
@@ -223,7 +224,8 @@ We then use the function `g0_weighted_var()` to compute the weighted *Rg(0)* for
 weighted_g0_2017 <- 
   g0_weighted(Rg0 = rg0$summary$Rg0,
               Rg0_cv = rg0$summary$Rg0_CV, 
-              cruz = cruz_17)
+              cruz = cruz_17,
+              seed = 123) # optional for reproducibility
 ```
 
 ```{r, echo=FALSE, eval=rerun_from_scratch, collapse=TRUE}
@@ -256,7 +258,8 @@ Note that conditions were a bit worse in 2020 compared to 2017. We therefore exp
 weighted_g0_2020 <- 
   g0_weighted(Rg0 = rg0$summary$Rg0,
               Rg0_cv = rg0$summary$Rg0_CV, 
-              cruz = cruz_20)
+              cruz = cruz_20,
+              seed = 123) # optional for reproducibility
 ```
 
 ```{r, echo=FALSE, eval=rerun_from_scratch, collapse=TRUE}

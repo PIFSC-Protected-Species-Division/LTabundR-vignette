@@ -294,7 +294,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10" data-path="trend-analysis.html"><a href="trend-analysis.html"><i class="fa fa-check"></i><b>10</b> Trend analysis</a></li>
 <li class="chapter" data-level="11" data-path="subgroups2.html"><a href="subgroups2.html"><i class="fa fa-check"></i><b>11</b> Subgroup-based analysis</a>
 <ul>
-<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#reminder-on-data-processing"><i class="fa fa-check"></i>Reminder on data processing</a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#refresher-on-data-processing"><i class="fa fa-check"></i>Refresher on data processing</a></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#manual-data-updates"><i class="fa fa-check"></i>Manual data updates</a>
 <ul>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#reviewing-processed-subgroup-data"><i class="fa fa-check"></i>Reviewing processed subgroup data</a></li>
@@ -315,7 +315,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#density_das"><i class="fa fa-check"></i><code>density_das</code></a></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#density_sightings"><i class="fa fa-check"></i><code>density_sightings</code></a></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#abundance_area"><i class="fa fa-check"></i><code>abundance_area</code></a></li>
-<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#remaining-inputs"><i class="fa fa-check"></i>Remaining inputs</a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#remaining-optional-inputs"><i class="fa fa-check"></i>Remaining optional inputs</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#running-lta_subgroup"><i class="fa fa-check"></i>Running <code>lta_subgroup()</code></a>
 <ul>
@@ -448,7 +448,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb97-3"><a href="filter.html#cb97-3" tabindex="-1"></a></span>
 <span id="cb97-4"><a href="filter.html#cb97-4" tabindex="-1"></a><span class="er">$</span>settings</span>
 <span id="cb97-5"><a href="filter.html#cb97-5" tabindex="-1"></a>         <span class="sc">$</span>strata <span class="sc">---</span> with <span class="dv">12</span> polygon coordinate sets</span>
-<span id="cb97-6"><a href="filter.html#cb97-6" tabindex="-1"></a>         <span class="sc">$</span>survey <span class="sc">---</span> with <span class="dv">15</span> input arguments</span>
+<span id="cb97-6"><a href="filter.html#cb97-6" tabindex="-1"></a>         <span class="sc">$</span>survey <span class="sc">---</span> with <span class="dv">16</span> input arguments</span>
 <span id="cb97-7"><a href="filter.html#cb97-7" tabindex="-1"></a>         <span class="sc">$</span>cohorts <span class="sc">---</span> with <span class="dv">3</span> cohorts specified, each with <span class="dv">19</span> input arguments</span>
 <span id="cb97-8"><a href="filter.html#cb97-8" tabindex="-1"></a></span>
 <span id="cb97-9"><a href="filter.html#cb97-9" tabindex="-1"></a><span class="sc">$</span>strata</span>
@@ -460,20 +460,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb97-15"><a href="filter.html#cb97-15" tabindex="-1"></a></span>
 <span id="cb97-16"><a href="filter.html#cb97-16" tabindex="-1"></a>        <span class="sc">$</span>all</span>
 <span id="cb97-17"><a href="filter.html#cb97-17" tabindex="-1"></a>            geostrata<span class="sc">:</span> WHICEAS, HI_EEZ, OtherCNP</span>
-<span id="cb97-18"><a href="filter.html#cb97-18" tabindex="-1"></a>            <span class="sc">$</span>segments  <span class="sc">---</span> with <span class="dv">1454</span> <span class="fu">segments</span> (<span class="at">median =</span> <span class="fl">149.5</span> km)</span>
+<span id="cb97-18"><a href="filter.html#cb97-18" tabindex="-1"></a>            <span class="sc">$</span>segments  <span class="sc">---</span> with <span class="dv">1454</span> <span class="fu">segments</span> (<span class="at">median =</span> <span class="fl">149.4</span> km)</span>
 <span id="cb97-19"><a href="filter.html#cb97-19" tabindex="-1"></a>            <span class="sc">$</span>das       <span class="sc">---</span> with <span class="dv">329638</span> data rows</span>
 <span id="cb97-20"><a href="filter.html#cb97-20" tabindex="-1"></a>            <span class="sc">$</span>sightings <span class="sc">---</span> with <span class="dv">3934</span> detections</span>
 <span id="cb97-21"><a href="filter.html#cb97-21" tabindex="-1"></a>            <span class="sc">$</span>subgroups <span class="sc">---</span> with <span class="dv">255</span> subgroups, <span class="dv">61</span> sightings, and <span class="dv">389</span> events</span>
 <span id="cb97-22"><a href="filter.html#cb97-22" tabindex="-1"></a></span>
 <span id="cb97-23"><a href="filter.html#cb97-23" tabindex="-1"></a>        <span class="sc">$</span>bottlenose</span>
 <span id="cb97-24"><a href="filter.html#cb97-24" tabindex="-1"></a>            geostrata<span class="sc">:</span> WHICEAS, HI_EEZ, OtherCNP, Bottlenose_BI, Bottlenose_OUFI, Bottlenose_KaNi</span>
-<span id="cb97-25"><a href="filter.html#cb97-25" tabindex="-1"></a>            <span class="sc">$</span>segments  <span class="sc">---</span> with <span class="dv">1538</span> <span class="fu">segments</span> (<span class="at">median =</span> <span class="fl">149.3</span> km)</span>
+<span id="cb97-25"><a href="filter.html#cb97-25" tabindex="-1"></a>            <span class="sc">$</span>segments  <span class="sc">---</span> with <span class="dv">1537</span> <span class="fu">segments</span> (<span class="at">median =</span> <span class="fl">149.3</span> km)</span>
 <span id="cb97-26"><a href="filter.html#cb97-26" tabindex="-1"></a>            <span class="sc">$</span>das       <span class="sc">---</span> with <span class="dv">329638</span> data rows</span>
 <span id="cb97-27"><a href="filter.html#cb97-27" tabindex="-1"></a>            <span class="sc">$</span>sightings <span class="sc">---</span> with <span class="dv">523</span> detections</span>
 <span id="cb97-28"><a href="filter.html#cb97-28" tabindex="-1"></a></span>
 <span id="cb97-29"><a href="filter.html#cb97-29" tabindex="-1"></a>        <span class="sc">$</span>spotted</span>
 <span id="cb97-30"><a href="filter.html#cb97-30" tabindex="-1"></a>            geostrata<span class="sc">:</span> WHICEAS, HI_EEZ, OtherCNP, Spotted_OU, Spotted_FI, Spotted_BI</span>
-<span id="cb97-31"><a href="filter.html#cb97-31" tabindex="-1"></a>            <span class="sc">$</span>segments  <span class="sc">---</span> with <span class="dv">1538</span> <span class="fu">segments</span> (<span class="at">median =</span> <span class="fl">149.2</span> km)</span>
+<span id="cb97-31"><a href="filter.html#cb97-31" tabindex="-1"></a>            <span class="sc">$</span>segments  <span class="sc">---</span> with <span class="dv">1540</span> <span class="fu">segments</span> (<span class="at">median =</span> <span class="fl">149.2</span> km)</span>
 <span id="cb97-32"><a href="filter.html#cb97-32" tabindex="-1"></a>            <span class="sc">$</span>das       <span class="sc">---</span> with <span class="dv">329638</span> data rows</span>
 <span id="cb97-33"><a href="filter.html#cb97-33" tabindex="-1"></a>            <span class="sc">$</span>sightings <span class="sc">---</span> with <span class="dv">527</span> detections</span></code></pre></div>
 <div id="filter-1" class="section level2 unnumbered hasAnchor">
@@ -513,7 +513,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb103-3"><a href="filter.html#cb103-3" tabindex="-1"></a></span>
 <span id="cb103-4"><a href="filter.html#cb103-4" tabindex="-1"></a><span class="er">$</span>settings</span>
 <span id="cb103-5"><a href="filter.html#cb103-5" tabindex="-1"></a>         <span class="sc">$</span>strata <span class="sc">---</span> with <span class="dv">12</span> polygon coordinate sets</span>
-<span id="cb103-6"><a href="filter.html#cb103-6" tabindex="-1"></a>         <span class="sc">$</span>survey <span class="sc">---</span> with <span class="dv">15</span> input arguments</span>
+<span id="cb103-6"><a href="filter.html#cb103-6" tabindex="-1"></a>         <span class="sc">$</span>survey <span class="sc">---</span> with <span class="dv">16</span> input arguments</span>
 <span id="cb103-7"><a href="filter.html#cb103-7" tabindex="-1"></a>         <span class="sc">$</span>cohorts <span class="sc">---</span> with <span class="dv">3</span> cohorts specified, each with <span class="dv">19</span> input arguments</span>
 <span id="cb103-8"><a href="filter.html#cb103-8" tabindex="-1"></a></span>
 <span id="cb103-9"><a href="filter.html#cb103-9" tabindex="-1"></a><span class="sc">$</span>strata</span>
@@ -525,20 +525,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb103-15"><a href="filter.html#cb103-15" tabindex="-1"></a></span>
 <span id="cb103-16"><a href="filter.html#cb103-16" tabindex="-1"></a>        <span class="sc">$</span>all</span>
 <span id="cb103-17"><a href="filter.html#cb103-17" tabindex="-1"></a>            geostrata<span class="sc">:</span> WHICEAS, HI_EEZ, OtherCNP</span>
-<span id="cb103-18"><a href="filter.html#cb103-18" tabindex="-1"></a>            <span class="sc">$</span>segments  <span class="sc">---</span> with <span class="dv">1454</span> <span class="fu">segments</span> (<span class="at">median =</span> <span class="fl">149.5</span> km)</span>
+<span id="cb103-18"><a href="filter.html#cb103-18" tabindex="-1"></a>            <span class="sc">$</span>segments  <span class="sc">---</span> with <span class="dv">1454</span> <span class="fu">segments</span> (<span class="at">median =</span> <span class="fl">149.4</span> km)</span>
 <span id="cb103-19"><a href="filter.html#cb103-19" tabindex="-1"></a>            <span class="sc">$</span>das       <span class="sc">---</span> with <span class="dv">329638</span> data rows</span>
 <span id="cb103-20"><a href="filter.html#cb103-20" tabindex="-1"></a>            <span class="sc">$</span>sightings <span class="sc">---</span> with <span class="dv">3934</span> detections</span>
 <span id="cb103-21"><a href="filter.html#cb103-21" tabindex="-1"></a>            <span class="sc">$</span>subgroups <span class="sc">---</span> with <span class="dv">255</span> subgroups, <span class="dv">61</span> sightings, and <span class="dv">389</span> events</span>
 <span id="cb103-22"><a href="filter.html#cb103-22" tabindex="-1"></a></span>
 <span id="cb103-23"><a href="filter.html#cb103-23" tabindex="-1"></a>        <span class="sc">$</span>bottlenose</span>
 <span id="cb103-24"><a href="filter.html#cb103-24" tabindex="-1"></a>            geostrata<span class="sc">:</span> WHICEAS, HI_EEZ, OtherCNP, Bottlenose_BI, Bottlenose_OUFI, Bottlenose_KaNi</span>
-<span id="cb103-25"><a href="filter.html#cb103-25" tabindex="-1"></a>            <span class="sc">$</span>segments  <span class="sc">---</span> with <span class="dv">1538</span> <span class="fu">segments</span> (<span class="at">median =</span> <span class="fl">149.3</span> km)</span>
+<span id="cb103-25"><a href="filter.html#cb103-25" tabindex="-1"></a>            <span class="sc">$</span>segments  <span class="sc">---</span> with <span class="dv">1537</span> <span class="fu">segments</span> (<span class="at">median =</span> <span class="fl">149.3</span> km)</span>
 <span id="cb103-26"><a href="filter.html#cb103-26" tabindex="-1"></a>            <span class="sc">$</span>das       <span class="sc">---</span> with <span class="dv">329638</span> data rows</span>
 <span id="cb103-27"><a href="filter.html#cb103-27" tabindex="-1"></a>            <span class="sc">$</span>sightings <span class="sc">---</span> with <span class="dv">523</span> detections</span>
 <span id="cb103-28"><a href="filter.html#cb103-28" tabindex="-1"></a></span>
 <span id="cb103-29"><a href="filter.html#cb103-29" tabindex="-1"></a>        <span class="sc">$</span>spotted</span>
 <span id="cb103-30"><a href="filter.html#cb103-30" tabindex="-1"></a>            geostrata<span class="sc">:</span> WHICEAS, HI_EEZ, OtherCNP, Spotted_OU, Spotted_FI, Spotted_BI</span>
-<span id="cb103-31"><a href="filter.html#cb103-31" tabindex="-1"></a>            <span class="sc">$</span>segments  <span class="sc">---</span> with <span class="dv">1538</span> <span class="fu">segments</span> (<span class="at">median =</span> <span class="fl">149.2</span> km)</span>
+<span id="cb103-31"><a href="filter.html#cb103-31" tabindex="-1"></a>            <span class="sc">$</span>segments  <span class="sc">---</span> with <span class="dv">1540</span> <span class="fu">segments</span> (<span class="at">median =</span> <span class="fl">149.2</span> km)</span>
 <span id="cb103-32"><a href="filter.html#cb103-32" tabindex="-1"></a>            <span class="sc">$</span>das       <span class="sc">---</span> with <span class="dv">329638</span> data rows</span>
 <span id="cb103-33"><a href="filter.html#cb103-33" tabindex="-1"></a>            <span class="sc">$</span>sightings <span class="sc">---</span> with <span class="dv">527</span> detections</span></code></pre></div>
 
@@ -567,42 +567,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": false,
-"twitter": false,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "subsection"
-}
+  "sharing": {
+    "github": false,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
 });
 });
 </script>

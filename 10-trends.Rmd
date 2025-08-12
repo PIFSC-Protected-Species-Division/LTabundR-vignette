@@ -41,6 +41,7 @@ Conduct the ER simulation, passing the species code for the Bryde's whale (`"072
 er_results <- er_simulator(spp = '072', 
                            cruz = cruzi, 
                            iterations = 1000,
+                           seed = 123, # optional for reproducibility
                            verbose = FALSE)
 ```
 

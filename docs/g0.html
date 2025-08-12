@@ -294,7 +294,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10" data-path="trend-analysis.html"><a href="trend-analysis.html"><i class="fa fa-check"></i><b>10</b> Trend analysis</a></li>
 <li class="chapter" data-level="11" data-path="subgroups2.html"><a href="subgroups2.html"><i class="fa fa-check"></i><b>11</b> Subgroup-based analysis</a>
 <ul>
-<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#reminder-on-data-processing"><i class="fa fa-check"></i>Reminder on data processing</a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#refresher-on-data-processing"><i class="fa fa-check"></i>Refresher on data processing</a></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#manual-data-updates"><i class="fa fa-check"></i>Manual data updates</a>
 <ul>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#reviewing-processed-subgroup-data"><i class="fa fa-check"></i>Reviewing processed subgroup data</a></li>
@@ -315,7 +315,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#density_das"><i class="fa fa-check"></i><code>density_das</code></a></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#density_sightings"><i class="fa fa-check"></i><code>density_sightings</code></a></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#abundance_area"><i class="fa fa-check"></i><code>abundance_area</code></a></li>
-<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#remaining-inputs"><i class="fa fa-check"></i>Remaining inputs</a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#remaining-optional-inputs"><i class="fa fa-check"></i>Remaining optional inputs</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#running-lta_subgroup"><i class="fa fa-check"></i>Running <code>lta_subgroup()</code></a>
 <ul>
@@ -523,19 +523,20 @@ So <em>g(0)</em> matters, and the assumption of detection functions that <em>g(0
 <span id="cb145-2"><a href="g0.html#cb145-2" tabindex="-1"></a>                <span class="at">truncation_distance =</span> <span class="fl">5.5</span>,</span>
 <span id="cb145-3"><a href="g0.html#cb145-3" tabindex="-1"></a>                <span class="at">cruz =</span> cruzi,</span>
 <span id="cb145-4"><a href="g0.html#cb145-4" tabindex="-1"></a>                <span class="at">constrain_shape =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb145-5"><a href="g0.html#cb145-5" tabindex="-1"></a>                <span class="at">jackknife_fraction =</span> .<span class="dv">1</span>)</span></code></pre></div>
-<p>The <code>jackknife_fraction</code> input indicates that the standard error and CV will be estimated using an iterative jackknife procedure in which 10% of the data is removed in each iteration. Find more details on this process using the function documentation, <code>?g0_model()</code>.</p>
+<span id="cb145-5"><a href="g0.html#cb145-5" tabindex="-1"></a>                <span class="at">jackknife_fraction =</span> .<span class="dv">1</span>,</span>
+<span id="cb145-6"><a href="g0.html#cb145-6" tabindex="-1"></a>                <span class="at">seed =</span> <span class="dv">123</span>) </span></code></pre></div>
+<p>The <code>jackknife_fraction</code> input indicates that the standard error and CV will be estimated using an iterative jackknife procedure in which 10% of the data is removed in each iteration. Find more details on this process using the function documentation, <code>?g0_model()</code>. The <code>seed</code> input makes the jacknife process reproducible. It is optional and can be ignored or left <code>NULL</code> if you wish.</p>
 <p>The input <code>constrain_shape</code> provides a way to ensure that the <em>Rg(0)</em> curve declines monotonically. Some modeled <em>Rg(0)</em> curves are liable to erreneously increase with increasing Bft due to low sample sizea at the lowest Bft (0-2) or highest Bft (5-6) states. To coerce monotonic decline, set this to <code>TRUE</code>, and the function will use a shape-constrained GAM (<code>scam()</code> from package <code>scam</code>) instead of a classic <code>mgcv::gam()</code>. We recommend beginning with <code>NULL</code> then modifying this if needed, based on the output: if the <em>Rg(0)</em> curve increases at any Bft state, try running again with <code>constrain_shape</code> set to <code>TRUE</code>. Note that this is an updated approach to the Bft-pooling method used in Barlow (2015).</p>
 <p>The chief result of this function is a <code>$summary</code> table:</p>
 <div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="g0.html#cb146-1" tabindex="-1"></a>rg0<span class="sc">$</span>summary</span>
-<span id="cb146-2"><a href="g0.html#cb146-2" tabindex="-1"></a>  bft       Rg0      ESW  n     Rg0_SE    Rg0_CV     ESW_SE</span>
-<span id="cb146-3"><a href="g0.html#cb146-3" tabindex="-1"></a><span class="dv">1</span>   <span class="dv">0</span> <span class="fl">1.0000000</span> <span class="fl">3.836271</span> <span class="dv">10</span> <span class="fl">0.00000000</span> <span class="fl">0.0000000</span> <span class="fl">0.17262018</span></span>
-<span id="cb146-4"><a href="g0.html#cb146-4" tabindex="-1"></a><span class="dv">2</span>   <span class="dv">1</span> <span class="fl">0.7010295</span> <span class="fl">3.619676</span> <span class="dv">10</span> <span class="fl">0.09606240</span> <span class="fl">0.1370305</span> <span class="fl">0.13829661</span></span>
-<span id="cb146-5"><a href="g0.html#cb146-5" tabindex="-1"></a><span class="dv">3</span>   <span class="dv">2</span> <span class="fl">0.4914564</span> <span class="fl">3.383832</span> <span class="dv">10</span> <span class="fl">0.11129915</span> <span class="fl">0.2264680</span> <span class="fl">0.09943560</span></span>
-<span id="cb146-6"><a href="g0.html#cb146-6" tabindex="-1"></a><span class="dv">4</span>   <span class="dv">3</span> <span class="fl">0.3445470</span> <span class="fl">3.138456</span> <span class="dv">10</span> <span class="fl">0.09640134</span> <span class="fl">0.2797916</span> <span class="fl">0.06063410</span></span>
-<span id="cb146-7"><a href="g0.html#cb146-7" tabindex="-1"></a><span class="dv">5</span>   <span class="dv">4</span> <span class="fl">0.2415623</span> <span class="fl">2.892539</span> <span class="dv">10</span> <span class="fl">0.07125957</span> <span class="fl">0.2949946</span> <span class="fl">0.04334873</span></span>
-<span id="cb146-8"><a href="g0.html#cb146-8" tabindex="-1"></a><span class="dv">6</span>   <span class="dv">5</span> <span class="fl">0.1693673</span> <span class="fl">2.652889</span> <span class="dv">10</span> <span class="fl">0.04442899</span> <span class="fl">0.2623232</span> <span class="fl">0.06671872</span></span>
-<span id="cb146-9"><a href="g0.html#cb146-9" tabindex="-1"></a><span class="dv">7</span>   <span class="dv">6</span> <span class="fl">0.1187552</span> <span class="fl">2.429804</span> <span class="dv">10</span> <span class="fl">0.02174702</span> <span class="fl">0.1831249</span> <span class="fl">0.10025878</span></span></code></pre></div>
+<span id="cb146-2"><a href="g0.html#cb146-2" tabindex="-1"></a>  bft       Rg0      ESW  n     Rg0_SE     Rg0_CV     ESW_SE</span>
+<span id="cb146-3"><a href="g0.html#cb146-3" tabindex="-1"></a><span class="dv">1</span>   <span class="dv">0</span> <span class="fl">1.0000000</span> <span class="fl">3.830721</span> <span class="dv">10</span> <span class="fl">0.00000000</span> <span class="fl">0.00000000</span> <span class="fl">0.29802746</span></span>
+<span id="cb146-4"><a href="g0.html#cb146-4" tabindex="-1"></a><span class="dv">2</span>   <span class="dv">1</span> <span class="fl">0.7042927</span> <span class="fl">3.615397</span> <span class="dv">10</span> <span class="fl">0.01796678</span> <span class="fl">0.02551039</span> <span class="fl">0.23022945</span></span>
+<span id="cb146-5"><a href="g0.html#cb146-5" tabindex="-1"></a><span class="dv">3</span>   <span class="dv">2</span> <span class="fl">0.4960188</span> <span class="fl">3.381583</span> <span class="dv">10</span> <span class="fl">0.02523563</span> <span class="fl">0.05087636</span> <span class="fl">0.14893271</span></span>
+<span id="cb146-6"><a href="g0.html#cb146-6" tabindex="-1"></a><span class="dv">4</span>   <span class="dv">3</span> <span class="fl">0.3493328</span> <span class="fl">3.138417</span> <span class="dv">10</span> <span class="fl">0.02658750</span> <span class="fl">0.07610937</span> <span class="fl">0.07325895</span></span>
+<span id="cb146-7"><a href="g0.html#cb146-7" tabindex="-1"></a><span class="dv">5</span>   <span class="dv">4</span> <span class="fl">0.2460263</span> <span class="fl">2.894303</span> <span class="dv">10</span> <span class="fl">0.02490295</span> <span class="fl">0.10122068</span> <span class="fl">0.08049577</span></span>
+<span id="cb146-8"><a href="g0.html#cb146-8" tabindex="-1"></a><span class="dv">6</span>   <span class="dv">5</span> <span class="fl">0.1732724</span> <span class="fl">2.657071</span> <span class="dv">10</span> <span class="fl">0.02187068</span> <span class="fl">0.12622140</span> <span class="fl">0.15621342</span></span>
+<span id="cb146-9"><a href="g0.html#cb146-9" tabindex="-1"></a><span class="dv">7</span>   <span class="dv">6</span> <span class="fl">0.1220358</span> <span class="fl">2.436275</span> <span class="dv">10</span> <span class="fl">0.01844235</span> <span class="fl">0.15112247</span> <span class="fl">0.23037913</span></span></code></pre></div>
 <p>The model predicts that <em>Rg(0)</em> declines rapidly with deteriorating sea state:</p>
 <div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb147-1"><a href="g0.html#cb147-1" tabindex="-1"></a><span class="fu">plot</span>(Rg0 <span class="sc">~</span> bft, <span class="at">data =</span> rg0<span class="sc">$</span>summary, </span>
 <span id="cb147-2"><a href="g0.html#cb147-2" tabindex="-1"></a>     <span class="at">ylim=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>), <span class="at">type=</span><span class="st">&#39;o&#39;</span>, <span class="at">pch=</span><span class="dv">16</span>)</span>
@@ -591,14 +592,14 @@ So <em>g(0)</em> matters, and the assumption of detection functions that <em>g(0
 <p>This will be done automatically by the line-transect analysis functions coming up (see <code>LTabundR::lta()</code>), meaning you only need a table of <em>Rg(0)</em> values in order to proceed to the next step. But you can also calculate weighted <em>g(0)</em> values separately as an isolated analysis, which we show below.</p>
 <p>Let’s say we want to estimate the average <code>g(0)</code> for striped dolphins in the WHICEAS study area during the survey years of 2017 and 2020. From above, we have an estimate of the <em>Rg(0)</em> and its CV for each Beaufort state:</p>
 <div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb152-1"><a href="g0.html#cb152-1" tabindex="-1"></a>rg0<span class="sc">$</span>summary <span class="sc">%&gt;%</span> <span class="fu">select</span>(bft, Rg0, Rg0_CV)</span>
-<span id="cb152-2"><a href="g0.html#cb152-2" tabindex="-1"></a>  bft       Rg0    Rg0_CV</span>
-<span id="cb152-3"><a href="g0.html#cb152-3" tabindex="-1"></a><span class="dv">1</span>   <span class="dv">0</span> <span class="fl">1.0000000</span> <span class="fl">0.0000000</span></span>
-<span id="cb152-4"><a href="g0.html#cb152-4" tabindex="-1"></a><span class="dv">2</span>   <span class="dv">1</span> <span class="fl">0.7010295</span> <span class="fl">0.1370305</span></span>
-<span id="cb152-5"><a href="g0.html#cb152-5" tabindex="-1"></a><span class="dv">3</span>   <span class="dv">2</span> <span class="fl">0.4914564</span> <span class="fl">0.2264680</span></span>
-<span id="cb152-6"><a href="g0.html#cb152-6" tabindex="-1"></a><span class="dv">4</span>   <span class="dv">3</span> <span class="fl">0.3445470</span> <span class="fl">0.2797916</span></span>
-<span id="cb152-7"><a href="g0.html#cb152-7" tabindex="-1"></a><span class="dv">5</span>   <span class="dv">4</span> <span class="fl">0.2415623</span> <span class="fl">0.2949946</span></span>
-<span id="cb152-8"><a href="g0.html#cb152-8" tabindex="-1"></a><span class="dv">6</span>   <span class="dv">5</span> <span class="fl">0.1693673</span> <span class="fl">0.2623232</span></span>
-<span id="cb152-9"><a href="g0.html#cb152-9" tabindex="-1"></a><span class="dv">7</span>   <span class="dv">6</span> <span class="fl">0.1187552</span> <span class="fl">0.1831249</span></span></code></pre></div>
+<span id="cb152-2"><a href="g0.html#cb152-2" tabindex="-1"></a>  bft       Rg0     Rg0_CV</span>
+<span id="cb152-3"><a href="g0.html#cb152-3" tabindex="-1"></a><span class="dv">1</span>   <span class="dv">0</span> <span class="fl">1.0000000</span> <span class="fl">0.00000000</span></span>
+<span id="cb152-4"><a href="g0.html#cb152-4" tabindex="-1"></a><span class="dv">2</span>   <span class="dv">1</span> <span class="fl">0.7042927</span> <span class="fl">0.02551039</span></span>
+<span id="cb152-5"><a href="g0.html#cb152-5" tabindex="-1"></a><span class="dv">3</span>   <span class="dv">2</span> <span class="fl">0.4960188</span> <span class="fl">0.05087636</span></span>
+<span id="cb152-6"><a href="g0.html#cb152-6" tabindex="-1"></a><span class="dv">4</span>   <span class="dv">3</span> <span class="fl">0.3493328</span> <span class="fl">0.07610937</span></span>
+<span id="cb152-7"><a href="g0.html#cb152-7" tabindex="-1"></a><span class="dv">5</span>   <span class="dv">4</span> <span class="fl">0.2460263</span> <span class="fl">0.10122068</span></span>
+<span id="cb152-8"><a href="g0.html#cb152-8" tabindex="-1"></a><span class="dv">6</span>   <span class="dv">5</span> <span class="fl">0.1732724</span> <span class="fl">0.12622140</span></span>
+<span id="cb152-9"><a href="g0.html#cb152-9" tabindex="-1"></a><span class="dv">7</span>   <span class="dv">6</span> <span class="fl">0.1220358</span> <span class="fl">0.15112247</span></span></code></pre></div>
 <p>We also have a processed <code>cruz</code> object with 2017 data:</p>
 <div class="sourceCode" id="cb153"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb153-1"><a href="g0.html#cb153-1" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&#39;whiceas_cruz_1720.RData&#39;</span>)</span>
 <span id="cb153-2"><a href="g0.html#cb153-2" tabindex="-1"></a>cruz_17 <span class="ot">&lt;-</span> <span class="fu">filter_cruz</span>(cruz_1720, <span class="at">years =</span> <span class="dv">2017</span>, <span class="at">verbose=</span><span class="cn">FALSE</span>)</span></code></pre></div>
@@ -617,11 +618,12 @@ So <em>g(0)</em> matters, and the assumption of detection functions that <em>g(0
 <div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb155-1"><a href="g0.html#cb155-1" tabindex="-1"></a>weighted_g0_2017 <span class="ot">&lt;-</span> </span>
 <span id="cb155-2"><a href="g0.html#cb155-2" tabindex="-1"></a>  <span class="fu">g0_weighted</span>(<span class="at">Rg0 =</span> rg0<span class="sc">$</span>summary<span class="sc">$</span>Rg0,</span>
 <span id="cb155-3"><a href="g0.html#cb155-3" tabindex="-1"></a>              <span class="at">Rg0_cv =</span> rg0<span class="sc">$</span>summary<span class="sc">$</span>Rg0_CV, </span>
-<span id="cb155-4"><a href="g0.html#cb155-4" tabindex="-1"></a>              <span class="at">cruz =</span> cruz_17)</span></code></pre></div>
+<span id="cb155-4"><a href="g0.html#cb155-4" tabindex="-1"></a>              <span class="at">cruz =</span> cruz_17,</span>
+<span id="cb155-5"><a href="g0.html#cb155-5" tabindex="-1"></a>              <span class="at">seed =</span> <span class="dv">123</span>) <span class="co"># optional for reproducibility</span></span></code></pre></div>
 <p>The result:</p>
 <div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb156-1"><a href="g0.html#cb156-1" tabindex="-1"></a>weighted_g0_2017<span class="sc">$</span>g0[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
 <span id="cb156-2"><a href="g0.html#cb156-2" tabindex="-1"></a>  weighted_g0 wt.mean</span>
-<span id="cb156-3"><a href="g0.html#cb156-3" tabindex="-1"></a><span class="dv">1</span>   <span class="fl">0.2510412</span>   <span class="fl">0.258</span></span></code></pre></div>
+<span id="cb156-3"><a href="g0.html#cb156-3" tabindex="-1"></a><span class="dv">1</span>    <span class="fl">0.255219</span>   <span class="fl">0.254</span></span></code></pre></div>
 <p>Now let’s do the same for WHICEAS 2020 and compare the weighted <em>g(0)</em> estimate:</p>
 <div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb157-1"><a href="g0.html#cb157-1" tabindex="-1"></a><span class="co"># Filter to 2020</span></span>
 <span id="cb157-2"><a href="g0.html#cb157-2" tabindex="-1"></a>cruz_20 <span class="ot">&lt;-</span> <span class="fu">filter_cruz</span>(cruz_1720, <span class="at">years =</span> <span class="dv">2020</span>, <span class="at">verbose=</span><span class="cn">FALSE</span>)</span>
@@ -641,11 +643,12 @@ So <em>g(0)</em> matters, and the assumption of detection functions that <em>g(0
 <div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb158-1"><a href="g0.html#cb158-1" tabindex="-1"></a>weighted_g0_2020 <span class="ot">&lt;-</span> </span>
 <span id="cb158-2"><a href="g0.html#cb158-2" tabindex="-1"></a>  <span class="fu">g0_weighted</span>(<span class="at">Rg0 =</span> rg0<span class="sc">$</span>summary<span class="sc">$</span>Rg0,</span>
 <span id="cb158-3"><a href="g0.html#cb158-3" tabindex="-1"></a>              <span class="at">Rg0_cv =</span> rg0<span class="sc">$</span>summary<span class="sc">$</span>Rg0_CV, </span>
-<span id="cb158-4"><a href="g0.html#cb158-4" tabindex="-1"></a>              <span class="at">cruz =</span> cruz_20)</span></code></pre></div>
+<span id="cb158-4"><a href="g0.html#cb158-4" tabindex="-1"></a>              <span class="at">cruz =</span> cruz_20,</span>
+<span id="cb158-5"><a href="g0.html#cb158-5" tabindex="-1"></a>              <span class="at">seed =</span> <span class="dv">123</span>) <span class="co"># optional for reproducibility</span></span></code></pre></div>
 <p>The result:</p>
 <div class="sourceCode" id="cb159"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb159-1"><a href="g0.html#cb159-1" tabindex="-1"></a>weighted_g0_2020<span class="sc">$</span>g0[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
 <span id="cb159-2"><a href="g0.html#cb159-2" tabindex="-1"></a>  weighted_g0 wt.mean</span>
-<span id="cb159-3"><a href="g0.html#cb159-3" tabindex="-1"></a><span class="dv">1</span>   <span class="fl">0.2188324</span>   <span class="fl">0.226</span></span></code></pre></div>
+<span id="cb159-3"><a href="g0.html#cb159-3" tabindex="-1"></a><span class="dv">1</span>   <span class="fl">0.2228655</span>   <span class="fl">0.222</span></span></code></pre></div>
 <p>Confirmed: weighted <em>g(0)</em> in the WHICEAS study area in 2020 is slightly lower than in 2017, due to generally worse survey conditions. These year-specific estimates should prevent those different conditions from impacting their respective abundance estimates.</p>
 
 </div>
@@ -670,42 +673,42 @@ So <em>g(0)</em> matters, and the assumption of detection functions that <em>g(0
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-"sharing": {
-"github": false,
-"facebook": false,
-"twitter": false,
-"linkedin": false,
-"weibo": false,
-"instapaper": false,
-"vk": false,
-"whatsapp": false,
-"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-},
-"fontsettings": {
-"theme": "white",
-"family": "sans",
-"size": 2
-},
-"edit": {
-"link": null,
-"text": null
-},
-"history": {
-"link": null,
-"text": null
-},
-"view": {
-"link": null,
-"text": null
-},
-"download": null,
-"search": {
-"engine": "fuse",
-"options": null
-},
-"toc": {
-"collapse": "subsection"
-}
+  "sharing": {
+    "github": false,
+    "facebook": false,
+    "twitter": false,
+    "linkedin": false,
+    "weibo": false,
+    "instapaper": false,
+    "vk": false,
+    "whatsapp": false,
+    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+  },
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": null,
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
 });
 });
 </script>

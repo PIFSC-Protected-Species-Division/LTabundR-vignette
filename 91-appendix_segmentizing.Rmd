@@ -88,7 +88,7 @@ segment_histogram <- function(cruz, cohort=1, by_day=FALSE){
 
 ## Base example {-}  
 
-Here is the `segmentize()` function parameterized with some basic settings: a target segment length of 30km, with the maximum allowable gap in effort within segments to be 6 hours.   
+Here is the `segmentize()` function parameterized with some basic settings: a target segment length of 30km, with the maximum allowable gap in effort within segments to be 6 hours. The optional input `seed` is given an integer so that the results are reproducible.  
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, fig.width=7, fig.height=4}
 cruz_demo <- segmentize(cruz,
@@ -99,7 +99,8 @@ cruz_demo <- segmentize(cruz,
                         distance_types = c('S','F','N'),
                         distance_modes = c('P','C'),
                         distance_on_off = c(TRUE),
-                        verbose=FALSE,
+                        seed = 123,
+                        verbose = FALSE,
                         to_plot = TRUE)
 ```
 
@@ -111,7 +112,8 @@ cruz_demo <- segmentize(cruz,
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, fig.width=7, fig.height=4}
 cruz_demo <- segmentize(cruz,
                         segment_method = 'day',
-                        verbose=FALSE,
+                        seed = 123,
+                        verbose = FALSE,
                         to_plot = TRUE)
 ```
 
@@ -122,7 +124,8 @@ cruz_demo <- segmentize(cruz,
                         segment_method = 'equallength',
                         segment_target_km = 100,
                         segment_max_interval = 48,
-                        verbose=FALSE,
+                        seed = 123, 
+                        verbose = FALSE,
                         to_plot = TRUE)
 ```
 
@@ -135,6 +138,7 @@ cruz_demo <- segmentize(cruz,
                         segment_method = 'equallength',
                         segment_target_km = 30,
                         segment_max_interval = .1,
+                        seed = 123,
                         verbose=FALSE,
                         to_plot = TRUE)
 ```
@@ -155,7 +159,8 @@ cruz_demo <- segmentize(cruz,
                         segment_target_km = 10,
                         segment_max_interval = 6,
                         segment_remainder_handling = 'append',
-                        verbose=FALSE,
+                        seed = 123,
+                        verbose = FALSE,
                         to_plot = TRUE)
 ```
 
@@ -167,6 +172,7 @@ cruz_demo <- segmentize(cruz,
                         segment_target_km = 10,
                         segment_max_interval = 6,
                         segment_remainder_handling = 'segment',
+                        seed = 123, 
                         verbose=FALSE,
                         to_plot = TRUE)
 ```
@@ -181,6 +187,7 @@ cruz_demo <- segmentize(cruz,
                         segment_target_km = 10,
                         segment_max_interval = 6,
                         segment_remainder_handling = 'disperse',
+                        seed = 123, 
                         verbose=FALSE,
                         to_plot = TRUE)
 ```
@@ -193,6 +200,7 @@ cruz_demo <- segmentize(cruz,
                         segment_target_km = 9.5,
                         segment_max_interval = 6,
                         segment_remainder_handling = 'disperse',
+                        seed = 123, 
                         verbose=FALSE,
                         to_plot = TRUE)
 ```
@@ -215,6 +223,7 @@ cruz_demo <- segmentize(cruz,
                         segment_method = 'equallength',
                         segment_target_km = 5,
                         segment_max_interval = .1,
+                        seed = 123,
                         verbose=FALSE,
                         to_plot = TRUE)
 ```

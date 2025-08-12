@@ -49,6 +49,7 @@ lta(cruz,
     abund_eff_types = c("S"),
     abund_bft_range = 0:6,
     bootstraps = 0,
+    seed = NULL,
     results_file = NULL,
     toplot = TRUE,
     verbose = TRUE
@@ -283,7 +284,8 @@ results <- lta(cruz,
                fit_filters, 
                df_settings, 
                estimates,
-               bootstraps = 100)
+               bootstraps = 100,
+               seed = 123)
 ```
 
 ```{r, echo=FALSE, eval=rerun_from_scratch, collapse=TRUE}
@@ -296,7 +298,7 @@ save(results,file='lta_eg2.RData')
 load('lta_eg2.RData')
 ```
 
-This command will first produce official estimates of the detection function and density/abundance, then it will repeat the analysis for the number of iterations you have specified. In each iteration, survey segments are re-sampled according to standard bootstrap variance estimation methods (see more details below, in "Behind the Scenes").  
+This command will first produce official estimates of the detection function and density/abundance, then it will repeat the analysis for the number of iterations you have specified. In each iteration, survey segments are re-sampled according to standard bootstrap variance estimation methods (see more details below, in "Behind the Scenes").  The `seed` input is optional and can make the bootstrap process reproducible if you provide an integer. If you do not require reproducibility, leave this input out or simply set it to `NULL`. 
 
 We describe the output of `lta()` in detail below, but here is a brief snapshot of the bootstrap results, for one of the species-region-year estimates:  
 
@@ -336,7 +338,8 @@ lta(cruz,
     use_g0 = TRUE,
     abund_eff_types = c("S"),
     abund_bft_range = 0:6,
-    bootstraps = 10
+    bootstraps = 10,
+    seed = 123,
     toplot = TRUE,
     verbose = TRUE)
 ```
@@ -348,6 +351,8 @@ lta(cruz,
 - **`abund_bft_range`**:  The Beaufort sea state values that are acceptable during systematic effort for estimating density/abundance. The default is sea states 0 - 6. 
 
 - **`toplot`**: A Boolean, with default `TRUE`, indicating whether detection function plots (`Distance::plot.ds()`) should be displayed as the candidate models are tested.  
+
+- **`seed`**: As stated above, this input can make the bootstrap process reproducible if you provide an integer. If you do not require reproducibility, leave this input out or simply set it to `NULL`. 
 
 - **`verbose`**: A Boolean, with default `TRUE`, indicating whether or not updates should be printed to the Console.
 
