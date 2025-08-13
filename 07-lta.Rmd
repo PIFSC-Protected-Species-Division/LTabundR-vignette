@@ -131,7 +131,7 @@ fit_filters = list(spp = c('013', '026', '031'),
 &nbsp;
 
 
-### `df_settings` {-} 
+### `df_settings` {.unnumbered #dfsets} 
 
 The `df_settings` input specifies how to fit a detection function to the filtered data. It accepts a named list, which in our example will look like this: 
 

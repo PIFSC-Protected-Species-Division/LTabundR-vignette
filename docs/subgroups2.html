@@ -262,7 +262,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#cruz"><i class="fa fa-check"></i><code>cruz</code></a></li>
 <li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#rg0"><i class="fa fa-check"></i><code>Rg0</code></a></li>
 <li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#fit_filters"><i class="fa fa-check"></i><code>fit_filters</code></a></li>
-<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#df_settings"><i class="fa fa-check"></i><code>df_settings</code></a></li>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#dfsets"><i class="fa fa-check"></i><code>df_settings</code></a></li>
 <li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#estimates"><i class="fa fa-check"></i><code>estimates</code></a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#variance-estimation"><i class="fa fa-check"></i>Variance estimation</a>
@@ -305,6 +305,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#df_sits"><i class="fa fa-check"></i><code>df_sits</code></a></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#truncation_distance"><i class="fa fa-check"></i><code>truncation_distance</code></a></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#ss"><i class="fa fa-check"></i><code>ss</code></a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#df_settings"><i class="fa fa-check"></i><code>df_settings</code></a></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#rg0-1"><i class="fa fa-check"></i><code>Rg0</code></a></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#cruz10"><i class="fa fa-check"></i><code>cruz10</code></a></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#g0_spp"><i class="fa fa-check"></i><code>g0_spp</code></a></li>
@@ -323,6 +324,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#northwest-hawaiian-islands-stratum"><i class="fa fa-check"></i>Northwest Hawaiian Islands stratum</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#outputs-1"><i class="fa fa-check"></i>Outputs</a></li>
+<li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#detection-function-covariates"><i class="fa fa-check"></i>Detection function covariates</a></li>
 <li class="chapter" data-level="" data-path="subgroups2.html"><a href="subgroups2.html#behind-the-scenes-2"><i class="fa fa-check"></i>Behind the scenes</a></li>
 </ul></li>
 <li class="part"><span><b>IV Results</b></span></li>
@@ -450,18 +452,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb218-4"><a href="subgroups2.html#cb218-4" tabindex="-1"></a>             density_segments,</span>
 <span id="cb218-5"><a href="subgroups2.html#cb218-5" tabindex="-1"></a>             density_das,</span>
 <span id="cb218-6"><a href="subgroups2.html#cb218-6" tabindex="-1"></a>             density_sightings,</span>
-<span id="cb218-7"><a href="subgroups2.html#cb218-7" tabindex="-1"></a>             <span class="at">Rg0=</span> <span class="cn">NULL</span>, </span>
-<span id="cb218-8"><a href="subgroups2.html#cb218-8" tabindex="-1"></a>             <span class="at">cruz10 =</span> <span class="cn">NULL</span>,</span>
-<span id="cb218-9"><a href="subgroups2.html#cb218-9" tabindex="-1"></a>             <span class="at">g0_spp =</span> <span class="cn">NULL</span>,</span>
-<span id="cb218-10"><a href="subgroups2.html#cb218-10" tabindex="-1"></a>             <span class="at">g0_truncation =</span> <span class="cn">NULL</span>,</span>
-<span id="cb218-11"><a href="subgroups2.html#cb218-11" tabindex="-1"></a>             <span class="at">g0_constrain_shape =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb218-12"><a href="subgroups2.html#cb218-12" tabindex="-1"></a>             <span class="at">g0_jackknife_fraction =</span> <span class="fl">0.1</span>,</span>
-<span id="cb218-13"><a href="subgroups2.html#cb218-13" tabindex="-1"></a>             <span class="at">abundance_area =</span> <span class="cn">NULL</span>,</span>
-<span id="cb218-14"><a href="subgroups2.html#cb218-14" tabindex="-1"></a>             <span class="at">iterations =</span> <span class="dv">5000</span>,</span>
-<span id="cb218-15"><a href="subgroups2.html#cb218-15" tabindex="-1"></a>             <span class="at">seed =</span> <span class="cn">NULL</span>,</span>
-<span id="cb218-16"><a href="subgroups2.html#cb218-16" tabindex="-1"></a>             <span class="at">output_dir =</span> <span class="cn">NULL</span>,</span>
-<span id="cb218-17"><a href="subgroups2.html#cb218-17" tabindex="-1"></a>             <span class="at">toplot =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb218-18"><a href="subgroups2.html#cb218-18" tabindex="-1"></a>             <span class="at">verbose =</span> <span class="cn">TRUE</span></span></code></pre></div>
+<span id="cb218-7"><a href="subgroups2.html#cb218-7" tabindex="-1"></a>             <span class="at">df_settings =</span> <span class="cn">NULL</span>,</span>
+<span id="cb218-8"><a href="subgroups2.html#cb218-8" tabindex="-1"></a>             <span class="at">Rg0=</span> <span class="cn">NULL</span>, </span>
+<span id="cb218-9"><a href="subgroups2.html#cb218-9" tabindex="-1"></a>             <span class="at">cruz10 =</span> <span class="cn">NULL</span>,</span>
+<span id="cb218-10"><a href="subgroups2.html#cb218-10" tabindex="-1"></a>             <span class="at">g0_spp =</span> <span class="cn">NULL</span>,</span>
+<span id="cb218-11"><a href="subgroups2.html#cb218-11" tabindex="-1"></a>             <span class="at">g0_truncation =</span> <span class="cn">NULL</span>,</span>
+<span id="cb218-12"><a href="subgroups2.html#cb218-12" tabindex="-1"></a>             <span class="at">g0_constrain_shape =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb218-13"><a href="subgroups2.html#cb218-13" tabindex="-1"></a>             <span class="at">g0_jackknife_fraction =</span> <span class="fl">0.1</span>,</span>
+<span id="cb218-14"><a href="subgroups2.html#cb218-14" tabindex="-1"></a>             <span class="at">abundance_area =</span> <span class="cn">NULL</span>,</span>
+<span id="cb218-15"><a href="subgroups2.html#cb218-15" tabindex="-1"></a>             <span class="at">iterations =</span> <span class="dv">1000</span>,</span>
+<span id="cb218-16"><a href="subgroups2.html#cb218-16" tabindex="-1"></a>             <span class="at">seed =</span> <span class="cn">NULL</span>,</span>
+<span id="cb218-17"><a href="subgroups2.html#cb218-17" tabindex="-1"></a>             <span class="at">output_dir =</span> <span class="cn">NULL</span>,</span>
+<span id="cb218-18"><a href="subgroups2.html#cb218-18" tabindex="-1"></a>             <span class="at">toplot =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb218-19"><a href="subgroups2.html#cb218-19" tabindex="-1"></a>             <span class="at">verbose =</span> <span class="cn">TRUE</span></span></code></pre></div>
 <p>Note that there are several required inputs (without any defaults) as well as many optional inputs (with defaults provided).</p>
 <p>We will step through each of these inputs below, using a case study in which we estimate the abundance of the pelagic false killer whale population in the Hawaiian EEZ for 2017 (<a href="https://repository.library.noaa.gov/view/noaa/24756">Bradford et al. 2020</a>).</p>
 <div id="refresher-on-data-processing" class="section level3 unnumbered hasAnchor">
@@ -746,27 +749,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb243-9"><a href="subgroups2.html#cb243-9" tabindex="-1"></a>         ObsStd <span class="sc">==</span> <span class="cn">TRUE</span>,</span>
 <span id="cb243-10"><a href="subgroups2.html#cb243-10" tabindex="-1"></a>         mixed <span class="sc">==</span> <span class="cn">FALSE</span>,</span>
 <span id="cb243-11"><a href="subgroups2.html#cb243-11" tabindex="-1"></a>         Bearing <span class="sc">&lt;=</span> <span class="dv">90</span> <span class="sc">|</span> Bearing <span class="sc">&gt;=</span> <span class="dv">270</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb243-12"><a href="subgroups2.html#cb243-12" tabindex="-1"></a>  <span class="fu">select</span>(DateTime, Lat, Lon, Cruise, PerpDistKm) <span class="sc">%&gt;%</span> </span>
+<span id="cb243-12"><a href="subgroups2.html#cb243-12" tabindex="-1"></a>  <span class="fu">select</span>(DateTime, Lat, Lon, Cruise, PerpDistKm, Bft, EffType) <span class="sc">%&gt;%</span> </span>
 <span id="cb243-13"><a href="subgroups2.html#cb243-13" tabindex="-1"></a>  <span class="fu">arrange</span>(DateTime)</span></code></pre></div>
 <div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb244-1"><a href="subgroups2.html#cb244-1" tabindex="-1"></a>sits_1986_2010 <span class="sc">%&gt;%</span> nrow</span>
 <span id="cb244-2"><a href="subgroups2.html#cb244-2" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">35</span></span></code></pre></div>
 <div class="sourceCode" id="cb245"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb245-1"><a href="subgroups2.html#cb245-1" tabindex="-1"></a>sits_1986_2010 <span class="sc">%&gt;%</span> head</span>
-<span id="cb245-2"><a href="subgroups2.html#cb245-2" tabindex="-1"></a>             DateTime       Lat       Lon Cruise PerpDistKm</span>
-<span id="cb245-3"><a href="subgroups2.html#cb245-3" tabindex="-1"></a><span class="dv">1</span> <span class="dv">1986-11-13</span> <span class="dv">09</span><span class="sc">:</span><span class="dv">43</span><span class="sc">:</span><span class="dv">00</span> <span class="fl">10.466667</span> <span class="sc">-</span><span class="fl">139.2833</span>    <span class="dv">990</span> <span class="fl">1.17493742</span></span>
-<span id="cb245-4"><a href="subgroups2.html#cb245-4" tabindex="-1"></a><span class="dv">2</span> <span class="dv">1987-08-19</span> <span class="dv">15</span><span class="sc">:</span><span class="dv">30</span><span class="sc">:</span><span class="dv">00</span> <span class="fl">12.050000</span> <span class="sc">-</span><span class="fl">133.3000</span>   <span class="dv">1080</span> <span class="fl">2.24543067</span></span>
-<span id="cb245-5"><a href="subgroups2.html#cb245-5" tabindex="-1"></a><span class="dv">3</span> <span class="dv">1987-12-01</span> <span class="dv">09</span><span class="sc">:</span><span class="dv">23</span><span class="sc">:</span><span class="dv">00</span>  <span class="fl">8.266667</span> <span class="sc">-</span><span class="fl">122.5500</span>   <span class="dv">1080</span> <span class="fl">0.42589077</span></span>
-<span id="cb245-6"><a href="subgroups2.html#cb245-6" tabindex="-1"></a><span class="dv">4</span> <span class="dv">1989-08-22</span> <span class="dv">06</span><span class="sc">:</span><span class="dv">45</span><span class="sc">:</span><span class="dv">00</span> <span class="fl">11.800000</span> <span class="sc">-</span><span class="fl">141.7333</span>   <span class="dv">1268</span> <span class="fl">0.40838431</span></span>
-<span id="cb245-7"><a href="subgroups2.html#cb245-7" tabindex="-1"></a><span class="dv">5</span> <span class="dv">1989-08-22</span> <span class="dv">16</span><span class="sc">:</span><span class="dv">39</span><span class="sc">:</span><span class="dv">00</span> <span class="fl">12.716667</span> <span class="sc">-</span><span class="fl">143.1000</span>   <span class="dv">1268</span> <span class="fl">0.68815211</span></span>
-<span id="cb245-8"><a href="subgroups2.html#cb245-8" tabindex="-1"></a><span class="dv">6</span> <span class="dv">1989-09-10</span> <span class="dv">17</span><span class="sc">:</span><span class="dv">18</span><span class="sc">:</span><span class="dv">00</span>  <span class="fl">7.350000</span> <span class="sc">-</span><span class="fl">129.5333</span>   <span class="dv">1268</span> <span class="fl">0.07751339</span></span></code></pre></div>
+<span id="cb245-2"><a href="subgroups2.html#cb245-2" tabindex="-1"></a>             DateTime       Lat       Lon Cruise PerpDistKm Bft EffType</span>
+<span id="cb245-3"><a href="subgroups2.html#cb245-3" tabindex="-1"></a><span class="dv">1</span> <span class="dv">1986-11-13</span> <span class="dv">09</span><span class="sc">:</span><span class="dv">43</span><span class="sc">:</span><span class="dv">00</span> <span class="fl">10.466667</span> <span class="sc">-</span><span class="fl">139.2833</span>    <span class="dv">990</span> <span class="fl">1.17493742</span>   <span class="dv">3</span>       S</span>
+<span id="cb245-4"><a href="subgroups2.html#cb245-4" tabindex="-1"></a><span class="dv">2</span> <span class="dv">1987-08-19</span> <span class="dv">15</span><span class="sc">:</span><span class="dv">30</span><span class="sc">:</span><span class="dv">00</span> <span class="fl">12.050000</span> <span class="sc">-</span><span class="fl">133.3000</span>   <span class="dv">1080</span> <span class="fl">2.24543067</span>   <span class="dv">5</span>       S</span>
+<span id="cb245-5"><a href="subgroups2.html#cb245-5" tabindex="-1"></a><span class="dv">3</span> <span class="dv">1987-12-01</span> <span class="dv">09</span><span class="sc">:</span><span class="dv">23</span><span class="sc">:</span><span class="dv">00</span>  <span class="fl">8.266667</span> <span class="sc">-</span><span class="fl">122.5500</span>   <span class="dv">1080</span> <span class="fl">0.42589077</span>   <span class="dv">3</span>       S</span>
+<span id="cb245-6"><a href="subgroups2.html#cb245-6" tabindex="-1"></a><span class="dv">4</span> <span class="dv">1989-08-22</span> <span class="dv">06</span><span class="sc">:</span><span class="dv">45</span><span class="sc">:</span><span class="dv">00</span> <span class="fl">11.800000</span> <span class="sc">-</span><span class="fl">141.7333</span>   <span class="dv">1268</span> <span class="fl">0.40838431</span>   <span class="dv">4</span>       S</span>
+<span id="cb245-7"><a href="subgroups2.html#cb245-7" tabindex="-1"></a><span class="dv">5</span> <span class="dv">1989-08-22</span> <span class="dv">16</span><span class="sc">:</span><span class="dv">39</span><span class="sc">:</span><span class="dv">00</span> <span class="fl">12.716667</span> <span class="sc">-</span><span class="fl">143.1000</span>   <span class="dv">1268</span> <span class="fl">0.68815211</span>   <span class="dv">4</span>       S</span>
+<span id="cb245-8"><a href="subgroups2.html#cb245-8" tabindex="-1"></a><span class="dv">6</span> <span class="dv">1989-09-10</span> <span class="dv">17</span><span class="sc">:</span><span class="dv">18</span><span class="sc">:</span><span class="dv">00</span>  <span class="fl">7.350000</span> <span class="sc">-</span><span class="fl">129.5333</span>   <span class="dv">1268</span> <span class="fl">0.07751339</span>   <span class="dv">5</span>       S</span></code></pre></div>
+<p>The only column that is <em>required</em> here is <code>PerpDistKm</code>, but we are keeping date and coordinate columns as well. We are also including two additional columns, <code>Bft</code> and <code>EffType</code>, since we are going to use them in an example further down the page.</p>
+<p>Note that all column names within <code>df_sits</code> must be within <code>density_sightings</code>, another of the required inputs, and those names must match exactly. (That is, <code>density_sightings</code> can have many more columns than does <code>df_sit</code>, but all columns from the latter must be present in the former.) This is needed in order to predict the Effective Strip Width of <code>density_sightings</code> based on the detection function fitting procedure.</p>
 <p>We add one sighting from 2016 that is going to be treated like a pre-2011 sighting, since it was not made with the PC protocol:</p>
 <div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb246-1"><a href="subgroups2.html#cb246-1" tabindex="-1"></a>sit_1604_018 <span class="ot">&lt;-</span> </span>
 <span id="cb246-2"><a href="subgroups2.html#cb246-2" tabindex="-1"></a>  cruz_df<span class="sc">$</span>cohorts<span class="sc">$</span>all<span class="sc">$</span>sightings <span class="sc">%&gt;%</span> </span>
 <span id="cb246-3"><a href="subgroups2.html#cb246-3" tabindex="-1"></a>  <span class="fu">filter</span>(Cruise <span class="sc">==</span> <span class="dv">1604</span>, </span>
 <span id="cb246-4"><a href="subgroups2.html#cb246-4" tabindex="-1"></a>         SightNo <span class="sc">==</span> <span class="st">&#39;018&#39;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb246-5"><a href="subgroups2.html#cb246-5" tabindex="-1"></a>  <span class="fu">select</span>(DateTime, Lat, Lon, Cruise, PerpDistKm)</span></code></pre></div>
+<span id="cb246-5"><a href="subgroups2.html#cb246-5" tabindex="-1"></a>  <span class="fu">select</span>(DateTime, Lat, Lon, Cruise, PerpDistKm, Bft, EffType)</span></code></pre></div>
 <div class="sourceCode" id="cb247"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb247-1"><a href="subgroups2.html#cb247-1" tabindex="-1"></a>sit_1604_018</span>
-<span id="cb247-2"><a href="subgroups2.html#cb247-2" tabindex="-1"></a>             DateTime      Lat      Lon Cruise PerpDistKm</span>
-<span id="cb247-3"><a href="subgroups2.html#cb247-3" tabindex="-1"></a><span class="dv">1</span> <span class="dv">2016-07-04</span> <span class="dv">15</span><span class="sc">:</span><span class="dv">45</span><span class="sc">:</span><span class="dv">21</span> <span class="fl">21.66367</span> <span class="sc">-</span><span class="fl">158.269</span>   <span class="dv">1604</span>    <span class="fl">0.58338</span></span></code></pre></div>
+<span id="cb247-2"><a href="subgroups2.html#cb247-2" tabindex="-1"></a>             DateTime      Lat      Lon Cruise PerpDistKm Bft EffType</span>
+<span id="cb247-3"><a href="subgroups2.html#cb247-3" tabindex="-1"></a><span class="dv">1</span> <span class="dv">2016-07-04</span> <span class="dv">15</span><span class="sc">:</span><span class="dv">45</span><span class="sc">:</span><span class="dv">21</span> <span class="fl">21.66367</span> <span class="sc">-</span><span class="fl">158.269</span>   <span class="dv">1604</span>    <span class="fl">0.58338</span>   <span class="dv">6</span>       S</span></code></pre></div>
 <p>To add to this pool of sightings, we also include Phase 1 subgroup detections from 2011 to 2017 based on the PC protocol. Specific criteria: PC Protocol is <code>Phase 1</code>, <code>OnEffort</code> is <code>TRUE</code>, <code>EffType</code> can be <code>"S"</code>, <code>"F"</code>, or <code>"N"</code>; no mixed-species schools; no sightings past beam; detection made by primary observer.</p>
 <p>Before we apply these filters, we need to make a few edits for a some special cases:</p>
 <div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb248-1"><a href="subgroups2.html#cb248-1" tabindex="-1"></a><span class="co"># These subgroups should have a standard observer </span></span>
@@ -806,20 +811,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb249-7"><a href="subgroups2.html#cb249-7" tabindex="-1"></a>         Angle <span class="sc">&lt;=</span> <span class="dv">90</span> <span class="sc">|</span> Angle <span class="sc">&gt;=</span> <span class="dv">270</span>,</span>
 <span id="cb249-8"><a href="subgroups2.html#cb249-8" tabindex="-1"></a>         Species <span class="sc">==</span> <span class="st">&#39;033&#39;</span>,</span>
 <span id="cb249-9"><a href="subgroups2.html#cb249-9" tabindex="-1"></a>         Phase <span class="sc">==</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb249-10"><a href="subgroups2.html#cb249-10" tabindex="-1"></a>  <span class="fu">select</span>(DateTime, Lat, Lon, Cruise, <span class="at">PerpDistKm =</span> PerpDist) <span class="sc">%&gt;%</span> </span>
+<span id="cb249-10"><a href="subgroups2.html#cb249-10" tabindex="-1"></a>  <span class="fu">select</span>(DateTime, Lat, Lon, Cruise, <span class="at">PerpDistKm =</span> PerpDist, Bft, EffType) <span class="sc">%&gt;%</span> </span>
 <span id="cb249-11"><a href="subgroups2.html#cb249-11" tabindex="-1"></a>  <span class="fu">arrange</span>(DateTime)</span>
 <span id="cb249-12"><a href="subgroups2.html#cb249-12" tabindex="-1"></a>  </span>
 <span id="cb249-13"><a href="subgroups2.html#cb249-13" tabindex="-1"></a>sits_2011_2017 <span class="sc">%&gt;%</span> nrow</span>
 <span id="cb249-14"><a href="subgroups2.html#cb249-14" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">71</span></span>
 <span id="cb249-15"><a href="subgroups2.html#cb249-15" tabindex="-1"></a></span>
 <span id="cb249-16"><a href="subgroups2.html#cb249-16" tabindex="-1"></a>sits_2011_2017 <span class="sc">%&gt;%</span> head</span>
-<span id="cb249-17"><a href="subgroups2.html#cb249-17" tabindex="-1"></a>             DateTime       Lat       Lon Cruise PerpDistKm</span>
-<span id="cb249-18"><a href="subgroups2.html#cb249-18" tabindex="-1"></a><span class="dv">1</span> <span class="dv">2011-10-26</span> <span class="dv">13</span><span class="sc">:</span><span class="dv">16</span><span class="sc">:</span><span class="dv">06</span>  <span class="fl">7.240500</span> <span class="sc">-</span><span class="fl">164.9347</span>   <span class="dv">1108</span>  <span class="fl">1.4714466</span></span>
-<span id="cb249-19"><a href="subgroups2.html#cb249-19" tabindex="-1"></a><span class="dv">2</span> <span class="dv">2011-10-26</span> <span class="dv">13</span><span class="sc">:</span><span class="dv">31</span><span class="sc">:</span><span class="dv">17</span>  <span class="fl">7.207333</span> <span class="sc">-</span><span class="fl">164.9572</span>   <span class="dv">1108</span>  <span class="fl">2.1211999</span></span>
-<span id="cb249-20"><a href="subgroups2.html#cb249-20" tabindex="-1"></a><span class="dv">3</span> <span class="dv">2011-10-26</span> <span class="dv">13</span><span class="sc">:</span><span class="dv">48</span><span class="sc">:</span><span class="dv">26</span>  <span class="fl">7.169667</span> <span class="sc">-</span><span class="fl">164.9830</span>   <span class="dv">1108</span>  <span class="fl">0.9876483</span></span>
-<span id="cb249-21"><a href="subgroups2.html#cb249-21" tabindex="-1"></a><span class="dv">4</span> <span class="dv">2011-10-26</span> <span class="dv">14</span><span class="sc">:</span><span class="dv">02</span><span class="sc">:</span><span class="dv">29</span>  <span class="fl">7.139000</span> <span class="sc">-</span><span class="fl">165.0043</span>   <span class="dv">1108</span>  <span class="fl">1.5731017</span></span>
-<span id="cb249-22"><a href="subgroups2.html#cb249-22" tabindex="-1"></a><span class="dv">5</span> <span class="dv">2013-05-13</span> <span class="dv">07</span><span class="sc">:</span><span class="dv">09</span><span class="sc">:</span><span class="dv">54</span> <span class="fl">24.302333</span> <span class="sc">-</span><span class="fl">168.3195</span>   <span class="dv">1303</span>  <span class="fl">1.6787670</span></span>
-<span id="cb249-23"><a href="subgroups2.html#cb249-23" tabindex="-1"></a><span class="dv">6</span> <span class="dv">2013-05-13</span> <span class="dv">07</span><span class="sc">:</span><span class="dv">24</span><span class="sc">:</span><span class="dv">54</span> <span class="fl">24.343500</span> <span class="sc">-</span><span class="fl">168.3315</span>   <span class="dv">1303</span>  <span class="fl">0.9470481</span></span></code></pre></div>
+<span id="cb249-17"><a href="subgroups2.html#cb249-17" tabindex="-1"></a>             DateTime       Lat       Lon Cruise PerpDistKm Bft EffType</span>
+<span id="cb249-18"><a href="subgroups2.html#cb249-18" tabindex="-1"></a><span class="dv">1</span> <span class="dv">2011-10-26</span> <span class="dv">13</span><span class="sc">:</span><span class="dv">16</span><span class="sc">:</span><span class="dv">06</span>  <span class="fl">7.240500</span> <span class="sc">-</span><span class="fl">164.9347</span>   <span class="dv">1108</span>  <span class="fl">1.4714466</span>   <span class="dv">4</span>       S</span>
+<span id="cb249-19"><a href="subgroups2.html#cb249-19" tabindex="-1"></a><span class="dv">2</span> <span class="dv">2011-10-26</span> <span class="dv">13</span><span class="sc">:</span><span class="dv">31</span><span class="sc">:</span><span class="dv">17</span>  <span class="fl">7.207333</span> <span class="sc">-</span><span class="fl">164.9572</span>   <span class="dv">1108</span>  <span class="fl">2.1211999</span>   <span class="dv">3</span>       S</span>
+<span id="cb249-20"><a href="subgroups2.html#cb249-20" tabindex="-1"></a><span class="dv">3</span> <span class="dv">2011-10-26</span> <span class="dv">13</span><span class="sc">:</span><span class="dv">48</span><span class="sc">:</span><span class="dv">26</span>  <span class="fl">7.169667</span> <span class="sc">-</span><span class="fl">164.9830</span>   <span class="dv">1108</span>  <span class="fl">0.9876483</span>   <span class="dv">3</span>       S</span>
+<span id="cb249-21"><a href="subgroups2.html#cb249-21" tabindex="-1"></a><span class="dv">4</span> <span class="dv">2011-10-26</span> <span class="dv">14</span><span class="sc">:</span><span class="dv">02</span><span class="sc">:</span><span class="dv">29</span>  <span class="fl">7.139000</span> <span class="sc">-</span><span class="fl">165.0043</span>   <span class="dv">1108</span>  <span class="fl">1.5731017</span>   <span class="dv">3</span>       S</span>
+<span id="cb249-22"><a href="subgroups2.html#cb249-22" tabindex="-1"></a><span class="dv">5</span> <span class="dv">2013-05-13</span> <span class="dv">07</span><span class="sc">:</span><span class="dv">09</span><span class="sc">:</span><span class="dv">54</span> <span class="fl">24.302333</span> <span class="sc">-</span><span class="fl">168.3195</span>   <span class="dv">1303</span>  <span class="fl">1.6787670</span>   <span class="dv">4</span>       S</span>
+<span id="cb249-23"><a href="subgroups2.html#cb249-23" tabindex="-1"></a><span class="dv">6</span> <span class="dv">2013-05-13</span> <span class="dv">07</span><span class="sc">:</span><span class="dv">24</span><span class="sc">:</span><span class="dv">54</span> <span class="fl">24.343500</span> <span class="sc">-</span><span class="fl">168.3315</span>   <span class="dv">1303</span>  <span class="fl">0.9470481</span>   <span class="dv">4</span>       S</span></code></pre></div>
 <p>To create <code>df_sits</code> for detection function fitting, we combine these datasets together:</p>
 <div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb250-1"><a href="subgroups2.html#cb250-1" tabindex="-1"></a>df_sits <span class="ot">&lt;-</span> <span class="fu">rbind</span>(sits_1986_2010, </span>
 <span id="cb250-2"><a href="subgroups2.html#cb250-2" tabindex="-1"></a>                 sit_1604_018,</span>
@@ -911,7 +916,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb256-6"><a href="subgroups2.html#cb256-6" tabindex="-1"></a>                            <span class="sc">!</span> sgid <span class="sc">%in%</span> subgroup_fluidity)</span></code></pre></div>
 <p>We then use the <code>LTabundR</code> function <code>subgroup_subgroups()</code> to turn these observer-species estimates into a single row for each subgroup, with subgroup sizes averaged using the geometric mean:</p>
 <div class="sourceCode" id="cb257"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb257-1"><a href="subgroups2.html#cb257-1" tabindex="-1"></a>subgroups <span class="ot">&lt;-</span> <span class="fu">subgroup_subgroups</span>(events)</span></code></pre></div>
-<p>We can then use these subgroups to conduct additional filtering for each phase of the PC protocol. Phase 1 detections need to be within 4.5km, not past the beam, and made by a primary observer with a valid “best” estimate. Phase 2 detections need to be within 4.5km and have a valid “best” estimate.</p>
+<p>We can then use these subgroups to conduct additional filtering for each phase of the PC protocol. Phase 1 detections need to be within 4.5km, not past the beam, and made by a primary observer with a valid “best” estimate. Phase 2 detections need to be within 4.5km and have a valid “best” estimate. (Note that we are changing the column named <code>"PerpDist"</code> to <code>"PerpDistKm"</code> to match column names in <code>df_sits</code>.)</p>
 <div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb258-1"><a href="subgroups2.html#cb258-1" tabindex="-1"></a><span class="co"># Filters that apply to both phases</span></span>
 <span id="cb258-2"><a href="subgroups2.html#cb258-2" tabindex="-1"></a>ss  <span class="ot">&lt;-</span></span>
 <span id="cb258-3"><a href="subgroups2.html#cb258-3" tabindex="-1"></a>  subgroups <span class="sc">%&gt;%</span> </span>
@@ -961,234 +966,251 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb262-17"><a href="subgroups2.html#cb262-17" tabindex="-1"></a>[<span class="dv">121</span>] <span class="fl">1.00</span> <span class="fl">2.00</span> <span class="fl">1.00</span> <span class="fl">2.00</span> <span class="fl">2.83</span> <span class="fl">3.00</span> <span class="fl">2.00</span></span></code></pre></div>
 <p>The sample size in <a href="https://repository.library.noaa.gov/view/noaa/24756">Bradford et al. (2020)</a> is n=127 (63 from phase 1, 64 from phase 2).</p>
 </div>
+<div id="df_settings" class="section level3 unnumbered hasAnchor">
+<h3><code>df_settings</code><a href="subgroups2.html#df_settings" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>This input is optional. It must be a named <code>list</code> containing parameters for fitting the detection function. See detailed documentation on the <a href="lta.html#dfsets">Line Transect Analysis page</a>. Default inputs shown below. Note that the default is that covariates are not used in detection function fitting. Briefly, here is an example of what this list should look like:</p>
+<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="subgroups2.html#cb263-1" tabindex="-1"></a>df_settings <span class="ot">=</span> </span>
+<span id="cb263-2"><a href="subgroups2.html#cb263-2" tabindex="-1"></a>  <span class="fu">list</span>(<span class="at">covariates =</span> <span class="cn">NULL</span>,</span>
+<span id="cb263-3"><a href="subgroups2.html#cb263-3" tabindex="-1"></a>       <span class="at">covariates_factor =</span> <span class="cn">NULL</span>,</span>
+<span id="cb263-4"><a href="subgroups2.html#cb263-4" tabindex="-1"></a>       <span class="at">covariates_levels =</span> <span class="dv">2</span>,</span>
+<span id="cb263-5"><a href="subgroups2.html#cb263-5" tabindex="-1"></a>       <span class="at">covariates_n_per_level =</span> <span class="dv">10</span>,</span>
+<span id="cb263-6"><a href="subgroups2.html#cb263-6" tabindex="-1"></a>       <span class="at">simplify_cue =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb263-7"><a href="subgroups2.html#cb263-7" tabindex="-1"></a>       <span class="at">simplify_bino =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb263-8"><a href="subgroups2.html#cb263-8" tabindex="-1"></a>       <span class="at">detection_function_base =</span> <span class="st">&#39;hn&#39;</span>,</span>
+<span id="cb263-9"><a href="subgroups2.html#cb263-9" tabindex="-1"></a>       <span class="at">base_model =</span> <span class="st">&#39;~1&#39;</span>,</span>
+<span id="cb263-10"><a href="subgroups2.html#cb263-10" tabindex="-1"></a>       <span class="at">delta_aic =</span> <span class="dv">2</span>)</span></code></pre></div>
+<p>If the slot <code>$covariates</code> is <code>NULL</code> (the default), then the detection function will be modeled without using any environmental covariates. To model with covariates, supply a character vector of column names that occur in <strong>both</strong> the inputs <code>df_sits</code> and <code>density_sightings</code>. Explanations of the remaining slots are provided on <a href="lta.html#dfsets">here</a>.</p>
+</div>
 <div id="rg0-1" class="section level3 unnumbered hasAnchor">
 <h3><code>Rg0</code><a href="subgroups2.html#rg0-1" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>This is a <code>data.frame</code> with estimates of Relative <em>g(0)</em> and its CV at each Beaufort sea state. If this input is left <code>NULL</code>, then these estimates will be produced by the function using the subsequent <code>g0_</code> inputs below. If this input is <em>not</em> supplied and any of the subsequent <code>g0_</code> inputs are missing, then <em>g(0)</em> will be assumed to be 1.0 with CV of 0.0.</p>
 <p>When you do supply this <code>Rg0</code> input, the <code>data.frame</code> has three required columns: <code>bft</code> (Beaufort sea state, numbers between 0 and 6), <code>Rg0</code> (<em>Rg(0)</em> estimates for each Beaufort state), and <code>Rg0_CV</code> (the CV of the <em>Rg(0)</em> estimate in each Beaufort state). Other columns are allowed but will be ignored.</p>
 <p>Here is an example of a valid <code>Rg0</code> input based on the values reported for false killer whales in <a href="https://www.fisheries.noaa.gov/inport/item/59592">Bradford et al. (2020)</a>. (These numbers are also available in the built-in dataset <code>data(barlow_2015)</code>).</p>
-<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb263-1"><a href="subgroups2.html#cb263-1" tabindex="-1"></a>Rg0 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">bft =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">6</span>,</span>
-<span id="cb263-2"><a href="subgroups2.html#cb263-2" tabindex="-1"></a>                  <span class="at">Rg0 =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.72</span>, <span class="fl">0.51</span>, <span class="fl">0.37</span>, <span class="fl">0.26</span>, <span class="fl">0.19</span>),</span>
-<span id="cb263-3"><a href="subgroups2.html#cb263-3" tabindex="-1"></a>                  <span class="at">Rg0_CV =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.11</span>, <span class="fl">0.22</span>, <span class="fl">0.34</span>, <span class="fl">0.46</span>, <span class="fl">0.59</span>))</span>
-<span id="cb263-4"><a href="subgroups2.html#cb263-4" tabindex="-1"></a></span>
-<span id="cb263-5"><a href="subgroups2.html#cb263-5" tabindex="-1"></a>Rg0</span>
-<span id="cb263-6"><a href="subgroups2.html#cb263-6" tabindex="-1"></a>  bft  Rg0 Rg0_CV</span>
-<span id="cb263-7"><a href="subgroups2.html#cb263-7" tabindex="-1"></a><span class="dv">1</span>   <span class="dv">0</span> <span class="fl">1.00</span>   <span class="fl">0.00</span></span>
-<span id="cb263-8"><a href="subgroups2.html#cb263-8" tabindex="-1"></a><span class="dv">2</span>   <span class="dv">1</span> <span class="fl">1.00</span>   <span class="fl">0.00</span></span>
-<span id="cb263-9"><a href="subgroups2.html#cb263-9" tabindex="-1"></a><span class="dv">3</span>   <span class="dv">2</span> <span class="fl">0.72</span>   <span class="fl">0.11</span></span>
-<span id="cb263-10"><a href="subgroups2.html#cb263-10" tabindex="-1"></a><span class="dv">4</span>   <span class="dv">3</span> <span class="fl">0.51</span>   <span class="fl">0.22</span></span>
-<span id="cb263-11"><a href="subgroups2.html#cb263-11" tabindex="-1"></a><span class="dv">5</span>   <span class="dv">4</span> <span class="fl">0.37</span>   <span class="fl">0.34</span></span>
-<span id="cb263-12"><a href="subgroups2.html#cb263-12" tabindex="-1"></a><span class="dv">6</span>   <span class="dv">5</span> <span class="fl">0.26</span>   <span class="fl">0.46</span></span>
-<span id="cb263-13"><a href="subgroups2.html#cb263-13" tabindex="-1"></a><span class="dv">7</span>   <span class="dv">6</span> <span class="fl">0.19</span>   <span class="fl">0.59</span></span></code></pre></div>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="subgroups2.html#cb264-1" tabindex="-1"></a>Rg0 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">bft =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">6</span>,</span>
+<span id="cb264-2"><a href="subgroups2.html#cb264-2" tabindex="-1"></a>                  <span class="at">Rg0 =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="fl">0.72</span>, <span class="fl">0.51</span>, <span class="fl">0.37</span>, <span class="fl">0.26</span>, <span class="fl">0.19</span>),</span>
+<span id="cb264-3"><a href="subgroups2.html#cb264-3" tabindex="-1"></a>                  <span class="at">Rg0_CV =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="fl">0.11</span>, <span class="fl">0.22</span>, <span class="fl">0.34</span>, <span class="fl">0.46</span>, <span class="fl">0.59</span>))</span>
+<span id="cb264-4"><a href="subgroups2.html#cb264-4" tabindex="-1"></a></span>
+<span id="cb264-5"><a href="subgroups2.html#cb264-5" tabindex="-1"></a>Rg0</span>
+<span id="cb264-6"><a href="subgroups2.html#cb264-6" tabindex="-1"></a>  bft  Rg0 Rg0_CV</span>
+<span id="cb264-7"><a href="subgroups2.html#cb264-7" tabindex="-1"></a><span class="dv">1</span>   <span class="dv">0</span> <span class="fl">1.00</span>   <span class="fl">0.00</span></span>
+<span id="cb264-8"><a href="subgroups2.html#cb264-8" tabindex="-1"></a><span class="dv">2</span>   <span class="dv">1</span> <span class="fl">1.00</span>   <span class="fl">0.00</span></span>
+<span id="cb264-9"><a href="subgroups2.html#cb264-9" tabindex="-1"></a><span class="dv">3</span>   <span class="dv">2</span> <span class="fl">0.72</span>   <span class="fl">0.11</span></span>
+<span id="cb264-10"><a href="subgroups2.html#cb264-10" tabindex="-1"></a><span class="dv">4</span>   <span class="dv">3</span> <span class="fl">0.51</span>   <span class="fl">0.22</span></span>
+<span id="cb264-11"><a href="subgroups2.html#cb264-11" tabindex="-1"></a><span class="dv">5</span>   <span class="dv">4</span> <span class="fl">0.37</span>   <span class="fl">0.34</span></span>
+<span id="cb264-12"><a href="subgroups2.html#cb264-12" tabindex="-1"></a><span class="dv">6</span>   <span class="dv">5</span> <span class="fl">0.26</span>   <span class="fl">0.46</span></span>
+<span id="cb264-13"><a href="subgroups2.html#cb264-13" tabindex="-1"></a><span class="dv">7</span>   <span class="dv">6</span> <span class="fl">0.19</span>   <span class="fl">0.59</span></span></code></pre></div>
 <p>Again: if you supply this input, then the following <code>g0_</code> inputs will be ignored.</p>
 </div>
 <div id="cruz10" class="section level3 unnumbered hasAnchor">
 <h3><code>cruz10</code><a href="subgroups2.html#cruz10" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>This is a processed <code>cruz</code> object with short segment lengths, ideally 10 km or less (hence the 10 in the input name). This <code>cruz</code> object will be used to estimate <em>Rg(0)</em>, i.e., the relative trackline detection probability (see its chapter), using the following <code>g0_</code> inputs. The built-in dataset we have already loaded, <code>data("noaa_10km_1986_2020")</code> is already processed with 10-km segments.</p>
-<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb264-1"><a href="subgroups2.html#cb264-1" tabindex="-1"></a>cruz10 <span class="ot">&lt;-</span> cruz</span></code></pre></div>
+<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="subgroups2.html#cb265-1" tabindex="-1"></a>cruz10 <span class="ot">&lt;-</span> cruz</span></code></pre></div>
 </div>
 <div id="g0_spp" class="section level3 unnumbered hasAnchor">
 <h3><code>g0_spp</code><a href="subgroups2.html#g0_spp" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>This and the following <code>g0_</code> inputs will be used to model Relative <em>g(0)</em> estimates and their CV in various Beaufort sea states. If the previous input, <code>Rg0</code> is provided, then these <code>g0_</code> inputs will be ignored, and no <em>Rg(0)</em> modeling will take place. Furthermore, if any of these <code>g0_</code> inputs are not provided, <em>Rg(0)</em> will be coerced to 1.0 with a CV of 0.0 for all sea states.</p>
 <p>This input, <code>g0_spp</code>, is a character vector of species code(s) to use to estimate <em>Rg(0)</em>. In most cases this will be a single species, e.g., <code>"033"</code> for false killer whales.</p>
-<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb265-1"><a href="subgroups2.html#cb265-1" tabindex="-1"></a>g0_spp <span class="ot">&lt;-</span> <span class="st">&#39;033&#39;</span></span></code></pre></div>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="subgroups2.html#cb266-1" tabindex="-1"></a>g0_spp <span class="ot">&lt;-</span> <span class="st">&#39;033&#39;</span></span></code></pre></div>
 </div>
 <div id="g0_truncation" class="section level3 unnumbered hasAnchor">
 <h3><code>g0_truncation</code><a href="subgroups2.html#g0_truncation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The truncation distance to use when estimating <em>Rg(0)</em>. In <a href="https://repository.library.noaa.gov/view/noaa/24756">Bradford et al. (2020)</a> this is 5.5 km.</p>
-<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb266-1"><a href="subgroups2.html#cb266-1" tabindex="-1"></a>g0_truncation <span class="ot">&lt;-</span> <span class="fl">5.5</span></span></code></pre></div>
+<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="subgroups2.html#cb267-1" tabindex="-1"></a>g0_truncation <span class="ot">&lt;-</span> <span class="fl">5.5</span></span></code></pre></div>
 </div>
 <div id="g0_constrain_shape" class="section level3 unnumbered hasAnchor">
 <h3><code>g0_constrain_shape</code><a href="subgroups2.html#g0_constrain_shape" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Some <em>Rg(0)</em> curves will not decline monotonically due to sample size issues at low Bft (0-2) or high Bft (5-6) states. To coerce monotonic decline, set this input to <code>TRUE</code>, and the function will use a shape-constrained GAM (<code>scam()</code> from package <code>scam</code>) instead of a classic <code>mgcv::gam()</code>.</p>
-<div class="sourceCode" id="cb267"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb267-1"><a href="subgroups2.html#cb267-1" tabindex="-1"></a>g0_constrain_shape <span class="ot">=</span> <span class="cn">FALSE</span></span></code></pre></div>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="subgroups2.html#cb268-1" tabindex="-1"></a>g0_constrain_shape <span class="ot">=</span> <span class="cn">FALSE</span></span></code></pre></div>
 </div>
 <div id="g0_jackknife_fraction" class="section level3 unnumbered hasAnchor">
 <h3><code>g0_jackknife_fraction</code><a href="subgroups2.html#g0_jackknife_fraction" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The proportion of data to leave out within each jackknife permutation. The default is <code>0.1</code> (i.e., 10% of the data, yielding 10 jackknife loops), after <a href="https://onlinelibrary.wiley.com/doi/abs/10.1111/mms.12205">Barlow (2015)</a>.</p>
-<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb268-1"><a href="subgroups2.html#cb268-1" tabindex="-1"></a>g0_jackknife_fraction <span class="ot">=</span> <span class="fl">0.1</span></span></code></pre></div>
+<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="subgroups2.html#cb269-1" tabindex="-1"></a>g0_jackknife_fraction <span class="ot">=</span> <span class="fl">0.1</span></span></code></pre></div>
 </div>
 <div id="density_segments" class="section level3 unnumbered hasAnchor">
 <h3><code>density_segments</code><a href="subgroups2.html#density_segments" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The survey segments to be used in density/abundance estimation. For example, <a href="https://repository.library.noaa.gov/view/noaa/24756">Bradford et al. (2020)</a> used 150-km segments to estimate false killer whale density in the Hawaiian EEZ in 2017. For this we can use the same <code>cruz</code> we processed above and have been using throughout this chapter.</p>
 <p>Note that no filtering will be applied to these segments by the <code>lta_subgroup()</code> function, so we need to filter them ourselves first: we want only systematic-effort segments for the Hawaiian EEZ in 2017 (specifically, just cruises 1705 and 1706).</p>
-<div class="sourceCode" id="cb269"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb269-1"><a href="subgroups2.html#cb269-1" tabindex="-1"></a>cruzi <span class="ot">&lt;-</span> <span class="fu">filter_cruz</span>(<span class="at">cruz =</span> cruz,</span>
-<span id="cb269-2"><a href="subgroups2.html#cb269-2" tabindex="-1"></a>                      <span class="at">analysis_only =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb269-3"><a href="subgroups2.html#cb269-3" tabindex="-1"></a>                      <span class="at">years =</span> <span class="dv">2017</span>,</span>
-<span id="cb269-4"><a href="subgroups2.html#cb269-4" tabindex="-1"></a>                      <span class="at">cruises =</span> <span class="fu">c</span>(<span class="dv">1705</span>, <span class="dv">1706</span>),</span>
-<span id="cb269-5"><a href="subgroups2.html#cb269-5" tabindex="-1"></a>                      <span class="at">regions =</span> <span class="st">&#39;HI_EEZ&#39;</span>,</span>
-<span id="cb269-6"><a href="subgroups2.html#cb269-6" tabindex="-1"></a>                      <span class="at">bft_range =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">6</span>,</span>
-<span id="cb269-7"><a href="subgroups2.html#cb269-7" tabindex="-1"></a>                      <span class="at">eff_types =</span> <span class="st">&#39;S&#39;</span>,</span>
-<span id="cb269-8"><a href="subgroups2.html#cb269-8" tabindex="-1"></a>                      <span class="at">on_off =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="subgroups2.html#cb270-1" tabindex="-1"></a>cruzi <span class="ot">&lt;-</span> <span class="fu">filter_cruz</span>(<span class="at">cruz =</span> cruz,</span>
+<span id="cb270-2"><a href="subgroups2.html#cb270-2" tabindex="-1"></a>                      <span class="at">analysis_only =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb270-3"><a href="subgroups2.html#cb270-3" tabindex="-1"></a>                      <span class="at">years =</span> <span class="dv">2017</span>,</span>
+<span id="cb270-4"><a href="subgroups2.html#cb270-4" tabindex="-1"></a>                      <span class="at">cruises =</span> <span class="fu">c</span>(<span class="dv">1705</span>, <span class="dv">1706</span>),</span>
+<span id="cb270-5"><a href="subgroups2.html#cb270-5" tabindex="-1"></a>                      <span class="at">regions =</span> <span class="st">&#39;HI_EEZ&#39;</span>,</span>
+<span id="cb270-6"><a href="subgroups2.html#cb270-6" tabindex="-1"></a>                      <span class="at">bft_range =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">6</span>,</span>
+<span id="cb270-7"><a href="subgroups2.html#cb270-7" tabindex="-1"></a>                      <span class="at">eff_types =</span> <span class="st">&#39;S&#39;</span>,</span>
+<span id="cb270-8"><a href="subgroups2.html#cb270-8" tabindex="-1"></a>                      <span class="at">on_off =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>At this point we need to batch-assign detections to their respective populations. To do so, we draw stock boundary polygons from the <code>cruz</code> strata:</p>
-<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb270-1"><a href="subgroups2.html#cb270-1" tabindex="-1"></a>mhi <span class="ot">&lt;-</span> cruz<span class="sc">$</span>settings<span class="sc">$</span>strata<span class="sc">$</span>mhi_fkw</span>
-<span id="cb270-2"><a href="subgroups2.html#cb270-2" tabindex="-1"></a>nwhi <span class="ot">&lt;-</span> cruz<span class="sc">$</span>settings<span class="sc">$</span>strata<span class="sc">$</span>nwhi_fkw</span>
-<span id="cb270-3"><a href="subgroups2.html#cb270-3" tabindex="-1"></a>populations <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">MHI =</span> mhi_fkw,</span>
-<span id="cb270-4"><a href="subgroups2.html#cb270-4" tabindex="-1"></a>                    <span class="at">NWHI =</span> nwhi_fkw)</span></code></pre></div>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="subgroups2.html#cb271-1" tabindex="-1"></a>mhi <span class="ot">&lt;-</span> cruz<span class="sc">$</span>settings<span class="sc">$</span>strata<span class="sc">$</span>mhi_fkw</span>
+<span id="cb271-2"><a href="subgroups2.html#cb271-2" tabindex="-1"></a>nwhi <span class="ot">&lt;-</span> cruz<span class="sc">$</span>settings<span class="sc">$</span>strata<span class="sc">$</span>nwhi_fkw</span>
+<span id="cb271-3"><a href="subgroups2.html#cb271-3" tabindex="-1"></a>populations <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">MHI =</span> mhi_fkw,</span>
+<span id="cb271-4"><a href="subgroups2.html#cb271-4" tabindex="-1"></a>                    <span class="at">NWHI =</span> nwhi_fkw)</span></code></pre></div>
 <p>We then run the function <code>subgroup_populations()</code> to automatically assign each subgroup to a population based on their location within those polygons:</p>
-<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb271-1"><a href="subgroups2.html#cb271-1" tabindex="-1"></a><span class="co"># Stage edits</span></span>
-<span id="cb271-2"><a href="subgroups2.html#cb271-2" tabindex="-1"></a>pops <span class="ot">&lt;-</span> <span class="fu">subgroup_populations</span>(populations,</span>
-<span id="cb271-3"><a href="subgroups2.html#cb271-3" tabindex="-1"></a>                             cruzi,</span>
-<span id="cb271-4"><a href="subgroups2.html#cb271-4" tabindex="-1"></a>                             <span class="at">cohort=</span><span class="dv">1</span>,</span>
-<span id="cb271-5"><a href="subgroups2.html#cb271-5" tabindex="-1"></a>                             <span class="at">default_pop =</span> <span class="st">&#39;pelagic&#39;</span>,</span>
-<span id="cb271-6"><a href="subgroups2.html#cb271-6" tabindex="-1"></a>                             <span class="at">verbose=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="subgroups2.html#cb272-1" tabindex="-1"></a><span class="co"># Stage edits</span></span>
+<span id="cb272-2"><a href="subgroups2.html#cb272-2" tabindex="-1"></a>pops <span class="ot">&lt;-</span> <span class="fu">subgroup_populations</span>(populations,</span>
+<span id="cb272-3"><a href="subgroups2.html#cb272-3" tabindex="-1"></a>                             cruzi,</span>
+<span id="cb272-4"><a href="subgroups2.html#cb272-4" tabindex="-1"></a>                             <span class="at">cohort=</span><span class="dv">1</span>,</span>
+<span id="cb272-5"><a href="subgroups2.html#cb272-5" tabindex="-1"></a>                             <span class="at">default_pop =</span> <span class="st">&#39;pelagic&#39;</span>,</span>
+<span id="cb272-6"><a href="subgroups2.html#cb272-6" tabindex="-1"></a>                             <span class="at">verbose=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <p>Here is a look at what this batch of staged edits looks like:</p>
-<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb272-1"><a href="subgroups2.html#cb272-1" tabindex="-1"></a>pops <span class="sc">%&gt;%</span> head</span>
-<span id="cb272-2"><a href="subgroups2.html#cb272-2" tabindex="-1"></a><span class="co"># A tibble: 6 × 5</span></span>
-<span id="cb272-3"><a href="subgroups2.html#cb272-3" tabindex="-1"></a>  edit       cohort sgid                population pop_prob</span>
-<span id="cb272-4"><a href="subgroups2.html#cb272-4" tabindex="-1"></a>  <span class="sc">&lt;</span>chr<span class="sc">&gt;</span>       <span class="er">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>chr<span class="sc">&gt;</span>               <span class="er">&lt;</span>chr<span class="sc">&gt;</span>      <span class="er">&lt;</span>chr<span class="sc">&gt;</span>   </span>
-<span id="cb272-5"><a href="subgroups2.html#cb272-5" tabindex="-1"></a><span class="dv">1</span> population      <span class="dv">1</span> <span class="dv">1705-20170921-064</span><span class="sc">-</span>A pelagic    <span class="dv">1</span>       </span>
-<span id="cb272-6"><a href="subgroups2.html#cb272-6" tabindex="-1"></a><span class="dv">2</span> population      <span class="dv">1</span> <span class="dv">1705-20170921-064</span><span class="sc">-</span>B pelagic    <span class="dv">1</span>       </span>
-<span id="cb272-7"><a href="subgroups2.html#cb272-7" tabindex="-1"></a><span class="dv">3</span> population      <span class="dv">1</span> <span class="dv">1705-20170921-064</span><span class="sc">-</span>B pelagic    <span class="dv">1</span>       </span>
-<span id="cb272-8"><a href="subgroups2.html#cb272-8" tabindex="-1"></a><span class="dv">4</span> population      <span class="dv">1</span> <span class="dv">1705-20170921-064</span><span class="sc">-</span>B pelagic    <span class="dv">1</span>       </span>
-<span id="cb272-9"><a href="subgroups2.html#cb272-9" tabindex="-1"></a><span class="dv">5</span> population      <span class="dv">1</span> <span class="dv">1705-20170929-073</span><span class="sc">-</span>A pelagic    <span class="dv">1</span>       </span>
-<span id="cb272-10"><a href="subgroups2.html#cb272-10" tabindex="-1"></a><span class="dv">6</span> population      <span class="dv">1</span> <span class="dv">1705-20170929-073</span><span class="sc">-</span>B pelagic    <span class="dv">1</span>       </span>
-<span id="cb272-11"><a href="subgroups2.html#cb272-11" tabindex="-1"></a></span>
-<span id="cb272-12"><a href="subgroups2.html#cb272-12" tabindex="-1"></a>pops<span class="sc">$</span>population <span class="sc">%&gt;%</span> table</span>
-<span id="cb272-13"><a href="subgroups2.html#cb272-13" tabindex="-1"></a>.</span>
-<span id="cb272-14"><a href="subgroups2.html#cb272-14" tabindex="-1"></a>     MHI MHI;NWHI     NWHI  pelagic </span>
-<span id="cb272-15"><a href="subgroups2.html#cb272-15" tabindex="-1"></a>       <span class="dv">1</span>        <span class="dv">8</span>       <span class="dv">15</span>       <span class="dv">24</span> </span></code></pre></div>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="subgroups2.html#cb273-1" tabindex="-1"></a>pops <span class="sc">%&gt;%</span> head</span>
+<span id="cb273-2"><a href="subgroups2.html#cb273-2" tabindex="-1"></a><span class="co"># A tibble: 6 × 5</span></span>
+<span id="cb273-3"><a href="subgroups2.html#cb273-3" tabindex="-1"></a>  edit       cohort sgid                population pop_prob</span>
+<span id="cb273-4"><a href="subgroups2.html#cb273-4" tabindex="-1"></a>  <span class="sc">&lt;</span>chr<span class="sc">&gt;</span>       <span class="er">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>chr<span class="sc">&gt;</span>               <span class="er">&lt;</span>chr<span class="sc">&gt;</span>      <span class="er">&lt;</span>chr<span class="sc">&gt;</span>   </span>
+<span id="cb273-5"><a href="subgroups2.html#cb273-5" tabindex="-1"></a><span class="dv">1</span> population      <span class="dv">1</span> <span class="dv">1705-20170921-064</span><span class="sc">-</span>A pelagic    <span class="dv">1</span>       </span>
+<span id="cb273-6"><a href="subgroups2.html#cb273-6" tabindex="-1"></a><span class="dv">2</span> population      <span class="dv">1</span> <span class="dv">1705-20170921-064</span><span class="sc">-</span>B pelagic    <span class="dv">1</span>       </span>
+<span id="cb273-7"><a href="subgroups2.html#cb273-7" tabindex="-1"></a><span class="dv">3</span> population      <span class="dv">1</span> <span class="dv">1705-20170921-064</span><span class="sc">-</span>B pelagic    <span class="dv">1</span>       </span>
+<span id="cb273-8"><a href="subgroups2.html#cb273-8" tabindex="-1"></a><span class="dv">4</span> population      <span class="dv">1</span> <span class="dv">1705-20170921-064</span><span class="sc">-</span>B pelagic    <span class="dv">1</span>       </span>
+<span id="cb273-9"><a href="subgroups2.html#cb273-9" tabindex="-1"></a><span class="dv">5</span> population      <span class="dv">1</span> <span class="dv">1705-20170929-073</span><span class="sc">-</span>A pelagic    <span class="dv">1</span>       </span>
+<span id="cb273-10"><a href="subgroups2.html#cb273-10" tabindex="-1"></a><span class="dv">6</span> population      <span class="dv">1</span> <span class="dv">1705-20170929-073</span><span class="sc">-</span>B pelagic    <span class="dv">1</span>       </span>
+<span id="cb273-11"><a href="subgroups2.html#cb273-11" tabindex="-1"></a></span>
+<span id="cb273-12"><a href="subgroups2.html#cb273-12" tabindex="-1"></a>pops<span class="sc">$</span>population <span class="sc">%&gt;%</span> table</span>
+<span id="cb273-13"><a href="subgroups2.html#cb273-13" tabindex="-1"></a>.</span>
+<span id="cb273-14"><a href="subgroups2.html#cb273-14" tabindex="-1"></a>     MHI MHI;NWHI     NWHI  pelagic </span>
+<span id="cb273-15"><a href="subgroups2.html#cb273-15" tabindex="-1"></a>       <span class="dv">1</span>        <span class="dv">8</span>       <span class="dv">15</span>       <span class="dv">24</span> </span></code></pre></div>
 <p>We also need to stage a few specific edits to the processed data, based on the some of the extenuating circumstances discussed in <a href="https://repository.library.noaa.gov/view/noaa/24756">Bradford et al. (2020)</a>.</p>
 <p><strong>Sighting 133</strong> subgroups did not have biological data to assign them to NWHI, so they could be NWHI or pelagic according to an established probability (based on survey data):</p>
-<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb273-1"><a href="subgroups2.html#cb273-1" tabindex="-1"></a>sit133 <span class="ot">&lt;-</span> </span>
-<span id="cb273-2"><a href="subgroups2.html#cb273-2" tabindex="-1"></a>  <span class="fu">subgroup_edits</span>(<span class="at">cohort=</span><span class="dv">1</span>,</span>
-<span id="cb273-3"><a href="subgroups2.html#cb273-3" tabindex="-1"></a>                 <span class="at">sgid =</span> <span class="fu">c</span>(<span class="st">&quot;1706-20170917-133-A&quot;</span>,  </span>
-<span id="cb273-4"><a href="subgroups2.html#cb273-4" tabindex="-1"></a>                          <span class="st">&quot;1706-20170917-133-B&quot;</span>,  </span>
-<span id="cb273-5"><a href="subgroups2.html#cb273-5" tabindex="-1"></a>                          <span class="st">&quot;1706-20170917-133-C&quot;</span>,  </span>
-<span id="cb273-6"><a href="subgroups2.html#cb273-6" tabindex="-1"></a>                          <span class="st">&quot;1706-20170917-133-D&quot;</span>,  </span>
-<span id="cb273-7"><a href="subgroups2.html#cb273-7" tabindex="-1"></a>                          <span class="st">&quot;1706-20170917-133-E&quot;</span>,</span>
-<span id="cb273-8"><a href="subgroups2.html#cb273-8" tabindex="-1"></a>                          <span class="st">&quot;1706-20170917-133-F&quot;</span>,</span>
-<span id="cb273-9"><a href="subgroups2.html#cb273-9" tabindex="-1"></a>                          <span class="st">&quot;1706-20170917-133-G&quot;</span>),</span>
-<span id="cb273-10"><a href="subgroups2.html#cb273-10" tabindex="-1"></a>                 <span class="at">population =</span> <span class="st">&#39;NWHI;pelagic&#39;</span>,</span>
-<span id="cb273-11"><a href="subgroups2.html#cb273-11" tabindex="-1"></a>                 <span class="at">pop_prob =</span> <span class="st">&#39;0.4;0.6&#39;</span>)</span>
-<span id="cb273-12"><a href="subgroups2.html#cb273-12" tabindex="-1"></a></span>
-<span id="cb273-13"><a href="subgroups2.html#cb273-13" tabindex="-1"></a><span class="co"># Check it out</span></span>
-<span id="cb273-14"><a href="subgroups2.html#cb273-14" tabindex="-1"></a>sit133</span>
-<span id="cb273-15"><a href="subgroups2.html#cb273-15" tabindex="-1"></a>[[<span class="dv">1</span>]]</span>
-<span id="cb273-16"><a href="subgroups2.html#cb273-16" tabindex="-1"></a>        edit cohort                sgid   population pop_prob</span>
-<span id="cb273-17"><a href="subgroups2.html#cb273-17" tabindex="-1"></a><span class="dv">1</span> population      <span class="dv">1</span> <span class="dv">1706-20170917-133</span><span class="sc">-</span>A NWHI;pelagic  <span class="fl">0.4</span>;<span class="fl">0.6</span></span>
-<span id="cb273-18"><a href="subgroups2.html#cb273-18" tabindex="-1"></a><span class="dv">2</span> population      <span class="dv">1</span> <span class="dv">1706-20170917-133</span><span class="sc">-</span>B NWHI;pelagic  <span class="fl">0.4</span>;<span class="fl">0.6</span></span>
-<span id="cb273-19"><a href="subgroups2.html#cb273-19" tabindex="-1"></a><span class="dv">3</span> population      <span class="dv">1</span> <span class="dv">1706-20170917-133</span><span class="sc">-</span>C NWHI;pelagic  <span class="fl">0.4</span>;<span class="fl">0.6</span></span>
-<span id="cb273-20"><a href="subgroups2.html#cb273-20" tabindex="-1"></a><span class="dv">4</span> population      <span class="dv">1</span> <span class="dv">1706-20170917-133</span><span class="sc">-</span>D NWHI;pelagic  <span class="fl">0.4</span>;<span class="fl">0.6</span></span>
-<span id="cb273-21"><a href="subgroups2.html#cb273-21" tabindex="-1"></a><span class="dv">5</span> population      <span class="dv">1</span> <span class="dv">1706-20170917-133</span><span class="sc">-</span>E NWHI;pelagic  <span class="fl">0.4</span>;<span class="fl">0.6</span></span>
-<span id="cb273-22"><a href="subgroups2.html#cb273-22" tabindex="-1"></a><span class="dv">6</span> population      <span class="dv">1</span> <span class="dv">1706-20170917-133</span><span class="sc">-</span>F NWHI;pelagic  <span class="fl">0.4</span>;<span class="fl">0.6</span></span>
-<span id="cb273-23"><a href="subgroups2.html#cb273-23" tabindex="-1"></a><span class="dv">7</span> population      <span class="dv">1</span> <span class="dv">1706-20170917-133</span><span class="sc">-</span>G NWHI;pelagic  <span class="fl">0.4</span>;<span class="fl">0.6</span></span></code></pre></div>
+<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="subgroups2.html#cb274-1" tabindex="-1"></a>sit133 <span class="ot">&lt;-</span> </span>
+<span id="cb274-2"><a href="subgroups2.html#cb274-2" tabindex="-1"></a>  <span class="fu">subgroup_edits</span>(<span class="at">cohort=</span><span class="dv">1</span>,</span>
+<span id="cb274-3"><a href="subgroups2.html#cb274-3" tabindex="-1"></a>                 <span class="at">sgid =</span> <span class="fu">c</span>(<span class="st">&quot;1706-20170917-133-A&quot;</span>,  </span>
+<span id="cb274-4"><a href="subgroups2.html#cb274-4" tabindex="-1"></a>                          <span class="st">&quot;1706-20170917-133-B&quot;</span>,  </span>
+<span id="cb274-5"><a href="subgroups2.html#cb274-5" tabindex="-1"></a>                          <span class="st">&quot;1706-20170917-133-C&quot;</span>,  </span>
+<span id="cb274-6"><a href="subgroups2.html#cb274-6" tabindex="-1"></a>                          <span class="st">&quot;1706-20170917-133-D&quot;</span>,  </span>
+<span id="cb274-7"><a href="subgroups2.html#cb274-7" tabindex="-1"></a>                          <span class="st">&quot;1706-20170917-133-E&quot;</span>,</span>
+<span id="cb274-8"><a href="subgroups2.html#cb274-8" tabindex="-1"></a>                          <span class="st">&quot;1706-20170917-133-F&quot;</span>,</span>
+<span id="cb274-9"><a href="subgroups2.html#cb274-9" tabindex="-1"></a>                          <span class="st">&quot;1706-20170917-133-G&quot;</span>),</span>
+<span id="cb274-10"><a href="subgroups2.html#cb274-10" tabindex="-1"></a>                 <span class="at">population =</span> <span class="st">&#39;NWHI;pelagic&#39;</span>,</span>
+<span id="cb274-11"><a href="subgroups2.html#cb274-11" tabindex="-1"></a>                 <span class="at">pop_prob =</span> <span class="st">&#39;0.4;0.6&#39;</span>)</span>
+<span id="cb274-12"><a href="subgroups2.html#cb274-12" tabindex="-1"></a></span>
+<span id="cb274-13"><a href="subgroups2.html#cb274-13" tabindex="-1"></a><span class="co"># Check it out</span></span>
+<span id="cb274-14"><a href="subgroups2.html#cb274-14" tabindex="-1"></a>sit133</span>
+<span id="cb274-15"><a href="subgroups2.html#cb274-15" tabindex="-1"></a>[[<span class="dv">1</span>]]</span>
+<span id="cb274-16"><a href="subgroups2.html#cb274-16" tabindex="-1"></a>        edit cohort                sgid   population pop_prob</span>
+<span id="cb274-17"><a href="subgroups2.html#cb274-17" tabindex="-1"></a><span class="dv">1</span> population      <span class="dv">1</span> <span class="dv">1706-20170917-133</span><span class="sc">-</span>A NWHI;pelagic  <span class="fl">0.4</span>;<span class="fl">0.6</span></span>
+<span id="cb274-18"><a href="subgroups2.html#cb274-18" tabindex="-1"></a><span class="dv">2</span> population      <span class="dv">1</span> <span class="dv">1706-20170917-133</span><span class="sc">-</span>B NWHI;pelagic  <span class="fl">0.4</span>;<span class="fl">0.6</span></span>
+<span id="cb274-19"><a href="subgroups2.html#cb274-19" tabindex="-1"></a><span class="dv">3</span> population      <span class="dv">1</span> <span class="dv">1706-20170917-133</span><span class="sc">-</span>C NWHI;pelagic  <span class="fl">0.4</span>;<span class="fl">0.6</span></span>
+<span id="cb274-20"><a href="subgroups2.html#cb274-20" tabindex="-1"></a><span class="dv">4</span> population      <span class="dv">1</span> <span class="dv">1706-20170917-133</span><span class="sc">-</span>D NWHI;pelagic  <span class="fl">0.4</span>;<span class="fl">0.6</span></span>
+<span id="cb274-21"><a href="subgroups2.html#cb274-21" tabindex="-1"></a><span class="dv">5</span> population      <span class="dv">1</span> <span class="dv">1706-20170917-133</span><span class="sc">-</span>E NWHI;pelagic  <span class="fl">0.4</span>;<span class="fl">0.6</span></span>
+<span id="cb274-22"><a href="subgroups2.html#cb274-22" tabindex="-1"></a><span class="dv">6</span> population      <span class="dv">1</span> <span class="dv">1706-20170917-133</span><span class="sc">-</span>F NWHI;pelagic  <span class="fl">0.4</span>;<span class="fl">0.6</span></span>
+<span id="cb274-23"><a href="subgroups2.html#cb274-23" tabindex="-1"></a><span class="dv">7</span> population      <span class="dv">1</span> <span class="dv">1706-20170917-133</span><span class="sc">-</span>G NWHI;pelagic  <span class="fl">0.4</span>;<span class="fl">0.6</span></span></code></pre></div>
 <p><strong>Sighting 033</strong> subgroups were automatically placed in the NWHI population, but biological data collected indicated they were from the pelagic population (<a href="https://repository.library.noaa.gov/view/noaa/24756">Bradford et al. 2020</a>).</p>
-<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb274-1"><a href="subgroups2.html#cb274-1" tabindex="-1"></a>sit033 <span class="ot">&lt;-</span> </span>
-<span id="cb274-2"><a href="subgroups2.html#cb274-2" tabindex="-1"></a>   <span class="fu">subgroup_edits</span>(<span class="at">cohort=</span><span class="dv">1</span>,</span>
-<span id="cb274-3"><a href="subgroups2.html#cb274-3" tabindex="-1"></a>                 <span class="at">sgid =</span> <span class="fu">c</span>(<span class="st">&quot;1706-20170723-033-A&quot;</span>,</span>
-<span id="cb274-4"><a href="subgroups2.html#cb274-4" tabindex="-1"></a>                          <span class="st">&quot;1706-20170723-033-B&quot;</span>,</span>
-<span id="cb274-5"><a href="subgroups2.html#cb274-5" tabindex="-1"></a>                          <span class="st">&quot;1706-20170723-033-C&quot;</span>,</span>
-<span id="cb274-6"><a href="subgroups2.html#cb274-6" tabindex="-1"></a>                          <span class="st">&quot;1706-20170723-033-D&quot;</span>,</span>
-<span id="cb274-7"><a href="subgroups2.html#cb274-7" tabindex="-1"></a>                          <span class="st">&quot;1706-20170723-033-E&quot;</span>),</span>
-<span id="cb274-8"><a href="subgroups2.html#cb274-8" tabindex="-1"></a>                 <span class="at">population =</span> <span class="st">&#39;pelagic&#39;</span>,</span>
-<span id="cb274-9"><a href="subgroups2.html#cb274-9" tabindex="-1"></a>                 <span class="at">pop_prob =</span> <span class="st">&#39;1&#39;</span>)</span>
-<span id="cb274-10"><a href="subgroups2.html#cb274-10" tabindex="-1"></a></span>
-<span id="cb274-11"><a href="subgroups2.html#cb274-11" tabindex="-1"></a><span class="co"># Check it out</span></span>
-<span id="cb274-12"><a href="subgroups2.html#cb274-12" tabindex="-1"></a>sit033</span>
-<span id="cb274-13"><a href="subgroups2.html#cb274-13" tabindex="-1"></a>[[<span class="dv">1</span>]]</span>
-<span id="cb274-14"><a href="subgroups2.html#cb274-14" tabindex="-1"></a>        edit cohort                sgid population pop_prob</span>
-<span id="cb274-15"><a href="subgroups2.html#cb274-15" tabindex="-1"></a><span class="dv">1</span> population      <span class="dv">1</span> <span class="dv">1706-20170723-033</span><span class="sc">-</span>A    pelagic        <span class="dv">1</span></span>
-<span id="cb274-16"><a href="subgroups2.html#cb274-16" tabindex="-1"></a><span class="dv">2</span> population      <span class="dv">1</span> <span class="dv">1706-20170723-033</span><span class="sc">-</span>B    pelagic        <span class="dv">1</span></span>
-<span id="cb274-17"><a href="subgroups2.html#cb274-17" tabindex="-1"></a><span class="dv">3</span> population      <span class="dv">1</span> <span class="dv">1706-20170723-033</span><span class="sc">-</span>C    pelagic        <span class="dv">1</span></span>
-<span id="cb274-18"><a href="subgroups2.html#cb274-18" tabindex="-1"></a><span class="dv">4</span> population      <span class="dv">1</span> <span class="dv">1706-20170723-033</span><span class="sc">-</span>D    pelagic        <span class="dv">1</span></span>
-<span id="cb274-19"><a href="subgroups2.html#cb274-19" tabindex="-1"></a><span class="dv">5</span> population      <span class="dv">1</span> <span class="dv">1706-20170723-033</span><span class="sc">-</span>E    pelagic        <span class="dv">1</span></span></code></pre></div>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="subgroups2.html#cb275-1" tabindex="-1"></a>sit033 <span class="ot">&lt;-</span> </span>
+<span id="cb275-2"><a href="subgroups2.html#cb275-2" tabindex="-1"></a>   <span class="fu">subgroup_edits</span>(<span class="at">cohort=</span><span class="dv">1</span>,</span>
+<span id="cb275-3"><a href="subgroups2.html#cb275-3" tabindex="-1"></a>                 <span class="at">sgid =</span> <span class="fu">c</span>(<span class="st">&quot;1706-20170723-033-A&quot;</span>,</span>
+<span id="cb275-4"><a href="subgroups2.html#cb275-4" tabindex="-1"></a>                          <span class="st">&quot;1706-20170723-033-B&quot;</span>,</span>
+<span id="cb275-5"><a href="subgroups2.html#cb275-5" tabindex="-1"></a>                          <span class="st">&quot;1706-20170723-033-C&quot;</span>,</span>
+<span id="cb275-6"><a href="subgroups2.html#cb275-6" tabindex="-1"></a>                          <span class="st">&quot;1706-20170723-033-D&quot;</span>,</span>
+<span id="cb275-7"><a href="subgroups2.html#cb275-7" tabindex="-1"></a>                          <span class="st">&quot;1706-20170723-033-E&quot;</span>),</span>
+<span id="cb275-8"><a href="subgroups2.html#cb275-8" tabindex="-1"></a>                 <span class="at">population =</span> <span class="st">&#39;pelagic&#39;</span>,</span>
+<span id="cb275-9"><a href="subgroups2.html#cb275-9" tabindex="-1"></a>                 <span class="at">pop_prob =</span> <span class="st">&#39;1&#39;</span>)</span>
+<span id="cb275-10"><a href="subgroups2.html#cb275-10" tabindex="-1"></a></span>
+<span id="cb275-11"><a href="subgroups2.html#cb275-11" tabindex="-1"></a><span class="co"># Check it out</span></span>
+<span id="cb275-12"><a href="subgroups2.html#cb275-12" tabindex="-1"></a>sit033</span>
+<span id="cb275-13"><a href="subgroups2.html#cb275-13" tabindex="-1"></a>[[<span class="dv">1</span>]]</span>
+<span id="cb275-14"><a href="subgroups2.html#cb275-14" tabindex="-1"></a>        edit cohort                sgid population pop_prob</span>
+<span id="cb275-15"><a href="subgroups2.html#cb275-15" tabindex="-1"></a><span class="dv">1</span> population      <span class="dv">1</span> <span class="dv">1706-20170723-033</span><span class="sc">-</span>A    pelagic        <span class="dv">1</span></span>
+<span id="cb275-16"><a href="subgroups2.html#cb275-16" tabindex="-1"></a><span class="dv">2</span> population      <span class="dv">1</span> <span class="dv">1706-20170723-033</span><span class="sc">-</span>B    pelagic        <span class="dv">1</span></span>
+<span id="cb275-17"><a href="subgroups2.html#cb275-17" tabindex="-1"></a><span class="dv">3</span> population      <span class="dv">1</span> <span class="dv">1706-20170723-033</span><span class="sc">-</span>C    pelagic        <span class="dv">1</span></span>
+<span id="cb275-18"><a href="subgroups2.html#cb275-18" tabindex="-1"></a><span class="dv">4</span> population      <span class="dv">1</span> <span class="dv">1706-20170723-033</span><span class="sc">-</span>D    pelagic        <span class="dv">1</span></span>
+<span id="cb275-19"><a href="subgroups2.html#cb275-19" tabindex="-1"></a><span class="dv">5</span> population      <span class="dv">1</span> <span class="dv">1706-20170723-033</span><span class="sc">-</span>E    pelagic        <span class="dv">1</span></span></code></pre></div>
 <p>The same goes for the subgroups in <strong>Sighting 122:</strong></p>
-<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb275-1"><a href="subgroups2.html#cb275-1" tabindex="-1"></a>sit122 <span class="ot">&lt;-</span> </span>
-<span id="cb275-2"><a href="subgroups2.html#cb275-2" tabindex="-1"></a>  <span class="fu">subgroup_edits</span>(<span class="at">cohort=</span><span class="dv">1</span>,</span>
-<span id="cb275-3"><a href="subgroups2.html#cb275-3" tabindex="-1"></a>                 <span class="at">sgid =</span> <span class="fu">paste0</span>(<span class="st">&quot;1706-20170913-122-&quot;</span>, </span>
-<span id="cb275-4"><a href="subgroups2.html#cb275-4" tabindex="-1"></a>                               <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;E&quot;</span>)),</span>
-<span id="cb275-5"><a href="subgroups2.html#cb275-5" tabindex="-1"></a>                 <span class="at">population =</span> <span class="st">&#39;pelagic&#39;</span>,</span>
-<span id="cb275-6"><a href="subgroups2.html#cb275-6" tabindex="-1"></a>                 <span class="at">pop_prob =</span> <span class="st">&#39;1&#39;</span>)</span></code></pre></div>
-<p><strong>Sighting 039</strong> has a subgroup that was in fact seen by the primary observer:</p>
-<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="subgroups2.html#cb276-1" tabindex="-1"></a>sit039 <span class="ot">&lt;-</span> </span>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb276-1"><a href="subgroups2.html#cb276-1" tabindex="-1"></a>sit122 <span class="ot">&lt;-</span> </span>
 <span id="cb276-2"><a href="subgroups2.html#cb276-2" tabindex="-1"></a>  <span class="fu">subgroup_edits</span>(<span class="at">cohort=</span><span class="dv">1</span>,</span>
-<span id="cb276-3"><a href="subgroups2.html#cb276-3" tabindex="-1"></a>                 <span class="at">sgid =</span> <span class="st">&quot;1706-20170727-039-D&quot;</span>,</span>
-<span id="cb276-4"><a href="subgroups2.html#cb276-4" tabindex="-1"></a>                 <span class="at">ObsStd =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p>The same goes for a subgroup in <strong>Sighting 073</strong>:</p>
-<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="subgroups2.html#cb277-1" tabindex="-1"></a>sit073 <span class="ot">&lt;-</span> </span>
+<span id="cb276-3"><a href="subgroups2.html#cb276-3" tabindex="-1"></a>                 <span class="at">sgid =</span> <span class="fu">paste0</span>(<span class="st">&quot;1706-20170913-122-&quot;</span>, </span>
+<span id="cb276-4"><a href="subgroups2.html#cb276-4" tabindex="-1"></a>                               <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>, <span class="st">&quot;D&quot;</span>, <span class="st">&quot;E&quot;</span>)),</span>
+<span id="cb276-5"><a href="subgroups2.html#cb276-5" tabindex="-1"></a>                 <span class="at">population =</span> <span class="st">&#39;pelagic&#39;</span>,</span>
+<span id="cb276-6"><a href="subgroups2.html#cb276-6" tabindex="-1"></a>                 <span class="at">pop_prob =</span> <span class="st">&#39;1&#39;</span>)</span></code></pre></div>
+<p><strong>Sighting 039</strong> has a subgroup that was in fact seen by the primary observer:</p>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb277-1"><a href="subgroups2.html#cb277-1" tabindex="-1"></a>sit039 <span class="ot">&lt;-</span> </span>
 <span id="cb277-2"><a href="subgroups2.html#cb277-2" tabindex="-1"></a>  <span class="fu">subgroup_edits</span>(<span class="at">cohort=</span><span class="dv">1</span>,</span>
-<span id="cb277-3"><a href="subgroups2.html#cb277-3" tabindex="-1"></a>                 <span class="at">sgid =</span> <span class="st">&quot;1705-20170929-073-C&quot;</span>,</span>
+<span id="cb277-3"><a href="subgroups2.html#cb277-3" tabindex="-1"></a>                 <span class="at">sgid =</span> <span class="st">&quot;1706-20170727-039-D&quot;</span>,</span>
 <span id="cb277-4"><a href="subgroups2.html#cb277-4" tabindex="-1"></a>                 <span class="at">ObsStd =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>The same goes for a subgroup in <strong>Sighting 073</strong>:</p>
+<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="subgroups2.html#cb278-1" tabindex="-1"></a>sit073 <span class="ot">&lt;-</span> </span>
+<span id="cb278-2"><a href="subgroups2.html#cb278-2" tabindex="-1"></a>  <span class="fu">subgroup_edits</span>(<span class="at">cohort=</span><span class="dv">1</span>,</span>
+<span id="cb278-3"><a href="subgroups2.html#cb278-3" tabindex="-1"></a>                 <span class="at">sgid =</span> <span class="st">&quot;1705-20170929-073-C&quot;</span>,</span>
+<span id="cb278-4"><a href="subgroups2.html#cb278-4" tabindex="-1"></a>                 <span class="at">ObsStd =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p>We can now re-process the subgroup data while applying these edits:</p>
-<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb278-1"><a href="subgroups2.html#cb278-1" tabindex="-1"></a>cruzi <span class="ot">&lt;-</span> <span class="fu">process_subgroups</span>(cruzi, </span>
-<span id="cb278-2"><a href="subgroups2.html#cb278-2" tabindex="-1"></a>                           <span class="at">edits=</span><span class="fu">list</span>(pops,</span>
-<span id="cb278-3"><a href="subgroups2.html#cb278-3" tabindex="-1"></a>                                      sit133,</span>
-<span id="cb278-4"><a href="subgroups2.html#cb278-4" tabindex="-1"></a>                                      sit033,</span>
-<span id="cb278-5"><a href="subgroups2.html#cb278-5" tabindex="-1"></a>                                      sit122,</span>
-<span id="cb278-6"><a href="subgroups2.html#cb278-6" tabindex="-1"></a>                                      sit039,</span>
-<span id="cb278-7"><a href="subgroups2.html#cb278-7" tabindex="-1"></a>                                      sit073), </span>
-<span id="cb278-8"><a href="subgroups2.html#cb278-8" tabindex="-1"></a>                           <span class="at">verbose=</span><span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="subgroups2.html#cb279-1" tabindex="-1"></a>cruzi <span class="ot">&lt;-</span> <span class="fu">process_subgroups</span>(cruzi, </span>
+<span id="cb279-2"><a href="subgroups2.html#cb279-2" tabindex="-1"></a>                           <span class="at">edits=</span><span class="fu">list</span>(pops,</span>
+<span id="cb279-3"><a href="subgroups2.html#cb279-3" tabindex="-1"></a>                                      sit133,</span>
+<span id="cb279-4"><a href="subgroups2.html#cb279-4" tabindex="-1"></a>                                      sit033,</span>
+<span id="cb279-5"><a href="subgroups2.html#cb279-5" tabindex="-1"></a>                                      sit122,</span>
+<span id="cb279-6"><a href="subgroups2.html#cb279-6" tabindex="-1"></a>                                      sit039,</span>
+<span id="cb279-7"><a href="subgroups2.html#cb279-7" tabindex="-1"></a>                                      sit073), </span>
+<span id="cb279-8"><a href="subgroups2.html#cb279-8" tabindex="-1"></a>                           <span class="at">verbose=</span><span class="cn">FALSE</span>)</span></code></pre></div>
 <p>Inspect the result:</p>
-<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb279-1"><a href="subgroups2.html#cb279-1" tabindex="-1"></a>cruzi<span class="sc">$</span>cohorts<span class="sc">$</span>all<span class="sc">$</span>subgroups<span class="sc">$</span>events<span class="sc">$</span>population <span class="sc">%&gt;%</span> table</span>
-<span id="cb279-2"><a href="subgroups2.html#cb279-2" tabindex="-1"></a>.</span>
-<span id="cb279-3"><a href="subgroups2.html#cb279-3" tabindex="-1"></a>         MHI NWHI;pelagic      pelagic </span>
-<span id="cb279-4"><a href="subgroups2.html#cb279-4" tabindex="-1"></a>           <span class="dv">1</span>           <span class="dv">10</span>           <span class="dv">37</span> </span>
-<span id="cb279-5"><a href="subgroups2.html#cb279-5" tabindex="-1"></a></span>
-<span id="cb279-6"><a href="subgroups2.html#cb279-6" tabindex="-1"></a>cruzi<span class="sc">$</span>cohorts<span class="sc">$</span>all<span class="sc">$</span>subgroups<span class="sc">$</span>events<span class="sc">$</span>pop_prob <span class="sc">%&gt;%</span> table</span>
-<span id="cb279-7"><a href="subgroups2.html#cb279-7" tabindex="-1"></a>.</span>
-<span id="cb279-8"><a href="subgroups2.html#cb279-8" tabindex="-1"></a><span class="fl">0.4</span>;<span class="fl">0.6</span>       <span class="dv">1</span> </span>
-<span id="cb279-9"><a href="subgroups2.html#cb279-9" tabindex="-1"></a>     <span class="dv">10</span>      <span class="dv">38</span> </span></code></pre></div>
+<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="subgroups2.html#cb280-1" tabindex="-1"></a>cruzi<span class="sc">$</span>cohorts<span class="sc">$</span>all<span class="sc">$</span>subgroups<span class="sc">$</span>events<span class="sc">$</span>population <span class="sc">%&gt;%</span> table</span>
+<span id="cb280-2"><a href="subgroups2.html#cb280-2" tabindex="-1"></a>.</span>
+<span id="cb280-3"><a href="subgroups2.html#cb280-3" tabindex="-1"></a>         MHI NWHI;pelagic      pelagic </span>
+<span id="cb280-4"><a href="subgroups2.html#cb280-4" tabindex="-1"></a>           <span class="dv">1</span>           <span class="dv">10</span>           <span class="dv">37</span> </span>
+<span id="cb280-5"><a href="subgroups2.html#cb280-5" tabindex="-1"></a></span>
+<span id="cb280-6"><a href="subgroups2.html#cb280-6" tabindex="-1"></a>cruzi<span class="sc">$</span>cohorts<span class="sc">$</span>all<span class="sc">$</span>subgroups<span class="sc">$</span>events<span class="sc">$</span>pop_prob <span class="sc">%&gt;%</span> table</span>
+<span id="cb280-7"><a href="subgroups2.html#cb280-7" tabindex="-1"></a>.</span>
+<span id="cb280-8"><a href="subgroups2.html#cb280-8" tabindex="-1"></a><span class="fl">0.4</span>;<span class="fl">0.6</span>       <span class="dv">1</span> </span>
+<span id="cb280-9"><a href="subgroups2.html#cb280-9" tabindex="-1"></a>     <span class="dv">10</span>      <span class="dv">38</span> </span></code></pre></div>
 <p>Now we are (finally!) ready to prepare segments and sightings for estimating the encounter rate.</p>
 <p>From this filtered <code>cruz</code> object, we will isolate the segments data:</p>
-<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb280-1"><a href="subgroups2.html#cb280-1" tabindex="-1"></a>density_segments <span class="ot">&lt;-</span> cruzi<span class="sc">$</span>cohorts<span class="sc">$</span>all<span class="sc">$</span>segments</span></code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="subgroups2.html#cb281-1" tabindex="-1"></a>density_segments <span class="ot">&lt;-</span> cruzi<span class="sc">$</span>cohorts<span class="sc">$</span>all<span class="sc">$</span>segments</span></code></pre></div>
 </div>
 <div id="density_das" class="section level3 unnumbered hasAnchor">
 <h3><code>density_das</code><a href="subgroups2.html#density_das" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>This is the complete survey data corresponding to the above segments. These data will be used to determine the proportion of survey effort occurring in each Beaufort sea state, which is needed to compute the estimate of weighted mean <em>g(0)</em> from the <em>Rg(0)</em> values.</p>
-<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb281-1"><a href="subgroups2.html#cb281-1" tabindex="-1"></a>density_das <span class="ot">&lt;-</span> cruzi<span class="sc">$</span>cohorts<span class="sc">$</span>all<span class="sc">$</span>das</span></code></pre></div>
+<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="subgroups2.html#cb282-1" tabindex="-1"></a>density_das <span class="ot">&lt;-</span> cruzi<span class="sc">$</span>cohorts<span class="sc">$</span>all<span class="sc">$</span>das</span></code></pre></div>
 </div>
 <div id="density_sightings" class="section level3 unnumbered hasAnchor">
 <h3><code>density_sightings</code><a href="subgroups2.html#density_sightings" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>These are the encounters to use in density/abundance estimation. In <a href="https://repository.library.noaa.gov/view/noaa/24756">Bradford et al. (2020)</a>, these were the Phase 1 detections of false killer whale subgroups within a given region and year. For this demonstration, our focus is the Hawaiian EEZ in 2017. Criteria are: <code>OnEffort</code> is <code>TRUE</code>, <code>EffType</code> is <code>"S"</code>, within truncation distance, no abeam sightings, primary observer, pelagic and NWHI populations only. No filtering is applied to these sightings within the <code>lta_subgroups()</code> function, so make sure only the subgroups you wish to use are included and nothing more.</p>
-<div class="sourceCode" id="cb282"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb282-1"><a href="subgroups2.html#cb282-1" tabindex="-1"></a>density_sightings  <span class="ot">&lt;-</span></span>
-<span id="cb282-2"><a href="subgroups2.html#cb282-2" tabindex="-1"></a>  cruzi<span class="sc">$</span>cohorts<span class="sc">$</span>all<span class="sc">$</span>subgroups<span class="sc">$</span>subgroups <span class="sc">%&gt;%</span></span>
-<span id="cb282-3"><a href="subgroups2.html#cb282-3" tabindex="-1"></a>  <span class="fu">filter</span>(lubridate<span class="sc">::</span><span class="fu">year</span>(DateTime) <span class="sc">==</span> <span class="dv">2017</span>,</span>
-<span id="cb282-4"><a href="subgroups2.html#cb282-4" tabindex="-1"></a>         EffType <span class="sc">==</span> <span class="st">&#39;S&#39;</span>,</span>
-<span id="cb282-5"><a href="subgroups2.html#cb282-5" tabindex="-1"></a>         OnEffort <span class="sc">==</span> <span class="cn">TRUE</span>,</span>
-<span id="cb282-6"><a href="subgroups2.html#cb282-6" tabindex="-1"></a>         PerpDist <span class="sc">&lt;=</span> truncation_distance,</span>
-<span id="cb282-7"><a href="subgroups2.html#cb282-7" tabindex="-1"></a>         Angle <span class="sc">&lt;=</span> <span class="dv">90</span>,</span>
-<span id="cb282-8"><a href="subgroups2.html#cb282-8" tabindex="-1"></a>         ObsStd <span class="sc">==</span> <span class="cn">TRUE</span>,</span>
-<span id="cb282-9"><a href="subgroups2.html#cb282-9" tabindex="-1"></a>         Species <span class="sc">==</span> <span class="st">&#39;033&#39;</span>,</span>
-<span id="cb282-10"><a href="subgroups2.html#cb282-10" tabindex="-1"></a>         Phase <span class="sc">==</span> <span class="dv">1</span>,</span>
-<span id="cb282-11"><a href="subgroups2.html#cb282-11" tabindex="-1"></a>         population <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&#39;pelagic&#39;</span>, <span class="st">&#39;NWHI;pelagic&#39;</span>, <span class="st">&#39;NWHI&#39;</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="subgroups2.html#cb283-1" tabindex="-1"></a><span class="co"># Sample size</span></span>
-<span id="cb283-2"><a href="subgroups2.html#cb283-2" tabindex="-1"></a>density_sightings <span class="sc">%&gt;%</span> nrow</span>
-<span id="cb283-3"><a href="subgroups2.html#cb283-3" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">26</span></span></code></pre></div>
-<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="subgroups2.html#cb284-1" tabindex="-1"></a><span class="co"># Subgroups from each sighting</span></span>
-<span id="cb284-2"><a href="subgroups2.html#cb284-2" tabindex="-1"></a>density_sightings <span class="sc">%&gt;%</span> </span>
-<span id="cb284-3"><a href="subgroups2.html#cb284-3" tabindex="-1"></a>  <span class="fu">select</span>(Cruise, Date, SightNo, population, pop_prob) <span class="sc">%&gt;%</span> </span>
-<span id="cb284-4"><a href="subgroups2.html#cb284-4" tabindex="-1"></a>  <span class="fu">arrange</span>(Date) <span class="sc">%&gt;%</span> </span>
-<span id="cb284-5"><a href="subgroups2.html#cb284-5" tabindex="-1"></a>  <span class="fu">group_by</span>(Cruise, Date, SightNo, population, pop_prob) <span class="sc">%&gt;%</span> </span>
-<span id="cb284-6"><a href="subgroups2.html#cb284-6" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n=</span><span class="fu">n</span>()) <span class="co">#%&gt;% pull(n) %&gt;% sum()</span></span>
-<span id="cb284-7"><a href="subgroups2.html#cb284-7" tabindex="-1"></a><span class="co"># A tibble: 7 × 6</span></span>
-<span id="cb284-8"><a href="subgroups2.html#cb284-8" tabindex="-1"></a><span class="co"># Groups:   Cruise, Date, SightNo, population [7]</span></span>
-<span id="cb284-9"><a href="subgroups2.html#cb284-9" tabindex="-1"></a>  Cruise Date       SightNo population   pop_prob     n</span>
-<span id="cb284-10"><a href="subgroups2.html#cb284-10" tabindex="-1"></a>   <span class="sc">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>chr<span class="sc">&gt;</span>      <span class="er">&lt;</span>chr<span class="sc">&gt;</span>   <span class="er">&lt;</span>chr<span class="sc">&gt;</span>        <span class="er">&lt;</span>chr<span class="sc">&gt;</span>    <span class="er">&lt;</span>int<span class="sc">&gt;</span></span>
-<span id="cb284-11"><a href="subgroups2.html#cb284-11" tabindex="-1"></a><span class="dv">1</span>   <span class="dv">1705</span> <span class="dv">2017-09-21</span> <span class="dv">064</span>     pelagic      <span class="dv">1</span>            <span class="dv">2</span></span>
-<span id="cb284-12"><a href="subgroups2.html#cb284-12" tabindex="-1"></a><span class="dv">2</span>   <span class="dv">1705</span> <span class="dv">2017-09-29</span> <span class="dv">073</span>     pelagic      <span class="dv">1</span>            <span class="dv">6</span></span>
-<span id="cb284-13"><a href="subgroups2.html#cb284-13" tabindex="-1"></a><span class="dv">3</span>   <span class="dv">1706</span> <span class="dv">2017-07-23</span> <span class="dv">033</span>     pelagic      <span class="dv">1</span>            <span class="dv">4</span></span>
-<span id="cb284-14"><a href="subgroups2.html#cb284-14" tabindex="-1"></a><span class="dv">4</span>   <span class="dv">1706</span> <span class="dv">2017-07-27</span> <span class="dv">039</span>     pelagic      <span class="dv">1</span>            <span class="dv">4</span></span>
-<span id="cb284-15"><a href="subgroups2.html#cb284-15" tabindex="-1"></a><span class="dv">5</span>   <span class="dv">1706</span> <span class="dv">2017-09-13</span> <span class="dv">122</span>     pelagic      <span class="dv">1</span>            <span class="dv">3</span></span>
-<span id="cb284-16"><a href="subgroups2.html#cb284-16" tabindex="-1"></a><span class="dv">6</span>   <span class="dv">1706</span> <span class="dv">2017-09-17</span> <span class="dv">133</span>     NWHI;pelagic <span class="fl">0.4</span>;<span class="fl">0.6</span>      <span class="dv">6</span></span>
-<span id="cb284-17"><a href="subgroups2.html#cb284-17" tabindex="-1"></a><span class="dv">7</span>   <span class="dv">1706</span> <span class="dv">2017-09-20</span> <span class="dv">141</span>     pelagic      <span class="dv">1</span>            <span class="dv">1</span></span></code></pre></div>
+<p>Note that all column names within <code>df_sits</code>, a required input detailed above, must be present within <code>density_sightings</code> and those names must match exactly. (That is, <code>density_sightings</code> can have many more columns than does <code>df_sit</code>, but <em>all</em> columns from the latter must be present in the former.) This is needed in order to predict the Effective Strip Width of <code>density_sightings</code> based on the detection function fitting procedure.</p>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb283-1"><a href="subgroups2.html#cb283-1" tabindex="-1"></a>density_sightings  <span class="ot">&lt;-</span></span>
+<span id="cb283-2"><a href="subgroups2.html#cb283-2" tabindex="-1"></a>  cruzi<span class="sc">$</span>cohorts<span class="sc">$</span>all<span class="sc">$</span>subgroups<span class="sc">$</span>subgroups <span class="sc">%&gt;%</span></span>
+<span id="cb283-3"><a href="subgroups2.html#cb283-3" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">PerpDistKm =</span> PerpDist) <span class="sc">%&gt;%</span> </span>
+<span id="cb283-4"><a href="subgroups2.html#cb283-4" tabindex="-1"></a>  <span class="fu">filter</span>(lubridate<span class="sc">::</span><span class="fu">year</span>(DateTime) <span class="sc">==</span> <span class="dv">2017</span>,</span>
+<span id="cb283-5"><a href="subgroups2.html#cb283-5" tabindex="-1"></a>         EffType <span class="sc">==</span> <span class="st">&#39;S&#39;</span>,</span>
+<span id="cb283-6"><a href="subgroups2.html#cb283-6" tabindex="-1"></a>         OnEffort <span class="sc">==</span> <span class="cn">TRUE</span>,</span>
+<span id="cb283-7"><a href="subgroups2.html#cb283-7" tabindex="-1"></a>         PerpDistKm <span class="sc">&lt;=</span> truncation_distance,</span>
+<span id="cb283-8"><a href="subgroups2.html#cb283-8" tabindex="-1"></a>         Angle <span class="sc">&lt;=</span> <span class="dv">90</span>,</span>
+<span id="cb283-9"><a href="subgroups2.html#cb283-9" tabindex="-1"></a>         ObsStd <span class="sc">==</span> <span class="cn">TRUE</span>,</span>
+<span id="cb283-10"><a href="subgroups2.html#cb283-10" tabindex="-1"></a>         Species <span class="sc">==</span> <span class="st">&#39;033&#39;</span>,</span>
+<span id="cb283-11"><a href="subgroups2.html#cb283-11" tabindex="-1"></a>         Phase <span class="sc">==</span> <span class="dv">1</span>,</span>
+<span id="cb283-12"><a href="subgroups2.html#cb283-12" tabindex="-1"></a>         population <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&#39;pelagic&#39;</span>, <span class="st">&#39;NWHI;pelagic&#39;</span>, <span class="st">&#39;NWHI&#39;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb284"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb284-1"><a href="subgroups2.html#cb284-1" tabindex="-1"></a><span class="co"># Sample size</span></span>
+<span id="cb284-2"><a href="subgroups2.html#cb284-2" tabindex="-1"></a>density_sightings <span class="sc">%&gt;%</span> nrow</span>
+<span id="cb284-3"><a href="subgroups2.html#cb284-3" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">26</span></span></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="subgroups2.html#cb285-1" tabindex="-1"></a><span class="co"># Subgroups from each sighting</span></span>
+<span id="cb285-2"><a href="subgroups2.html#cb285-2" tabindex="-1"></a>density_sightings <span class="sc">%&gt;%</span> </span>
+<span id="cb285-3"><a href="subgroups2.html#cb285-3" tabindex="-1"></a>  <span class="fu">select</span>(Cruise, Date, SightNo, population, pop_prob) <span class="sc">%&gt;%</span> </span>
+<span id="cb285-4"><a href="subgroups2.html#cb285-4" tabindex="-1"></a>  <span class="fu">arrange</span>(Date) <span class="sc">%&gt;%</span> </span>
+<span id="cb285-5"><a href="subgroups2.html#cb285-5" tabindex="-1"></a>  <span class="fu">group_by</span>(Cruise, Date, SightNo, population, pop_prob) <span class="sc">%&gt;%</span> </span>
+<span id="cb285-6"><a href="subgroups2.html#cb285-6" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n=</span><span class="fu">n</span>()) <span class="co">#%&gt;% pull(n) %&gt;% sum()</span></span>
+<span id="cb285-7"><a href="subgroups2.html#cb285-7" tabindex="-1"></a><span class="co"># A tibble: 7 × 6</span></span>
+<span id="cb285-8"><a href="subgroups2.html#cb285-8" tabindex="-1"></a><span class="co"># Groups:   Cruise, Date, SightNo, population [7]</span></span>
+<span id="cb285-9"><a href="subgroups2.html#cb285-9" tabindex="-1"></a>  Cruise Date       SightNo population   pop_prob     n</span>
+<span id="cb285-10"><a href="subgroups2.html#cb285-10" tabindex="-1"></a>   <span class="sc">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>chr<span class="sc">&gt;</span>      <span class="er">&lt;</span>chr<span class="sc">&gt;</span>   <span class="er">&lt;</span>chr<span class="sc">&gt;</span>        <span class="er">&lt;</span>chr<span class="sc">&gt;</span>    <span class="er">&lt;</span>int<span class="sc">&gt;</span></span>
+<span id="cb285-11"><a href="subgroups2.html#cb285-11" tabindex="-1"></a><span class="dv">1</span>   <span class="dv">1705</span> <span class="dv">2017-09-21</span> <span class="dv">064</span>     pelagic      <span class="dv">1</span>            <span class="dv">2</span></span>
+<span id="cb285-12"><a href="subgroups2.html#cb285-12" tabindex="-1"></a><span class="dv">2</span>   <span class="dv">1705</span> <span class="dv">2017-09-29</span> <span class="dv">073</span>     pelagic      <span class="dv">1</span>            <span class="dv">6</span></span>
+<span id="cb285-13"><a href="subgroups2.html#cb285-13" tabindex="-1"></a><span class="dv">3</span>   <span class="dv">1706</span> <span class="dv">2017-07-23</span> <span class="dv">033</span>     pelagic      <span class="dv">1</span>            <span class="dv">4</span></span>
+<span id="cb285-14"><a href="subgroups2.html#cb285-14" tabindex="-1"></a><span class="dv">4</span>   <span class="dv">1706</span> <span class="dv">2017-07-27</span> <span class="dv">039</span>     pelagic      <span class="dv">1</span>            <span class="dv">4</span></span>
+<span id="cb285-15"><a href="subgroups2.html#cb285-15" tabindex="-1"></a><span class="dv">5</span>   <span class="dv">1706</span> <span class="dv">2017-09-13</span> <span class="dv">122</span>     pelagic      <span class="dv">1</span>            <span class="dv">3</span></span>
+<span id="cb285-16"><a href="subgroups2.html#cb285-16" tabindex="-1"></a><span class="dv">6</span>   <span class="dv">1706</span> <span class="dv">2017-09-17</span> <span class="dv">133</span>     NWHI;pelagic <span class="fl">0.4</span>;<span class="fl">0.6</span>      <span class="dv">6</span></span>
+<span id="cb285-17"><a href="subgroups2.html#cb285-17" tabindex="-1"></a><span class="dv">7</span>   <span class="dv">1706</span> <span class="dv">2017-09-20</span> <span class="dv">141</span>     pelagic      <span class="dv">1</span>            <span class="dv">1</span></span></code></pre></div>
 <p><a href="https://repository.library.noaa.gov/view/noaa/24756">Bradford et al. (2020)</a> had a sample size of 23.6 for the pelagic stock in the Hawaiian EEZ. The fraction comes from the fact that one sighting (<code>SightNo</code> 133, which has 6 subgroups) has a prorated population designation, with a 0.6 probability that it belongs to the pelagic stock and a 0.4 probability that is belongs to the Northwest Hawaiian Islands (NWHI) stock. The 3.6 comes from <code>0.6 of the sighting's</code>6` subgroups.</p>
 </div>
 <div id="abundance_area" class="section level3 unnumbered hasAnchor">
 <h3><code>abundance_area</code><a href="subgroups2.html#abundance_area" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>This is the area, in square km, of the region of interest. The density estimate will be scaled by this area.</p>
 <p>We have two options for finding this area. The first is to draw the area from our <code>cohort$strata</code> slot:</p>
-<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb285-1"><a href="subgroups2.html#cb285-1" tabindex="-1"></a>cruz<span class="sc">$</span>strata<span class="sc">$</span>area[cruz<span class="sc">$</span>strata<span class="sc">$</span>stratum <span class="sc">==</span> <span class="st">&#39;HI_EEZ&#39;</span>]</span>
-<span id="cb285-2"><a href="subgroups2.html#cb285-2" tabindex="-1"></a><span class="dv">2480190</span> [km<span class="sc">^</span><span class="dv">2</span>]</span></code></pre></div>
+<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="subgroups2.html#cb286-1" tabindex="-1"></a>cruz<span class="sc">$</span>strata<span class="sc">$</span>area[cruz<span class="sc">$</span>strata<span class="sc">$</span>stratum <span class="sc">==</span> <span class="st">&#39;HI_EEZ&#39;</span>]</span>
+<span id="cb286-2"><a href="subgroups2.html#cb286-2" tabindex="-1"></a><span class="dv">2480190</span> [km<span class="sc">^</span><span class="dv">2</span>]</span></code></pre></div>
 <p>The second is to calculate it ourselves using the <code>LTabundR</code> function <code>strata_area()</code>. This second option will be useful if your study area is a complicated combination/substraction of multiple geostrata.</p>
-<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb286-1"><a href="subgroups2.html#cb286-1" tabindex="-1"></a><span class="fu">data</span>(strata_cnp)</span>
-<span id="cb286-2"><a href="subgroups2.html#cb286-2" tabindex="-1"></a></span>
-<span id="cb286-3"><a href="subgroups2.html#cb286-3" tabindex="-1"></a>abundance_area <span class="ot">&lt;-</span> </span>
-<span id="cb286-4"><a href="subgroups2.html#cb286-4" tabindex="-1"></a>  <span class="fu">strata_area</span>(<span class="at">strata_all =</span> strata_cnp,</span>
-<span id="cb286-5"><a href="subgroups2.html#cb286-5" tabindex="-1"></a>              <span class="at">strata_keep =</span> <span class="st">&#39;HI_EEZ&#39;</span>)<span class="sc">$</span>km2</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-345-1.png" width="672" /></p>
-<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="subgroups2.html#cb287-1" tabindex="-1"></a></span>
-<span id="cb287-2"><a href="subgroups2.html#cb287-2" tabindex="-1"></a>abundance_area</span>
-<span id="cb287-3"><a href="subgroups2.html#cb287-3" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">2474596</span></span></code></pre></div>
+<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb287-1"><a href="subgroups2.html#cb287-1" tabindex="-1"></a><span class="fu">data</span>(strata_cnp)</span>
+<span id="cb287-2"><a href="subgroups2.html#cb287-2" tabindex="-1"></a></span>
+<span id="cb287-3"><a href="subgroups2.html#cb287-3" tabindex="-1"></a>abundance_area <span class="ot">&lt;-</span> </span>
+<span id="cb287-4"><a href="subgroups2.html#cb287-4" tabindex="-1"></a>  <span class="fu">strata_area</span>(<span class="at">strata_all =</span> strata_cnp,</span>
+<span id="cb287-5"><a href="subgroups2.html#cb287-5" tabindex="-1"></a>              <span class="at">strata_keep =</span> <span class="st">&#39;HI_EEZ&#39;</span>)<span class="sc">$</span>km2</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-346-1.png" width="672" /></p>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="subgroups2.html#cb288-1" tabindex="-1"></a></span>
+<span id="cb288-2"><a href="subgroups2.html#cb288-2" tabindex="-1"></a>abundance_area</span>
+<span id="cb288-3"><a href="subgroups2.html#cb288-3" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">2474596</span></span></code></pre></div>
 </div>
 <div id="remaining-optional-inputs" class="section level3 unnumbered hasAnchor">
 <h3>Remaining optional inputs<a href="subgroups2.html#remaining-optional-inputs" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -1206,173 +1228,221 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>We then estimate parameters for the NWHI stratum, then focus on the results for the NWHI stock.</p>
 <div id="hawaii-eez-stratum" class="section level3 unnumbered hasAnchor">
 <h3>Hawaii EEZ stratum<a href="subgroups2.html#hawaii-eez-stratum" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb288-1"><a href="subgroups2.html#cb288-1" tabindex="-1"></a>results_eez <span class="ot">&lt;-</span> </span>
-<span id="cb288-2"><a href="subgroups2.html#cb288-2" tabindex="-1"></a>  <span class="fu">lta_subgroup</span>(<span class="at">df_sits =</span> df_sits,</span>
-<span id="cb288-3"><a href="subgroups2.html#cb288-3" tabindex="-1"></a>               <span class="at">truncation_distance =</span> truncation_distance,</span>
-<span id="cb288-4"><a href="subgroups2.html#cb288-4" tabindex="-1"></a>               <span class="at">ss =</span> ss,</span>
-<span id="cb288-5"><a href="subgroups2.html#cb288-5" tabindex="-1"></a>               <span class="at">density_segments =</span> density_segments,</span>
-<span id="cb288-6"><a href="subgroups2.html#cb288-6" tabindex="-1"></a>               <span class="at">density_das =</span> density_das,</span>
-<span id="cb288-7"><a href="subgroups2.html#cb288-7" tabindex="-1"></a>               <span class="at">density_sightings =</span> density_sightings,</span>
-<span id="cb288-8"><a href="subgroups2.html#cb288-8" tabindex="-1"></a>               <span class="at">Rg0 =</span> Rg0,</span>
-<span id="cb288-9"><a href="subgroups2.html#cb288-9" tabindex="-1"></a>               <span class="at">abundance_area =</span> abundance_area,</span>
-<span id="cb288-10"><a href="subgroups2.html#cb288-10" tabindex="-1"></a>               <span class="at">iterations =</span> <span class="dv">5000</span>,</span>
-<span id="cb288-11"><a href="subgroups2.html#cb288-11" tabindex="-1"></a>               <span class="at">seed =</span> <span class="dv">123</span>,</span>
-<span id="cb288-12"><a href="subgroups2.html#cb288-12" tabindex="-1"></a>               <span class="at">output_dir =</span> <span class="st">&#39;subgroup_eez/&#39;</span>,</span>
-<span id="cb288-13"><a href="subgroups2.html#cb288-13" tabindex="-1"></a>               <span class="at">toplot =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb288-14"><a href="subgroups2.html#cb288-14" tabindex="-1"></a>               <span class="at">verbose =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="subgroups2.html#cb289-1" tabindex="-1"></a>results_eez <span class="ot">&lt;-</span> </span>
+<span id="cb289-2"><a href="subgroups2.html#cb289-2" tabindex="-1"></a>  <span class="fu">lta_subgroup</span>(<span class="at">df_sits =</span> df_sits,</span>
+<span id="cb289-3"><a href="subgroups2.html#cb289-3" tabindex="-1"></a>               <span class="at">truncation_distance =</span> truncation_distance,</span>
+<span id="cb289-4"><a href="subgroups2.html#cb289-4" tabindex="-1"></a>               <span class="at">ss =</span> ss,</span>
+<span id="cb289-5"><a href="subgroups2.html#cb289-5" tabindex="-1"></a>               <span class="at">density_segments =</span> density_segments,</span>
+<span id="cb289-6"><a href="subgroups2.html#cb289-6" tabindex="-1"></a>               <span class="at">density_das =</span> density_das,</span>
+<span id="cb289-7"><a href="subgroups2.html#cb289-7" tabindex="-1"></a>               <span class="at">density_sightings =</span> density_sightings,</span>
+<span id="cb289-8"><a href="subgroups2.html#cb289-8" tabindex="-1"></a>               <span class="at">df_settings =</span> <span class="cn">NULL</span>,</span>
+<span id="cb289-9"><a href="subgroups2.html#cb289-9" tabindex="-1"></a>               <span class="at">Rg0 =</span> Rg0,</span>
+<span id="cb289-10"><a href="subgroups2.html#cb289-10" tabindex="-1"></a>               <span class="at">abundance_area =</span> abundance_area,</span>
+<span id="cb289-11"><a href="subgroups2.html#cb289-11" tabindex="-1"></a>               <span class="at">iterations =</span> <span class="dv">1000</span>,</span>
+<span id="cb289-12"><a href="subgroups2.html#cb289-12" tabindex="-1"></a>               <span class="at">seed =</span> <span class="dv">123</span>,</span>
+<span id="cb289-13"><a href="subgroups2.html#cb289-13" tabindex="-1"></a>               <span class="at">output_dir =</span> <span class="st">&#39;subgroup_eez/&#39;</span>,</span>
+<span id="cb289-14"><a href="subgroups2.html#cb289-14" tabindex="-1"></a>               <span class="at">toplot =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb289-15"><a href="subgroups2.html#cb289-15" tabindex="-1"></a>               <span class="at">verbose =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
 <div id="northwest-hawaiian-islands-stratum" class="section level3 unnumbered hasAnchor">
 <h3>Northwest Hawaiian Islands stratum<a href="subgroups2.html#northwest-hawaiian-islands-stratum" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>To re-run this for the other geostratum of interest in the <a href="https://repository.library.noaa.gov/view/noaa/24756">Bradford et al. (2020)</a>, the Northwest Hawaiian Islands (NWHI), we make the following adjustments:</p>
-<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb289-1"><a href="subgroups2.html#cb289-1" tabindex="-1"></a><span class="co"># Filter DAS to rows within the NWHi stratum</span></span>
-<span id="cb289-2"><a href="subgroups2.html#cb289-2" tabindex="-1"></a>das_nwhi <span class="ot">&lt;-</span> density_das <span class="sc">%&gt;%</span> <span class="fu">filter</span>(stratum_nwhi_fkw <span class="sc">==</span> <span class="cn">TRUE</span>)</span>
-<span id="cb289-3"><a href="subgroups2.html#cb289-3" tabindex="-1"></a></span>
-<span id="cb289-4"><a href="subgroups2.html#cb289-4" tabindex="-1"></a><span class="co"># Use these rows to get segment IDs</span></span>
-<span id="cb289-5"><a href="subgroups2.html#cb289-5" tabindex="-1"></a>nwhi_segment_ids <span class="ot">&lt;-</span> das_nwhi<span class="sc">$</span>seg_id <span class="sc">%&gt;%</span> unique</span>
-<span id="cb289-6"><a href="subgroups2.html#cb289-6" tabindex="-1"></a></span>
-<span id="cb289-7"><a href="subgroups2.html#cb289-7" tabindex="-1"></a><span class="co"># Filter segments to those segment IDs</span></span>
-<span id="cb289-8"><a href="subgroups2.html#cb289-8" tabindex="-1"></a>segments_nwhi <span class="ot">&lt;-</span> density_segments <span class="sc">%&gt;%</span> <span class="fu">filter</span>(seg_id <span class="sc">%in%</span> nwhi_segment_ids)</span>
-<span id="cb289-9"><a href="subgroups2.html#cb289-9" tabindex="-1"></a></span>
-<span id="cb289-10"><a href="subgroups2.html#cb289-10" tabindex="-1"></a><span class="co"># Filter sightings to those within NWHI stratum</span></span>
-<span id="cb289-11"><a href="subgroups2.html#cb289-11" tabindex="-1"></a>sightings_nwhi <span class="ot">&lt;-</span> density_sightings <span class="sc">%&gt;%</span> <span class="fu">filter</span>(stratum_nwhi_fkw <span class="sc">==</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="subgroups2.html#cb290-1" tabindex="-1"></a><span class="co"># Update abundance area</span></span>
-<span id="cb290-2"><a href="subgroups2.html#cb290-2" tabindex="-1"></a>area_nwhi <span class="ot">&lt;-</span> <span class="fu">strata_area</span>(<span class="at">strata_all =</span> strata_cnp,</span>
-<span id="cb290-3"><a href="subgroups2.html#cb290-3" tabindex="-1"></a>                         <span class="at">strata_keep =</span> <span class="st">&#39;nwhi_fkw&#39;</span>)<span class="sc">$</span>km2</span>
-<span id="cb290-4"><a href="subgroups2.html#cb290-4" tabindex="-1"></a></span>
-<span id="cb290-5"><a href="subgroups2.html#cb290-5" tabindex="-1"></a>area_nwhi</span></code></pre></div>
+<div class="sourceCode" id="cb290"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb290-1"><a href="subgroups2.html#cb290-1" tabindex="-1"></a><span class="co"># Filter DAS to rows within the NWHi stratum</span></span>
+<span id="cb290-2"><a href="subgroups2.html#cb290-2" tabindex="-1"></a>das_nwhi <span class="ot">&lt;-</span> density_das <span class="sc">%&gt;%</span> <span class="fu">filter</span>(stratum_nwhi_fkw <span class="sc">==</span> <span class="cn">TRUE</span>)</span>
+<span id="cb290-3"><a href="subgroups2.html#cb290-3" tabindex="-1"></a></span>
+<span id="cb290-4"><a href="subgroups2.html#cb290-4" tabindex="-1"></a><span class="co"># Use these rows to get segment IDs</span></span>
+<span id="cb290-5"><a href="subgroups2.html#cb290-5" tabindex="-1"></a>nwhi_segment_ids <span class="ot">&lt;-</span> das_nwhi<span class="sc">$</span>seg_id <span class="sc">%&gt;%</span> unique</span>
+<span id="cb290-6"><a href="subgroups2.html#cb290-6" tabindex="-1"></a></span>
+<span id="cb290-7"><a href="subgroups2.html#cb290-7" tabindex="-1"></a><span class="co"># Filter segments to those segment IDs</span></span>
+<span id="cb290-8"><a href="subgroups2.html#cb290-8" tabindex="-1"></a>segments_nwhi <span class="ot">&lt;-</span> density_segments <span class="sc">%&gt;%</span> <span class="fu">filter</span>(seg_id <span class="sc">%in%</span> nwhi_segment_ids)</span>
+<span id="cb290-9"><a href="subgroups2.html#cb290-9" tabindex="-1"></a></span>
+<span id="cb290-10"><a href="subgroups2.html#cb290-10" tabindex="-1"></a><span class="co"># Filter sightings to those within NWHI stratum</span></span>
+<span id="cb290-11"><a href="subgroups2.html#cb290-11" tabindex="-1"></a>sightings_nwhi <span class="ot">&lt;-</span> density_sightings <span class="sc">%&gt;%</span> <span class="fu">filter</span>(stratum_nwhi_fkw <span class="sc">==</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="subgroups2.html#cb291-1" tabindex="-1"></a><span class="co"># Update abundance area</span></span>
+<span id="cb291-2"><a href="subgroups2.html#cb291-2" tabindex="-1"></a>area_nwhi <span class="ot">&lt;-</span> <span class="fu">strata_area</span>(<span class="at">strata_all =</span> strata_cnp,</span>
+<span id="cb291-3"><a href="subgroups2.html#cb291-3" tabindex="-1"></a>                         <span class="at">strata_keep =</span> <span class="st">&#39;nwhi_fkw&#39;</span>)<span class="sc">$</span>km2</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-351-1.png" width="576" /></p>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="subgroups2.html#cb292-1" tabindex="-1"></a></span>
+<span id="cb292-2"><a href="subgroups2.html#cb292-2" tabindex="-1"></a>area_nwhi</span>
+<span id="cb292-3"><a href="subgroups2.html#cb292-3" tabindex="-1"></a>[<span class="dv">1</span>] <span class="fl">449375.6</span></span></code></pre></div>
 <p>Now run <code>lta_subgroup()</code>:</p>
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb291-1"><a href="subgroups2.html#cb291-1" tabindex="-1"></a>results_nwhi <span class="ot">&lt;-</span> </span>
-<span id="cb291-2"><a href="subgroups2.html#cb291-2" tabindex="-1"></a>  <span class="fu">lta_subgroup</span>(<span class="at">df_sits =</span> df_sits,</span>
-<span id="cb291-3"><a href="subgroups2.html#cb291-3" tabindex="-1"></a>               <span class="at">truncation_distance =</span> truncation_distance,</span>
-<span id="cb291-4"><a href="subgroups2.html#cb291-4" tabindex="-1"></a>               <span class="at">ss =</span> ss,</span>
-<span id="cb291-5"><a href="subgroups2.html#cb291-5" tabindex="-1"></a>               <span class="at">density_segments =</span> segments_nwhi,</span>
-<span id="cb291-6"><a href="subgroups2.html#cb291-6" tabindex="-1"></a>               <span class="at">density_das =</span> das_nwhi,</span>
-<span id="cb291-7"><a href="subgroups2.html#cb291-7" tabindex="-1"></a>               <span class="at">density_sightings =</span> sightings_nwhi,</span>
-<span id="cb291-8"><a href="subgroups2.html#cb291-8" tabindex="-1"></a>               <span class="at">Rg0 =</span> Rg0,</span>
-<span id="cb291-9"><a href="subgroups2.html#cb291-9" tabindex="-1"></a>               <span class="at">abundance_area =</span> area_nwhi,</span>
-<span id="cb291-10"><a href="subgroups2.html#cb291-10" tabindex="-1"></a>               <span class="at">iterations =</span> <span class="dv">5000</span>,</span>
-<span id="cb291-11"><a href="subgroups2.html#cb291-11" tabindex="-1"></a>               <span class="at">seed =</span> <span class="dv">123</span>,</span>
-<span id="cb291-12"><a href="subgroups2.html#cb291-12" tabindex="-1"></a>               <span class="at">output_dir =</span> <span class="st">&#39;subgroup_nwhi/&#39;</span>,</span>
-<span id="cb291-13"><a href="subgroups2.html#cb291-13" tabindex="-1"></a>               <span class="at">toplot =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb291-14"><a href="subgroups2.html#cb291-14" tabindex="-1"></a>               <span class="at">verbose =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="subgroups2.html#cb293-1" tabindex="-1"></a>results_nwhi <span class="ot">&lt;-</span> </span>
+<span id="cb293-2"><a href="subgroups2.html#cb293-2" tabindex="-1"></a>  <span class="fu">lta_subgroup</span>(<span class="at">df_sits =</span> df_sits,</span>
+<span id="cb293-3"><a href="subgroups2.html#cb293-3" tabindex="-1"></a>               <span class="at">truncation_distance =</span> truncation_distance,</span>
+<span id="cb293-4"><a href="subgroups2.html#cb293-4" tabindex="-1"></a>               <span class="at">ss =</span> ss,</span>
+<span id="cb293-5"><a href="subgroups2.html#cb293-5" tabindex="-1"></a>               <span class="at">density_segments =</span> segments_nwhi,</span>
+<span id="cb293-6"><a href="subgroups2.html#cb293-6" tabindex="-1"></a>               <span class="at">density_das =</span> das_nwhi,</span>
+<span id="cb293-7"><a href="subgroups2.html#cb293-7" tabindex="-1"></a>               <span class="at">density_sightings =</span> sightings_nwhi,</span>
+<span id="cb293-8"><a href="subgroups2.html#cb293-8" tabindex="-1"></a>               <span class="at">df_settings =</span> <span class="cn">NULL</span>,</span>
+<span id="cb293-9"><a href="subgroups2.html#cb293-9" tabindex="-1"></a>               <span class="at">Rg0 =</span> Rg0,</span>
+<span id="cb293-10"><a href="subgroups2.html#cb293-10" tabindex="-1"></a>               <span class="at">abundance_area =</span> area_nwhi,</span>
+<span id="cb293-11"><a href="subgroups2.html#cb293-11" tabindex="-1"></a>               <span class="at">iterations =</span> <span class="dv">1000</span>,</span>
+<span id="cb293-12"><a href="subgroups2.html#cb293-12" tabindex="-1"></a>               <span class="at">seed =</span> <span class="dv">123</span>,</span>
+<span id="cb293-13"><a href="subgroups2.html#cb293-13" tabindex="-1"></a>               <span class="at">output_dir =</span> <span class="st">&#39;subgroup_nwhi/&#39;</span>,</span>
+<span id="cb293-14"><a href="subgroups2.html#cb293-14" tabindex="-1"></a>               <span class="at">toplot =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb293-15"><a href="subgroups2.html#cb293-15" tabindex="-1"></a>               <span class="at">verbose =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
 </div>
 <div id="outputs-1" class="section level2 unnumbered hasAnchor">
 <h2>Outputs<a href="subgroups2.html#outputs-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The function returns a <code>list</code> with many slots:</p>
-<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb292-1"><a href="subgroups2.html#cb292-1" tabindex="-1"></a>results_eez <span class="sc">%&gt;%</span> names</span>
-<span id="cb292-2"><a href="subgroups2.html#cb292-2" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;estimate&quot;</span>   <span class="st">&quot;bft&quot;</span>        <span class="st">&quot;g0_details&quot;</span> <span class="st">&quot;df&quot;</span>         <span class="st">&quot;bootstraps&quot;</span></span>
-<span id="cb292-3"><a href="subgroups2.html#cb292-3" tabindex="-1"></a>[<span class="dv">6</span>] <span class="st">&quot;iterations&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="subgroups2.html#cb294-1" tabindex="-1"></a>results_eez <span class="sc">%&gt;%</span> names</span>
+<span id="cb294-2"><a href="subgroups2.html#cb294-2" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;estimate&quot;</span>   <span class="st">&quot;bft&quot;</span>        <span class="st">&quot;g0_details&quot;</span> <span class="st">&quot;df&quot;</span>         <span class="st">&quot;bootstraps&quot;</span></span>
+<span id="cb294-3"><a href="subgroups2.html#cb294-3" tabindex="-1"></a>[<span class="dv">6</span>] <span class="st">&quot;iterations&quot;</span></span></code></pre></div>
 <p>The first slot holds the most relevant results:</p>
-<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb293-1"><a href="subgroups2.html#cb293-1" tabindex="-1"></a><span class="co"># Hawaii EEZ</span></span>
-<span id="cb293-2"><a href="subgroups2.html#cb293-2" tabindex="-1"></a>results_eez<span class="sc">$</span>estimate <span class="sc">%&gt;%</span> <span class="fu">filter</span>(population <span class="sc">==</span> <span class="st">&#39;pelagic&#39;</span>)</span>
-<span id="cb293-3"><a href="subgroups2.html#cb293-3" tabindex="-1"></a>  population        L n_segments   g0 g0_cv      ESW    ESW_CV    group</span>
-<span id="cb293-4"><a href="subgroups2.html#cb293-4" tabindex="-1"></a><span class="dv">1</span>    pelagic <span class="fl">15859.91</span>        <span class="dv">128</span> <span class="fl">0.36</span> <span class="fl">0.323</span> <span class="fl">2.432073</span> <span class="fl">0.1010659</span> <span class="fl">2.370472</span></span>
-<span id="cb293-5"><a href="subgroups2.html#cb293-5" tabindex="-1"></a>  group_sd   group_CV    n          ER     ER_CV           D        CV</span>
-<span id="cb293-6"><a href="subgroups2.html#cb293-6" tabindex="-1"></a><span class="dv">1</span> <span class="fl">0.147508</span> <span class="fl">0.06222726</span> <span class="fl">23.6</span> <span class="fl">0.001488028</span> <span class="fl">0.4406542</span> <span class="fl">0.002014359</span> <span class="fl">0.7203011</span></span>
-<span id="cb293-7"><a href="subgroups2.html#cb293-7" tabindex="-1"></a>         D_L95       D_U95    Area    N    N_L95    N_U95</span>
-<span id="cb293-8"><a href="subgroups2.html#cb293-8" tabindex="-1"></a><span class="dv">1</span> <span class="fl">0.0007965284</span> <span class="fl">0.007808057</span> <span class="dv">2474596</span> <span class="dv">4985</span> <span class="fl">1971.012</span> <span class="fl">19321.37</span></span>
-<span id="cb293-9"><a href="subgroups2.html#cb293-9" tabindex="-1"></a></span>
-<span id="cb293-10"><a href="subgroups2.html#cb293-10" tabindex="-1"></a><span class="co"># NWHI</span></span>
-<span id="cb293-11"><a href="subgroups2.html#cb293-11" tabindex="-1"></a>results_nwhi<span class="sc">$</span>estimate <span class="sc">%&gt;%</span> <span class="fu">filter</span>(population <span class="sc">==</span> <span class="st">&#39;NWHI&#39;</span>)</span>
-<span id="cb293-12"><a href="subgroups2.html#cb293-12" tabindex="-1"></a>  population        L n_segments    g0 g0_cv      ESW    ESW_CV    group</span>
-<span id="cb293-13"><a href="subgroups2.html#cb293-13" tabindex="-1"></a><span class="dv">1</span>       NWHI <span class="fl">2966.304</span>         <span class="dv">28</span> <span class="fl">0.387</span> <span class="fl">0.291</span> <span class="fl">2.432073</span> <span class="fl">0.1010659</span> <span class="fl">2.370472</span></span>
-<span id="cb293-14"><a href="subgroups2.html#cb293-14" tabindex="-1"></a>  group_sd   group_CV   n           ER   ER_CV           D       CV D_L95</span>
-<span id="cb293-15"><a href="subgroups2.html#cb293-15" tabindex="-1"></a><span class="dv">1</span> <span class="fl">0.147508</span> <span class="fl">0.06222726</span> <span class="fl">2.4</span> <span class="fl">0.0008090878</span> <span class="fl">1.98057</span> <span class="fl">0.001018856</span> <span class="fl">2.432802</span>     <span class="dv">0</span></span>
-<span id="cb293-16"><a href="subgroups2.html#cb293-16" tabindex="-1"></a>       D_U95     Area   N N_L95  N_U95</span>
-<span id="cb293-17"><a href="subgroups2.html#cb293-17" tabindex="-1"></a><span class="dv">1</span> <span class="fl">0.02148878</span> <span class="fl">449375.6</span> <span class="dv">458</span>     <span class="dv">0</span> <span class="fl">9656.4</span></span></code></pre></div>
+<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="subgroups2.html#cb295-1" tabindex="-1"></a><span class="co"># Pelagic</span></span>
+<span id="cb295-2"><a href="subgroups2.html#cb295-2" tabindex="-1"></a>results_eez<span class="sc">$</span>estimate <span class="sc">%&gt;%</span> <span class="fu">filter</span>(population <span class="sc">==</span> <span class="st">&#39;pelagic&#39;</span>)</span>
+<span id="cb295-3"><a href="subgroups2.html#cb295-3" tabindex="-1"></a>  population        L n_segments   g0 g0_cv      ESW    ESW_CV    group</span>
+<span id="cb295-4"><a href="subgroups2.html#cb295-4" tabindex="-1"></a><span class="dv">1</span>    pelagic <span class="fl">15886.89</span>        <span class="dv">128</span> <span class="fl">0.36</span> <span class="fl">0.323</span> <span class="fl">2.432073</span> <span class="fl">0.1001489</span> <span class="fl">2.370472</span></span>
+<span id="cb295-5"><a href="subgroups2.html#cb295-5" tabindex="-1"></a>   group_sd  group_CV    n          ER     ER_CV           D        CV</span>
+<span id="cb295-6"><a href="subgroups2.html#cb295-6" tabindex="-1"></a><span class="dv">1</span> <span class="fl">0.1449608</span> <span class="fl">0.0611527</span> <span class="fl">23.6</span> <span class="fl">0.001485501</span> <span class="fl">0.4232263</span> <span class="fl">0.002010938</span> <span class="fl">0.6777371</span></span>
+<span id="cb295-7"><a href="subgroups2.html#cb295-7" tabindex="-1"></a>         D_L95       D_U95    Area    N   N_L95    N_U95</span>
+<span id="cb295-8"><a href="subgroups2.html#cb295-8" tabindex="-1"></a><span class="dv">1</span> <span class="fl">0.0007818683</span> <span class="fl">0.006890366</span> <span class="dv">2474596</span> <span class="dv">4976</span> <span class="fl">1934.96</span> <span class="fl">17050.56</span></span>
+<span id="cb295-9"><a href="subgroups2.html#cb295-9" tabindex="-1"></a></span>
+<span id="cb295-10"><a href="subgroups2.html#cb295-10" tabindex="-1"></a><span class="co"># NWHI</span></span>
+<span id="cb295-11"><a href="subgroups2.html#cb295-11" tabindex="-1"></a>results_nwhi<span class="sc">$</span>estimate <span class="sc">%&gt;%</span> <span class="fu">filter</span>(population <span class="sc">==</span> <span class="st">&#39;NWHI&#39;</span>)</span>
+<span id="cb295-12"><a href="subgroups2.html#cb295-12" tabindex="-1"></a>  population        L n_segments   g0 g0_cv      ESW    ESW_CV    group</span>
+<span id="cb295-13"><a href="subgroups2.html#cb295-13" tabindex="-1"></a><span class="dv">1</span>       NWHI <span class="fl">2966.304</span>         <span class="dv">27</span> <span class="fl">0.36</span> <span class="fl">0.323</span> <span class="fl">2.432073</span> <span class="fl">0.1004278</span> <span class="fl">2.370472</span></span>
+<span id="cb295-14"><a href="subgroups2.html#cb295-14" tabindex="-1"></a>   group_sd   group_CV   n           ER    ER_CV           D       CV D_L95</span>
+<span id="cb295-15"><a href="subgroups2.html#cb295-15" tabindex="-1"></a><span class="dv">1</span> <span class="fl">0.1449043</span> <span class="fl">0.06112889</span> <span class="fl">2.4</span> <span class="fl">0.0008090878</span> <span class="fl">2.040551</span> <span class="fl">0.001095271</span> <span class="fl">2.464831</span>     <span class="dv">0</span></span>
+<span id="cb295-16"><a href="subgroups2.html#cb295-16" tabindex="-1"></a>       D_U95     Area   N N_L95    N_U95</span>
+<span id="cb295-17"><a href="subgroups2.html#cb295-17" tabindex="-1"></a><span class="dv">1</span> <span class="fl">0.01719938</span> <span class="fl">449375.6</span> <span class="dv">492</span>     <span class="dv">0</span> <span class="fl">7729.151</span></span></code></pre></div>
 <p>(Note density is provided in units of individuals per square km, not individuals per 100 square km as in <a href="https://repository.library.noaa.gov/view/noaa/24756">Bradford et al. 2020</a>.).</p>
 <p>The <code>bft</code> slot shows the proportion of effort in each Beaufort sea state:</p>
-<div class="sourceCode" id="cb294"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb294-1"><a href="subgroups2.html#cb294-1" tabindex="-1"></a>results_eez<span class="sc">$</span>bft</span>
-<span id="cb294-2"><a href="subgroups2.html#cb294-2" tabindex="-1"></a><span class="co"># A tibble: 7 × 3</span></span>
-<span id="cb294-3"><a href="subgroups2.html#cb294-3" tabindex="-1"></a>    Bft     km     prop</span>
-<span id="cb294-4"><a href="subgroups2.html#cb294-4" tabindex="-1"></a>  <span class="sc">&lt;</span>dbl<span class="sc">&gt;</span>  <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>    <span class="er">&lt;</span>dbl<span class="sc">&gt;</span></span>
-<span id="cb294-5"><a href="subgroups2.html#cb294-5" tabindex="-1"></a><span class="dv">1</span>     <span class="dv">0</span>   <span class="fl">12.6</span> <span class="fl">0.000775</span></span>
-<span id="cb294-6"><a href="subgroups2.html#cb294-6" tabindex="-1"></a><span class="dv">2</span>     <span class="dv">1</span>  <span class="fl">154.</span>  <span class="fl">0.00943</span> </span>
-<span id="cb294-7"><a href="subgroups2.html#cb294-7" tabindex="-1"></a><span class="dv">3</span>     <span class="dv">2</span>  <span class="fl">692.</span>  <span class="fl">0.0425</span>  </span>
-<span id="cb294-8"><a href="subgroups2.html#cb294-8" tabindex="-1"></a><span class="dv">4</span>     <span class="dv">3</span> <span class="fl">1993.</span>  <span class="fl">0.122</span>   </span>
-<span id="cb294-9"><a href="subgroups2.html#cb294-9" tabindex="-1"></a><span class="dv">5</span>     <span class="dv">4</span> <span class="fl">5141.</span>  <span class="fl">0.316</span>   </span>
-<span id="cb294-10"><a href="subgroups2.html#cb294-10" tabindex="-1"></a><span class="dv">6</span>     <span class="dv">5</span> <span class="fl">5603.</span>  <span class="fl">0.344</span>   </span>
-<span id="cb294-11"><a href="subgroups2.html#cb294-11" tabindex="-1"></a><span class="dv">7</span>     <span class="dv">6</span> <span class="fl">2687.</span>  <span class="fl">0.165</span>   </span>
-<span id="cb294-12"><a href="subgroups2.html#cb294-12" tabindex="-1"></a></span>
-<span id="cb294-13"><a href="subgroups2.html#cb294-13" tabindex="-1"></a>results_nwhi<span class="sc">$</span>bft</span>
-<span id="cb294-14"><a href="subgroups2.html#cb294-14" tabindex="-1"></a><span class="co"># A tibble: 7 × 3</span></span>
-<span id="cb294-15"><a href="subgroups2.html#cb294-15" tabindex="-1"></a>    Bft    km    prop</span>
-<span id="cb294-16"><a href="subgroups2.html#cb294-16" tabindex="-1"></a>  <span class="sc">&lt;</span>dbl<span class="sc">&gt;</span> <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>   <span class="er">&lt;</span>dbl<span class="sc">&gt;</span></span>
-<span id="cb294-17"><a href="subgroups2.html#cb294-17" tabindex="-1"></a><span class="dv">1</span>     <span class="dv">0</span>  <span class="fl">12.6</span> <span class="fl">0.00421</span></span>
-<span id="cb294-18"><a href="subgroups2.html#cb294-18" tabindex="-1"></a><span class="dv">2</span>     <span class="dv">1</span>  <span class="fl">65.5</span> <span class="fl">0.0219</span> </span>
-<span id="cb294-19"><a href="subgroups2.html#cb294-19" tabindex="-1"></a><span class="dv">3</span>     <span class="dv">2</span> <span class="fl">230.</span>  <span class="fl">0.0767</span> </span>
-<span id="cb294-20"><a href="subgroups2.html#cb294-20" tabindex="-1"></a><span class="dv">4</span>     <span class="dv">3</span> <span class="fl">417.</span>  <span class="fl">0.139</span>  </span>
-<span id="cb294-21"><a href="subgroups2.html#cb294-21" tabindex="-1"></a><span class="dv">5</span>     <span class="dv">4</span> <span class="fl">870.</span>  <span class="fl">0.291</span>  </span>
-<span id="cb294-22"><a href="subgroups2.html#cb294-22" tabindex="-1"></a><span class="dv">6</span>     <span class="dv">5</span> <span class="fl">905.</span>  <span class="fl">0.302</span>  </span>
-<span id="cb294-23"><a href="subgroups2.html#cb294-23" tabindex="-1"></a><span class="dv">7</span>     <span class="dv">6</span> <span class="fl">494.</span>  <span class="fl">0.165</span>  </span></code></pre></div>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="subgroups2.html#cb296-1" tabindex="-1"></a>results_eez<span class="sc">$</span>bft</span>
+<span id="cb296-2"><a href="subgroups2.html#cb296-2" tabindex="-1"></a><span class="co"># A tibble: 7 × 3</span></span>
+<span id="cb296-3"><a href="subgroups2.html#cb296-3" tabindex="-1"></a>    Bft     km     prop</span>
+<span id="cb296-4"><a href="subgroups2.html#cb296-4" tabindex="-1"></a>  <span class="sc">&lt;</span>dbl<span class="sc">&gt;</span>  <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>    <span class="er">&lt;</span>dbl<span class="sc">&gt;</span></span>
+<span id="cb296-5"><a href="subgroups2.html#cb296-5" tabindex="-1"></a><span class="dv">1</span>     <span class="dv">0</span>   <span class="fl">12.6</span> <span class="fl">0.000775</span></span>
+<span id="cb296-6"><a href="subgroups2.html#cb296-6" tabindex="-1"></a><span class="dv">2</span>     <span class="dv">1</span>  <span class="fl">154.</span>  <span class="fl">0.00943</span> </span>
+<span id="cb296-7"><a href="subgroups2.html#cb296-7" tabindex="-1"></a><span class="dv">3</span>     <span class="dv">2</span>  <span class="fl">692.</span>  <span class="fl">0.0425</span>  </span>
+<span id="cb296-8"><a href="subgroups2.html#cb296-8" tabindex="-1"></a><span class="dv">4</span>     <span class="dv">3</span> <span class="fl">1993.</span>  <span class="fl">0.122</span>   </span>
+<span id="cb296-9"><a href="subgroups2.html#cb296-9" tabindex="-1"></a><span class="dv">5</span>     <span class="dv">4</span> <span class="fl">5141.</span>  <span class="fl">0.316</span>   </span>
+<span id="cb296-10"><a href="subgroups2.html#cb296-10" tabindex="-1"></a><span class="dv">6</span>     <span class="dv">5</span> <span class="fl">5603.</span>  <span class="fl">0.344</span>   </span>
+<span id="cb296-11"><a href="subgroups2.html#cb296-11" tabindex="-1"></a><span class="dv">7</span>     <span class="dv">6</span> <span class="fl">2687.</span>  <span class="fl">0.165</span>   </span>
+<span id="cb296-12"><a href="subgroups2.html#cb296-12" tabindex="-1"></a></span>
+<span id="cb296-13"><a href="subgroups2.html#cb296-13" tabindex="-1"></a>results_nwhi<span class="sc">$</span>bft</span>
+<span id="cb296-14"><a href="subgroups2.html#cb296-14" tabindex="-1"></a><span class="co"># A tibble: 7 × 3</span></span>
+<span id="cb296-15"><a href="subgroups2.html#cb296-15" tabindex="-1"></a>    Bft     km     prop</span>
+<span id="cb296-16"><a href="subgroups2.html#cb296-16" tabindex="-1"></a>  <span class="sc">&lt;</span>dbl<span class="sc">&gt;</span>  <span class="er">&lt;</span>dbl<span class="sc">&gt;</span>    <span class="er">&lt;</span>dbl<span class="sc">&gt;</span></span>
+<span id="cb296-17"><a href="subgroups2.html#cb296-17" tabindex="-1"></a><span class="dv">1</span>     <span class="dv">0</span>   <span class="fl">12.6</span> <span class="fl">0.000775</span></span>
+<span id="cb296-18"><a href="subgroups2.html#cb296-18" tabindex="-1"></a><span class="dv">2</span>     <span class="dv">1</span>  <span class="fl">154.</span>  <span class="fl">0.00943</span> </span>
+<span id="cb296-19"><a href="subgroups2.html#cb296-19" tabindex="-1"></a><span class="dv">3</span>     <span class="dv">2</span>  <span class="fl">692.</span>  <span class="fl">0.0425</span>  </span>
+<span id="cb296-20"><a href="subgroups2.html#cb296-20" tabindex="-1"></a><span class="dv">4</span>     <span class="dv">3</span> <span class="fl">1993.</span>  <span class="fl">0.122</span>   </span>
+<span id="cb296-21"><a href="subgroups2.html#cb296-21" tabindex="-1"></a><span class="dv">5</span>     <span class="dv">4</span> <span class="fl">5141.</span>  <span class="fl">0.316</span>   </span>
+<span id="cb296-22"><a href="subgroups2.html#cb296-22" tabindex="-1"></a><span class="dv">6</span>     <span class="dv">5</span> <span class="fl">5603.</span>  <span class="fl">0.344</span>   </span>
+<span id="cb296-23"><a href="subgroups2.html#cb296-23" tabindex="-1"></a><span class="dv">7</span>     <span class="dv">6</span> <span class="fl">2687.</span>  <span class="fl">0.165</span>   </span></code></pre></div>
 <p>The <code>g0_details</code> slot includes the results from the <code>g0_model()</code> and <code>g0_weighted()</code> functions called internally by <code>lta_subgroup()</code> (or alternatively, it simply returns the values manually supplied in the <code>Rg0</code> input). See those functions’ documentation pages for details.</p>
-<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb295-1"><a href="subgroups2.html#cb295-1" tabindex="-1"></a>results_eez<span class="sc">$</span>g0_details</span>
-<span id="cb295-2"><a href="subgroups2.html#cb295-2" tabindex="-1"></a><span class="sc">$</span>summary</span>
-<span id="cb295-3"><a href="subgroups2.html#cb295-3" tabindex="-1"></a>  bft  Rg0 Rg0_CV</span>
-<span id="cb295-4"><a href="subgroups2.html#cb295-4" tabindex="-1"></a><span class="dv">1</span>   <span class="dv">0</span> <span class="fl">1.00</span>   <span class="fl">0.00</span></span>
-<span id="cb295-5"><a href="subgroups2.html#cb295-5" tabindex="-1"></a><span class="dv">2</span>   <span class="dv">1</span> <span class="fl">1.00</span>   <span class="fl">0.00</span></span>
-<span id="cb295-6"><a href="subgroups2.html#cb295-6" tabindex="-1"></a><span class="dv">3</span>   <span class="dv">2</span> <span class="fl">0.72</span>   <span class="fl">0.11</span></span>
-<span id="cb295-7"><a href="subgroups2.html#cb295-7" tabindex="-1"></a><span class="dv">4</span>   <span class="dv">3</span> <span class="fl">0.51</span>   <span class="fl">0.22</span></span>
-<span id="cb295-8"><a href="subgroups2.html#cb295-8" tabindex="-1"></a><span class="dv">5</span>   <span class="dv">4</span> <span class="fl">0.37</span>   <span class="fl">0.34</span></span>
-<span id="cb295-9"><a href="subgroups2.html#cb295-9" tabindex="-1"></a><span class="dv">6</span>   <span class="dv">5</span> <span class="fl">0.26</span>   <span class="fl">0.46</span></span>
-<span id="cb295-10"><a href="subgroups2.html#cb295-10" tabindex="-1"></a><span class="dv">7</span>   <span class="dv">6</span> <span class="fl">0.19</span>   <span class="fl">0.59</span></span></code></pre></div>
+<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="subgroups2.html#cb297-1" tabindex="-1"></a>results_eez<span class="sc">$</span>g0_details</span>
+<span id="cb297-2"><a href="subgroups2.html#cb297-2" tabindex="-1"></a><span class="sc">$</span>summary</span>
+<span id="cb297-3"><a href="subgroups2.html#cb297-3" tabindex="-1"></a>  bft  Rg0 Rg0_CV</span>
+<span id="cb297-4"><a href="subgroups2.html#cb297-4" tabindex="-1"></a><span class="dv">1</span>   <span class="dv">0</span> <span class="fl">1.00</span>   <span class="fl">0.00</span></span>
+<span id="cb297-5"><a href="subgroups2.html#cb297-5" tabindex="-1"></a><span class="dv">2</span>   <span class="dv">1</span> <span class="fl">1.00</span>   <span class="fl">0.00</span></span>
+<span id="cb297-6"><a href="subgroups2.html#cb297-6" tabindex="-1"></a><span class="dv">3</span>   <span class="dv">2</span> <span class="fl">0.72</span>   <span class="fl">0.11</span></span>
+<span id="cb297-7"><a href="subgroups2.html#cb297-7" tabindex="-1"></a><span class="dv">4</span>   <span class="dv">3</span> <span class="fl">0.51</span>   <span class="fl">0.22</span></span>
+<span id="cb297-8"><a href="subgroups2.html#cb297-8" tabindex="-1"></a><span class="dv">5</span>   <span class="dv">4</span> <span class="fl">0.37</span>   <span class="fl">0.34</span></span>
+<span id="cb297-9"><a href="subgroups2.html#cb297-9" tabindex="-1"></a><span class="dv">6</span>   <span class="dv">5</span> <span class="fl">0.26</span>   <span class="fl">0.46</span></span>
+<span id="cb297-10"><a href="subgroups2.html#cb297-10" tabindex="-1"></a><span class="dv">7</span>   <span class="dv">6</span> <span class="fl">0.19</span>   <span class="fl">0.59</span></span></code></pre></div>
 <p>The <code>df</code> slot includes details of the detection function fit. See the documentation for <code>df_plot()</code> for details.</p>
-<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb296-1"><a href="subgroups2.html#cb296-1" tabindex="-1"></a>results_eez<span class="sc">$</span>df <span class="sc">%&gt;%</span> names</span>
-<span id="cb296-2"><a href="subgroups2.html#cb296-2" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;best_models&quot;</span>  <span class="st">&quot;all_models&quot;</span>   <span class="st">&quot;best_objects&quot;</span> <span class="st">&quot;sightings&quot;</span>   </span></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="subgroups2.html#cb298-1" tabindex="-1"></a>results_eez<span class="sc">$</span>df <span class="sc">%&gt;%</span> names</span>
+<span id="cb298-2"><a href="subgroups2.html#cb298-2" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;best_models&quot;</span>  <span class="st">&quot;all_models&quot;</span>   <span class="st">&quot;best_objects&quot;</span> <span class="st">&quot;sightings&quot;</span>   </span></code></pre></div>
 <p>The <code>bootstraps</code> slot has the bootstrapped values for various parameters, in case they are useful for troubleshooting, subsequent analyses, and/or plotting:</p>
-<div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb297-1"><a href="subgroups2.html#cb297-1" tabindex="-1"></a>results_eez<span class="sc">$</span>bootstraps <span class="sc">%&gt;%</span> names</span>
-<span id="cb297-2"><a href="subgroups2.html#cb297-2" tabindex="-1"></a> [<span class="dv">1</span>] <span class="st">&quot;i&quot;</span>          <span class="st">&quot;population&quot;</span> <span class="st">&quot;n&quot;</span>          <span class="st">&quot;L&quot;</span>          <span class="st">&quot;er&quot;</span>        </span>
-<span id="cb297-3"><a href="subgroups2.html#cb297-3" tabindex="-1"></a> [<span class="dv">6</span>] <span class="st">&quot;ss&quot;</span>         <span class="st">&quot;esw&quot;</span>        <span class="st">&quot;g0&quot;</span>         <span class="st">&quot;D&quot;</span>          <span class="st">&quot;N&quot;</span>         </span></code></pre></div>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb299-1"><a href="subgroups2.html#cb299-1" tabindex="-1"></a>results_eez<span class="sc">$</span>bootstraps <span class="sc">%&gt;%</span> names</span>
+<span id="cb299-2"><a href="subgroups2.html#cb299-2" tabindex="-1"></a> [<span class="dv">1</span>] <span class="st">&quot;i&quot;</span>          <span class="st">&quot;population&quot;</span> <span class="st">&quot;n&quot;</span>          <span class="st">&quot;L&quot;</span>          <span class="st">&quot;esw&quot;</span>       </span>
+<span id="cb299-3"><a href="subgroups2.html#cb299-3" tabindex="-1"></a> [<span class="dv">6</span>] <span class="st">&quot;er&quot;</span>         <span class="st">&quot;ss&quot;</span>         <span class="st">&quot;g0&quot;</span>         <span class="st">&quot;D&quot;</span>          <span class="st">&quot;N&quot;</span>         </span></code></pre></div>
 <p>Note that there are bootstrap rows for each population:</p>
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb298-1"><a href="subgroups2.html#cb298-1" tabindex="-1"></a>results_eez<span class="sc">$</span>bootstraps <span class="sc">%&gt;%</span> nrow</span>
-<span id="cb298-2"><a href="subgroups2.html#cb298-2" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">10000</span></span>
-<span id="cb298-3"><a href="subgroups2.html#cb298-3" tabindex="-1"></a></span>
-<span id="cb298-4"><a href="subgroups2.html#cb298-4" tabindex="-1"></a>results_eez<span class="sc">$</span>bootstraps <span class="sc">%&gt;%</span> head</span>
-<span id="cb298-5"><a href="subgroups2.html#cb298-5" tabindex="-1"></a>        i population  n        L           er       ss      esw        g0</span>
-<span id="cb298-6"><a href="subgroups2.html#cb298-6" tabindex="-1"></a><span class="dv">2215</span> <span class="dv">2215</span>    pelagic <span class="dv">27</span> <span class="fl">15780.95</span> <span class="fl">0.0017109235</span> <span class="fl">2.524882</span> <span class="fl">2.386369</span> <span class="fl">0.4362716</span></span>
-<span id="cb298-7"><a href="subgroups2.html#cb298-7" tabindex="-1"></a><span class="dv">1002</span> <span class="dv">1002</span>    pelagic <span class="dv">20</span> <span class="fl">15866.27</span> <span class="fl">0.0012605359</span> <span class="fl">2.551969</span> <span class="fl">2.494145</span> <span class="fl">0.2373985</span></span>
-<span id="cb298-8"><a href="subgroups2.html#cb298-8" tabindex="-1"></a><span class="dv">1435</span> <span class="dv">1435</span>    pelagic <span class="dv">24</span> <span class="fl">15662.49</span> <span class="fl">0.0015323236</span> <span class="fl">2.339528</span> <span class="fl">2.175675</span> <span class="fl">0.1139462</span></span>
-<span id="cb298-9"><a href="subgroups2.html#cb298-9" tabindex="-1"></a><span class="dv">2776</span> <span class="dv">2776</span>    pelagic  <span class="dv">2</span> <span class="fl">15853.95</span> <span class="fl">0.0001261515</span> <span class="fl">2.356378</span> <span class="fl">2.278453</span> <span class="fl">0.5340807</span></span>
-<span id="cb298-10"><a href="subgroups2.html#cb298-10" tabindex="-1"></a><span class="dv">3146</span> <span class="dv">3146</span>    pelagic <span class="dv">18</span> <span class="fl">15842.87</span> <span class="fl">0.0011361577</span> <span class="fl">2.372362</span> <span class="fl">2.523431</span> <span class="fl">0.6411585</span></span>
-<span id="cb298-11"><a href="subgroups2.html#cb298-11" tabindex="-1"></a><span class="dv">1953</span> <span class="dv">1953</span>    pelagic <span class="dv">17</span> <span class="fl">15814.18</span> <span class="fl">0.0010749843</span> <span class="fl">2.525276</span> <span class="fl">2.403432</span> <span class="fl">0.3113992</span></span>
-<span id="cb298-12"><a href="subgroups2.html#cb298-12" tabindex="-1"></a>                D     N</span>
-<span id="cb298-13"><a href="subgroups2.html#cb298-13" tabindex="-1"></a><span class="dv">2215</span> <span class="fl">0.0020746610</span>  <span class="dv">5134</span></span>
-<span id="cb298-14"><a href="subgroups2.html#cb298-14" tabindex="-1"></a><span class="dv">1002</span> <span class="fl">0.0027164449</span>  <span class="dv">6722</span></span>
-<span id="cb298-15"><a href="subgroups2.html#cb298-15" tabindex="-1"></a><span class="dv">1435</span> <span class="fl">0.0072302736</span> <span class="dv">17892</span></span>
-<span id="cb298-16"><a href="subgroups2.html#cb298-16" tabindex="-1"></a><span class="dv">2776</span> <span class="fl">0.0001221407</span>   <span class="dv">302</span></span>
-<span id="cb298-17"><a href="subgroups2.html#cb298-17" tabindex="-1"></a><span class="dv">3146</span> <span class="fl">0.0008329765</span>  <span class="dv">2061</span></span>
-<span id="cb298-18"><a href="subgroups2.html#cb298-18" tabindex="-1"></a><span class="dv">1953</span> <span class="fl">0.0018135585</span>  <span class="dv">4488</span></span>
-<span id="cb298-19"><a href="subgroups2.html#cb298-19" tabindex="-1"></a></span>
-<span id="cb298-20"><a href="subgroups2.html#cb298-20" tabindex="-1"></a>results_eez<span class="sc">$</span>bootstraps <span class="sc">%&gt;%</span> tail</span>
-<span id="cb298-21"><a href="subgroups2.html#cb298-21" tabindex="-1"></a>         i population n        L er       ss      esw        g0 D N</span>
-<span id="cb298-22"><a href="subgroups2.html#cb298-22" tabindex="-1"></a><span class="dv">5601</span>   <span class="dv">560</span>       NWHI <span class="dv">0</span> <span class="fl">15905.12</span>  <span class="dv">0</span> <span class="fl">2.223622</span> <span class="fl">2.347542</span> <span class="fl">0.2793207</span> <span class="dv">0</span> <span class="dv">0</span></span>
-<span id="cb298-23"><a href="subgroups2.html#cb298-23" tabindex="-1"></a><span class="dv">5361</span>   <span class="dv">536</span>       NWHI <span class="dv">0</span> <span class="fl">15205.52</span>  <span class="dv">0</span> <span class="fl">2.372520</span> <span class="fl">2.273632</span> <span class="fl">0.4541600</span> <span class="dv">0</span> <span class="dv">0</span></span>
-<span id="cb298-24"><a href="subgroups2.html#cb298-24" tabindex="-1"></a><span class="dv">42861</span> <span class="dv">4286</span>       NWHI <span class="dv">0</span> <span class="fl">15622.17</span>  <span class="dv">0</span> <span class="fl">2.191496</span> <span class="fl">2.449743</span> <span class="fl">0.5519485</span> <span class="dv">0</span> <span class="dv">0</span></span>
-<span id="cb298-25"><a href="subgroups2.html#cb298-25" tabindex="-1"></a><span class="dv">42311</span> <span class="dv">4231</span>       NWHI <span class="dv">0</span> <span class="fl">16125.93</span>  <span class="dv">0</span> <span class="fl">2.173622</span> <span class="fl">2.246894</span> <span class="fl">0.3369210</span> <span class="dv">0</span> <span class="dv">0</span></span>
-<span id="cb298-26"><a href="subgroups2.html#cb298-26" tabindex="-1"></a><span class="dv">34971</span> <span class="dv">3497</span>       NWHI <span class="dv">0</span> <span class="fl">15266.83</span>  <span class="dv">0</span> <span class="fl">2.125039</span> <span class="fl">2.558442</span> <span class="fl">0.3418234</span> <span class="dv">0</span> <span class="dv">0</span></span>
-<span id="cb298-27"><a href="subgroups2.html#cb298-27" tabindex="-1"></a><span class="dv">27441</span> <span class="dv">2744</span>       NWHI <span class="dv">0</span> <span class="fl">15886.69</span>  <span class="dv">0</span> <span class="fl">2.564173</span> <span class="fl">2.150488</span> <span class="fl">0.5103674</span> <span class="dv">0</span> <span class="dv">0</span></span></code></pre></div>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb300-1"><a href="subgroups2.html#cb300-1" tabindex="-1"></a>results_eez<span class="sc">$</span>bootstraps <span class="sc">%&gt;%</span> nrow</span>
+<span id="cb300-2"><a href="subgroups2.html#cb300-2" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">2000</span></span>
+<span id="cb300-3"><a href="subgroups2.html#cb300-3" tabindex="-1"></a></span>
+<span id="cb300-4"><a href="subgroups2.html#cb300-4" tabindex="-1"></a>results_eez<span class="sc">$</span>bootstraps <span class="sc">%&gt;%</span> head</span>
+<span id="cb300-5"><a href="subgroups2.html#cb300-5" tabindex="-1"></a>      i population  n        L      esw           er       ss        g0</span>
+<span id="cb300-6"><a href="subgroups2.html#cb300-6" tabindex="-1"></a><span class="dv">321</span> <span class="dv">321</span>    pelagic <span class="dv">23</span> <span class="fl">15091.99</span> <span class="fl">2.303545</span> <span class="fl">0.0015239872</span> <span class="fl">2.461496</span> <span class="fl">0.3811179</span></span>
+<span id="cb300-7"><a href="subgroups2.html#cb300-7" tabindex="-1"></a><span class="dv">167</span> <span class="dv">167</span>    pelagic <span class="dv">12</span> <span class="fl">16095.48</span> <span class="fl">2.394325</span> <span class="fl">0.0007455511</span> <span class="fl">2.189134</span> <span class="fl">0.4325033</span></span>
+<span id="cb300-8"><a href="subgroups2.html#cb300-8" tabindex="-1"></a><span class="dv">411</span> <span class="dv">411</span>    pelagic <span class="dv">13</span> <span class="fl">16007.30</span> <span class="fl">2.876537</span> <span class="fl">0.0008121295</span> <span class="fl">2.276929</span> <span class="fl">0.4136903</span></span>
+<span id="cb300-9"><a href="subgroups2.html#cb300-9" tabindex="-1"></a><span class="dv">261</span> <span class="dv">261</span>    pelagic <span class="dv">35</span> <span class="fl">14901.00</span> <span class="fl">2.652919</span> <span class="fl">0.0023488362</span> <span class="fl">2.494567</span> <span class="fl">0.2911285</span></span>
+<span id="cb300-10"><a href="subgroups2.html#cb300-10" tabindex="-1"></a><span class="dv">728</span> <span class="dv">728</span>    pelagic <span class="dv">21</span> <span class="fl">16163.34</span> <span class="fl">2.533329</span> <span class="fl">0.0012992368</span> <span class="fl">2.412441</span> <span class="fl">0.3750898</span></span>
+<span id="cb300-11"><a href="subgroups2.html#cb300-11" tabindex="-1"></a><span class="dv">390</span> <span class="dv">390</span>    pelagic <span class="dv">11</span> <span class="fl">15173.80</span> <span class="fl">2.246938</span> <span class="fl">0.0007249337</span> <span class="fl">2.332677</span> <span class="fl">0.3948982</span></span>
+<span id="cb300-12"><a href="subgroups2.html#cb300-12" tabindex="-1"></a>               D    N</span>
+<span id="cb300-13"><a href="subgroups2.html#cb300-13" tabindex="-1"></a><span class="dv">321</span> <span class="fl">0.0021364584</span> <span class="dv">5287</span></span>
+<span id="cb300-14"><a href="subgroups2.html#cb300-14" tabindex="-1"></a><span class="dv">167</span> <span class="fl">0.0007880382</span> <span class="dv">1950</span></span>
+<span id="cb300-15"><a href="subgroups2.html#cb300-15" tabindex="-1"></a><span class="dv">411</span> <span class="fl">0.0007769616</span> <span class="dv">1923</span></span>
+<span id="cb300-16"><a href="subgroups2.html#cb300-16" tabindex="-1"></a><span class="dv">261</span> <span class="fl">0.0037932304</span> <span class="dv">9387</span></span>
+<span id="cb300-17"><a href="subgroups2.html#cb300-17" tabindex="-1"></a><span class="dv">728</span> <span class="fl">0.0016492566</span> <span class="dv">4081</span></span>
+<span id="cb300-18"><a href="subgroups2.html#cb300-18" tabindex="-1"></a><span class="dv">390</span> <span class="fl">0.0009528987</span> <span class="dv">2358</span></span>
+<span id="cb300-19"><a href="subgroups2.html#cb300-19" tabindex="-1"></a></span>
+<span id="cb300-20"><a href="subgroups2.html#cb300-20" tabindex="-1"></a>results_eez<span class="sc">$</span>bootstraps <span class="sc">%&gt;%</span> tail</span>
+<span id="cb300-21"><a href="subgroups2.html#cb300-21" tabindex="-1"></a>       i population n        L      esw er       ss        g0 D N</span>
+<span id="cb300-22"><a href="subgroups2.html#cb300-22" tabindex="-1"></a><span class="dv">8221</span> <span class="dv">822</span>       NWHI <span class="dv">0</span> <span class="fl">16178.31</span> <span class="fl">2.863767</span>  <span class="dv">0</span> <span class="fl">2.222441</span> <span class="fl">0.4464114</span> <span class="dv">0</span> <span class="dv">0</span></span>
+<span id="cb300-23"><a href="subgroups2.html#cb300-23" tabindex="-1"></a><span class="dv">9551</span> <span class="dv">955</span>       NWHI <span class="dv">0</span> <span class="fl">15960.74</span> <span class="fl">2.025612</span>  <span class="dv">0</span> <span class="fl">2.297717</span> <span class="fl">0.3961091</span> <span class="dv">0</span> <span class="dv">0</span></span>
+<span id="cb300-24"><a href="subgroups2.html#cb300-24" tabindex="-1"></a><span class="dv">4610</span>  <span class="dv">46</span>       NWHI <span class="dv">0</span> <span class="fl">15989.47</span> <span class="fl">2.627323</span>  <span class="dv">0</span> <span class="fl">2.202520</span> <span class="fl">0.2294527</span> <span class="dv">0</span> <span class="dv">0</span></span>
+<span id="cb300-25"><a href="subgroups2.html#cb300-25" tabindex="-1"></a><span class="dv">1881</span> <span class="dv">188</span>       NWHI <span class="dv">0</span> <span class="fl">16062.01</span> <span class="fl">2.053220</span>  <span class="dv">0</span> <span class="fl">2.307717</span> <span class="fl">0.3620790</span> <span class="dv">0</span> <span class="dv">0</span></span>
+<span id="cb300-26"><a href="subgroups2.html#cb300-26" tabindex="-1"></a><span class="dv">7911</span> <span class="dv">791</span>       NWHI <span class="dv">0</span> <span class="fl">15267.54</span> <span class="fl">2.497313</span>  <span class="dv">0</span> <span class="fl">2.343701</span> <span class="fl">0.4010772</span> <span class="dv">0</span> <span class="dv">0</span></span>
+<span id="cb300-27"><a href="subgroups2.html#cb300-27" tabindex="-1"></a><span class="dv">4141</span> <span class="dv">414</span>       NWHI <span class="dv">0</span> <span class="fl">15878.87</span> <span class="fl">2.096270</span>  <span class="dv">0</span> <span class="fl">2.518189</span> <span class="fl">0.3369002</span> <span class="dv">0</span> <span class="dv">0</span></span></code></pre></div>
 <p>Some examples:</p>
-<p><img src="figures/unnamed-chunk-361-1.png" width="672" /></p>
 <p><img src="figures/unnamed-chunk-362-1.png" width="672" /></p>
 <p><img src="figures/unnamed-chunk-363-1.png" width="672" /></p>
+<p><img src="figures/unnamed-chunk-364-1.png" width="672" /></p>
+</div>
+<div id="detection-function-covariates" class="section level2 unnumbered hasAnchor">
+<h2>Detection function covariates<a href="subgroups2.html#detection-function-covariates" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The analyses above fit detection functions without using any environmental covariates. Here we demonstrate how the results might change if covariates <em>are</em> used. Let’s re-run the NWHI analysis with two example covariates: <code>Bft</code> sea state (numeric) and <code>EffType</code> (categorical, or <code>factor</code>). For expediency will only use 100 bootstraps.</p>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb301-1"><a href="subgroups2.html#cb301-1" tabindex="-1"></a>results_nwhi_covar <span class="ot">&lt;-</span> </span>
+<span id="cb301-2"><a href="subgroups2.html#cb301-2" tabindex="-1"></a>  <span class="fu">lta_subgroup</span>(<span class="at">df_sits =</span> df_sits,</span>
+<span id="cb301-3"><a href="subgroups2.html#cb301-3" tabindex="-1"></a>               <span class="at">truncation_distance =</span> truncation_distance,</span>
+<span id="cb301-4"><a href="subgroups2.html#cb301-4" tabindex="-1"></a>               <span class="at">ss =</span> ss,</span>
+<span id="cb301-5"><a href="subgroups2.html#cb301-5" tabindex="-1"></a>               <span class="at">density_segments =</span> segments_nwhi,</span>
+<span id="cb301-6"><a href="subgroups2.html#cb301-6" tabindex="-1"></a>               <span class="at">density_das =</span> das_nwhi,</span>
+<span id="cb301-7"><a href="subgroups2.html#cb301-7" tabindex="-1"></a>               <span class="at">density_sightings =</span> sightings_nwhi,</span>
+<span id="cb301-8"><a href="subgroups2.html#cb301-8" tabindex="-1"></a>               <span class="at">df_settings =</span> <span class="fu">list</span>(<span class="at">covariates =</span> <span class="fu">c</span>(<span class="st">&#39;Bft&#39;</span>, <span class="st">&#39;EffType&#39;</span>),</span>
+<span id="cb301-9"><a href="subgroups2.html#cb301-9" tabindex="-1"></a>                                  <span class="at">covariates_factor =</span> <span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>),</span>
+<span id="cb301-10"><a href="subgroups2.html#cb301-10" tabindex="-1"></a>                                  <span class="at">covariates_levels =</span> <span class="dv">2</span>,</span>
+<span id="cb301-11"><a href="subgroups2.html#cb301-11" tabindex="-1"></a>                                  <span class="at">covariates_n_per_level =</span> <span class="dv">10</span>,</span>
+<span id="cb301-12"><a href="subgroups2.html#cb301-12" tabindex="-1"></a>                                  <span class="at">simplify_cue =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb301-13"><a href="subgroups2.html#cb301-13" tabindex="-1"></a>                                  <span class="at">simplify_bino =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb301-14"><a href="subgroups2.html#cb301-14" tabindex="-1"></a>                                  <span class="at">detection_function_base =</span> <span class="st">&#39;hn&#39;</span>,</span>
+<span id="cb301-15"><a href="subgroups2.html#cb301-15" tabindex="-1"></a>                                  <span class="at">base_model =</span> <span class="st">&#39;~1&#39;</span>,</span>
+<span id="cb301-16"><a href="subgroups2.html#cb301-16" tabindex="-1"></a>                                  <span class="at">delta_aic =</span> <span class="dv">2</span>),</span>
+<span id="cb301-17"><a href="subgroups2.html#cb301-17" tabindex="-1"></a>               <span class="at">Rg0 =</span> Rg0,</span>
+<span id="cb301-18"><a href="subgroups2.html#cb301-18" tabindex="-1"></a>               <span class="at">abundance_area =</span> area_nwhi,</span>
+<span id="cb301-19"><a href="subgroups2.html#cb301-19" tabindex="-1"></a>               <span class="at">iterations =</span> <span class="dv">100</span>,</span>
+<span id="cb301-20"><a href="subgroups2.html#cb301-20" tabindex="-1"></a>               <span class="at">seed =</span> <span class="dv">123</span>,</span>
+<span id="cb301-21"><a href="subgroups2.html#cb301-21" tabindex="-1"></a>               <span class="at">output_dir =</span> <span class="st">&#39;subgroup_nwhi_covar/&#39;</span>,</span>
+<span id="cb301-22"><a href="subgroups2.html#cb301-22" tabindex="-1"></a>               <span class="at">toplot =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb301-23"><a href="subgroups2.html#cb301-23" tabindex="-1"></a>               <span class="at">verbose =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p>Now review how these covariate-based results compare to the original run:</p>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb302-1"><a href="subgroups2.html#cb302-1" tabindex="-1"></a><span class="co"># Point estimates</span></span>
+<span id="cb302-2"><a href="subgroups2.html#cb302-2" tabindex="-1"></a>results_nwhi_covar<span class="sc">$</span>estimate <span class="sc">%&gt;%</span> <span class="fu">filter</span>(population <span class="sc">==</span> <span class="st">&#39;NWHI&#39;</span>)</span>
+<span id="cb302-3"><a href="subgroups2.html#cb302-3" tabindex="-1"></a>  population        L n_segments    g0 g0_cv      ESW    ESW_CV    group</span>
+<span id="cb302-4"><a href="subgroups2.html#cb302-4" tabindex="-1"></a><span class="dv">1</span>       NWHI <span class="fl">2966.304</span>         <span class="dv">27</span> <span class="fl">0.387</span> <span class="fl">0.291</span> <span class="fl">2.417143</span> <span class="fl">0.1832485</span> <span class="fl">2.370472</span></span>
+<span id="cb302-5"><a href="subgroups2.html#cb302-5" tabindex="-1"></a>   group_sd   group_CV   n           ER    ER_CV          D       CV D_L95</span>
+<span id="cb302-6"><a href="subgroups2.html#cb302-6" tabindex="-1"></a><span class="dv">1</span> <span class="fl">0.1434986</span> <span class="fl">0.06053587</span> <span class="fl">2.4</span> <span class="fl">0.0008090878</span> <span class="fl">2.294483</span> <span class="fl">0.00102515</span> <span class="fl">2.536896</span>     <span class="dv">0</span></span>
+<span id="cb302-7"><a href="subgroups2.html#cb302-7" tabindex="-1"></a>       D_U95     Area   N N_L95    N_U95</span>
+<span id="cb302-8"><a href="subgroups2.html#cb302-8" tabindex="-1"></a><span class="dv">1</span> <span class="fl">0.01246519</span> <span class="fl">449375.6</span> <span class="dv">461</span>     <span class="dv">0</span> <span class="fl">5601.291</span></span>
+<span id="cb302-9"><a href="subgroups2.html#cb302-9" tabindex="-1"></a></span>
+<span id="cb302-10"><a href="subgroups2.html#cb302-10" tabindex="-1"></a><span class="co"># Ranked detection functions</span></span>
+<span id="cb302-11"><a href="subgroups2.html#cb302-11" tabindex="-1"></a>results_nwhi_covar<span class="sc">$</span>df<span class="sc">$</span>best_models</span>
+<span id="cb302-12"><a href="subgroups2.html#cb302-12" tabindex="-1"></a>  Model Key_function  Formula     Pmean     AIC <span class="sc">$</span>\\Delta<span class="sc">$</span>AIC Covariates tested</span>
+<span id="cb302-13"><a href="subgroups2.html#cb302-13" tabindex="-1"></a><span class="dv">1</span>     <span class="dv">2</span>           hn <span class="sc">~</span><span class="dv">1</span> <span class="sc">+</span> bft <span class="fl">0.5300571</span> <span class="fl">263.937</span>        <span class="fl">0.000</span>      bft, efftype</span>
+<span id="cb302-14"><a href="subgroups2.html#cb302-14" tabindex="-1"></a><span class="dv">2</span>     <span class="dv">1</span>           hn      <span class="sc">~</span> <span class="dv">1</span> <span class="fl">0.5404607</span> <span class="fl">265.538</span>        <span class="fl">1.601</span>      bft, efftype</span></code></pre></div>
+<p>See <a href="lta.html#dfsets">here</a> for details on how to provide your <code>df_settings</code> input to meet your needs, and see <a href="%7B#customcovars">here</a> to learn how to develop custom covariates to add to your datasets.</p>
 </div>
 <div id="behind-the-scenes-2" class="section level2 unnumbered hasAnchor">
 <h2>Behind the scenes<a href="subgroups2.html#behind-the-scenes-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>This function performs the following operations:</p>
 <ol style="list-style-type: decimal">
-<li><p>Fits a detection function to <code>df_sits</code> without covariates, using the <code>LTabundR</code> function <code>df_fit()</code>, in order to estimate the effective strip width (ESW).</p></li>
+<li><p>Fits a detection function to <code>df_sits</code> using the <code>LTabundR</code> function <code>df_fit()</code>. That model will be used to estimate effective strip width (ESW) for each sighting in <code>detection_sightings</code> (and bootstraps thereof). If specified by the <code>df_settings</code> input, the detection function will be modeled with environmental covariates, and the best-fitting function will be determined by stepwise model-fitting and comparison of AICc values. (The same procedure as is used in the <a href="lta.html#lta">group-based <code>lta()</code> function</a>.)</p></li>
 <li><p>Conducts bootstrap re-sampling of the detection function fitting routine in order to estimate the CV of ESW.</p></li>
 <li><p>Estimates the arithmetic mean subgroup size based on the <code>ss</code> input.</p></li>
 <li><p>Creates a bootstrap-resampled distribution of subgroup sizes, with which CV is estimated.</p></li>
 <li><p><em>Optional:</em> models the <em>Relative g(0)</em> in different survey conditions using the <code>LTabundR</code> function <code>g0_model()</code>. This function also estimates the CV of the <em>Rg(0)</em> estimate in each Beaufort sea state using jackknife resampling.</p></li>
-<li><p>Estimates the encounter rate for each population (subgroup detections / trackline surveyed). If any sighting has a prorated population assignment, the number of subgroups used in each population is determined by multiplying the number of subgroups by the population’s probability. For example, sighting 133 above, which involved 6 subgroups, has a 0.6 probability of belonging to the pelagic population and a 0.4 probabilty of belonging to the NWHI population. Therefore, for the encounter rate, this sighting contributed 3.6 subgroups to the pelagic population (<code>6 * 0.6</code>) and 2.4 subgroups to the NWHI population (<code>6 * 0.4</code>).</p></li>
-<li><p>Creates a bootstrap-resampled distribution of encounter rate estimates. If any sighting has a prorated population assignment, it will be assigned to only one population for each iteration based on a stochastic routine that compares a randomly drawn value between 0 and 1 to the population assignment probabilities. This is explained in further detail in <a href="https://repository.library.noaa.gov/view/noaa/24756">Bradford et al. (2020)</a>.</p></li>
+<li><p>Estimates the ESW for each sightings used for density estimation using the best-fitting detection function model(s) (if multiple models are best-fit, i.e., within two AICc of each other, then their ESW predictions are averaged).</p></li>
+<li><p>Estimates the mean ESW and encounter rate for each population (subgroup detections / trackline surveyed). If any sighting has a prorated population assignment, the number of subgroups used in each population is determined by multiplying the number of subgroups by the population’s probability. For example, sighting 133 above, which involved 6 subgroups, has a 0.6 probability of belonging to the pelagic population and a 0.4 probabilty of belonging to the NWHI population. Therefore, for the encounter rate, this sighting contributed 3.6 subgroups to the pelagic population (<code>6 * 0.6</code>) and 2.4 subgroups to the NWHI population (<code>6 * 0.4</code>).</p></li>
+<li><p>Creates a bootstrap-resampled distribution of ESW and encounter rate estimates. If any sighting has a prorated population assignment, it will be assigned to only one population for each iteration based on a stochastic routine that compares a randomly drawn value between 0 and 1 to the population assignment probabilities. This is explained in further detail in <a href="https://repository.library.noaa.gov/view/noaa/24756">Bradford et al. (2020)</a>.</p></li>
 <li><p>Calculates an empirical weighted <em>g(0)</em> estimate according to the proportion of effort occurring in each Beaufort sea state, then uses an automated parameter MCMC optimization routine (see details in <code>LTabundR</code> function <code>g0_weighted()</code>) to estimate the CV of the weighted <em>g(0)</em> estimate.</p></li>
 <li><p>Creates a bootstrap-resampled distribution of the weighted <em>g(0)</em> estimate.</p></li>
-<li><p>Estimates density using the point estimates of effective strip width, subgroup size, <em>g(0)</em>, and the encounter rate.</p></li>
-<li><p>Estimates abundance by scaling the density estimate by the provided <code>abundance_area</code> input.</p></li>
-<li><p>Creates a bootstrap-resampled distribution of the density estimate by iteratively drawing values (without replacement) from the resampled distributions of the constituent parameters of the density equation.</p></li>
+<li><p>Estimates density for each population using the point estimates of effective strip width, subgroup size, <em>g(0)</em>, and the encounter rate.</p></li>
+<li><p>Estimates abundance for each population by scaling the density estimate by the provided <code>abundance_area</code> input.</p></li>
+<li><p>Creates a bootstrap-resampled distribution of the density estimates by iteratively drawing values (without replacement) from the resampled distributions of the constituent parameters of the density equation.</p></li>
 <li><p>Creates a bootstrap-resampled distribution of the abundance estimate by scaling the density distribution by the <code>abundance_area</code> input.</p></li>
 </ol>
 <p>Note that this approach could theoretically be used for other species that occur in subgroups.</p>

@@ -5,8 +5,12 @@ library(dplyr)
 library(magrittr)
 library(ggplot2)
 library(LTabundR)
-
-rerun_from_scratch <- FALSE
+#devtools::document('../LTabundR')
+reproc_cruz_from_scratch <- FALSE
+rerun_eez_from_scratch <- FALSE
+rerun_nwhi_from_scratch <- FALSE
+rerun_covar_from_scratch <- FALSE
+rerun_from_scratch <- TRUE
 # If you want to confirm the package works, change to TRUE.
 # If you already know it does, change to FALSE so that knitting is quick
 # (it will use saved R objects instead of producing them anew)
@@ -26,6 +30,7 @@ lta_subgroup(df_sits,
              density_segments,
              density_das,
              density_sightings,
+             df_settings = NULL,
              Rg0= NULL, 
              cruz10 = NULL,
              g0_spp = NULL,
@@ -33,7 +38,7 @@ lta_subgroup(df_sits,
              g0_constrain_shape = FALSE,
              g0_jackknife_fraction = 0.1,
              abundance_area = NULL,
-             iterations = 5000,
+             iterations = 1000,
              seed = NULL,
              output_dir = NULL,
              toplot = TRUE,
@@ -106,7 +111,7 @@ all_species <- load_cohort_settings(
   distance_on_off = TRUE)
 ```
 
-```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
+```{r, echo=TRUE, eval=reproc_cruz_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
 # Gather settings
 settings <- load_settings(strata = my_strata,
                           survey = survey,
@@ -117,7 +122,7 @@ cruz <- process_surveys(das_file,
                         settings)
 ```
 
-```{r, echo=FALSE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
+```{r, echo=FALSE, eval=reproc_cruz_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
 save(cruz, file='subgroup_cruz_og.RData')
 ```
 
@@ -401,7 +406,7 @@ sits_1986_2010  <-
          ObsStd == TRUE,
          mixed == FALSE,
          Bearing <= 90 | Bearing >= 270) %>%
-  select(DateTime, Lat, Lon, Cruise, PerpDistKm) %>% 
+  select(DateTime, Lat, Lon, Cruise, PerpDistKm, Bft, EffType) %>% 
   arrange(DateTime)
 ```
 
@@ -417,6 +422,10 @@ row.names(sits_1986_2010) <- NULL
 sits_1986_2010 %>% head
 ```
 
+The only column that is *required* here is `PerpDistKm`, but we are keeping date and coordinate columns as well. We are also including two additional columns, `Bft` and `EffType`, since we are going to use them in an example further down the page.  
+
+Note that all column names within `df_sits` must be within `density_sightings`, another of the required inputs, and those names must match exactly. (That is, `density_sightings` can have many more columns than does `df_sit`, but all columns from the latter must be present in the former.) This is needed in order to predict the Effective Strip Width of `density_sightings` based on the detection function fitting procedure.  
+
 We add one sighting from 2016 that is going to be treated like a pre-2011 sighting, since it was not made with the PC protocol: 
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
@@ -424,7 +433,7 @@ sit_1604_018 <-
   cruz_df$cohorts$all$sightings %>% 
   filter(Cruise == 1604, 
          SightNo == '018') %>% 
-  select(DateTime, Lat, Lon, Cruise, PerpDistKm)
+  select(DateTime, Lat, Lon, Cruise, PerpDistKm, Bft, EffType)
 ```
 
 ```{r, echo=FALSE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
@@ -490,7 +499,7 @@ sits_2011_2017  <-
          Angle <= 90 | Angle >= 270,
          Species == '033',
          Phase == 1) %>%
-  select(DateTime, Lat, Lon, Cruise, PerpDistKm = PerpDist) %>% 
+  select(DateTime, Lat, Lon, Cruise, PerpDistKm = PerpDist, Bft, EffType) %>% 
   arrange(DateTime)
   
 sits_2011_2017 %>% nrow
@@ -602,7 +611,7 @@ We then use the `LTabundR` function `subgroup_subgroups()` to turn these observe
 subgroups <- subgroup_subgroups(events)
 ```
 
-We can then use these subgroups to conduct additional filtering for each phase of the PC protocol. Phase 1 detections need to be within 4.5km, not past the beam, and made by a primary observer with a valid "best" estimate.  Phase 2 detections need to be within 4.5km and have a valid "best" estimate.
+We can then use these subgroups to conduct additional filtering for each phase of the PC protocol. Phase 1 detections need to be within 4.5km, not past the beam, and made by a primary observer with a valid "best" estimate.  Phase 2 detections need to be within 4.5km and have a valid "best" estimate. (Note that we are changing the column named `"PerpDist"` to `"PerpDistKm"` to match column names in `df_sits`.)
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
 # Filters that apply to both phases
@@ -656,6 +665,24 @@ ss
 
 The sample size in [Bradford et al. (2020)](https://repository.library.noaa.gov/view/noaa/24756) is n=127 (63 from phase 1, 64 from phase 2).  
 
+### `df_settings` {-}
+
+This input is optional. It must be a named `list` containing parameters for fitting the detection function. See detailed documentation on the [Line Transect Analysis page](#dfsets). Default inputs shown below. Note that the default is that covariates are not used in detection function fitting. Briefly, here is an example of what this list should look like: 
+
+```{r, echo=TRUE, eval=FALSE, collapse=TRUE, message=FALSE, warning=FALSE}
+df_settings = 
+  list(covariates = NULL,
+       covariates_factor = NULL,
+       covariates_levels = 2,
+       covariates_n_per_level = 10,
+       simplify_cue = TRUE,
+       simplify_bino = TRUE,
+       detection_function_base = 'hn',
+       base_model = '~1',
+       delta_aic = 2)
+```
+
+If the slot `$covariates` is `NULL` (the default), then the detection function will be modeled without using any environmental covariates. To model with covariates, supply a character vector of column names that occur in **both** the inputs `df_sits` and `density_sightings`.  Explanations of the remaining slots are provided on [here](#dfsets).  
 
 ### `Rg0` {-}  
 
@@ -867,17 +894,21 @@ This is the complete survey data corresponding to the above segments. These data
 density_das <- cruzi$cohorts$all$das
 ```
 
+
 ### `density_sightings` {-}  
 
 These are the encounters to use in density/abundance estimation. In [Bradford et al. (2020)](https://repository.library.noaa.gov/view/noaa/24756), these were the Phase 1 detections of false killer whale subgroups within a given region and year. For this demonstration, our focus is the Hawaiian EEZ in 2017. Criteria are: `OnEffort` is `TRUE`, `EffType` is `"S"`, within truncation distance, no abeam sightings, primary observer, pelagic and NWHI populations only. No filtering is applied to these sightings within the `lta_subgroups()` function, so make sure only the subgroups you wish to use are included and nothing more.  
 
+Note that all column names within `df_sits`, a required input detailed above, must be present within `density_sightings` and those names must match exactly. (That is, `density_sightings` can have many more columns than does `df_sit`, but *all* columns from the latter must be present in the former.) This is needed in order to predict the Effective Strip Width of `density_sightings` based on the detection function fitting procedure.  
+
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
 density_sightings  <-
   cruzi$cohorts$all$subgroups$subgroups %>%
+  rename(PerpDistKm = PerpDist) %>% 
   filter(lubridate::year(DateTime) == 2017,
          EffType == 'S',
          OnEffort == TRUE,
-         PerpDist <= truncation_distance,
+         PerpDistKm <= truncation_distance,
          Angle <= 90,
          ObsStd == TRUE,
          Species == '033',
@@ -924,6 +955,7 @@ abundance_area <-
 abundance_area
 ```
 
+
 ### Remaining optional inputs {-}  
 
 **`iterations`**: Number of iterations to use in the various CV bootstrapping procedures occurring throughout this function, specifically: effective strip width CV estimation, subgroup size CV estimation, weighted *g(0)* CV estimation, encounter rate estimation, and density/abundance estimation.  
@@ -948,7 +980,19 @@ We then estimate parameters for the NWHI stratum, then focus on the results for 
 
 ### Hawaii EEZ stratum  {-} 
 
-```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
+```{r, echo=FALSE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
+save(df_sits,
+     truncation_distance,
+     ss, 
+     density_segments,
+     density_das,
+     density_sightings,
+     Rg0,
+     abundance_area,
+     file='results_subgroup_eez_objects.rds')
+```
+
+```{r eez, echo=TRUE, eval=rerun_eez_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
 results_eez <- 
   lta_subgroup(df_sits = df_sits,
                truncation_distance = truncation_distance,
@@ -956,16 +1000,17 @@ results_eez <-
                density_segments = density_segments,
                density_das = density_das,
                density_sightings = density_sightings,
+               df_settings = NULL,
                Rg0 = Rg0,
                abundance_area = abundance_area,
-               iterations = 5000,
+               iterations = 1000,
                seed = 123,
                output_dir = 'subgroup_eez/',
                toplot = TRUE,
                verbose = TRUE)
 ```
 
-```{r, echo=FALSE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
+```{r, echo=FALSE, eval=rerun_eez_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
 save(results_eez, file='results_subgroup_eez.RData')
 ```
 
@@ -1001,7 +1046,19 @@ area_nwhi
 
 Now run `lta_subgroup()`:  
 
-```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
+```{r, echo=FALSE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
+save(df_sits,
+     truncation_distance,
+     ss, 
+     segments_nwhi,
+     density_das,
+     sightings_nwhi,
+     Rg0,
+     area_nwhi,
+     file='results_subgroup_nwhi_objects.rds')
+```
+
+```{r nwhi, echo=TRUE, eval=rerun_nwhi_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
 results_nwhi <- 
   lta_subgroup(df_sits = df_sits,
                truncation_distance = truncation_distance,
@@ -1009,16 +1066,17 @@ results_nwhi <-
                density_segments = segments_nwhi,
                density_das = das_nwhi,
                density_sightings = sightings_nwhi,
+               df_settings = NULL,
                Rg0 = Rg0,
                abundance_area = area_nwhi,
-               iterations = 5000,
+               iterations = 1000,
                seed = 123,
                output_dir = 'subgroup_nwhi/',
                toplot = TRUE,
                verbose = TRUE)
 ```
 
-```{r, echo=FALSE, eval=rerun_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
+```{r, echo=FALSE, eval=rerun_nwhi_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
 save(results_nwhi, file='results_subgroup_nwhi.RData')
 ```
 
@@ -1038,7 +1096,7 @@ results_eez %>% names
 The first slot holds the most relevant results:  
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
-# Hawaii EEZ
+# Pelagic
 results_eez$estimate %>% filter(population == 'pelagic')
 
 # NWHI
@@ -1111,11 +1169,62 @@ ggplot(results_eez$bootstraps,
 ```
 
 
+## Detection function covariates {-}
+
+The analyses above fit detection functions without using any environmental covariates. Here we demonstrate how the results might change if covariates *are* used. Let's re-run the NWHI analysis with two example covariates: `Bft` sea state (numeric) and `EffType` (categorical, or `factor`). For expediency will only use 100 bootstraps.  
+
+
+```{r nwhi_covar, echo=TRUE, eval=rerun_covar_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
+results_nwhi_covar <- 
+  lta_subgroup(df_sits = df_sits,
+               truncation_distance = truncation_distance,
+               ss = ss,
+               density_segments = segments_nwhi,
+               density_das = das_nwhi,
+               density_sightings = sightings_nwhi,
+               df_settings = list(covariates = c('Bft', 'EffType'),
+                                  covariates_factor = c(FALSE, TRUE),
+                                  covariates_levels = 2,
+                                  covariates_n_per_level = 10,
+                                  simplify_cue = TRUE,
+                                  simplify_bino = TRUE,
+                                  detection_function_base = 'hn',
+                                  base_model = '~1',
+                                  delta_aic = 2),
+               Rg0 = Rg0,
+               abundance_area = area_nwhi,
+               iterations = 100,
+               seed = 123,
+               output_dir = 'subgroup_nwhi_covar/',
+               toplot = TRUE,
+               verbose = TRUE)
+```
+
+```{r, echo=FALSE, eval=rerun_covar_from_scratch, collapse=TRUE, message=FALSE, warning=FALSE}
+save(results_nwhi_covar, file='results_subgroup_nwhi_covar.RData')
+```
+
+```{r, echo=FALSE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+load('results_subgroup_nwhi_covar.RData')
+```
+
+Now review how these covariate-based results compare to the original run: 
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE, message=FALSE, warning=FALSE}
+# Point estimates
+results_nwhi_covar$estimate %>% filter(population == 'NWHI')
+
+# Ranked detection functions
+results_nwhi_covar$df$best_models
+```
+
+See [here](#dfsets) for details on how to provide your `df_settings` input to meet your needs, and see [here]({#customcovars) to learn how to develop custom covariates to add to your datasets.  
+
 ## Behind the scenes {-}  
 
 This function performs the following operations:
 
-1. Fits a detection function to `df_sits` without covariates, using the `LTabundR` function `df_fit()`, in order to estimate the effective strip width (ESW).  
+1. Fits a detection function to `df_sits` using the `LTabundR` function `df_fit()`. That model will be used to estimate effective strip width (ESW) for each sighting in `detection_sightings` (and bootstraps thereof).  If specified by the `df_settings` input, the detection function will be modeled with environmental covariates, and the best-fitting function will be determined by stepwise model-fitting and comparison of AICc values. (The same procedure as is used in the [group-based `lta()` function](#lta).)  
 
 2. Conducts bootstrap re-sampling of the detection function fitting routine in order to estimate the CV of ESW.  
 
@@ -1125,19 +1234,21 @@ This function performs the following operations:
 
 5. *Optional:* models the *Relative g(0)* in different survey conditions using the `LTabundR` function `g0_model()`. This function also estimates the CV of the *Rg(0)* estimate in each Beaufort sea state using jackknife resampling.  
 
-6. Estimates the encounter rate for each population (subgroup detections / trackline surveyed). If any sighting has a prorated population assignment, the number of subgroups used in each population is determined by multiplying the number of subgroups by the population's probability. For example, sighting 133 above, which involved 6 subgroups, has a 0.6 probability of belonging to the pelagic population and a 0.4 probabilty of belonging to the NWHI population. Therefore, for the encounter rate, this sighting contributed 3.6 subgroups to the pelagic population (`6 * 0.6`) and 2.4 subgroups to the NWHI population (`6 * 0.4`).  
+6. Estimates the ESW for each sightings used for density estimation using the best-fitting detection function model(s) (if multiple models are best-fit, i.e., within two AICc of each other, then their ESW predictions are averaged).  
 
-7. Creates a bootstrap-resampled distribution of encounter rate estimates. If any sighting has a prorated population assignment, it will be assigned to only one population for each iteration based on a stochastic routine that compares a randomly drawn value between 0 and 1 to the population assignment probabilities. This is explained in further detail in [Bradford et al. (2020)](https://repository.library.noaa.gov/view/noaa/24756).
+7. Estimates the mean ESW and encounter rate for each population (subgroup detections / trackline surveyed). If any sighting has a prorated population assignment, the number of subgroups used in each population is determined by multiplying the number of subgroups by the population's probability. For example, sighting 133 above, which involved 6 subgroups, has a 0.6 probability of belonging to the pelagic population and a 0.4 probabilty of belonging to the NWHI population. Therefore, for the encounter rate, this sighting contributed 3.6 subgroups to the pelagic population (`6 * 0.6`) and 2.4 subgroups to the NWHI population (`6 * 0.4`).  
+
+8. Creates a bootstrap-resampled distribution of ESW and encounter rate estimates. If any sighting has a prorated population assignment, it will be assigned to only one population for each iteration based on a stochastic routine that compares a randomly drawn value between 0 and 1 to the population assignment probabilities. This is explained in further detail in [Bradford et al. (2020)](https://repository.library.noaa.gov/view/noaa/24756).
 
 8. Calculates an empirical weighted *g(0)* estimate according to the proportion of effort occurring in each Beaufort sea state, then uses an automated parameter MCMC optimization routine (see details in `LTabundR` function `g0_weighted()`) to estimate the CV of the weighted *g(0)* estimate.  
 
 9. Creates a bootstrap-resampled distribution of the weighted *g(0)* estimate.  
 
-10. Estimates density using the point estimates of effective strip width, subgroup size, *g(0)*, and the encounter rate.  
+10. Estimates density for each population using the point estimates of effective strip width, subgroup size, *g(0)*, and the encounter rate.  
 
-11. Estimates abundance by scaling the density estimate by the provided `abundance_area` input.  
+11. Estimates abundance for each population by scaling the density estimate by the provided `abundance_area` input.  
 
-12. Creates a bootstrap-resampled distribution of the density estimate by iteratively drawing values (without replacement) from the resampled distributions of the constituent parameters of the density equation.  
+12. Creates a bootstrap-resampled distribution of the density estimates by iteratively drawing values (without replacement) from the resampled distributions of the constituent parameters of the density equation.  
 
 13. Creates a bootstrap-resampled distribution of the abundance estimate by scaling the density distribution by the `abundance_area` input.  
 
