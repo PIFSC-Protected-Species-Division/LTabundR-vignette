@@ -12,7 +12,7 @@
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="vignette" />
-  <meta name="github-repo" content="emk-noaa/emk-noaa.github.io" />
+  <meta name="github-repo" content="PIFSC-Protected-Species-Division/LTabundR-vignette" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapter 15 Combining lta() results | User’s guide for LTabundR" />
@@ -170,12 +170,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#defaults-1"><i class="fa fa-check"></i>Defaults</a></li>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#details-1"><i class="fa fa-check"></i>Details</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#group-size-calibration"><i class="fa fa-check"></i>Group size calibration</a>
+<ul>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#skipping-calibration"><i class="fa fa-check"></i>Skipping calibration</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#example-code"><i class="fa fa-check"></i>Example code</a>
 <ul>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#use-settings-defaults"><i class="fa fa-check"></i>Use settings defaults</a></li>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#use-settings-defaults-but-with-strata"><i class="fa fa-check"></i>Use settings defaults, but with strata</a></li>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#customize-survey-but-not-cohorts"><i class="fa fa-check"></i>Customize survey, but not cohorts</a></li>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#fully-custom-whiceas-case-study"><i class="fa fa-check"></i>Fully custom: WHICEAS case study</a></li>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#mixed-calibration-methods"><i class="fa fa-check"></i>Mixed calibration methods</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="das.html"><a href="das.html"><i class="fa fa-check"></i><b>2</b> DAS editing</a>
@@ -444,18 +449,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="combining-lta-results" class="section level1 hasAnchor" number="15">
 <h1><span class="header-section-number">Chapter 15</span> Combining <code>lta()</code> results<a href="combining-lta-results.html#combining-lta-results" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><code>LTabundR</code> provides a function, <code>lta_pool()</code>, that allows you to pool, or concatenate, the results of two separate <code>lta()</code> runs in order to achieve the desired number of bootstrap iterations. An example use case: you already have a <code>lta()</code> result, which you have named <code>lta1</code>, for a species pool with 1,000-iterations. You want to see if the <code>CV</code> estimate is liable to change if you do more iterations, so you can run the same <code>lta()</code> call again and save the result to a new object, <code>lta2</code>. You can then pool these two results together:</p>
-<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb325-1"><a href="combining-lta-results.html#cb325-1" tabindex="-1"></a><span class="co"># Put the lta outputs into a list</span></span>
-<span id="cb325-2"><a href="combining-lta-results.html#cb325-2" tabindex="-1"></a>ltas <span class="ot">&lt;-</span> <span class="fu">list</span>(lta1, lta2)</span>
-<span id="cb325-3"><a href="combining-lta-results.html#cb325-3" tabindex="-1"></a></span>
-<span id="cb325-4"><a href="combining-lta-results.html#cb325-4" tabindex="-1"></a><span class="co"># Pool bootstraps</span></span>
-<span id="cb325-5"><a href="combining-lta-results.html#cb325-5" tabindex="-1"></a>lta3 <span class="ot">&lt;-</span> <span class="fu">lta_pool</span>(ltas)</span></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb329-1"><a href="combining-lta-results.html#cb329-1" tabindex="-1"></a><span class="co"># Put the lta outputs into a list</span></span>
+<span id="cb329-2"><a href="combining-lta-results.html#cb329-2" tabindex="-1"></a>ltas <span class="ot">&lt;-</span> <span class="fu">list</span>(lta1, lta2)</span>
+<span id="cb329-3"><a href="combining-lta-results.html#cb329-3" tabindex="-1"></a></span>
+<span id="cb329-4"><a href="combining-lta-results.html#cb329-4" tabindex="-1"></a><span class="co"># Pool bootstraps</span></span>
+<span id="cb329-5"><a href="combining-lta-results.html#cb329-5" tabindex="-1"></a>lta3 <span class="ot">&lt;-</span> <span class="fu">lta_pool</span>(ltas)</span></code></pre></div>
 <p>The resulting object can be treated the same as another other <code>lta()</code> result, for example you can run <code>lta_diagnostics()</code> or <code>lta_report()</code>.</p>
 <p>Another use case: You have two <code>lta()</code> outputs, one with 600 iterations and another with 500. You want to pool the two outputs but only keep 1,000 iterations total. Specify the <code>bootstraps</code> input in the <code>lta_pool()</code> call in order to randomly select 1,000 of the 1,100 bootstraps available.</p>
-<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="combining-lta-results.html#cb326-1" tabindex="-1"></a><span class="co"># Put the lta outputs into a list</span></span>
-<span id="cb326-2"><a href="combining-lta-results.html#cb326-2" tabindex="-1"></a>ltas <span class="ot">&lt;-</span> <span class="fu">list</span>(lta1, lta2)</span>
-<span id="cb326-3"><a href="combining-lta-results.html#cb326-3" tabindex="-1"></a></span>
-<span id="cb326-4"><a href="combining-lta-results.html#cb326-4" tabindex="-1"></a><span class="co"># Pool bootstraps</span></span>
-<span id="cb326-5"><a href="combining-lta-results.html#cb326-5" tabindex="-1"></a>lta3 <span class="ot">&lt;-</span> <span class="fu">lta_pool</span>(ltas, <span class="at">bootstraps=</span><span class="dv">1000</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb330-1"><a href="combining-lta-results.html#cb330-1" tabindex="-1"></a><span class="co"># Put the lta outputs into a list</span></span>
+<span id="cb330-2"><a href="combining-lta-results.html#cb330-2" tabindex="-1"></a>ltas <span class="ot">&lt;-</span> <span class="fu">list</span>(lta1, lta2)</span>
+<span id="cb330-3"><a href="combining-lta-results.html#cb330-3" tabindex="-1"></a></span>
+<span id="cb330-4"><a href="combining-lta-results.html#cb330-4" tabindex="-1"></a><span class="co"># Pool bootstraps</span></span>
+<span id="cb330-5"><a href="combining-lta-results.html#cb330-5" tabindex="-1"></a>lta3 <span class="ot">&lt;-</span> <span class="fu">lta_pool</span>(ltas, <span class="at">bootstraps=</span><span class="dv">1000</span>)</span></code></pre></div>
 
 </div>
 
@@ -481,17 +486,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-  "sharing": {
-    "github": false,
-    "facebook": false,
-    "twitter": false,
-    "linkedin": false,
-    "weibo": false,
-    "instapaper": false,
-    "vk": false,
-    "whatsapp": false,
-    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-  },
+  "sharing": null,
   "fontsettings": {
     "theme": "white",
     "family": "sans",
@@ -521,6 +516,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

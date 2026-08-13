@@ -12,7 +12,7 @@
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="vignette" />
-  <meta name="github-repo" content="emk-noaa/emk-noaa.github.io" />
+  <meta name="github-repo" content="PIFSC-Protected-Species-Division/LTabundR-vignette" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapter 14 Plots | User’s guide for LTabundR" />
@@ -170,12 +170,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#defaults-1"><i class="fa fa-check"></i>Defaults</a></li>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#details-1"><i class="fa fa-check"></i>Details</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#group-size-calibration"><i class="fa fa-check"></i>Group size calibration</a>
+<ul>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#skipping-calibration"><i class="fa fa-check"></i>Skipping calibration</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#example-code"><i class="fa fa-check"></i>Example code</a>
 <ul>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#use-settings-defaults"><i class="fa fa-check"></i>Use settings defaults</a></li>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#use-settings-defaults-but-with-strata"><i class="fa fa-check"></i>Use settings defaults, but with strata</a></li>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#customize-survey-but-not-cohorts"><i class="fa fa-check"></i>Customize survey, but not cohorts</a></li>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#fully-custom-whiceas-case-study"><i class="fa fa-check"></i>Fully custom: WHICEAS case study</a></li>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#mixed-calibration-methods"><i class="fa fa-check"></i>Mixed calibration methods</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="das.html"><a href="das.html"><i class="fa fa-check"></i><b>2</b> DAS editing</a>
@@ -446,25 +451,25 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="abundance-plots" class="section level2 unnumbered hasAnchor">
 <h2>Abundance plots<a href="plots.html#abundance-plots" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To plot the abundance estimate with error bars representing the 95% confidence interval, use the function <code>lta_plot()</code>:</p>
-<div class="sourceCode" id="cb322"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb322-1"><a href="plots.html#cb322-1" tabindex="-1"></a><span class="fu">lta_plot</span>(lta_result, </span>
-<span id="cb322-2"><a href="plots.html#cb322-2" tabindex="-1"></a>         <span class="at">nrows=</span><span class="dv">1</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-393-1.png" width="672" /></p>
+<div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb326-1"><a href="plots.html#cb326-1" tabindex="-1"></a><span class="fu">lta_plot</span>(lta_result, </span>
+<span id="cb326-2"><a href="plots.html#cb326-2" tabindex="-1"></a>         <span class="at">nrows=</span><span class="dv">1</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-398-1.png" width="672" /></p>
 </div>
 <div id="detection-function-plots" class="section level2 unnumbered hasAnchor">
 <h2>Detection function plots<a href="plots.html#detection-function-plots" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To plot the best-fit detection model for a species pool, use the <code>df_plot()</code> function.</p>
-<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb323-1"><a href="plots.html#cb323-1" tabindex="-1"></a><span class="fu">df_plot</span>(lta_result)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-394-1.png" width="672" /></p>
+<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb327-1"><a href="plots.html#cb327-1" tabindex="-1"></a><span class="fu">df_plot</span>(lta_result)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-399-1.png" width="672" /></p>
 <p>This function provides various stylization options, including the option to show multiple best-fitting models atop a single histogram of detections:</p>
-<div class="sourceCode" id="cb324"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb324-1"><a href="plots.html#cb324-1" tabindex="-1"></a><span class="fu">df_plot</span>(lta_result,</span>
-<span id="cb324-2"><a href="plots.html#cb324-2" tabindex="-1"></a>        <span class="at">model_colors=</span>RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="at">n =</span> <span class="dv">4</span>, <span class="at">name =</span> <span class="st">&quot;Dark2&quot;</span>),</span>
-<span id="cb324-3"><a href="plots.html#cb324-3" tabindex="-1"></a>        <span class="at">model_pch =</span> <span class="dv">16</span>,</span>
-<span id="cb324-4"><a href="plots.html#cb324-4" tabindex="-1"></a>        <span class="at">pt_show=</span><span class="dv">2</span>,</span>
-<span id="cb324-5"><a href="plots.html#cb324-5" tabindex="-1"></a>        <span class="at">pt_alpha=</span>.<span class="dv">3</span>,</span>
-<span id="cb324-6"><a href="plots.html#cb324-6" tabindex="-1"></a>        <span class="at">bootstrap_show =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb324-7"><a href="plots.html#cb324-7" tabindex="-1"></a>        <span class="at">legend_show=</span><span class="cn">TRUE</span>,</span>
-<span id="cb324-8"><a href="plots.html#cb324-8" tabindex="-1"></a>        <span class="at">legend_x=</span><span class="fl">2.8</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-395-1.png" width="672" /></p>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb328-1"><a href="plots.html#cb328-1" tabindex="-1"></a><span class="fu">df_plot</span>(lta_result,</span>
+<span id="cb328-2"><a href="plots.html#cb328-2" tabindex="-1"></a>        <span class="at">model_colors=</span>RColorBrewer<span class="sc">::</span><span class="fu">brewer.pal</span>(<span class="at">n =</span> <span class="dv">4</span>, <span class="at">name =</span> <span class="st">&quot;Dark2&quot;</span>),</span>
+<span id="cb328-3"><a href="plots.html#cb328-3" tabindex="-1"></a>        <span class="at">model_pch =</span> <span class="dv">16</span>,</span>
+<span id="cb328-4"><a href="plots.html#cb328-4" tabindex="-1"></a>        <span class="at">pt_show=</span><span class="dv">2</span>,</span>
+<span id="cb328-5"><a href="plots.html#cb328-5" tabindex="-1"></a>        <span class="at">pt_alpha=</span>.<span class="dv">3</span>,</span>
+<span id="cb328-6"><a href="plots.html#cb328-6" tabindex="-1"></a>        <span class="at">bootstrap_show =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb328-7"><a href="plots.html#cb328-7" tabindex="-1"></a>        <span class="at">legend_show=</span><span class="cn">TRUE</span>,</span>
+<span id="cb328-8"><a href="plots.html#cb328-8" tabindex="-1"></a>        <span class="at">legend_x=</span><span class="fl">2.8</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-400-1.png" width="672" /></p>
 </div>
 </div>
             </section>
@@ -487,17 +492,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-  "sharing": {
-    "github": false,
-    "facebook": false,
-    "twitter": false,
-    "linkedin": false,
-    "weibo": false,
-    "instapaper": false,
-    "vk": false,
-    "whatsapp": false,
-    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-  },
+  "sharing": null,
   "fontsettings": {
     "theme": "white",
     "family": "sans",
@@ -527,6 +522,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

@@ -297,9 +297,9 @@ Columns 44 onwards correspond to sightings information.  Columns of note:
 
 - **`species`** contains the species code. There is only one species-code per row (i.e, multi-species sightings have been expanded to multiple rows).  
 
-- **`best`**, **`low`**, and **`high`** contain the refined group size estimates, averaged across observers and calibrated according to the cohort's settings specifications. For multi-species sightings, these numbers represent the number of individuals for the single species represented in the row (i.e., the original group size estimate has been scaled by the percentage attritbuted to this species).  
+- **`best`**, **`low`**, and **`high`** contain the refined group size estimates, averaged across observers and, for the best estimate, calibrated according to the cohort's settings specifications. (The low and high estimates are not calibrated.) For multi-species sightings, these numbers represent the number of individuals for the single species represented in the row (i.e., the original group size estimate has been scaled by the percentage attritbuted to this species).  
 
-- The columns following those group size estimates (`prob` through `spp_max`) detail how group sizes were estimated: **`prob`** indicates whether probable species codes were accepted; **`mixed`** indicates whether this species' sighting is part of a mixed-species sighting; **`n_sp`** provides the number of species occurring in this sighting; **`n_obs`** gives the number of observers who contributed group size estimates; **`n_best`** through **`n_high`** gives the number of valid group size estimates given; and **`calibr`** indicates whether or not calibration was applied to this sighting (based on the settings; see next section); **`mixed_max`** indicates whether this species was the most abundant in the sighting (if multi-species); **`spp_max`** indicates the species code for the most abundant species in the sighting (if multi-species). The column **`ss_valid`** indicates whether or not sufficient data were available to produce a group size estimate usable in detection function model fitting and abundance estimation. For more details, see the *"Missing data"* paragraphs below.  
+- The columns following those group size estimates (`prob` through `high_raw`) detail how group sizes were estimated: **`prob`** indicates whether probable species codes were accepted; **`mixed`** indicates whether this species' sighting is part of a mixed-species sighting; **`n_sp`** provides the number of species occurring in this sighting; **`n_obs`** gives the number of observers who contributed group size estimates; **`n_best`** through **`n_high`** gives the number of valid group size estimates given; and **`calibr`** indicates whether or not calibration was applied to this sighting (based on the settings; see next section); **`ss_valid`** indicates whether at least one of the observer's best estimate was valid; **`spp_max`** indicates the species code for the most abundant species in the sighting (useful if it is multi-species group); **`mixed_max`** indicates whether this species was the most abundant in the sighting (only `TRUE` in mixed-group cases); **`geometric_mean`** indicates whether observer estimates were averaged using a geometric mean (`TRUE`) vs. arithmetic mean (`FALSE`); **`calibr_method`** indicates which calibration approach was used (`"ABUND"`, `"Gerrodette"`, or `"NA"`); **`calibr_beta`** through **`calibr_floor`** provide the calibration coefficients used for the sighting (`calibr_beta` and `calibr_intercept` will be `NA` when `calibr_method` is `"ABUND"`); **`ss_tot_raw`** is the best estimate prior to calibration; `low_raw` and `high_raw` are the raw low and high estimates. 
 
 - As explained above, the final column, **`included`**, indicates whether this species should be included in the analysis.  
 
@@ -335,7 +335,7 @@ Let's compare those estimates to unadjusted ones, in which calibration (and ther
 
 ```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE}
 cruz_demo <- process_sightings(cruz, 
-                               calibrate = FALSE,
+                               calibrate = NA,
                                verbose = FALSE)
 ```
 
@@ -362,7 +362,7 @@ You can also carry out calibration corrections without using a geometric mean (t
 
 ```{r, echo=TRUE, eval=rerun_from_scratch, collapse=TRUE}
 cruz_demo <- process_sightings(cruz, 
-                               calibrate = TRUE,
+                               calibrate = NULL,
                                geometric_mean = FALSE,
                                verbose = FALSE)
 ```
@@ -400,7 +400,7 @@ For each sighting, loop through each's observer's estimate of group size:
 
 3.  If the low estimate is `NA` or less than `0`, the best estimate is coerced to `1` and the observer's `ss_valid` remains `FALSE`.  
 
-4.  After all observer estimates have been processed, filter to estimates where observer `ss_valid` is `TRUE`. If at least one observer estimate remains, the sighting's *overall* `ss_valid` status is `TRUE`; if no estimates remain, the overall `ss_valid` status becomes `FALSE` and the best size estimate becomes `NA`.  
+4.  After all observer estimates have been processed, filter to estimates where observer `ss_valid` is `TRUE`. If at least one observer estimate remains, the sighting's *overall* `ss_valid` status is `TRUE`; if no estimates remain, the overall `ss_valid` status becomes `FALSE` and the best size estimate becomes `1`.  
 
 5.  If `ss_valid` is `TRUE` after this filter, the remaining observer estimates are used to find the geometric mean (or geometric weighted mean) estimate of group size. If that mean estimate is less than `0` or `NA` for any reason, overall `ss_valid` becomes `FALSE` and the geometric (weighted) mean of the raw low estimates is used. If the low estimate has to be used and it is less than `0` or `NA`, the best estimate becomes `1` and overall `ss_valid` remains `FALSE`.  
 

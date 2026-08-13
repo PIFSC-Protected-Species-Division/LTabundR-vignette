@@ -1,5 +1,7 @@
 # Validation
 
+**Note:** *This page has not been updated since recent revisions to the group size calibration approach. Updates coming soon.*
+
 As explained in the Overview, `LTabundR` was developed , among other reasons, to replace and build upon the `FORTRAN` software `ABUND`.  To demonstrate that this purpose has been achieved, and to validate the results that are generated with `LTabundR`, this chapter is dedicated to comparing and contrasting the results of the two software packages.  
 
 We have tried to develop `LTabundR` with the flexibility either to replicate `ABUND` results or to produce customizable results that could potentially vary from `ABUND` quite significantly (e.g., formatted for habitat modeling). However, even when we use `LTabundR` settings intended to replicate `ABUND` results, there are some intentional updates the processing routine that will lead to some small differences.  

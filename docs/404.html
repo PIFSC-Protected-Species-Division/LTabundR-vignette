@@ -12,7 +12,7 @@
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="vignette" />
-  <meta name="github-repo" content="emk-noaa/emk-noaa.github.io" />
+  <meta name="github-repo" content="PIFSC-Protected-Species-Division/LTabundR-vignette" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Page not found | User’s guide for LTabundR" />
@@ -170,12 +170,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#defaults-1"><i class="fa fa-check"></i>Defaults</a></li>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#details-1"><i class="fa fa-check"></i>Details</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#group-size-calibration"><i class="fa fa-check"></i>Group size calibration</a>
+<ul>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#skipping-calibration"><i class="fa fa-check"></i>Skipping calibration</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#example-code"><i class="fa fa-check"></i>Example code</a>
 <ul>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#use-settings-defaults"><i class="fa fa-check"></i>Use settings defaults</a></li>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#use-settings-defaults-but-with-strata"><i class="fa fa-check"></i>Use settings defaults, but with strata</a></li>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#customize-survey-but-not-cohorts"><i class="fa fa-check"></i>Customize survey, but not cohorts</a></li>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#fully-custom-whiceas-case-study"><i class="fa fa-check"></i>Fully custom: WHICEAS case study</a></li>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#mixed-calibration-methods"><i class="fa fa-check"></i>Mixed calibration methods</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="das.html"><a href="das.html"><i class="fa fa-check"></i><b>2</b> DAS editing</a>
@@ -467,17 +472,7 @@ the table of contents to find the page you are looking for.</p>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-  "sharing": {
-    "github": false,
-    "facebook": false,
-    "twitter": false,
-    "linkedin": false,
-    "weibo": false,
-    "instapaper": false,
-    "vk": false,
-    "whatsapp": false,
-    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-  },
+  "sharing": null,
   "fontsettings": {
     "theme": "white",
     "family": "sans",
@@ -507,6 +502,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

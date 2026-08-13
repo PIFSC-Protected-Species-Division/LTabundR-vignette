@@ -9,7 +9,7 @@ library(magrittr)
 library(LTabundR)
 ```
 
-To customize the way data are processed and included in your analysis, use the `load_settings()` function. This function emulates and expands upon the settings file, `ABUND.INP`, that was used to run `ABUND7/9` in `FORTRAN`. `ABUND7/9` was a program written by Jay Barlow (NOAA Fisheries) to process `DAS` files.  
+To customize the way data are processed and included in your analysis, use the `load_settings()` function. This function emulates and expands upon the settings file, `ABUND.INP`, that was used to run `ABUND7/8/9` in `FORTRAN` (a program written by Jay Barlow (NOAA Fisheries) to process `DAS` files).  
    
    
 This function allows you to use 'factory defaults' if you don't wish to specify anything special such as strata or study area polygons:  
@@ -122,7 +122,6 @@ my_strata
 my_settings <- load_settings(strata = my_strata)
 ```
 
-
 ## Survey-wide settings {-}
 
 Survey-wide settings apply universally to all species in the analysis.  
@@ -169,8 +168,6 @@ The remaining slots in `survey_settings` pertain to various datasets and setting
 
 - **`species_codes:`** A `data.frame` containing species codes. This is an optional input, chiefly used to format species names in the reporting stage of the workflow (`lta_report()` especially). If missing, neither data processing nor line transect analysis will be obstructed. If the user supplies a `data.frame`, it must match the column naming structure of `data(species_codes)`.  
 
-- **`group_size_coefficients:`** A `data.frame` of calibration factors. Find details in the subsection on processing sightings and [estimating group size](#ss_calibration).   
-
 - **`smear_angles:`** If `TRUE` (the default is `FALSE`), bearing angles to a group of animals will be "smeared" by adding a uniformly distributed random number between -5 and +5 degrees. This has not been used in any recent analyses because observers have not been rounding angles as much as they used to. It was suggested by [Buckland et al. (2001)](https://distancesampling.org/whatisds.html#books) as a method for dealing with rounding, which is especially influential when rounding to zero places many sightings at zero perpendicular distance. 
 
 
@@ -202,7 +199,7 @@ The `cohort_settings` input accepts a list of any length. Each slot in that list
 
 - **`id:`** An informal identifier for this cohort, to help you keep track of which cohort is which.  For example, settings for a cohort of large whales species could be named `"big whales"`; settings for small delphinids and phocoenids could be named `"small_odontocetes"`; settings for beaked whales could be named `"beakers"`.  
 
-- **`species:`** A character vector of species codes to include in this cohort. If `NULL` (the default), all species within the survey data will be included. Note that if you specify a vector, all species to be used in modeling a detection function for this cohort must be included here.  **For example,** in Hawaii the bottlenose dolphin is analyzed as part of a multi-species pool along with the rough-toothed dolphin, Risso's dolphin, and pygmy killer whale. However, the bottlenose dolphin has insular populations that need to be differentiated from their pelagic counterpart, which requires some special geostratum handling that behooves the preparation of a dedicated cohort for bottlenose dolphin. Even so, in the `cohort_settings` object for the bottlenose dolphin cohort, the species codes for the rough-toothed, Risso's, and pygmy-killer-whale dolphins need to be provided in this `species` argument. Conversely, in the `cohort_settings` object that holds most other species, including the rough-toothed, Risso's, and pygmy-killer-whale dolphins, the bottlenose dolphin's code still needs to be included in this `species` argument.
+- **`species:`** A character vector of species codes to include in this cohort. If `NULL` (the default), all species within the survey data will be included. Note that if you specify a vector, all species to be used in modeling a detection function for this cohort must be included here.  **For example,** in Hawaii the bottlenose dolphin is analyzed as part of a multi-species pool along with the rough-toothed dolphin, Risso's dolphin, and pygmy killer whale. However, the bottlenose dolphin has insular populations that need to be differentiated from their pelagic counterpart, which requires some special geostratum handling that behooves the preparation of a dedicated cohort for bottlenose dolphin. Even so, in the `cohort_settings` object for the bottlenose dolphin cohort, the species codes for the rough-toothed, Risso's, and pygmy-killer-whale dolphins need to be provided in this `species` argument. Conversely, in the `cohort_settings` object that holds most other species, including the rough-toothed, Risso's, and pygmy-killer-whale dolphins, the bottlenose dolphin's code still needs to be included in its `species` argument.
 
 - **`strata:`** A character vector of geostratum names. These must match the names
 listed in the `strata` slot of your survey settings (see documentation for `load_survey_settings()`). If `NULL` (the default), *all* geostrata in your survey settings will be used. This argument is an opportunity to subset the geostrata used for a cohort.  **For example,** as discussed above, certain dolphin species in Hawaiian waters have unique geostrata that apply only to their insular/pelagic populations, and should only have a role in breaking effort segments in the bootstrap variance analysis for these specific species. Those dolphins should be given their own cohort, and those insular/pelagic geostrata should be included in this `strata` argument. Conversely, all other species should be placed in a separate cohort and only the generic geostrata should be included in this `strata` argument. See the WHICEAS example below for a demonstration.
@@ -213,11 +210,9 @@ listed in the `strata` slot of your survey settings (see documentation for `load
 
 - **`cue_range:`**  Numeric vector of acceptable "observation cues" for sightings used in estimates of abundance. (`0`=this detail is missing in the data, `1`=associated birds, `2`=splashes, `3`=body of the marine mammal, `4`=associated vessel, `5`=?, `6`=blow / spout, `7`=associated helicopter). These codes match those used in `ABUND7/9`. 
 
-- **`school_size_range:`**  Minimum and maximum group sizes to be included in estimates of abundance.  This is the overall group size, not the number of the given species that are present in a mixed-species group. 
+- **`group_size_range:`**  Minimum and maximum group sizes to be included in estimates of abundance.  This is the overall group size, not the number of the given species that are present in a mixed-species group. 
 
-- **`school_size_calibrate:`**  A logical (`TRUE` or `FALSE`) specifying whether or not to carry out group size adjustments according to the calibration table provided in `survey$group_size_coefficients` (if that table is provided). This setting allows you to toggle the survey-wide setting for certain cohorts. For example, perhaps you want to carry out calibration for a cohort of dolphin species, but not for a cohort of large whales whose group sizes tend to be smaller and easier to estimate accurately. Note that only the best estimates of schol size will be calibrated; the high and low estimates are *never* calibrated.  
-
-- **`calibration_floor:`** A numeric indicating the minimum school size estimate for which group size calibration will be attempted. This pertains only to observers who do no have an entry in the `group_size_coefficients` table provided in `load_survey_settings()` (that table has a calibration floor for each observer). The default is 0, meaning that calibration will be attempted for *all* group size estimates, regardless of the raw estimate. 
+- **`group_size_calibrate:`**  This input controls how group size estimates are adjusted, or "calibrated", to correct for common biases observed in survey data over the years. This input is discussed in detail in the following subsection. 
 
 - **`use_low_if_na:`**  If this setting is `TRUE`, and an observer(s) does not make a best estimate of group size, mean group size will be calculated from "low" estimates.  This will be done only if no observer has a "best" estimate.
 
@@ -250,6 +245,73 @@ The third option is `"largest"`, in which the largest of overlapping strata is u
 - **`distance_on_off:`** The value(s) of `OnEffort` (On Effort is `TRUE`, Off Effort is `FALSE`) that will be included in detection function estimation and density estimation, and therefore considered in effort segmentizing. Default is `TRUE` only. (We don't expect `FALSE` or `c(TRUE,FALSE)` to be used much, if at all, but we make this option available).  
 
 
+## Group size calibration {-}
+
+Accurately estimating cetacean group sizes is difficult, especially for large schools of dolphins. For decades a great deal of effort has been devoted to developing statistical models that identify and correct for patterns of error in group size estimation. 
+
+`LTabundR` currently accommodates the two most common approaches to group size calibration: the **"ABUND"** method and the **"Gerrodette"** method. These approaches require different types of input data and settings.  Note that, regardless of calibration approach, only the best estimates of size are calibrated; the high and low estimates are not.
+
+Users control calibration settings using the input **`group_size_calibrate`** within the function **`load_cohort_settings()`**. That input expects a `list()` with a standard set of named slots, which are explained below.
+   
+
+#### The "ABUND" method {-} 
+
+The "ABUND" approach was developed in Barlow et al. (1998) and subsequently refined in Gerrodette et al. (2002). It is the calibration method used by the Fortran software `ABUND` that has been used to process NOAA survey data since the 1990s, and is still in active use. The "ABUND" approach is observer-specific, in which calibration coefficients are determined for each individual observer. Most observers tend to underestimate group size and their estimates are adjusted up; a few tend to overestimate and their estimates are adjusted down. When an observer does not have bespoke coefficients, a generic adjustment (upwards, by dividing estimates by 0.8625) is used. These coefficients are species-agnostic.
+
+The "ABUND" approach is the default used in `load_cohort_settings()`. The standard options for this approach, including the datasets of observer-specific calibration coefficients, are provided in the built-in dataset `data(grp_ops_abund)`, which looks like this:
+
+```{r, echo=TRUE, eval=FALSE, collapse=TRUE}
+grp_ops_abund
+# Note that only the first 6 rows of observer-specific coefficients are shown.
+```
+
+```{r, echo=FALSE, eval=TRUE, collapse=TRUE}
+lapply(grp_ops_abund, head)
+```
+
+The **`$coefficients`** slot is a `data.frame` in which each row contains the calibration coefficients for a single observer. 
+
+The **`$floor`** slot indicates the calibration threshold or "floor". Calibration is implemented only for groups whose raw estimate exceeds this threshold. The default is 0, meaning that calibration will be attempted for *all* group size estimates, regardless of the raw estimate. 
+
+Note that the final few slots are not needed for the "ABUND" method, so they are simply `NULL`. 
+
+
+#### The "Gerrodette" method {-}
+
+The **"Gerrodette"** approach was developed more recently in Gerrodette et al. (2019) and is being used increasingly often, especially for analyses focused on tropical dolphins (e.g., Barlow et al. 2026). This approach is observer-agnostic and species-specific, i.e., species are given unique calibration coefficients which are applied to all of their sightings, regardless of observer. To date, coefficients have been developed for only a handful of species (see example code at bottom of this chapter). 
+
+For each species, calibration is controlled by three parameters: a calibration threshold or "floor" (i.e., calibration is implemented only for groups whose raw estimate exceeds this threshold); a "beta" parameter; and an "intercept". When the calibration floor is met, the following equation is used to implement calibration: 
+
+$$e^{\frac{ln(Estimate)-Beta}{Intercept}}$$
+
+In `R` code, that equation is written like this: 
+
+```{r, eval=FALSE}
+exp((log(Estimate)-Beta)/Intercept)
+```
+
+To use the "Gerrodette" approach in `LTabundR`, a different list must be fed to the `group_size_calibrate` input within `load_cohort_settings()`. An example of that input list is provided as the built-in dataset `data(grp_ops_gerrodette)`, which looks like this: 
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
+grp_ops_gerrodette
+```
+
+The **`$coefficients`** slot is a `data.frame` indicating the `beta`, `intercept`, and `floor` parameters for individual species codes. The values in this dataset are based on those used in Gerrodette et al. (2019) and Barlow et al. (2026).  
+
+The **`$floor`** slot is a generic calibration floor to apply to all species. If a species is not included in the `coefficients` table, or if its `floor` parameter is `NA`, this generic floor will be used. Similarly, the **`$intercept`** and **`$beta`** slots are generic values that will be used in the same way. The generic `beta` is based on the mean of the species-specific `beta` values in the `coefficients` table.  
+
+The **`$beta_mixed`** slot can be used to specify a `beta` in the case of mixed-species groups. If this slot is `NULL`, then in mixed-species groups the `beta` for the most abundant species in the group will be used.  When this slot has a value, it will be used instead. 
+
+
+### Skipping calibration {-} 
+Note that if you wish to process survey data without any calibration action whatsoever, change the `group_size_calibrate` input to `NULL` in `load_cohort_settings()`.  
+
+
+To demonstrate how the two calibration approaches can be used and customized, example code is provided in the subsequent subsection.  More details about group size processing can be found in the [estimating group size](#ss_calibration) subsection of the following chapter. 
+
+Again, note that only the best estimates of schol size will be calibrated; the high and low estimates are *never* calibrated.  
+
+
 ## Example code {-}  
 
 ### Use settings defaults {-}  
@@ -276,7 +338,6 @@ This code will process survey data such that effort segments are 5 km in length,
 ```{r, echo=TRUE, eval=FALSE, collapse=TRUE}
 # Load built-in datasets
 data(strata_cnp)
-data(group_size_coefficients)
 data(ships)
 data(species_codes)
 
@@ -294,7 +355,6 @@ survey <-
                        segment_remainder_handling = c('append','segment'),
                        ship_list = ships,
                        species_codes = species_codes,
-                       group_size_coefficients = group_size_coefficients,
                        smear_angles = FALSE)
 
 # Load settings
@@ -314,7 +374,6 @@ To emulate the analysis done in [Bradford et al. (2021)](https://repository.libr
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
 data(species_codes)
 data(ships)
-data(group_size_coefficients)
 
 survey <- load_survey_settings(
   out_handling = 'remove',
@@ -329,7 +388,6 @@ survey <- load_survey_settings(
   segment_remainder_handling = c("segment"),
   ship_list = ships,
   species_codes = species_codes,
-  group_size_coefficients = group_size_coefficients,
   smear_angles = FALSE
 )
 ```
@@ -353,6 +411,9 @@ To build this catch-all cohort, we will not specify any species so that *all* sp
 Here we show all possible inputs. Most of these match the built-in defaults. Those that do not (there are just 4) are noted with a commented asterisk. 
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
+# load calibration options
+data(grp_ops_abund)
+
 all_species <- load_cohort_settings(
   id = "all", # *
   species = NULL, 
@@ -360,9 +421,8 @@ all_species <- load_cohort_settings(
   probable_species = FALSE,
   sighting_method = 0,
   cue_range = 0:7,
-  school_size_range = c(0, 10000),
-  school_size_calibrate = TRUE,
-  calibration_floor = 0,
+  group_size_range = c(0, 10000),
+  group_size_calibrate = grp_ops_abund,
   use_low_if_na = TRUE, # *
   io_sightings = 0,
   geometric_mean_group = TRUE,
@@ -424,3 +484,36 @@ Save this `settings` object locally, to use in downstream scripts:
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
 save(settings, file='whiceas_settings.RData')
 ```
+
+
+### Mixed calibration methods {-}
+
+Say you wish to you the "ABUND" calibration method for most species and the "Gerrodette" method for a select few, since many species do not yet have species-specific coefficients under the "Gerrodette" method. The way forward depends on how you want to handle detection-function fitting and mixed-species groups for the species you wish to analyze using the "Gerrodette" method.  
+
+Remember that a cohort needs to include all species whose sightings will be pooled to fit a detection function. If you are not comfortable using the generic coefficient values for non-target species within that pool, then it gets complicated. Similarly, if your target species is sometimes associated with other species in mixed groups, and you are not comfortable using the generic coefficient values for those non-target species when they are the most abundant species in the group, it also gets complicated. 
+
+The simplest way forward is probably to give yourself as many options as possible during subsequent stages of analysis, which could be achieved by creating two near-identical cohorts, one using the "ABUND" approach and another using the "Gerrodette" approach. You could then decide which cohort to use for which species during density estimation. And, if you find that you need to combine "ABUND"- and "Gerrodette"-derived estimates in complicated ways, you will be able to draw upon and combine sightings data from the two cohorts however you need.  
+
+```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
+data("grp_ops_abund")
+data("grp_ops_gerrodette")
+strata <- c('WHICEAS', 'HI_EEZ', 'OtherCNP')
+
+abund <- load_cohort_settings(
+  id = "abund", 
+  species = NULL, 
+  strata = strata, 
+  group_size_calibrate = grp_ops_abund)
+
+gerrodette <- load_cohort_settings(
+  id = "gerodette", 
+  species = NULL, 
+  strata = strata, 
+  group_size_calibrate = grp_ops_gerrodette)
+
+settings <- load_settings(strata = strata_cnp,
+                          survey = survey,
+                          cohorts = list(abund,
+                                         gerrodette))
+```
+

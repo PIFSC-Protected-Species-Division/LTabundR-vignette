@@ -12,7 +12,7 @@
   <meta property="og:type" content="book" />
   
   <meta property="og:description" content="vignette" />
-  <meta name="github-repo" content="emk-noaa/emk-noaa.github.io" />
+  <meta name="github-repo" content="PIFSC-Protected-Species-Division/LTabundR-vignette" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Chapter 12 Diagnostic plots | User’s guide for LTabundR" />
@@ -170,12 +170,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#defaults-1"><i class="fa fa-check"></i>Defaults</a></li>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#details-1"><i class="fa fa-check"></i>Details</a></li>
 </ul></li>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#group-size-calibration"><i class="fa fa-check"></i>Group size calibration</a>
+<ul>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#skipping-calibration"><i class="fa fa-check"></i>Skipping calibration</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#example-code"><i class="fa fa-check"></i>Example code</a>
 <ul>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#use-settings-defaults"><i class="fa fa-check"></i>Use settings defaults</a></li>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#use-settings-defaults-but-with-strata"><i class="fa fa-check"></i>Use settings defaults, but with strata</a></li>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#customize-survey-but-not-cohorts"><i class="fa fa-check"></i>Customize survey, but not cohorts</a></li>
 <li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#fully-custom-whiceas-case-study"><i class="fa fa-check"></i>Fully custom: WHICEAS case study</a></li>
+<li class="chapter" data-level="" data-path="settings.html"><a href="settings.html#mixed-calibration-methods"><i class="fa fa-check"></i>Mixed calibration methods</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="das.html"><a href="das.html"><i class="fa fa-check"></i><b>2</b> DAS editing</a>
@@ -444,95 +449,95 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="diagnostic-plots" class="section level1 hasAnchor" number="12">
 <h1><span class="header-section-number">Chapter 12</span> Diagnostic plots<a href="diagnostic-plots.html#diagnostic-plots" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>To demonstrate how LTA results can explored quickly and reviewed for QA/QC using diagnostic plots, we will use a built-in <code>LTabundR</code> dataset, which has density/abundance estimates for the Hawaiian EEZ in 2010 and 2017 for striped dolphins, Fraser’s dolphins, and melon-headed whales, ran with only 100 iterations:</p>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb303-1"><a href="diagnostic-plots.html#cb303-1" tabindex="-1"></a><span class="fu">data</span>(lta_result)</span></code></pre></div>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="diagnostic-plots.html#cb307-1" tabindex="-1"></a><span class="fu">data</span>(lta_result)</span></code></pre></div>
 <p>We created these LTA results using the following built-in processed dataset:</p>
-<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb304-1"><a href="diagnostic-plots.html#cb304-1" tabindex="-1"></a><span class="fu">data</span>(cnp_150km_1986_2020)</span></code></pre></div>
+<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="diagnostic-plots.html#cb308-1" tabindex="-1"></a><span class="fu">data</span>(cnp_150km_1986_2020)</span></code></pre></div>
 <p>The function <code>lta_diagnostics()</code> can be used to review the object returned by the <code>LTabundR</code> function <code>lta()</code>, which is the primary function in this package for line-transect analysis. The typical way to use this function is simply:</p>
-<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb305-1"><a href="diagnostic-plots.html#cb305-1" tabindex="-1"></a><span class="fu">lta_diagnostics</span>(lta_result)</span></code></pre></div>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="diagnostic-plots.html#cb309-1" tabindex="-1"></a><span class="fu">lta_diagnostics</span>(lta_result)</span></code></pre></div>
 <p>When you run this, the function will step through many diagnostic outputs (there are currently 8), some of which are tables and some of which are plots. Between each output, the function will wait for the user to press <code>&lt;Enter&gt;</code>. To turn that waiting feature off, you can add the input <code>wait = FALSE</code>.</p>
 <p>To see which outputs are currently available from this function, use the following code:</p>
-<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb306-1"><a href="diagnostic-plots.html#cb306-1" tabindex="-1"></a><span class="fu">lta_diagnostics</span>(lta_result, </span>
-<span id="cb306-2"><a href="diagnostic-plots.html#cb306-2" tabindex="-1"></a>                <span class="at">options =</span> <span class="fu">c</span>(),</span>
-<span id="cb306-3"><a href="diagnostic-plots.html#cb306-3" tabindex="-1"></a>                <span class="at">describe_options =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb306-4"><a href="diagnostic-plots.html#cb306-4" tabindex="-1"></a></span>
-<span id="cb306-5"><a href="diagnostic-plots.html#cb306-5" tabindex="-1"></a>List of options <span class="cf">for</span> outputs to provide<span class="sc">:</span> <span class="er">===============</span></span>
-<span id="cb306-6"><a href="diagnostic-plots.html#cb306-6" tabindex="-1"></a>(use numbers <span class="cf">in</span> the input <span class="st">`</span><span class="at">options</span><span class="st">`</span>)</span>
-<span id="cb306-7"><a href="diagnostic-plots.html#cb306-7" tabindex="-1"></a></span>
-<span id="cb306-8"><a href="diagnostic-plots.html#cb306-8" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> Point <span class="fu">estimate</span> (encounter rate, density, abundance, <span class="fu">g</span>(<span class="dv">0</span>), etc.)</span>
-<span id="cb306-9"><a href="diagnostic-plots.html#cb306-9" tabindex="-1"></a><span class="dv">2</span> <span class="sc">-</span> Summary of bootstrap iterations, including CV of density<span class="sc">/</span>abundance</span>
-<span id="cb306-10"><a href="diagnostic-plots.html#cb306-10" tabindex="-1"></a><span class="dv">3</span> <span class="sc">-</span> Plot of detection <span class="cf">function</span></span>
-<span id="cb306-11"><a href="diagnostic-plots.html#cb306-11" tabindex="-1"></a><span class="dv">4</span> <span class="sc">-</span> Histogram of bootstrapped detection counts</span>
-<span id="cb306-12"><a href="diagnostic-plots.html#cb306-12" tabindex="-1"></a><span class="dv">5</span> <span class="sc">-</span> Histogram of bootstrapped <span class="fu">g</span>(<span class="dv">0</span>) values</span>
-<span id="cb306-13"><a href="diagnostic-plots.html#cb306-13" tabindex="-1"></a><span class="dv">6</span> <span class="sc">-</span> Histogram of bootstrapped abundance estimates</span>
-<span id="cb306-14"><a href="diagnostic-plots.html#cb306-14" tabindex="-1"></a><span class="dv">7</span> <span class="sc">-</span> Scatterplot of abundance <span class="sc">~</span> <span class="fu">g</span>(<span class="dv">0</span>) relationship <span class="cf">in</span> boostraps</span>
-<span id="cb306-15"><a href="diagnostic-plots.html#cb306-15" tabindex="-1"></a><span class="dv">8</span> <span class="sc">-</span> Time series of point estimate CV as bootstraps accumulate</span>
-<span id="cb306-16"><a href="diagnostic-plots.html#cb306-16" tabindex="-1"></a></span>
-<span id="cb306-17"><a href="diagnostic-plots.html#cb306-17" tabindex="-1"></a><span class="sc">==</span><span class="er">====================================================</span></span></code></pre></div>
+<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="diagnostic-plots.html#cb310-1" tabindex="-1"></a><span class="fu">lta_diagnostics</span>(lta_result, </span>
+<span id="cb310-2"><a href="diagnostic-plots.html#cb310-2" tabindex="-1"></a>                <span class="at">options =</span> <span class="fu">c</span>(),</span>
+<span id="cb310-3"><a href="diagnostic-plots.html#cb310-3" tabindex="-1"></a>                <span class="at">describe_options =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb310-4"><a href="diagnostic-plots.html#cb310-4" tabindex="-1"></a></span>
+<span id="cb310-5"><a href="diagnostic-plots.html#cb310-5" tabindex="-1"></a>List of options <span class="cf">for</span> outputs to provide<span class="sc">:</span> <span class="er">===============</span></span>
+<span id="cb310-6"><a href="diagnostic-plots.html#cb310-6" tabindex="-1"></a>(use numbers <span class="cf">in</span> the input <span class="st">`</span><span class="at">options</span><span class="st">`</span>)</span>
+<span id="cb310-7"><a href="diagnostic-plots.html#cb310-7" tabindex="-1"></a></span>
+<span id="cb310-8"><a href="diagnostic-plots.html#cb310-8" tabindex="-1"></a><span class="dv">1</span> <span class="sc">-</span> Point <span class="fu">estimate</span> (encounter rate, density, abundance, <span class="fu">g</span>(<span class="dv">0</span>), etc.)</span>
+<span id="cb310-9"><a href="diagnostic-plots.html#cb310-9" tabindex="-1"></a><span class="dv">2</span> <span class="sc">-</span> Summary of bootstrap iterations, including CV of density<span class="sc">/</span>abundance</span>
+<span id="cb310-10"><a href="diagnostic-plots.html#cb310-10" tabindex="-1"></a><span class="dv">3</span> <span class="sc">-</span> Plot of detection <span class="cf">function</span></span>
+<span id="cb310-11"><a href="diagnostic-plots.html#cb310-11" tabindex="-1"></a><span class="dv">4</span> <span class="sc">-</span> Histogram of bootstrapped detection counts</span>
+<span id="cb310-12"><a href="diagnostic-plots.html#cb310-12" tabindex="-1"></a><span class="dv">5</span> <span class="sc">-</span> Histogram of bootstrapped <span class="fu">g</span>(<span class="dv">0</span>) values</span>
+<span id="cb310-13"><a href="diagnostic-plots.html#cb310-13" tabindex="-1"></a><span class="dv">6</span> <span class="sc">-</span> Histogram of bootstrapped abundance estimates</span>
+<span id="cb310-14"><a href="diagnostic-plots.html#cb310-14" tabindex="-1"></a><span class="dv">7</span> <span class="sc">-</span> Scatterplot of abundance <span class="sc">~</span> <span class="fu">g</span>(<span class="dv">0</span>) relationship <span class="cf">in</span> boostraps</span>
+<span id="cb310-15"><a href="diagnostic-plots.html#cb310-15" tabindex="-1"></a><span class="dv">8</span> <span class="sc">-</span> Time series of point estimate CV as bootstraps accumulate</span>
+<span id="cb310-16"><a href="diagnostic-plots.html#cb310-16" tabindex="-1"></a></span>
+<span id="cb310-17"><a href="diagnostic-plots.html#cb310-17" tabindex="-1"></a><span class="sc">==</span><span class="er">====================================================</span></span></code></pre></div>
 <p>To call specific outputs and not others, use the <code>options</code> input. We demonstrate this be stepping through each output below.</p>
 <p><strong>Option 1: The point estimate</strong></p>
-<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb307-1"><a href="diagnostic-plots.html#cb307-1" tabindex="-1"></a><span class="fu">lta_diagnostics</span>(lta_result, <span class="at">options =</span> <span class="dv">1</span>)</span>
-<span id="cb307-2"><a href="diagnostic-plots.html#cb307-2" tabindex="-1"></a>               title species   Region    Area year segments    km Area_covered</span>
-<span id="cb307-3"><a href="diagnostic-plots.html#cb307-3" tabindex="-1"></a><span class="dv">1</span>    Striped dolphin     <span class="dv">013</span> (HI_EEZ) <span class="dv">2474596</span> <span class="dv">2010</span>      <span class="dv">124</span> <span class="dv">17004</span>        <span class="dv">60114</span></span>
-<span id="cb307-4"><a href="diagnostic-plots.html#cb307-4" tabindex="-1"></a><span class="dv">2</span>    Striped dolphin     <span class="dv">013</span> (HI_EEZ) <span class="dv">2474596</span> <span class="dv">2017</span>      <span class="dv">130</span> <span class="dv">16281</span>        <span class="dv">57920</span></span>
-<span id="cb307-5"><a href="diagnostic-plots.html#cb307-5" tabindex="-1"></a><span class="dv">3</span>   Fraser<span class="st">&#39;s dolphin     026 (HI_EEZ) 2474596 2010      124 17004        60611</span></span>
-<span id="cb307-6"><a href="diagnostic-plots.html#cb307-6" tabindex="-1"></a><span class="st">4   Fraser&#39;</span>s dolphin     <span class="dv">026</span> (HI_EEZ) <span class="dv">2474596</span> <span class="dv">2017</span>      <span class="dv">130</span> <span class="dv">16281</span>        <span class="dv">48570</span></span>
-<span id="cb307-7"><a href="diagnostic-plots.html#cb307-7" tabindex="-1"></a><span class="dv">5</span> Melon<span class="sc">-</span>headed whale     <span class="dv">031</span> (HI_EEZ) <span class="dv">2474596</span> <span class="dv">2010</span>      <span class="dv">124</span> <span class="dv">17004</span>           <span class="cn">NA</span></span>
-<span id="cb307-8"><a href="diagnostic-plots.html#cb307-8" tabindex="-1"></a><span class="dv">6</span> Melon<span class="sc">-</span>headed whale     <span class="dv">031</span> (HI_EEZ) <span class="dv">2474596</span> <span class="dv">2017</span>      <span class="dv">130</span> <span class="dv">16281</span>        <span class="dv">54198</span></span>
-<span id="cb307-9"><a href="diagnostic-plots.html#cb307-9" tabindex="-1"></a>  ESW_mean  n g0_est ER_clusters D_clusters N_clusters size_mean size_sd     ER</span>
-<span id="cb307-10"><a href="diagnostic-plots.html#cb307-10" tabindex="-1"></a><span class="dv">1</span>     <span class="fl">3.54</span> <span class="dv">19</span>   <span class="fl">0.33</span>      <span class="fl">0.0011</span>     <span class="fl">0.0005</span>     <span class="fl">1215.9</span>      <span class="fl">51.4</span>    <span class="fl">47.2</span> <span class="fl">0.0574</span></span>
-<span id="cb307-11"><a href="diagnostic-plots.html#cb307-11" tabindex="-1"></a><span class="dv">2</span>     <span class="fl">3.56</span> <span class="dv">17</span>   <span class="fl">0.32</span>      <span class="fl">0.0010</span>     <span class="fl">0.0005</span>     <span class="fl">1182.4</span>      <span class="fl">35.4</span>    <span class="fl">18.1</span> <span class="fl">0.0369</span></span>
-<span id="cb307-12"><a href="diagnostic-plots.html#cb307-12" tabindex="-1"></a><span class="dv">3</span>     <span class="fl">3.56</span>  <span class="dv">3</span>   <span class="fl">0.33</span>      <span class="fl">0.0002</span>     <span class="fl">0.0001</span>      <span class="fl">186.4</span>     <span class="fl">236.2</span>   <span class="fl">129.0</span> <span class="fl">0.0417</span></span>
-<span id="cb307-13"><a href="diagnostic-plots.html#cb307-13" tabindex="-1"></a><span class="dv">4</span>     <span class="fl">2.98</span>  <span class="dv">2</span>   <span class="fl">0.32</span>      <span class="fl">0.0001</span>     <span class="fl">0.0001</span>      <span class="fl">160.2</span>     <span class="fl">355.6</span>    <span class="fl">91.4</span> <span class="fl">0.0437</span></span>
-<span id="cb307-14"><a href="diagnostic-plots.html#cb307-14" tabindex="-1"></a><span class="dv">5</span>       <span class="cn">NA</span>  <span class="dv">0</span>   <span class="fl">0.33</span>      <span class="fl">0.0000</span>     <span class="fl">0.0000</span>        <span class="fl">0.0</span>        <span class="cn">NA</span>      <span class="cn">NA</span> <span class="fl">0.0000</span></span>
-<span id="cb307-15"><a href="diagnostic-plots.html#cb307-15" tabindex="-1"></a><span class="dv">6</span>     <span class="fl">3.33</span>  <span class="dv">3</span>   <span class="fl">0.32</span>      <span class="fl">0.0002</span>     <span class="fl">0.0001</span>      <span class="fl">214.8</span>     <span class="fl">189.2</span>    <span class="fl">68.4</span> <span class="fl">0.0349</span></span>
-<span id="cb307-16"><a href="diagnostic-plots.html#cb307-16" tabindex="-1"></a>       D     N g0_small g0_large g0_cv_small g0_cv_large</span>
-<span id="cb307-17"><a href="diagnostic-plots.html#cb307-17" tabindex="-1"></a><span class="dv">1</span> <span class="fl">0.0237</span> <span class="dv">58531</span>     <span class="fl">0.33</span>     <span class="fl">0.33</span>        <span class="fl">0.20</span>        <span class="fl">0.20</span></span>
-<span id="cb307-18"><a href="diagnostic-plots.html#cb307-18" tabindex="-1"></a><span class="dv">2</span> <span class="fl">0.0157</span> <span class="dv">38919</span>     <span class="fl">0.32</span>     <span class="fl">0.32</span>        <span class="fl">0.21</span>        <span class="fl">0.21</span></span>
-<span id="cb307-19"><a href="diagnostic-plots.html#cb307-19" tabindex="-1"></a><span class="dv">3</span> <span class="fl">0.0181</span> <span class="dv">44761</span>     <span class="fl">0.33</span>     <span class="fl">0.33</span>        <span class="fl">0.20</span>        <span class="fl">0.20</span></span>
-<span id="cb307-20"><a href="diagnostic-plots.html#cb307-20" tabindex="-1"></a><span class="dv">4</span> <span class="fl">0.0227</span> <span class="dv">56161</span>     <span class="fl">0.32</span>     <span class="fl">0.32</span>        <span class="fl">0.21</span>        <span class="fl">0.21</span></span>
-<span id="cb307-21"><a href="diagnostic-plots.html#cb307-21" tabindex="-1"></a><span class="dv">5</span> <span class="fl">0.0000</span>     <span class="dv">0</span>     <span class="fl">0.33</span>     <span class="fl">0.33</span>        <span class="fl">0.20</span>        <span class="fl">0.20</span></span>
-<span id="cb307-22"><a href="diagnostic-plots.html#cb307-22" tabindex="-1"></a><span class="dv">6</span> <span class="fl">0.0162</span> <span class="dv">39967</span>     <span class="fl">0.32</span>     <span class="fl">0.32</span>        <span class="fl">0.21</span>        <span class="fl">0.21</span></span></code></pre></div>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="diagnostic-plots.html#cb311-1" tabindex="-1"></a><span class="fu">lta_diagnostics</span>(lta_result, <span class="at">options =</span> <span class="dv">1</span>)</span>
+<span id="cb311-2"><a href="diagnostic-plots.html#cb311-2" tabindex="-1"></a>               title species   Region    Area year segments    km Area_covered</span>
+<span id="cb311-3"><a href="diagnostic-plots.html#cb311-3" tabindex="-1"></a><span class="dv">1</span>    Striped dolphin     <span class="dv">013</span> (HI_EEZ) <span class="dv">2474596</span> <span class="dv">2010</span>      <span class="dv">124</span> <span class="dv">17004</span>        <span class="dv">60208</span></span>
+<span id="cb311-4"><a href="diagnostic-plots.html#cb311-4" tabindex="-1"></a><span class="dv">2</span>    Striped dolphin     <span class="dv">013</span> (HI_EEZ) <span class="dv">2474596</span> <span class="dv">2017</span>      <span class="dv">130</span> <span class="dv">16281</span>        <span class="dv">57880</span></span>
+<span id="cb311-5"><a href="diagnostic-plots.html#cb311-5" tabindex="-1"></a><span class="dv">3</span>   Fraser<span class="st">&#39;s dolphin     026 (HI_EEZ) 2474596 2010      124 17004        60604</span></span>
+<span id="cb311-6"><a href="diagnostic-plots.html#cb311-6" tabindex="-1"></a><span class="st">4   Fraser&#39;</span>s dolphin     <span class="dv">026</span> (HI_EEZ) <span class="dv">2474596</span> <span class="dv">2017</span>      <span class="dv">130</span> <span class="dv">16281</span>        <span class="dv">48515</span></span>
+<span id="cb311-7"><a href="diagnostic-plots.html#cb311-7" tabindex="-1"></a><span class="dv">5</span> Melon<span class="sc">-</span>headed whale     <span class="dv">031</span> (HI_EEZ) <span class="dv">2474596</span> <span class="dv">2010</span>      <span class="dv">124</span> <span class="dv">17004</span>           <span class="cn">NA</span></span>
+<span id="cb311-8"><a href="diagnostic-plots.html#cb311-8" tabindex="-1"></a><span class="dv">6</span> Melon<span class="sc">-</span>headed whale     <span class="dv">031</span> (HI_EEZ) <span class="dv">2474596</span> <span class="dv">2017</span>      <span class="dv">130</span> <span class="dv">16281</span>        <span class="dv">54256</span></span>
+<span id="cb311-9"><a href="diagnostic-plots.html#cb311-9" tabindex="-1"></a>  ESW_mean  n g0_est ER_clusters D_clusters N_clusters size_mean size_sd     ER</span>
+<span id="cb311-10"><a href="diagnostic-plots.html#cb311-10" tabindex="-1"></a><span class="dv">1</span>     <span class="fl">3.54</span> <span class="dv">19</span>   <span class="fl">0.33</span>      <span class="fl">0.0011</span>     <span class="fl">0.0005</span>     <span class="fl">1213.6</span>      <span class="fl">51.8</span>    <span class="fl">48.0</span> <span class="fl">0.0578</span></span>
+<span id="cb311-11"><a href="diagnostic-plots.html#cb311-11" tabindex="-1"></a><span class="dv">2</span>     <span class="fl">3.56</span> <span class="dv">17</span>   <span class="fl">0.32</span>      <span class="fl">0.0010</span>     <span class="fl">0.0005</span>     <span class="fl">1182.8</span>      <span class="fl">35.4</span>    <span class="fl">18.0</span> <span class="fl">0.0369</span></span>
+<span id="cb311-12"><a href="diagnostic-plots.html#cb311-12" tabindex="-1"></a><span class="dv">3</span>     <span class="fl">3.56</span>  <span class="dv">3</span>   <span class="fl">0.33</span>      <span class="fl">0.0002</span>     <span class="fl">0.0001</span>      <span class="fl">186.4</span>     <span class="fl">231.5</span>   <span class="fl">111.9</span> <span class="fl">0.0408</span></span>
+<span id="cb311-13"><a href="diagnostic-plots.html#cb311-13" tabindex="-1"></a><span class="dv">4</span>     <span class="fl">2.98</span>  <span class="dv">2</span>   <span class="fl">0.32</span>      <span class="fl">0.0001</span>     <span class="fl">0.0001</span>      <span class="fl">160.4</span>     <span class="fl">355.6</span>    <span class="fl">91.4</span> <span class="fl">0.0437</span></span>
+<span id="cb311-14"><a href="diagnostic-plots.html#cb311-14" tabindex="-1"></a><span class="dv">5</span>       <span class="cn">NA</span>  <span class="dv">0</span>   <span class="fl">0.33</span>      <span class="fl">0.0000</span>     <span class="fl">0.0000</span>        <span class="fl">0.0</span>        <span class="cn">NA</span>      <span class="cn">NA</span> <span class="fl">0.0000</span></span>
+<span id="cb311-15"><a href="diagnostic-plots.html#cb311-15" tabindex="-1"></a><span class="dv">6</span>     <span class="fl">3.33</span>  <span class="dv">3</span>   <span class="fl">0.32</span>      <span class="fl">0.0002</span>     <span class="fl">0.0001</span>      <span class="fl">214.6</span>     <span class="fl">189.2</span>    <span class="fl">68.4</span> <span class="fl">0.0349</span></span>
+<span id="cb311-16"><a href="diagnostic-plots.html#cb311-16" tabindex="-1"></a>       D     N g0_small g0_large g0_cv_small g0_cv_large</span>
+<span id="cb311-17"><a href="diagnostic-plots.html#cb311-17" tabindex="-1"></a><span class="dv">1</span> <span class="fl">0.0238</span> <span class="dv">58905</span>     <span class="fl">0.33</span>     <span class="fl">0.33</span>        <span class="fl">0.20</span>        <span class="fl">0.20</span></span>
+<span id="cb311-18"><a href="diagnostic-plots.html#cb311-18" tabindex="-1"></a><span class="dv">2</span> <span class="fl">0.0158</span> <span class="dv">38983</span>     <span class="fl">0.32</span>     <span class="fl">0.32</span>        <span class="fl">0.21</span>        <span class="fl">0.21</span></span>
+<span id="cb311-19"><a href="diagnostic-plots.html#cb311-19" tabindex="-1"></a><span class="dv">3</span> <span class="fl">0.0177</span> <span class="dv">43916</span>     <span class="fl">0.33</span>     <span class="fl">0.33</span>        <span class="fl">0.20</span>        <span class="fl">0.20</span></span>
+<span id="cb311-20"><a href="diagnostic-plots.html#cb311-20" tabindex="-1"></a><span class="dv">4</span> <span class="fl">0.0227</span> <span class="dv">56224</span>     <span class="fl">0.32</span>     <span class="fl">0.32</span>        <span class="fl">0.21</span>        <span class="fl">0.21</span></span>
+<span id="cb311-21"><a href="diagnostic-plots.html#cb311-21" tabindex="-1"></a><span class="dv">5</span> <span class="fl">0.0000</span>     <span class="dv">0</span>     <span class="fl">0.33</span>     <span class="fl">0.33</span>        <span class="fl">0.20</span>        <span class="fl">0.20</span></span>
+<span id="cb311-22"><a href="diagnostic-plots.html#cb311-22" tabindex="-1"></a><span class="dv">6</span> <span class="fl">0.0161</span> <span class="dv">39925</span>     <span class="fl">0.32</span>     <span class="fl">0.32</span>        <span class="fl">0.21</span>        <span class="fl">0.21</span></span></code></pre></div>
 <p><strong>Option 2: Summary of bootstrap iterations</strong></p>
-<div class="sourceCode" id="cb308"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb308-1"><a href="diagnostic-plots.html#cb308-1" tabindex="-1"></a><span class="fu">lta_diagnostics</span>(lta_result, <span class="at">options =</span> <span class="dv">2</span>)</span>
-<span id="cb308-2"><a href="diagnostic-plots.html#cb308-2" tabindex="-1"></a>               title   Region year species iterations ESW_mean   g0_mean</span>
-<span id="cb308-3"><a href="diagnostic-plots.html#cb308-3" tabindex="-1"></a><span class="dv">1</span>   Fraser<span class="st">&#39;s dolphin (HI_EEZ) 2010     026        100 3.674369 0.3348392</span></span>
-<span id="cb308-4"><a href="diagnostic-plots.html#cb308-4" tabindex="-1"></a><span class="st">2   Fraser&#39;</span>s <span class="fu">dolphin</span> (HI_EEZ) <span class="dv">2017</span>     <span class="dv">026</span>        <span class="dv">100</span> <span class="fl">3.271689</span> <span class="fl">0.3249818</span></span>
-<span id="cb308-5"><a href="diagnostic-plots.html#cb308-5" tabindex="-1"></a><span class="dv">3</span> Melon<span class="sc">-</span>headed <span class="fu">whale</span> (HI_EEZ) <span class="dv">2010</span>     <span class="dv">031</span>        <span class="dv">100</span>      <span class="cn">NaN</span> <span class="fl">0.3348392</span></span>
-<span id="cb308-6"><a href="diagnostic-plots.html#cb308-6" tabindex="-1"></a><span class="dv">4</span> Melon<span class="sc">-</span>headed <span class="fu">whale</span> (HI_EEZ) <span class="dv">2017</span>     <span class="dv">031</span>        <span class="dv">100</span> <span class="fl">3.099253</span> <span class="fl">0.3249818</span></span>
-<span id="cb308-7"><a href="diagnostic-plots.html#cb308-7" tabindex="-1"></a><span class="dv">5</span>    Striped <span class="fu">dolphin</span> (HI_EEZ) <span class="dv">2010</span>     <span class="dv">013</span>        <span class="dv">100</span> <span class="fl">3.570792</span> <span class="fl">0.3348392</span></span>
-<span id="cb308-8"><a href="diagnostic-plots.html#cb308-8" tabindex="-1"></a><span class="dv">6</span>    Striped <span class="fu">dolphin</span> (HI_EEZ) <span class="dv">2017</span>     <span class="dv">013</span>        <span class="dv">100</span> <span class="fl">3.603723</span> <span class="fl">0.3249818</span></span>
-<span id="cb308-9"><a href="diagnostic-plots.html#cb308-9" tabindex="-1"></a>      g0_cv       km         ER          D      size    Nmean  Nmedian      Nsd</span>
-<span id="cb308-10"><a href="diagnostic-plots.html#cb308-10" tabindex="-1"></a><span class="dv">1</span> <span class="fl">0.2189724</span> <span class="fl">16942.74</span> <span class="fl">0.03958147</span> <span class="fl">0.01834906</span> <span class="fl">227.12826</span> <span class="fl">45406.50</span> <span class="fl">36253.58</span> <span class="fl">38049.74</span></span>
-<span id="cb308-11"><a href="diagnostic-plots.html#cb308-11" tabindex="-1"></a><span class="dv">2</span> <span class="fl">0.2301472</span> <span class="fl">16175.22</span> <span class="fl">0.04336513</span> <span class="fl">0.02214479</span> <span class="fl">361.68608</span> <span class="fl">54799.41</span> <span class="fl">48096.98</span> <span class="fl">43755.20</span></span>
-<span id="cb308-12"><a href="diagnostic-plots.html#cb308-12" tabindex="-1"></a><span class="dv">3</span> <span class="fl">0.2189724</span> <span class="fl">16942.74</span> <span class="fl">0.00000000</span> <span class="fl">0.00000000</span>       <span class="cn">NaN</span>     <span class="fl">0.00</span>     <span class="fl">0.00</span>     <span class="fl">0.00</span></span>
-<span id="cb308-13"><a href="diagnostic-plots.html#cb308-13" tabindex="-1"></a><span class="dv">4</span> <span class="fl">0.2301472</span> <span class="fl">16175.22</span> <span class="fl">0.03765432</span> <span class="fl">0.02099326</span> <span class="fl">190.42373</span> <span class="fl">51949.83</span> <span class="fl">42732.64</span> <span class="fl">36070.59</span></span>
-<span id="cb308-14"><a href="diagnostic-plots.html#cb308-14" tabindex="-1"></a><span class="dv">5</span> <span class="fl">0.2189724</span> <span class="fl">16942.74</span> <span class="fl">0.05620828</span> <span class="fl">0.02367771</span>  <span class="fl">51.00669</span> <span class="fl">58592.76</span> <span class="fl">55156.85</span> <span class="fl">23004.54</span></span>
-<span id="cb308-15"><a href="diagnostic-plots.html#cb308-15" tabindex="-1"></a><span class="dv">6</span> <span class="fl">0.2301472</span> <span class="fl">16175.22</span> <span class="fl">0.03370776</span> <span class="fl">0.01498972</span>  <span class="fl">34.21571</span> <span class="fl">37093.50</span> <span class="fl">34313.40</span> <span class="fl">14764.83</span></span>
-<span id="cb308-16"><a href="diagnostic-plots.html#cb308-16" tabindex="-1"></a>         CV      L95      U95</span>
-<span id="cb308-17"><a href="diagnostic-plots.html#cb308-17" tabindex="-1"></a><span class="dv">1</span> <span class="fl">0.8379799</span> <span class="fl">11351.63</span> <span class="fl">181626.0</span></span>
-<span id="cb308-18"><a href="diagnostic-plots.html#cb308-18" tabindex="-1"></a><span class="dv">2</span> <span class="fl">0.7984612</span> <span class="fl">13699.85</span> <span class="fl">219197.6</span></span>
-<span id="cb308-19"><a href="diagnostic-plots.html#cb308-19" tabindex="-1"></a><span class="dv">3</span>       <span class="cn">NaN</span>      <span class="cn">NaN</span>      <span class="cn">NaN</span></span>
-<span id="cb308-20"><a href="diagnostic-plots.html#cb308-20" tabindex="-1"></a><span class="dv">4</span> <span class="fl">0.6943350</span> <span class="fl">17316.61</span> <span class="fl">155849.5</span></span>
-<span id="cb308-21"><a href="diagnostic-plots.html#cb308-21" tabindex="-1"></a><span class="dv">5</span> <span class="fl">0.3926174</span> <span class="fl">29296.38</span> <span class="fl">117185.5</span></span>
-<span id="cb308-22"><a href="diagnostic-plots.html#cb308-22" tabindex="-1"></a><span class="dv">6</span> <span class="fl">0.3980437</span> <span class="fl">18546.75</span>  <span class="fl">74187.0</span></span></code></pre></div>
+<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="diagnostic-plots.html#cb312-1" tabindex="-1"></a><span class="fu">lta_diagnostics</span>(lta_result, <span class="at">options =</span> <span class="dv">2</span>)</span>
+<span id="cb312-2"><a href="diagnostic-plots.html#cb312-2" tabindex="-1"></a>               title   Region year species iterations ESW_mean   g0_mean</span>
+<span id="cb312-3"><a href="diagnostic-plots.html#cb312-3" tabindex="-1"></a><span class="dv">1</span>   Fraser<span class="st">&#39;s dolphin (HI_EEZ) 2010     026        100 3.673699 0.3348392</span></span>
+<span id="cb312-4"><a href="diagnostic-plots.html#cb312-4" tabindex="-1"></a><span class="st">2   Fraser&#39;</span>s <span class="fu">dolphin</span> (HI_EEZ) <span class="dv">2017</span>     <span class="dv">026</span>        <span class="dv">100</span> <span class="fl">3.272220</span> <span class="fl">0.3249818</span></span>
+<span id="cb312-5"><a href="diagnostic-plots.html#cb312-5" tabindex="-1"></a><span class="dv">3</span> Melon<span class="sc">-</span>headed <span class="fu">whale</span> (HI_EEZ) <span class="dv">2010</span>     <span class="dv">031</span>        <span class="dv">100</span>      <span class="cn">NaN</span> <span class="fl">0.3348392</span></span>
+<span id="cb312-6"><a href="diagnostic-plots.html#cb312-6" tabindex="-1"></a><span class="dv">4</span> Melon<span class="sc">-</span>headed <span class="fu">whale</span> (HI_EEZ) <span class="dv">2017</span>     <span class="dv">031</span>        <span class="dv">100</span> <span class="fl">3.095521</span> <span class="fl">0.3249818</span></span>
+<span id="cb312-7"><a href="diagnostic-plots.html#cb312-7" tabindex="-1"></a><span class="dv">5</span>    Striped <span class="fu">dolphin</span> (HI_EEZ) <span class="dv">2010</span>     <span class="dv">013</span>        <span class="dv">100</span> <span class="fl">3.578589</span> <span class="fl">0.3348392</span></span>
+<span id="cb312-8"><a href="diagnostic-plots.html#cb312-8" tabindex="-1"></a><span class="dv">6</span>    Striped <span class="fu">dolphin</span> (HI_EEZ) <span class="dv">2017</span>     <span class="dv">013</span>        <span class="dv">100</span> <span class="fl">3.603333</span> <span class="fl">0.3249818</span></span>
+<span id="cb312-9"><a href="diagnostic-plots.html#cb312-9" tabindex="-1"></a>      g0_cv       km         ER          D      size    Nmean  Nmedian      Nsd</span>
+<span id="cb312-10"><a href="diagnostic-plots.html#cb312-10" tabindex="-1"></a><span class="dv">1</span> <span class="fl">0.2189724</span> <span class="fl">16942.74</span> <span class="fl">0.03882242</span> <span class="fl">0.01798682</span> <span class="fl">223.19230</span> <span class="fl">44510.11</span> <span class="fl">36057.16</span> <span class="fl">36644.90</span></span>
+<span id="cb312-11"><a href="diagnostic-plots.html#cb312-11" tabindex="-1"></a><span class="dv">2</span> <span class="fl">0.2301472</span> <span class="fl">16175.22</span> <span class="fl">0.04336513</span> <span class="fl">0.02214532</span> <span class="fl">361.68608</span> <span class="fl">54800.72</span> <span class="fl">48010.92</span> <span class="fl">43786.73</span></span>
+<span id="cb312-12"><a href="diagnostic-plots.html#cb312-12" tabindex="-1"></a><span class="dv">3</span> <span class="fl">0.2189724</span> <span class="fl">16942.74</span> <span class="fl">0.00000000</span> <span class="fl">0.00000000</span>       <span class="cn">NaN</span>     <span class="fl">0.00</span>     <span class="fl">0.00</span>     <span class="fl">0.00</span></span>
+<span id="cb312-13"><a href="diagnostic-plots.html#cb312-13" tabindex="-1"></a><span class="dv">4</span> <span class="fl">0.2301472</span> <span class="fl">16175.22</span> <span class="fl">0.03765432</span> <span class="fl">0.02101152</span> <span class="fl">190.42373</span> <span class="fl">51995.03</span> <span class="fl">42820.73</span> <span class="fl">36074.28</span></span>
+<span id="cb312-14"><a href="diagnostic-plots.html#cb312-14" tabindex="-1"></a><span class="dv">5</span> <span class="fl">0.2189724</span> <span class="fl">16942.74</span> <span class="fl">0.05662461</span> <span class="fl">0.02382922</span>  <span class="fl">51.38394</span> <span class="fl">58967.69</span> <span class="fl">55655.51</span> <span class="fl">23255.51</span></span>
+<span id="cb312-15"><a href="diagnostic-plots.html#cb312-15" tabindex="-1"></a><span class="dv">6</span> <span class="fl">0.2301472</span> <span class="fl">16175.22</span> <span class="fl">0.03372892</span> <span class="fl">0.01500969</span>  <span class="fl">34.23821</span> <span class="fl">37142.91</span> <span class="fl">34384.97</span> <span class="fl">14785.21</span></span>
+<span id="cb312-16"><a href="diagnostic-plots.html#cb312-16" tabindex="-1"></a>         CV      L95       U95</span>
+<span id="cb312-17"><a href="diagnostic-plots.html#cb312-17" tabindex="-1"></a><span class="dv">1</span> <span class="fl">0.8232940</span> <span class="fl">11127.53</span> <span class="fl">178040.42</span></span>
+<span id="cb312-18"><a href="diagnostic-plots.html#cb312-18" tabindex="-1"></a><span class="dv">2</span> <span class="fl">0.7990174</span> <span class="fl">13700.18</span> <span class="fl">219202.88</span></span>
+<span id="cb312-19"><a href="diagnostic-plots.html#cb312-19" tabindex="-1"></a><span class="dv">3</span>       <span class="cn">NaN</span>      <span class="cn">NaN</span>       <span class="cn">NaN</span></span>
+<span id="cb312-20"><a href="diagnostic-plots.html#cb312-20" tabindex="-1"></a><span class="dv">4</span> <span class="fl">0.6938024</span> <span class="fl">17331.68</span> <span class="fl">155985.08</span></span>
+<span id="cb312-21"><a href="diagnostic-plots.html#cb312-21" tabindex="-1"></a><span class="dv">5</span> <span class="fl">0.3943772</span> <span class="fl">29483.84</span> <span class="fl">117935.37</span></span>
+<span id="cb312-22"><a href="diagnostic-plots.html#cb312-22" tabindex="-1"></a><span class="dv">6</span> <span class="fl">0.3980628</span> <span class="fl">18571.45</span>  <span class="fl">74285.81</span></span></code></pre></div>
 <p><strong>Option 3: Plot of detection function</strong></p>
-<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb309-1"><a href="diagnostic-plots.html#cb309-1" tabindex="-1"></a><span class="fu">lta_diagnostics</span>(lta_result, <span class="at">options =</span> <span class="dv">3</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-375-1.png" width="925.44" /></p>
-<p><strong>Option 4: Histogram of bootstrapped detection counts</strong></p>
-<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb310-1"><a href="diagnostic-plots.html#cb310-1" tabindex="-1"></a><span class="fu">lta_diagnostics</span>(lta_result, <span class="at">options =</span> <span class="dv">4</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-376-1.png" width="925.44" /></p>
-<p><strong>Option 5: Histogram of bootstrapped g(0) values</strong></p>
-<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb311-1"><a href="diagnostic-plots.html#cb311-1" tabindex="-1"></a><span class="fu">lta_diagnostics</span>(lta_result, <span class="at">options =</span> <span class="dv">5</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-377-1.png" width="925.44" /></p>
-<p><strong>Option 6: Histogram of bootstrapped abundance estimates</strong></p>
-<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb312-1"><a href="diagnostic-plots.html#cb312-1" tabindex="-1"></a><span class="fu">lta_diagnostics</span>(lta_result, <span class="at">options =</span> <span class="dv">6</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-378-1.png" width="925.44" /></p>
-<p><strong>Option 7: Relationship between bootstrap g(0) and abudance</strong></p>
-<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="diagnostic-plots.html#cb313-1" tabindex="-1"></a><span class="fu">lta_diagnostics</span>(lta_result, <span class="at">options =</span> <span class="dv">7</span>)</span></code></pre></div>
-<p><img src="figures/unnamed-chunk-379-1.png" width="925.44" /></p>
-<p><strong>Option 8: Running calculation of CV during bootstrap process</strong></p>
-<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="diagnostic-plots.html#cb314-1" tabindex="-1"></a><span class="fu">lta_diagnostics</span>(lta_result, <span class="at">options =</span> <span class="dv">8</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb313-1"><a href="diagnostic-plots.html#cb313-1" tabindex="-1"></a><span class="fu">lta_diagnostics</span>(lta_result, <span class="at">options =</span> <span class="dv">3</span>)</span></code></pre></div>
 <p><img src="figures/unnamed-chunk-380-1.png" width="925.44" /></p>
+<p><strong>Option 4: Histogram of bootstrapped detection counts</strong></p>
+<div class="sourceCode" id="cb314"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb314-1"><a href="diagnostic-plots.html#cb314-1" tabindex="-1"></a><span class="fu">lta_diagnostics</span>(lta_result, <span class="at">options =</span> <span class="dv">4</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-381-1.png" width="925.44" /></p>
+<p><strong>Option 5: Histogram of bootstrapped g(0) values</strong></p>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb315-1"><a href="diagnostic-plots.html#cb315-1" tabindex="-1"></a><span class="fu">lta_diagnostics</span>(lta_result, <span class="at">options =</span> <span class="dv">5</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-382-1.png" width="925.44" /></p>
+<p><strong>Option 6: Histogram of bootstrapped abundance estimates</strong></p>
+<div class="sourceCode" id="cb316"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb316-1"><a href="diagnostic-plots.html#cb316-1" tabindex="-1"></a><span class="fu">lta_diagnostics</span>(lta_result, <span class="at">options =</span> <span class="dv">6</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-383-1.png" width="925.44" /></p>
+<p><strong>Option 7: Relationship between bootstrap g(0) and abudance</strong></p>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb317-1"><a href="diagnostic-plots.html#cb317-1" tabindex="-1"></a><span class="fu">lta_diagnostics</span>(lta_result, <span class="at">options =</span> <span class="dv">7</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-384-1.png" width="925.44" /></p>
+<p><strong>Option 8: Running calculation of CV during bootstrap process</strong></p>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb318-1"><a href="diagnostic-plots.html#cb318-1" tabindex="-1"></a><span class="fu">lta_diagnostics</span>(lta_result, <span class="at">options =</span> <span class="dv">8</span>)</span></code></pre></div>
+<p><img src="figures/unnamed-chunk-385-1.png" width="925.44" /></p>
 </div>
             </section>
 
@@ -554,17 +559,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
-  "sharing": {
-    "github": false,
-    "facebook": false,
-    "twitter": false,
-    "linkedin": false,
-    "weibo": false,
-    "instapaper": false,
-    "vk": false,
-    "whatsapp": false,
-    "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
-  },
+  "sharing": null,
   "fontsettings": {
     "theme": "white",
     "family": "sans",
@@ -594,6 +589,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
