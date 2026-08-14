@@ -484,3 +484,107 @@ Finally, let's save this `cruz` object locally, to use in downstream scripts:
 save(cruz, file='whiceas_cruz.RData')
 ```
 
+
+## Re-calibrate group sizes {-}
+
+Once you have a processed `cruz` object in hand, it is possible to re-calibrate group sizes for a selection of species and mixed-group contexts with the `LTabundR` function **`grp_recalibrate()`**.  
+
+For example, perhaps you wish to calibrate most groups in a cohort with the ["ABUND" approach](#calibration), but you wish to use the ["Gerrodette" approach](#calibration) only for striped dolphins (species code = `"013"`). Moreover, when striped dolphins occur in mixed schools, you want to recalibrate group size with the "Gerrodette" approach *only* when striped dolphin is the most abundant species in the group. When it is not, the "ABUND" approach should be kept instead.  
+
+That would be coded like so: 
+
+```{r, echo=TRUE, eval=FALSE, collapse=TRUE}
+grp_recalibrate(cruz,
+                cohort = 1,
+                spp = '013',
+                include_mixed = TRUE,
+                spp_max_only = TRUE,
+                ops_max = grp_ops_gerrodette)
+```
+
+#### Inputs {-}
+
+- **`cruz`** Your `cruz` object (produced from `LTabundR::process_surveys()`).  
+
+- **`cohort`** The cohort whose sightings you would like to recalibrate, provided as a number or name indicating which slot in `cruz$cohorts` should be referenced.  
+
+- **`spp`** Character vector of species codes to filter by. Leave `NULL` if you want to recalibrate all sightings in the cohort.  
+
+- **`include_mixed`** If `TRUE`, mixed-species groups containing the `spp` of interest will be recalibrated, including estimates for non-target species present in those mixed groups.
+
+- **`spp_max_only`** If `TRUE`, the only mixed-species groups recalibrated will be those in which the `spp` of interest are the most abundant species in the group (i.e., `spp_max` is found in `spp`).  Ignored if `include_mixed` is `FALSE`.
+
+- **`ops_max`** The calibration options to apply to the predominant species in the group. Default is the "Gerrodette" method, with default values provided in the built-in dataset `data(grp_ops_gerrodette)`.
+
+
+A few more possible inputs not shown here are:  
+
+- **`mixed_only`** If `TRUE`, *only* mixed-species groups will be recalibrated. Ignored if `include_mixed` is `FALSE`.
+
+- **`ops_not`** The calibration options to apply to the non-predominant species in any mixed groups contained in the set of sightings to be recalibrated. Default is the "ABUND" method, with default values provided in the built-in dataset `data(grp_ops_abund)`.
+
+- **`verbose`** Boolean, with default `TRUE`, indicating whether or not updates should be printed to the Console.
+
+- **`toplot`** Boolean, with default `TRUE`, indicating whether a diagnostics plot should be displayed at the end of the recalibration.  That plot looks like this:  
+
+```{r, echo=FALSE, eval=TRUE, collapse=TRUE, messages=FALSE, fig.height = 5, fig.width = 7}
+mr <- grp_recalibrate(cruz,
+                cohort = 1,
+                spp = '013',
+                include_mixed = TRUE,
+                spp_max_only = TRUE,
+                ops_max = grp_ops_gerrodette,
+                verbose = FALSE)
+```
+
+
+
+#### Output {-} 
+
+This function returns a list with three slots, intended to give you plenty of options for how you bring these recalibrated sightings forward into your analysis: 
+
+- **`key`**: A `data.frame` key of which sightings were re-calibrated, with three columns: `i` = row index from `cruz$cohorts[[cohort]]$sightings`; `SightNoDaily` = unique Sighting identifier from same; `species` = the species code.  
+
+
+- **`recalibrated_sits`**: Complete `sightings` rows but only for the sightings that were re-calibrated.  
+
+
+- **`updated_cruz`**:  Updated `cruz` object in which `cruz$cohorts[[cohort]]$sightings` includes the recalibrated sightings as well as all untouched sightings.  
+
+
+So one way forward is to keep replacing your `cruz` object with the updated `updated_cruz` slot as you re-calibrate various groups of species. Something like this:  
+
+```{r, echo=TRUE, eval=FALSE, collapse=TRUE}
+cruz_recal <- grp_recalibrate(cruz,
+                cohort = 1,
+                spp = '013', # striped dolphins
+                include_mixed = TRUE,
+                spp_max_only = TRUE,
+                ops_max = grp_ops_gerrodette)
+
+cruz_recal <- grp_recalibrate(cruz_recal$updated_cruz,
+                cohort = 1,
+                spp = c('002','006','090'), # spotted dolphins
+                include_mixed = TRUE,
+                spp_max_only = TRUE,
+                ops_max = grp_ops_gerrodette)
+
+# etc...
+```
+
+Another way forward would be to manually replace the affected sightings yourself. Something like this:  
+
+```{r, echo=TRUE, eval=FALSE, collapse=TRUE}
+recals <- grp_recalibrate(cruz,
+                cohort = 1,
+                spp = '013', # striped dolphins
+                include_mixed = TRUE,
+                spp_max_only = TRUE,
+                ops_max = grp_ops_gerrodette)
+
+# (do some QA/QC here before commmitting ...)
+
+# use the indices to replace the affected rows
+cruz$cohorts$all$sightings[recals$key$i, ] <- recals$recalibrated_sits
+```
+

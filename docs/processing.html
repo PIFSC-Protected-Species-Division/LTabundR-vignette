@@ -212,6 +212,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="" data-path="processing.html"><a href="processing.html#subgroups"><i class="fa fa-check"></i>Process subgroups</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="processing.html"><a href="processing.html#review"><i class="fa fa-check"></i>Review</a></li>
+<li class="chapter" data-level="" data-path="processing.html"><a href="processing.html#re-calibrate-group-sizes"><i class="fa fa-check"></i>Re-calibrate group sizes</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="filter.html"><a href="filter.html"><i class="fa fa-check"></i><b>4</b> Filter &amp; combine surveys</a>
 <ul>
@@ -276,7 +277,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 <li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#other-inputs"><i class="fa fa-check"></i>Other inputs</a></li>
 <li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#data-checks-qaqc"><i class="fa fa-check"></i>Data checks &amp; QA/QC</a></li>
-<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#output"><i class="fa fa-check"></i>Output</a>
+<li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#output-1"><i class="fa fa-check"></i>Output</a>
 <ul>
 <li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#during-processing"><i class="fa fa-check"></i>During processing</a></li>
 <li class="chapter" data-level="" data-path="lta.html"><a href="lta.html#outputs"><i class="fa fa-check"></i>Outputs</a></li>
@@ -927,7 +928,75 @@ is valid and appropriate for use in abundance estimation and detection function 
 </ul>
 <p>Finally, let’s save this <code>cruz</code> object locally, to use in downstream scripts:</p>
 <div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb100-1"><a href="processing.html#cb100-1" tabindex="-1"></a><span class="fu">save</span>(cruz, <span class="at">file=</span><span class="st">&#39;whiceas_cruz.RData&#39;</span>)</span></code></pre></div>
+</div>
+<div id="re-calibrate-group-sizes" class="section level2 unnumbered hasAnchor">
+<h2>Re-calibrate group sizes<a href="processing.html#re-calibrate-group-sizes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Once you have a processed <code>cruz</code> object in hand, it is possible to re-calibrate group sizes for a selection of species and mixed-group contexts with the <code>LTabundR</code> function <strong><code>grp_recalibrate()</code></strong>.</p>
+<p>For example, perhaps you wish to calibrate most groups in a cohort with the <a href="#calibration">“ABUND” approach</a>, but you wish to use the <a href="#calibration">“Gerrodette” approach</a> only for striped dolphins (species code = <code>"013"</code>). Moreover, when striped dolphins occur in mixed schools, you want to recalibrate group size with the “Gerrodette” approach <em>only</em> when striped dolphin is the most abundant species in the group. When it is not, the “ABUND” approach should be kept instead.</p>
+<p>That would be coded like so:</p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb101-1"><a href="processing.html#cb101-1" tabindex="-1"></a><span class="fu">grp_recalibrate</span>(cruz,</span>
+<span id="cb101-2"><a href="processing.html#cb101-2" tabindex="-1"></a>                <span class="at">cohort =</span> <span class="dv">1</span>,</span>
+<span id="cb101-3"><a href="processing.html#cb101-3" tabindex="-1"></a>                <span class="at">spp =</span> <span class="st">&#39;013&#39;</span>,</span>
+<span id="cb101-4"><a href="processing.html#cb101-4" tabindex="-1"></a>                <span class="at">include_mixed =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb101-5"><a href="processing.html#cb101-5" tabindex="-1"></a>                <span class="at">spp_max_only =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb101-6"><a href="processing.html#cb101-6" tabindex="-1"></a>                <span class="at">ops_max =</span> grp_ops_gerrodette)</span></code></pre></div>
+<div id="inputs" class="section level4 unnumbered hasAnchor">
+<h4>Inputs<a href="processing.html#inputs" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li><p><strong><code>cruz</code></strong> Your <code>cruz</code> object (produced from <code>LTabundR::process_surveys()</code>).</p></li>
+<li><p><strong><code>cohort</code></strong> The cohort whose sightings you would like to recalibrate, provided as a number or name indicating which slot in <code>cruz$cohorts</code> should be referenced.</p></li>
+<li><p><strong><code>spp</code></strong> Character vector of species codes to filter by. Leave <code>NULL</code> if you want to recalibrate all sightings in the cohort.</p></li>
+<li><p><strong><code>include_mixed</code></strong> If <code>TRUE</code>, mixed-species groups containing the <code>spp</code> of interest will be recalibrated, including estimates for non-target species present in those mixed groups.</p></li>
+<li><p><strong><code>spp_max_only</code></strong> If <code>TRUE</code>, the only mixed-species groups recalibrated will be those in which the <code>spp</code> of interest are the most abundant species in the group (i.e., <code>spp_max</code> is found in <code>spp</code>). Ignored if <code>include_mixed</code> is <code>FALSE</code>.</p></li>
+<li><p><strong><code>ops_max</code></strong> The calibration options to apply to the predominant species in the group. Default is the “Gerrodette” method, with default values provided in the built-in dataset <code>data(grp_ops_gerrodette)</code>.</p></li>
+</ul>
+<p>A few more possible inputs not shown here are:</p>
+<ul>
+<li><p><strong><code>mixed_only</code></strong> If <code>TRUE</code>, <em>only</em> mixed-species groups will be recalibrated. Ignored if <code>include_mixed</code> is <code>FALSE</code>.</p></li>
+<li><p><strong><code>ops_not</code></strong> The calibration options to apply to the non-predominant species in any mixed groups contained in the set of sightings to be recalibrated. Default is the “ABUND” method, with default values provided in the built-in dataset <code>data(grp_ops_abund)</code>.</p></li>
+<li><p><strong><code>verbose</code></strong> Boolean, with default <code>TRUE</code>, indicating whether or not updates should be printed to the Console.</p></li>
+<li><p><strong><code>toplot</code></strong> Boolean, with default <code>TRUE</code>, indicating whether a diagnostics plot should be displayed at the end of the recalibration. That plot looks like this:</p></li>
+</ul>
+<p><img src="figures/unnamed-chunk-120-1.png" width="672" /></p>
+</div>
+<div id="output" class="section level4 unnumbered hasAnchor">
+<h4>Output<a href="processing.html#output" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>This function returns a list with three slots, intended to give you plenty of options for how you bring these recalibrated sightings forward into your analysis:</p>
+<ul>
+<li><p><strong><code>key</code></strong>: A <code>data.frame</code> key of which sightings were re-calibrated, with three columns: <code>i</code> = row index from <code>cruz$cohorts[[cohort]]$sightings</code>; <code>SightNoDaily</code> = unique Sighting identifier from same; <code>species</code> = the species code.</p></li>
+<li><p><strong><code>recalibrated_sits</code></strong>: Complete <code>sightings</code> rows but only for the sightings that were re-calibrated.</p></li>
+<li><p><strong><code>updated_cruz</code></strong>: Updated <code>cruz</code> object in which <code>cruz$cohorts[[cohort]]$sightings</code> includes the recalibrated sightings as well as all untouched sightings.</p></li>
+</ul>
+<p>So one way forward is to keep replacing your <code>cruz</code> object with the updated <code>updated_cruz</code> slot as you re-calibrate various groups of species. Something like this:</p>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb102-1"><a href="processing.html#cb102-1" tabindex="-1"></a>cruz_recal <span class="ot">&lt;-</span> <span class="fu">grp_recalibrate</span>(cruz,</span>
+<span id="cb102-2"><a href="processing.html#cb102-2" tabindex="-1"></a>                <span class="at">cohort =</span> <span class="dv">1</span>,</span>
+<span id="cb102-3"><a href="processing.html#cb102-3" tabindex="-1"></a>                <span class="at">spp =</span> <span class="st">&#39;013&#39;</span>, <span class="co"># striped dolphins</span></span>
+<span id="cb102-4"><a href="processing.html#cb102-4" tabindex="-1"></a>                <span class="at">include_mixed =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb102-5"><a href="processing.html#cb102-5" tabindex="-1"></a>                <span class="at">spp_max_only =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb102-6"><a href="processing.html#cb102-6" tabindex="-1"></a>                <span class="at">ops_max =</span> grp_ops_gerrodette)</span>
+<span id="cb102-7"><a href="processing.html#cb102-7" tabindex="-1"></a></span>
+<span id="cb102-8"><a href="processing.html#cb102-8" tabindex="-1"></a>cruz_recal <span class="ot">&lt;-</span> <span class="fu">grp_recalibrate</span>(cruz_recal<span class="sc">$</span>updated_cruz,</span>
+<span id="cb102-9"><a href="processing.html#cb102-9" tabindex="-1"></a>                <span class="at">cohort =</span> <span class="dv">1</span>,</span>
+<span id="cb102-10"><a href="processing.html#cb102-10" tabindex="-1"></a>                <span class="at">spp =</span> <span class="fu">c</span>(<span class="st">&#39;002&#39;</span>,<span class="st">&#39;006&#39;</span>,<span class="st">&#39;090&#39;</span>), <span class="co"># spotted dolphins</span></span>
+<span id="cb102-11"><a href="processing.html#cb102-11" tabindex="-1"></a>                <span class="at">include_mixed =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb102-12"><a href="processing.html#cb102-12" tabindex="-1"></a>                <span class="at">spp_max_only =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb102-13"><a href="processing.html#cb102-13" tabindex="-1"></a>                <span class="at">ops_max =</span> grp_ops_gerrodette)</span>
+<span id="cb102-14"><a href="processing.html#cb102-14" tabindex="-1"></a></span>
+<span id="cb102-15"><a href="processing.html#cb102-15" tabindex="-1"></a><span class="co"># etc...</span></span></code></pre></div>
+<p>Another way forward would be to manually replace the affected sightings yourself. Something like this:</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb103-1"><a href="processing.html#cb103-1" tabindex="-1"></a>recals <span class="ot">&lt;-</span> <span class="fu">grp_recalibrate</span>(cruz,</span>
+<span id="cb103-2"><a href="processing.html#cb103-2" tabindex="-1"></a>                <span class="at">cohort =</span> <span class="dv">1</span>,</span>
+<span id="cb103-3"><a href="processing.html#cb103-3" tabindex="-1"></a>                <span class="at">spp =</span> <span class="st">&#39;013&#39;</span>, <span class="co"># striped dolphins</span></span>
+<span id="cb103-4"><a href="processing.html#cb103-4" tabindex="-1"></a>                <span class="at">include_mixed =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb103-5"><a href="processing.html#cb103-5" tabindex="-1"></a>                <span class="at">spp_max_only =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb103-6"><a href="processing.html#cb103-6" tabindex="-1"></a>                <span class="at">ops_max =</span> grp_ops_gerrodette)</span>
+<span id="cb103-7"><a href="processing.html#cb103-7" tabindex="-1"></a></span>
+<span id="cb103-8"><a href="processing.html#cb103-8" tabindex="-1"></a><span class="co"># (do some QA/QC here before commmitting ...)</span></span>
+<span id="cb103-9"><a href="processing.html#cb103-9" tabindex="-1"></a></span>
+<span id="cb103-10"><a href="processing.html#cb103-10" tabindex="-1"></a><span class="co"># use the indices to replace the affected rows</span></span>
+<span id="cb103-11"><a href="processing.html#cb103-11" tabindex="-1"></a>cruz<span class="sc">$</span>cohorts<span class="sc">$</span>all<span class="sc">$</span>sightings[recals<span class="sc">$</span>key<span class="sc">$</span>i, ] <span class="ot">&lt;-</span> recals<span class="sc">$</span>recalibrated_sits</span></code></pre></div>
 
+</div>
 </div>
 </div>
             </section>

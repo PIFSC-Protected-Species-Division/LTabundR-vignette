@@ -247,7 +247,7 @@ The third option is `"largest"`, in which the largest of overlapping strata is u
 
 ## Group size calibration {-}
 
-Accurately estimating cetacean group sizes is difficult, especially for large schools of dolphins. For decades a great deal of effort has been devoted to developing statistical models that identify and correct for patterns of error in group size estimation. 
+{#calibration} Accurately estimating cetacean group sizes is difficult, especially for large schools of dolphins. For decades a great deal of effort has been devoted to developing statistical models that identify and correct for patterns of error in group size estimation. 
 
 `LTabundR` currently accommodates the two most common approaches to group size calibration: the **"ABUND"** method and the **"Gerrodette"** method. These approaches require different types of input data and settings.  Note that, regardless of calibration approach, only the best estimates of size are calibrated; the high and low estimates are not.
 
