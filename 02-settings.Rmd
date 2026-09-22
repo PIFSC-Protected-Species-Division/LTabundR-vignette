@@ -48,14 +48,14 @@ data(strata_cnp)
 names(strata_cnp)
 
 # HI-EEZ: U.S. Exclusive Economic Zone around the Hawaiian Islands.
-# OtherCNP: Extended Central North Pacific study area.
+# OtherCNP: Extended central North Pacific study area.
 # MHI: Main Hawaiian Islands survey stratum during HICEAS 2002.
 # WHICEAS: Study area for winter HICEAS of 2020.
 # Spotted_OU: Stock boundary for the Oahu population of spotted dolphins.
-# Spotted_FI: Stock boundary for the 4-Islands population of spotted dolphins.
+# Spotted_FI: Stock boundary for the 4-Islands (Maui Nui) population of spotted dolphins.
 # Spotted_BI: Stock boundary for the Hawaii Island population of spotted dolphins.
 # Bottlenose_KaNi: Stock boundary for the Kauai/Niihau population of bottlenose dolphins.
-# Bottlenose_OUFI: Collective stock boundaries for the adjacent Oahu and 4-Islands populations of bottlenose dolphins.
+# Bottlenose_OUFI: Collective stock boundaries for the adjacent Oahu and 4-Islands (Maui Nui) populations of bottlenose dolphins.
 # Bottlenose_BI: Stock boundary for the Hawaii Island population of bottlenose dolphins.
 # nwhi_fkw: Stock boundary for the Northwestern Hawaiian Islands population of false killer whales. 
 # mhi_fkw: Stock boundary for the main Hawaiian Islands insular population of false killer whales.
@@ -140,7 +140,7 @@ The `survey_settings` input accepts a list with any of the following named slots
 
 - **`out_handling:`** the first slot allows you to specify how data occurring outside of geo-strata should be handled. If this is set to `"remove"`, those rows will be filtered out of the data early in the process. This reduces memory usage, speeds up processing, and gives you geographic control of how effort and sightings will be summarized.  If this is set to `"stratum"`, those data will be assigned to a fake geo-stratum, named `"out"`. Effort in the `"out"` stratum will not be segmentized, but `"out"` sightings will be processed and retained in the final datasets. This setting might be useful if you want to use `"out"` data for survey summaries and/or detection function estimation.  The default is `"remove"`, since that saves the most time and memory.  
 
-- **`interpolate:`** This argument allows you to interpolate the `DAS` data at the onset of processing if your position updates are separated by large time intervals, which would make spatial effort and stratum assignments less exact. If this argument is `NULL`, then no interpolation will occur. If it is a number, e.g., 30, `LTabundR` will interpolate the data using simple-linear methods (i.e., no great-sphere calculations), such that position updates occur every 30 seconds or less. If adjacent `DAS` rows are from different dates or cruises, the interpolation routine will skip to the next pair of related rows.  Interpolation will only occur for On-Effort rows (i.e., column `OnEffort` is `TRUE`).  
+- **`interpolate:`** This argument allows you to interpolate the `DAS` data at the onset of processing if your position updates are separated by large time intervals, which would make spatial effort and stratum assignments less exact. If this argument is `NULL` (the default), then no interpolation will occur. If it is a number, e.g., 30, `LTabundR` will interpolate the data using simple-linear methods (i.e., no great-sphere calculations), such that position updates occur every 30 seconds or less. If adjacent `DAS` rows are from different dates or cruises, the interpolation routine will skip to the next pair of related rows.  Interpolation will only occur for On-Effort rows (i.e., column `OnEffort` is `TRUE`).  
 
 - **`min_row_interval`:** The minimum time interval, in seconds, between rows in order for the Great Circle distance between rows to be calculated. Intervals less than this number will be assigned a distance of 0 km. The default of 2 seconds was chosen somewhat arbitrarily, with the consideration that intervals shorter than 2 seconds are likely to be affected by error in GPS location.
 

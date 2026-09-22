@@ -41,7 +41,7 @@ That workflow typically involves four stages:
 
 **(1) Data processing**  
 
-- This step involves reading in and processing raw `DAS` files (the files produced by the software `Wincruz` commonly used during NOAA Fisheries line-transect surveys in the Pacific), breaking effort into discrete segments for variance estimation, correcting group size estimates according to calibration models, and then averaging together group size estimates for each sighting.  
+- This step involves reading in and processing raw `DAS` files (the files produced by the software commonly used during NOAA Fisheries line-transect surveys in the Pacific), breaking effort into discrete segments for variance estimation, correcting group size estimates according to calibration models, and then averaging together group size estimates for each sighting.  
 
 - Most importantly, this step standardizes the data structure in a way that all downstream analyses depend upon. The name we will use for this standardized data object is a `cruz` object.
 
@@ -72,7 +72,7 @@ That workflow typically involves four stages:
  
 This user's guide is structured around these four workflow stages. Those pages are followed by a case study with full-fledged example code. The guide concludes with appendices that offer further details and minutiae on certain aspects of the package. 
 
-Throughout this user's guide, we will primarily be using example data from the winter [Hawaiian Islands Cetacean Ecosystem and Assessment Survey (WHICEAS)](https://repository.library.noaa.gov/view/noaa/47788) of 2020, along with the summer-fall HICEAS 2017 data collected within the WHICEAS study area. 
+Throughout this user's guide, we will primarily be using example data from the [winter Hawaiian Islands Cetacean Ecosystem and Assessment Survey (WHICEAS)](https://repository.library.noaa.gov/view/noaa/47788) of 2020, along with the summer-fall HICEAS 2017 data collected within the WHICEAS study area. 
 
 ### Installation {-} 
 
