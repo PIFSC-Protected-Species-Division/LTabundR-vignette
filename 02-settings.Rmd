@@ -201,37 +201,36 @@ The `cohort_settings` input accepts a list of any length. Each slot in that list
 
 - **`species:`** A character vector of species codes to include in this cohort. If `NULL` (the default), all species within the survey data will be included. Note that if you specify a vector, all species to be used in modeling a detection function for this cohort must be included here.  **For example,** in Hawaii the bottlenose dolphin is analyzed as part of a multi-species pool along with the rough-toothed dolphin, Risso's dolphin, and pygmy killer whale. However, the bottlenose dolphin has insular populations that need to be differentiated from their pelagic counterpart, which requires some special geostratum handling that behooves the preparation of a dedicated cohort for bottlenose dolphin. Even so, in the `cohort_settings` object for the bottlenose dolphin cohort, the species codes for the rough-toothed, Risso's, and pygmy-killer-whale dolphins need to be provided in this `species` argument. Conversely, in the `cohort_settings` object that holds most other species, including the rough-toothed, Risso's, and pygmy-killer-whale dolphins, the bottlenose dolphin's code still needs to be included in its `species` argument.
 
-- **`strata:`** A character vector of geostratum names. These must match the names
-listed in the `strata` slot of your survey settings (see documentation for `load_survey_settings()`). If `NULL` (the default), *all* geostrata in your survey settings will be used. This argument is an opportunity to subset the geostrata used for a cohort.  **For example,** as discussed above, certain dolphin species in Hawaiian waters have unique geostrata that apply only to their insular/pelagic populations, and should only have a role in breaking effort segments in the bootstrap variance analysis for these specific species. Those dolphins should be given their own cohort, and those insular/pelagic geostrata should be included in this `strata` argument. Conversely, all other species should be placed in a separate cohort and only the generic geostrata should be included in this `strata` argument. See the WHICEAS example below for a demonstration.
+- **`strata:`** A character vector of geostratum names. These must match the names listed in the `strata` slot of your survey settings (see documentation for `load_survey_settings()`). If `NULL` (the default), *all* geostrata in your survey settings will be used. This argument is an opportunity to subset the geostrata used for a cohort.  **For example,** as discussed above, certain dolphin species in Hawaiian waters have unique geostrata that apply only to their insular/pelagic populations and should only have a role in breaking effort segments in the bootstrap variance analysis for these specific species. Those dolphins should be given their own cohort, and those insular/pelagic geostrata should be included in this `strata` argument. Conversely, all other species should be placed in a separate cohort and only the generic geostrata should be included in this `strata` argument. See the WHICEAS example below for a demonstration.
 
 - **`probable_species:`** If `TRUE` (default is `FALSE`), the “probable” species identifications will be used in place of the “unidentified” categories. 
 
-- **`sighting_method:`**	A coded integer which determines which sightings will be included based on how they were first seen.  Allowable codes are `0`=any method, `1`=with 25X only, `2`=neither with 25x binoculars nor from the helicopter (i.e., naked eyes and 7x binoculars only). These codes match those used in `ABUND7/9`.  
+- **`sighting_method:`**	A coded integer which determines which sightings will be included based on how they were first seen.  Allowable codes are `0`=any method (the default), `1`=with 25X binoculars only, `2`=neither with 25x binoculars nor from the helicopter (i.e., naked eye and 7x binoculars only). These codes match those used in `ABUND`.  
 
-- **`cue_range:`**  Numeric vector of acceptable "observation cues" for sightings used in estimates of abundance. (`0`=this detail is missing in the data, `1`=associated birds, `2`=splashes, `3`=body of the marine mammal, `4`=associated vessel, `5`=?, `6`=blow / spout, `7`=associated helicopter). These codes match those used in `ABUND7/9`. 
+- **`cue_range:`**  Numeric vector of acceptable "observation cues" for sightings used in estimates of abundance, with all included by default. (`0`=this detail is missing in the data, `1`=associated birds, `2`=splashes, `3`=body of the marine mammal, `4`=associated vessel, `5`=?, `6`=blow / spout, `7`=associated helicopter). These codes match those used in `ABUND`. 
 
-- **`group_size_range:`**  Minimum and maximum group sizes to be included in estimates of abundance.  This is the overall group size, not the number of the given species that are present in a mixed-species group. 
+- **`group_size_range:`**  Minimum and maximum group sizes to be included in estimates of abundance, with default values of `c(0,10000)`. This is the overall group size, not the number of the given species that are present in a mixed-species group. 
 
 - **`group_size_calibrate:`**  This input controls how group size estimates are adjusted, or "calibrated", to correct for common biases observed in survey data over the years. This input is discussed in detail in the following subsection. 
 
-- **`use_low_if_na:`**  If this setting is `TRUE`, and an observer(s) does not make a best estimate of group size, mean group size will be calculated from "low" estimates.  This will be done only if no observer has a "best" estimate.
+- **`use_low_if_na:`**  If this setting is `TRUE` (default is `FALSE`), and an observer(s) does not make a best estimate of group size, mean group size will be calculated from "low" estimates.  This will be done only if no observer has a "best" estimate.
 
-- **`io_sightings:`** A coded integer which specifies how sightings by the independent observer will be handled.  Allowable codes, which are inherited from those used in `ABUND7/9`, are `"-1"`=include independent observer sightings with all other sightings, `"0"`=ignore sightings by independent observer, `"1"`=use only sightings made by regular observer team WHEN an independent observer was present, `"2"`=include only sightings made by the independent observer.  IO sightings are typically used only for making *g(0)* estimates, otherwise IO sightings are usually ignored (code = `"0"`). 
+- **`io_sightings:`** A coded integer which specifies how sightings by the independent observer will be handled.  Allowable codes, which are inherited from those used in `ABUND`, are `"-1"`=include independent observer sightings with all other sightings, `"0"`=ignore sightings by independent observer (the default), `"1"`=use only sightings made by regular observer team WHEN an independent observer was present, `"2"`=include only sightings made by the independent observer.  IO sightings are typically used only for making *g(0)* estimates, otherwise IO sightings are usually ignored (code = `"0"`). 
 
-- **`geometric_mean_group:`** This `logical` variable specifies whether to use a  geometric mean when calculating  mean group size.  [Barlow et al. (1998)](https://repository.library.noaa.gov/view/noaa/25848) found that this gave slightly better performance than an arithmetic mean group size for calibrated estimates. Default is `TRUE`. If calibration is carried out, the geometric *weighted* mean is applied, using the inverse of the variances from the calibration routine as weights. When calibration is not carried out, the geometric *unweighted* mean is used. Note also that, although only the best estimates may be calibrated if specified by the settings above (never the highs and lows), the *same* kind of averaging function *is* applied to the highs and lows as is applied to the bests. If the best estimates are calibrated, the geometric *weighted* mean will be applied to the highs and lows, using the variance of the calibrated best estimates as weights. If the best estimates are *not* calibrated, the *unweighted* geometric mean is used to estimate the highs, lows, and bests. (This setting does not apply to subgroup analyses.)
+- **`geometric_mean_group:`** This `logical` variable specifies whether to use a  geometric mean when calculating  mean group size. [Barlow et al. (1998)](https://repository.library.noaa.gov/view/noaa/25848) found that this gave slightly better performance than an arithmetic mean group size for calibrated estimates. The default is `TRUE`. If calibration is carried out, the geometric *weighted* mean is applied, using the inverse of the variances from the calibration routine as weights. When calibration is not carried out, the geometric *unweighted* mean is used. Note also that, although only the best estimates may be calibrated if specified by the settings above (never the highs and lows), the *same* kind of averaging function *is* applied to the highs and lows as is applied to the bests. If the best estimates are calibrated, the geometric *weighted* mean will be applied to the highs and lows, using the variance of the calibrated best estimates as weights. If the best estimates are *not* calibrated, the *unweighted* geometric mean is used to estimate the highs, lows, and bests. (This setting does not apply to subgroup analyses.)
 
-- **`truncation_km:`**  Specifies the maximum perpendicular distance for groups that could potentially be included for abundance estimation. This is not the stage at which you set the truncation distance for detection function modeling; it is simply a preliminary cutoff for sightings made at unrealiable detection distances. The default is set at 20 km, which is farther than all sightings on record during Pacific NOAA Fisheries surveys. 
+- **`truncation_km:`**  Specifies the maximum perpendicular distance for groups that could potentially be included for abundance estimation. This is not the stage at which you set the truncation distance for detection function modeling; it is simply a preliminary cutoff for sightings made at unrealiable detection distances. The default is set at 20 km, which is farther than all sightings on record during NOAA Fisheries surveys in the central and eastern Pacific. 
 
 - **`beaufort_range:`** Vector of Beaufort sea states (integers) that are acceptable in estimating the detection function and density. Beaufort data with a decimal place will be rounded to the nearest integer to evaluate for inclusion.  
 
-- **`abeam_sightings:`** = If `TRUE`, sightings that occur aft of beam (i.e., 90 degrees) are included in estimating the detection function and densities. Default is `FALSE`: all abeam sightings will be ignored.
+- **`abeam_sightings:`** If `TRUE`, sightings that occur aft of beam (i.e., >90 degrees) are included in estimating the detection function and densities. The default is `FALSE`: all abeam sightings will be ignored.
 
 - **`strata_overlap_handling:`**  This setting informs how effort is split into segments when surveys cross stratum boundaries, and also which stratum name is assigned to each row of data. Note that the main impact of this setting is on how effort is broken into segments; the assigned stratum name is for display only and will not constrain options for including/excluding strata in analyses farther along in the `LTabundR` workflow. The default option is `"smallest"`, which means that effort will always be assigned to the smallest stratum when multiple strata overlap spatially. This is a safe option for surveys with "nested" strata (such as the Central North Pacific strata used by NOAA Fisheries; see below).
 
 ![](img/strata_overlap_hiceas.png){width=75%}
 
 
-Another option is `"each"`, in which each time a stratum boundary is crossed the current segment will end, and a new segment will begin. Also, stratum assignments for each row of effort will be shown as a concatenation of all the stratum layers overlapping at its position (e.g., "OtherCNP&HI_EEZ"). Note that the `"each"` option segmentizes effort in the exact same way as `"smallest"` when strata are fully nested; its main advantage is in dealing with partially overlapping strata (such as strata used in the Marianas Archipelago; see below). 
+Another option is `"each"`, in which each time a stratum boundary is crossed the current segment will end, and a new segment will begin. Also, stratum assignments for each row of effort will be shown as a concatenation of all the stratum layers overlapping at its position (e.g., "OtherCNP&HI_EEZ"). Note that the `"each"` option segmentizes effort in the exact same way as `"smallest"` when strata are fully nested; its main advantage is in dealing with partially overlapping strata (such as strata used in the Mariana Archipelago; see below). 
 
 The third option is `"largest"`, in which the largest of overlapping strata is used to assign a stratum name to each row. (We are not sure what use case this would serve, but we offer it as an option for niche analyses.)
 
@@ -247,18 +246,18 @@ The third option is `"largest"`, in which the largest of overlapping strata is u
 
 ## Group size calibration {-}
 
-{#calibration} Accurately estimating cetacean group sizes is difficult, especially for large schools of dolphins. For decades a great deal of effort has been devoted to developing statistical models that identify and correct for patterns of error in group size estimation. 
+Accurately estimating cetacean group sizes is difficult, especially for large groups of dolphins. For decades, a great deal of effort has been devoted to developing statistical models that identify and correct for patterns of error in group size estimation. 
 
-`LTabundR` currently accommodates the two most common approaches to group size calibration: the **"ABUND"** method and the **"Gerrodette"** method. These approaches require different types of input data and settings.  Note that, regardless of calibration approach, only the best estimates of size are calibrated; the high and low estimates are not.
+`LTabundR` currently accommodates the two most common approaches to group size calibration by NOAA Fisheries in the Pacific: the **"ABUND"** method and the **"Gerrodette"** method. These approaches require different types of input data and settings. Note that, regardless of calibration approach, only the best estimates of size are calibrated; the high and low estimates are not.
 
 Users control calibration settings using the input **`group_size_calibrate`** within the function **`load_cohort_settings()`**. That input expects a `list()` with a standard set of named slots, which are explained below.
    
 
 #### The "ABUND" method {-} 
 
-The "ABUND" approach was developed in Barlow et al. (1998) and subsequently refined in Gerrodette et al. (2002). It is the calibration method used by the Fortran software `ABUND` that has been used to process NOAA survey data since the 1990s, and is still in active use. The "ABUND" approach is observer-specific, in which calibration coefficients are determined for each individual observer. Most observers tend to underestimate group size and their estimates are adjusted up; a few tend to overestimate and their estimates are adjusted down. When an observer does not have bespoke coefficients, a generic adjustment (upwards, by dividing estimates by 0.8625) is used. These coefficients are species-agnostic.
+The **"ABUND"** approach was developed in [Barlow et al. (1998)](https://repository.library.noaa.gov/view/noaa/25848) and subsequently refined in [Gerrodette et al. (2002)](https://www.researchgate.net/publication/237121535_Calibrating_group_size_estimates_of_dolphins_in_the_eastern_tropical_Pacific_Ocean). It is the calibration method used by the aforementioned `ABUND` program and is still in active use. The "ABUND" approach is observer-specific, in which calibration coefficients are determined for each individual observer. Most observers tend to underestimate group size, and their estimates are adjusted up; a few tend to overestimate, and their estimates are adjusted down. When an observer does not have bespoke coefficients, a generic adjustment (upwards, by dividing estimates by 0.8625) is used. These coefficients are species-agnostic.
 
-The "ABUND" approach is the default used in `load_cohort_settings()`. The standard options for this approach, including the datasets of observer-specific calibration coefficients, are provided in the built-in dataset `data(grp_ops_abund)`, which looks like this:
+The "ABUND" approach is the default used in `load_cohort_settings()`. The standard options for this approach, including the observer-specific calibration coefficients, are provided in the built-in dataset `data(grp_ops_abund)`, which looks like this:
 
 ```{r, echo=TRUE, eval=FALSE, collapse=TRUE}
 grp_ops_abund
@@ -273,12 +272,12 @@ The **`$coefficients`** slot is a `data.frame` in which each row contains the ca
 
 The **`$floor`** slot indicates the calibration threshold or "floor". Calibration is implemented only for groups whose raw estimate exceeds this threshold. The default is 0, meaning that calibration will be attempted for *all* group size estimates, regardless of the raw estimate. 
 
-Note that the final few slots are not needed for the "ABUND" method, so they are simply `NULL`. 
+Note that the final three slots are not needed for the "ABUND" method, so they are simply `NULL`. 
 
 
 #### The "Gerrodette" method {-}
 
-The **"Gerrodette"** approach was developed more recently in Gerrodette et al. (2019) and is being used increasingly often, especially for analyses focused on tropical dolphins (e.g., Barlow et al. 2026). This approach is observer-agnostic and species-specific, i.e., species are given unique calibration coefficients which are applied to all of their sightings, regardless of observer. To date, coefficients have been developed for only a handful of species (see example code at bottom of this chapter). 
+The **"Gerrodette"** approach was developed more recently in [Gerrodette et al. (2019)](https://onlinelibrary.wiley.com/doi/10.1111/mms.12506) and is being used increasingly often, especially for analyses focused on tropical dolphins (e.g., [Barlow et al. 2026](https://onlinelibrary.wiley.com/doi/10.1111/mms.70283)). This approach is observer-agnostic and species-specific, i.e., species are given unique calibration coefficients which are applied to all of their sightings, regardless of observer. To date, coefficients have been developed for only a handful of species (see species codes in the **`$coefficients`** slot output below). 
 
 For each species, calibration is controlled by three parameters: a calibration threshold or "floor" (i.e., calibration is implemented only for groups whose raw estimate exceeds this threshold); a "beta" parameter; and an "intercept". When the calibration floor is met, the following equation is used to implement calibration: 
 
@@ -296,7 +295,7 @@ To use the "Gerrodette" approach in `LTabundR`, a different list must be fed to 
 grp_ops_gerrodette
 ```
 
-The **`$coefficients`** slot is a `data.frame` indicating the `beta`, `intercept`, and `floor` parameters for individual species codes. The values in this dataset are based on those used in Gerrodette et al. (2019) and Barlow et al. (2026).  
+The **`$coefficients`** slot is a `data.frame` indicating the `beta`, `intercept`, and `floor` parameters for individual species codes. The values in this dataset are based on those used in [Gerrodette et al. (2019)](https://onlinelibrary.wiley.com/doi/10.1111/mms.12506) and [Barlow et al. (2026)](https://onlinelibrary.wiley.com/doi/10.1111/mms.70283).  
 
 The **`$floor`** slot is a generic calibration floor to apply to all species. If a species is not included in the `coefficients` table, or if its `floor` parameter is `NA`, this generic floor will be used. Similarly, the **`$intercept`** and **`$beta`** slots are generic values that will be used in the same way. The generic `beta` is based on the mean of the species-specific `beta` values in the `coefficients` table.  
 
@@ -309,7 +308,7 @@ Note that if you wish to process survey data without any calibration action what
 
 To demonstrate how the two calibration approaches can be used and customized, example code is provided in the subsequent subsection.  More details about group size processing can be found in the [estimating group size](#ss_calibration) subsection of the following chapter. 
 
-Again, note that only the best estimates of schol size will be calibrated; the high and low estimates are *never* calibrated.  
+Again, note that only the best estimates of group size will be calibrated; the high and low estimates are *never* calibrated.  
 
 
 ## Example code {-}  
@@ -351,7 +350,7 @@ survey <-
                        speed_filler = 10 * 1.852,
                        segment_method = 'equallength',
                        segment_target_km = 5,
-                       segment_max_interval = .3,
+                       segment_max_interval = 0.3,
                        segment_remainder_handling = c('append','segment'),
                        ship_list = ships,
                        species_codes = species_codes,
@@ -369,7 +368,7 @@ These are the settings we will use in the remainder of the tutorial.
 
 #### Survey-wide settings {-} 
 
-To emulate the analysis done in [Bradford et al. (2021)](https://repository.library.noaa.gov/view/noaa/47788), we want to process effort with 150-km segments, relegating any remainder to its own segments. We also want to make sure to remove any survey data that falls outside of the geostrata, to ensure that detection functions are regionally specific. We will use the built-in tables for species codes, ship codes, and group size calibration coefficients. 
+To emulate the analysis done in [Bradford et al. (2022)](https://repository.library.noaa.gov/view/noaa/47788), we want to process effort with 150-km segments, relegating any remainder to its own segments. We also want to make sure to remove any survey data that falls outside of the geostrata, to ensure that detection functions are regionally specific. We will use the built-in tables for species codes, ship codes, and group size calibration coefficients. 
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
 data(species_codes)
@@ -488,7 +487,7 @@ save(settings, file='whiceas_settings.RData')
 
 ### Mixed calibration methods {-}
 
-Say you wish to you the "ABUND" calibration method for most species and the "Gerrodette" method for a select few, since many species do not yet have species-specific coefficients under the "Gerrodette" method. The way forward depends on how you want to handle detection-function fitting and mixed-species groups for the species you wish to analyze using the "Gerrodette" method.  
+Say you wish to use the "ABUND" calibration method for most species and the "Gerrodette" method for a select few, since many species do not yet have species-specific coefficients under the "Gerrodette" method. The way forward depends on how you want to handle detection-function fitting and mixed-species groups for the species you wish to analyze using the "Gerrodette" method.  
 
 Remember that a cohort needs to include all species whose sightings will be pooled to fit a detection function. If you are not comfortable using the generic coefficient values for non-target species within that pool, then it gets complicated. Similarly, if your target species is sometimes associated with other species in mixed groups, and you are not comfortable using the generic coefficient values for those non-target species when they are the most abundant species in the group, it also gets complicated. 
 
