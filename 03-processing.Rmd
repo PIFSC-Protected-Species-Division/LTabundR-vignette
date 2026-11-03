@@ -14,14 +14,14 @@ rerun_from_scratch <- FALSE
 # (it will use saved R objects instead of producing them anew)
 ```
 
-In our WHICEAS case study example, we are interested in estimating density/abundance for 2017 and 2020 only, but we want to use surveys from previous years to help model species detection functions. We will therefore be using a dataset of NOAA Fisheries surveys in the Central North Pacific from 1986 to 2020.  
+In our WHICEAS case study example, we are interested in estimating density/abundance for 2017 and 2020 only, but we want to use surveys from previous years to help model species detection functions. We will therefore be using a dataset of NOAA Fisheries surveys in the Central North Pacific from 1986 to 2020.
+
+To follow along, this data file can be downloaded [here](https://raw.githubusercontent.com/emk-noaa/LTAvignette/main/data/surveys/CenPac1986-2020_Final_alb.das). (Right-click link and select "Save Link As...".)
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
-# Local path to DAS file
+# Local path to DAS file (will need to change path or establish this folder structure)
 das_file <- 'data/surveys/CenPac1986-2020_Final_alb.das'
 ```
-
-To follow along, this data file can be downloaded [here](https://raw.githubusercontent.com/emk-noaa/LTAvignette/main/data/surveys/CenPac1986-2020_Final_alb.das). (Right-click link and select "Save Link As...".)   
 
 If they are not still in your work environment, you will need to load your saved settings compiled at the end of the vignette settings page:  
 
@@ -38,7 +38,7 @@ cruz <- process_surveys(das_file,
                         settings)
 ```
 
-That single command will convert your raw `DAS` data to a "`cruz`" object, a list of polished datasets that are prepared to be passed to subsequent analyses.  
+That single command will convert your raw `DAS` data to a `cruz` object, a list of polished datasets that are prepared to be passed to subsequent analyses.  
 
 
 In our case we will use a third argument, `edits`, to apply edits to the `DAS` data before processing (see previous page for details on those edits) ... 
@@ -69,7 +69,7 @@ save(cruz,file='whiceas_cruz.RData')
 
 ## Behind the scenes {-} 
 
-The `process_surveys()` function is a wrapper for several discrete stages of data formatting/processing. Behind the scenes, each of those stages is carried out using a specific `LTabundR` function. The remainder of this page is a detailed step-by-step explanation of the data processing that occurs when you call `process_surveys()`.  
+The `process_surveys()` function is a wrapper for several discrete stages of data formatting and processing. Behind the scenes, each of those stages is carried out using a specific `LTabundR` function. The remainder of this page is a detailed step-by-step explanation of the data processing that occurs when you call `process_surveys()`.  
 
 ### Edit cruise data {-}
 
@@ -100,13 +100,14 @@ das <- das_load(das_file,
 
 ### Interpolate cruise data {-}
 
-Run the following function if you wish to interpolate the `DAS` data to a more frequent time interval, which can be useful for stratum assignment and effort calculations in some circumstances.  This is only done in `process_surveys()` if the `settings` object passed to it has the `interpolate` input for `load_survey_settings()` set to a number (indicating the desired interval in seconds). In this example the interval is set to 120 seconds.  Interpolation will only occur for On-Effort rows.  
+Run the following function if you wish to interpolate the `DAS` data to a more frequent time interval, which can be useful for stratum assignment and effort calculations in some circumstances.  This is only done in `process_surveys()` if the `settings` object passed to it has the `interpolate` input for `load_survey_settings()` set to a number (indicating the desired interval in seconds). In this example, the interval is set to 120 seconds.  Interpolation will only occur for On-Effort rows.  
+
+Note that this is just an example of how to use this feature.The dataset we carry forward from here will not be interpolated. 
 
 ```{r, echo=TRUE, eval=FALSE, collapse=FALSE}
 das <- das_interpolate(das, new_interval = 120)
 ```
 
-Note that this was just an example of how to use this feature.The dataset we carry forward from here will not be interpolated.  
 
 ### Process strata {-}  
 
@@ -126,7 +127,7 @@ The function `das_format()` takes care of some final formatting and initiates th
 cruz <- das_format(das_strata, verbose=TRUE)
 ```
 
-This function (1) removes rows with invalid Cruise numbers, times, or locations; (ii) calculates the distance, in km, between each row of data; (iii) adds a `ship` column to the dataset, with initials for the ship corresponding to each cruise; (iv) creates a new list, `cohorts`, which copies the cruise data for each cohort specified in your settings; and (v) adds a `stratum` column to the data in each cohort. That column specifies 
+This function (1) removes rows with invalid cruise numbers, times, or locations; (ii) calculates the distance, in km, between each row of data; (iii) adds a `ship` column to the dataset, with initials for the ship corresponding to each cruise; (iv) creates a new list, `cohorts`, which copies the cruise data for each cohort specified in your settings; and (v) adds a `stratum` column to the data in each cohort. That column specifies 
 a single stratum assignment for each row of `DAS` data in the event of overlapping strata, based upon the cohort setting `stratum_overlap_handling`.  
 
 ```{r, echo=FALSE, eval=rerun_from_scratch, collapse=TRUE}
@@ -147,7 +148,7 @@ The function `das_format()` returns a list, which we have saved in an object nam
 cruz %>% names
 ```
 
-The slots `strata` and `study_area` provide the area, in square km, of each polygon being used:  
+The slots `strata` provides the area, in square km, of each polygon being used:  
 
 ```{r, echo=TRUE, eval=TRUE, collapse=TRUE}
 cruz$strata
@@ -315,10 +316,10 @@ Note that the `process_sightings()` function draws upon `cruz$settings` for incl
 
 #### Group size estimates {.unnumbered #ss_calibration} 
 
-**Group size calibration:** In the settings we are using in this tutorial, group size estimates are adjusted using the calibration models from [Barlow et al. (1998)](https://repository.library.noaa.gov/view/noaa/25848) (their analysis is refined slightly and further explained in [Gerrodette et al. (2002)](https://www.researchgate.net/publication/237121535_Calibrating_group_size_estimates_of_dolphins_in_the_eastern_tropical_Pacific_Ocean)). These calibration corrections are observer-specific. Most observers tend to underestimate group size and their estimates are adjusted up; others tend to overestimate and their estimates are adjusted down. Some observers do not have calibration coefficients, and for them a generic adjustment (upwards, by dividing estimates by 0.8625) is used. Note that only the best estimates of size are calibrated; the high and low estimates are not.   
+**Group size calibration:** In the settings we are using in this tutorial, group size estimates are adjusted using the calibration models from [Barlow et al. (1998)](https://repository.library.noaa.gov/view/noaa/25848) (their analysis is refined slightly and further explained in [Gerrodette et al. (2002)](https://www.researchgate.net/publication/237121535_Calibrating_group_size_estimates_of_dolphins_in_the_eastern_tropical_Pacific_Ocean)). We differentiated this method as the "ABUND" approach when we introduced [group size calibration](https://pifsc-protected-species-division.github.io/LTabundR-vignette/settings.html#group-size-calibration). The "ABUND" calibration corrections are observer-specific. Most observers tend to underestimate group size and their estimates are adjusted up; others tend to overestimate and their estimates are adjusted down. Some observers do not have calibration coefficients, and for them a generic adjustment (upwards, by dividing estimates by 0.8625) is used. Note that only the best estimates of size are calibrated; the high and low estimates are not.   
  
  
-**Mean estimates across observers**: In `LTabundR`, each observer's estimate is calibrated, then all observer estimates are averaged. To do that averaging, our `settings` specify that we shall use a geometric mean, instead of an arithmetic mean. Since calibration is carried out, the geometric *weighted* mean is used, which weights school size estimates from multiple observers according to the variance of their calibration coefficients. (The weighted mean is used for high and low estimates as well, even though they are not calibrated, using the variance of the calibrated best estimates as weights.) When calibration is not carried out, the geometric *unweighted* mean is used for the best, high and low estimates.  
+**Mean estimates across observers**: In `LTabundR`, each observer's estimate is calibrated, then all observer estimates are averaged. To do that averaging, our `settings` specify that we shall use a geometric mean, instead of an arithmetic mean. Since calibration is carried out, the geometric *weighted* mean is used, which weights school size estimates from multiple observers according to the variance of their calibration coefficients. (The weighted mean is used for high and low estimates as well, even though they are not calibrated, using the variance of the calibrated best estimates as weights.) When calibration is not carried out, the geometric *unweighted* mean is used for the best, high, and low estimates.  
 
 Here are our current best estimates of group size:  
 
@@ -390,7 +391,7 @@ Note that when `geometric_mean = TRUE` but calibration is not carried out, the s
 
 Also note that group size calibration is only carried out if the settings `school_size_calibrate` is `TRUE` and `group_size_coefficients` is not `NULL`.  However, even when calibration coefficients *are* provided, it is possible to specify that calibration should only be carried out for raw estimates above a minimum threshold (see cohort setting `calibration_floor`, whose default is `0`), since observers may be unlikely to mis-estimate the group size of a lone whale or pair. For observers who have calibration coefficients in the `settings$group_size_coefficients` table, that minimum is specified for each observer individually. For observers not in that table, calibration will only be applied to raw group size estimates above the `settings$cohorts[[i]]$calibration_floor`.     
 
-**Missing data:** Some sightings may be missing data regarding group size estimates: perhaps not all observers provided all three estimates (best-low-high), or perhaps not all observers provided group size percentages for mixed-species groups. When data are processed in `LTabundR`, the resulting `sightings` table includes a column, `ss_valid`, to indicate whether enough data were available to produce a group size estimate that is usable for detection function fitting and abundance estimation. The procedure for determining whether `ss_valid` is `TRUE` or `FALSE` for a sighting is as follows:  
+**Missing data:** Some sightings may be missing data regarding group size estimates: perhaps not all observers provided all three estimates (best-high-low), or perhaps not all observers provided group size percentages for mixed-species groups. When data are processed in `LTabundR`, the resulting `sightings` table includes a column, `ss_valid`, to indicate whether enough data were available to produce a group size estimate that is usable for detection function fitting and abundance estimation. The procedure for determining whether `ss_valid` is `TRUE` or `FALSE` for a sighting is as follows:  
 
 For each sighting, loop through each's observer's estimate of group size:  
 
